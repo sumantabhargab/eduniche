@@ -4,55 +4,49 @@ import { useState, useEffect, useRef } from "react";
 
 type DemoStep =
   | "lesson"
-  | "ask"
-  | "question"
-  | "response"
+  | "struggle"
+  | "explanation"
   | "simpler"
   | "practice"
   | "feedback"
   | "next";
 
-type Speaker = "creator" | "arvin" | "ai";
+type Speaker = "ai" | "learner";
 
 const FLOW: { step: DemoStep; text: string; speaker: Speaker }[] = [
   {
     step: "lesson",
-    text: '"Don\'t choose the chord because it sounds impressive. Choose it because the lyric needs what comes next."',
-    speaker: "creator",
-  },
-  {
-    step: "ask",
-    text: "ARIN — This is confusing. Why does this progression create that feeling?",
-    speaker: "arvin",
-  },
-  {
-    step: "question",
-    text: "The progression resolves on the submediant — it doesn't go where you expect. That tension holds the listener's attention without resolving. Think of it as asking a question instead of making a statement.",
+    text: '"Keep your ring finger anchored on the A string when switching between G and C. Only move three fingers — the anchor point stays touching the fretboard the entire time."',
     speaker: "ai",
   },
   {
-    step: "response",
-    text: "ARIN — Can you explain it more simply?",
-    speaker: "arvin",
+    step: "struggle",
+    text: "This transition keeps freezing my hand. I lift all my fingers at once and lose the shape.",
+    speaker: "learner",
+  },
+  {
+    step: "explanation",
+    text: "The freeze happens because you're resetting your entire hand instead of rotating around a stable point. Your brain hasn't built the motor pattern yet — that's normal. The key is keeping at least one finger touching the fretboard between changes.",
+    speaker: "ai",
   },
   {
     step: "simpler",
-    text: "Imagine you're telling a story. Most songs tell the whole story in one go. This progression is you pausing mid-sentence — people lean in because they want to hear what comes next.",
+    text: "Think of it like walking through a doorway. Your hand needs a hinge finger that stays in place. Everything else rotates around that one point. You never lift the whole hand.",
     speaker: "ai",
   },
   {
     step: "practice",
-    text: "TRY IT: Compose a short melody over these four chords. Don't resolve on the tonic — let the last chord feel like a question.",
+    text: "TRY IT: Practice the G → C transition five times. Keep your ring finger on the A string, 3rd fret. Hold each shape for two full beats. Do not rush.",
     speaker: "ai",
   },
   {
     step: "feedback",
-    text: "YOUR MELODY — You resolved on the G major. Try holding the D for one extra bar. That unresolved note is where the feeling lives.",
+    text: "YOUR ATTEMPT — Your index finger led the movement and caused the slowdown. Try letting the ring finger guide the change instead. Hold the G shape for two full beats before switching.",
     speaker: "ai",
   },
   {
     step: "next",
-    text: "NEXT UP — Your instinct is to resolve quickly. We'll work on suspended tension. Creator: Riyan Das — Advanced Arrangement.",
+    text: "NEXT UP — Your accuracy improved from 72% to 89%. We're adding the D chord to the sequence. You're building real muscle memory now.",
     speaker: "ai",
   },
 ];
@@ -102,28 +96,18 @@ export default function ProductDemo() {
   };
 
   const speaker = current?.speaker;
-  const isCreator = speaker === "creator";
-  const isArvin = speaker === "arvin";
-  const isAI = speaker === "ai";
+  const isLearner = speaker === "learner";
 
   const getStatusLabel = () => {
     switch (step) {
-      case "lesson": return "CREATOR LESSON";
-      case "ask": return "ARIN'S QUESTION";
-      case "question": return "AI EXPLANATION";
-      case "response": return "ARIN FOLLOWS UP";
+      case "lesson": return "LESSON";
+      case "struggle": return "LEARNER'S CHALLENGE";
+      case "explanation": return "AI EXPLAINS";
       case "simpler": return "AI ADAPTS";
       case "practice": return "PRACTICE";
       case "feedback": return "FEEDBACK";
-      case "next": return "RECOMMENDATION";
+      case "next": return "PROGRESS";
     }
-  };
-
-  const getStatusColor = () => {
-    const speaker = current?.speaker;
-    if (speaker === "creator") return "text-muted";
-    if (speaker === "arvin") return "text-accent";
-    return "text-success";
   };
 
   if (!hasStarted) {
@@ -137,15 +121,16 @@ export default function ProductDemo() {
           <div className="bg-background-dark rounded-sm overflow-hidden shadow-2xl">
             <div className="px-8 py-16 text-center">
               <div className="text-muted-light text-sm font-mono tracking-widest uppercase mb-4">
-                What learning from Riyan Das feels like
+                Beginner Guitar
               </div>
               <div className="font-serif text-3xl md:text-4xl text-foreground-light leading-snug mb-6 max-w-xl mx-auto">
-                Go beyond watching.
+                See how Eduneuro
                 <br />
-                Learn how they think.
+                teaches a skill.
               </div>
               <p className="text-muted-light text-base mb-10 max-w-md mx-auto">
-                Experience how creator knowledge meets AI personalization — step by step.
+                Watch a learner go through the full loop — learn, struggle,
+                understand, practice, and improve.
               </p>
               <button
                 onClick={startDemo}
@@ -184,11 +169,11 @@ export default function ProductDemo() {
                 <div className="w-3 h-3 rounded-full bg-border-light" />
               </div>
               <span className="text-muted-light text-xs font-mono tracking-wider uppercase">
-                Eduniche — Learning Experience
+                Eduneuro — Guitar Learning
               </span>
             </div>
             <div className="flex items-center gap-3">
-              <span className={`text-xs font-mono tracking-widest uppercase ${getStatusColor()}`}>
+              <span className="text-xs font-mono tracking-widest uppercase text-success">
                 {getStatusLabel()}
               </span>
               <div className="flex gap-1">
@@ -206,55 +191,25 @@ export default function ProductDemo() {
 
           {/* Demo content area */}
           <div className="px-8 py-10 min-h-[420px] flex flex-col">
-            {/* Step indicator dots */}
+            {/* Step indicator */}
             <div className="flex items-center gap-2 mb-8">
               <span className="text-muted-light text-xs font-mono">
                 STEP {flowIndex + 1} / {FLOW.length}
               </span>
-              {isCreator && (
-                <span className="ml-3 px-2 py-0.5 bg-accent/10 text-accent text-xs font-mono rounded-sm">
-                  CREATOR
-                </span>
-              )}
-              {isArvin && (
+              {isLearner && (
                 <span className="ml-3 px-2 py-0.5 bg-accent/10 text-accent text-xs font-mono rounded-sm">
                   LEARNER
                 </span>
               )}
-              {isAI && (
-                <span className="ml-3 px-2 py-0.5 bg-success/10 text-success text-xs font-mono rounded-sm">
-                  AI
-                </span>
-              )}
             </div>
 
-            {/* The actual content */}
+            {/* Content */}
             <div
               className={`flex-1 transition-all duration-300 ${
                 isTransitioning ? "opacity-0 translate-x-4" : "opacity-100 translate-x-0"
               }`}
             >
-              {isCreator && (
-                <div className="space-y-4">
-                  <div className="text-muted-light text-xs font-mono tracking-widest uppercase mb-6">
-                    LESSON — SONGWRITING
-                  </div>
-                  <div className="text-xl md:text-2xl font-serif text-foreground-light leading-relaxed">
-                    {current.text}
-                  </div>
-                  <div className="flex items-center gap-3 pt-8">
-                    <div className="w-10 h-10 rounded-full bg-background-alt flex items-center justify-center">
-                      <span className="font-serif text-sm text-foreground">RD</span>
-                    </div>
-                    <div>
-                      <div className="text-foreground-light text-sm font-medium">Riyan Das</div>
-                      <div className="text-muted-light text-xs">Producer · Songwriter · Guwahati</div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {isArvin && (
+              {isLearner ? (
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
@@ -262,7 +217,7 @@ export default function ProductDemo() {
                     </div>
                     <div>
                       <div className="text-foreground-light text-sm font-medium">Arvin</div>
-                      <div className="text-muted-light text-xs">Aspiring music producer, 19</div>
+                      <div className="text-muted-light text-xs">Learning guitar, beginner</div>
                     </div>
                   </div>
                   <div className="bg-accent-subtle/10 border border-accent/20 rounded-sm px-6 py-4">
@@ -271,9 +226,7 @@ export default function ProductDemo() {
                     </p>
                   </div>
                 </div>
-              )}
-
-              {isAI && (
+              ) : (
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 mb-6">
                     <div className="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center border border-success/30">
@@ -283,12 +236,34 @@ export default function ProductDemo() {
                     </div>
                     <div>
                       <div className="text-foreground-light text-sm font-medium">Learning AI</div>
-                      <div className="text-muted-light text-xs">Powered by Riyan's knowledge</div>
+                      <div className="text-muted-light text-xs">Powered by neuroscience-informed learning</div>
                     </div>
                   </div>
                   <div className="text-foreground-light text-base md:text-lg leading-relaxed">
                     {current.text}
                   </div>
+
+                  {step === "practice" && (
+                    <div className="mt-8 p-5 border border-accent/30 rounded-sm bg-accent/5">
+                      <div className="text-accent text-xs font-mono tracking-widest uppercase mb-3">
+                        PRACTICE SESSION
+                      </div>
+                      <p className="text-foreground-light text-sm">
+                        G → C chord transitions · 5 repetitions · focus on anchor finger
+                      </p>
+                    </div>
+                  )}
+
+                  {step === "feedback" && (
+                    <div className="mt-8 p-5 border border-success/30 rounded-sm bg-success/5">
+                      <div className="text-success text-xs font-mono tracking-widest uppercase mb-3">
+                        PERFORMANCE ANALYSIS
+                      </div>
+                      <p className="text-foreground-light text-sm">
+                        Accuracy: 72% → Target: 85%+ · Main issue: transition timing · Recommended: slow down, anchor first
+                      </p>
+                    </div>
+                  )}
 
                   {step === "next" && (
                     <div className="mt-8 p-5 border border-success/30 rounded-sm bg-success/5">
@@ -296,7 +271,7 @@ export default function ProductDemo() {
                         LEARNING PATH UPDATED
                       </div>
                       <p className="text-foreground-light text-sm">
-                        Your next session builds on what you just discovered. Ready when you are.
+                        Your next session builds on what you just improved. Ready when you are.
                       </p>
                     </div>
                   )}
@@ -308,14 +283,13 @@ export default function ProductDemo() {
           {/* Demo footer with controls */}
           <div className="px-8 py-4 border-t border-border-light flex items-center justify-between">
             <div className="text-muted-light text-xs font-mono">
-              {step === "lesson" && "A lesson from Riyan's course on songwriting."}
-              {step === "ask" && "Arvin pauses the lesson to ask a question."}
-              {step === "question" && "The AI draws from Riyan's knowledge to explain."}
-              {step === "response" && "Arvin still doesn't fully follow. The AI adapts."}
-              {step === "simpler" && "The AI reframes the explanation for Arvin's level."}
-              {step === "practice" && "Arvin tries the concept — the AI listens."}
-              {step === "feedback" && "The AI catches a specific issue in Arvin's work."}
-              {step === "next" && "The system updates Arvin's learning path automatically."}
+              {step === "lesson" && "The AI delivers a focused lesson on the chord transition."}
+              {step === "struggle" && "The learner describes where they're stuck."}
+              {step === "explanation" && "The AI explains why the transition is hard."}
+              {step === "simpler" && "The AI reframes the explanation for easier understanding."}
+              {step === "practice" && "The learner tries the exercise the AI designed."}
+              {step === "feedback" && "The AI analyzes the attempt and gives specific guidance."}
+              {step === "next" && "The system updates the learning path based on progress."}
             </div>
             <div className="flex items-center gap-3">
               <button

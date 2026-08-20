@@ -16,13 +16,13 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Eduniche — Learn the thinking behind the craft",
+  title: "Eduneuro — Learn skills by doing, not just watching",
   description:
-    "Structured learning from the people who actually live the craft, personalized by AI to how you learn. Starting with creators and experts from Assam and beyond.",
+    "Eduneuro is an AI-powered, neuroscience-informed platform that helps you learn real-world skills through active practice, personalized feedback, and adaptive challenges.",
   openGraph: {
-    title: "Eduniche — Learn the thinking behind the craft",
+    title: "Eduneuro — Learn skills by doing",
     description:
-      "Structured learning from the people who actually live the craft, personalized by AI.",
+      "An AI and neuroscience-informed platform for learning real skills through active practice and personalized feedback.",
     type: "website",
   },
 };

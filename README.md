@@ -1,6 +1,6 @@
-# Eduniche
+# Eduneuro
 
-Pre-launch website for Eduniche — a creator-led, AI-assisted, learner-personalized learning platform.
+Pre-launch website for Eduneuro — an AI-powered, neuroscience-informed platform for learning real-world skills through active practice and personalized feedback.
 
 ## Quick Start
 
@@ -31,10 +31,9 @@ src/
       leaderboard/route.ts — GET: Top referrers from database
       ref/[code]/route.ts  — GET: Validate referral code
   components/
-    ProductDemo.tsx       — Interactive 8-step learning demo
-    CreatorExperience.tsx — Q&A demo with fictional expert Riyan Das
-    WaitlistForm.tsx      — Form with validation + post-signup referral panel
+    ProductDemo.tsx       — Interactive learning demo (guitar example)
     Leaderboard.tsx       — Live top-referrers from DB
+    WaitlistForm.tsx      — Form with validation + post-signup referral panel
   lib/
     supabase/
       server.ts       — createClient() + createServiceClient()

@@ -1,7 +1,6 @@
 "use client";
 
 import ProductDemo from "@/components/ProductDemo";
-import CreatorExperience from "@/components/CreatorExperience";
 import Leaderboard from "@/components/Leaderboard";
 import WaitlistForm from "@/components/WaitlistForm";
 
@@ -12,20 +11,20 @@ export default function Home() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="#" className="font-serif text-xl text-foreground">
-            Eduniche
+            Eduneuro
           </a>
           <div className="flex items-center gap-8">
             <a
-              href="#experience"
+              href="#how-it-works"
               className="hidden md:block text-sm text-muted hover:text-foreground transition-colors duration-200"
             >
-              Experience
+              How it works
             </a>
             <a
-              href="#creator"
+              href="#skills"
               className="hidden md:block text-sm text-muted hover:text-foreground transition-colors duration-200"
             >
-              Creator knowledge
+              Skills
             </a>
             <a
               href="#waitlist"
@@ -42,18 +41,19 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
           <div className="max-w-3xl">
             <div className="font-mono text-xs tracking-widest text-muted uppercase mb-8 animate-fade-in-up stagger-1">
-              A new kind of learning platform
+              A new way to learn skills
             </div>
 
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight mb-8 animate-fade-in-up stagger-2">
-              Learn what the internet
+              Learn skills by doing.
               <br />
-              usually leaves out.
+              Not just watching.
             </h1>
 
             <p className="text-lg md:text-xl text-muted leading-relaxed max-w-2xl mb-10 animate-fade-in-up stagger-3">
-              Structured learning from the people who actually live the craft —
-              personalized by AI to how you learn.
+              Eduneuro combines AI, neuroscience-informed learning, personalized
+              feedback, and challenges to help you practice real skills and
+              improve over time.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 items-start animate-fade-in-up stagger-4">
@@ -77,7 +77,8 @@ export default function Home() {
                 </svg>
               </a>
               <span className="text-sm text-muted py-4">
-                Starting with creators and experts from Assam and beyond.
+                Starting with practical skills. Built around how people learn,
+                practice, and improve.
               </span>
             </div>
           </div>
@@ -87,138 +88,339 @@ export default function Home() {
       {/* SECTION 2: THE PROBLEM */}
       <section className="border-t border-border">
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-          <div className="grid md:grid-cols-[1fr_1fr] gap-16 md:gap-24 items-center">
-            <div>
-              <div className="font-mono text-xs tracking-widest text-muted uppercase mb-6">
-                The problem
+          <div className="max-w-3xl mx-auto text-center mb-20">
+            <div className="font-mono text-xs tracking-widest text-muted uppercase mb-6">
+              The problem
+            </div>
+            <h2 className="font-serif text-3xl md:text-5xl leading-snug mb-6">
+              Watching isn&apos;t the same as learning.
+            </h2>
+            <p className="text-lg text-muted leading-relaxed max-w-2xl mx-auto">
+              You can watch hundreds of lessons. Finish entire courses. Save
+              dozens of tutorials. But knowing what to do and being able to
+              actually do it are different things.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Traditional learning */}
+            <div className="p-8 md:p-10 bg-background-alt border border-border">
+              <div className="font-mono text-xs tracking-widest text-muted uppercase mb-8">
+                Traditional online learning
               </div>
-              <h2 className="font-serif text-3xl md:text-4xl leading-snug mb-6">
-                You can listen to the song.
-                <br />
-                You can watch the interview.
-                <br />
-                You can follow the artist.
-              </h2>
-              <p className="text-lg text-muted leading-relaxed">
-                But the knowledge behind the work — how they make decisions,
-                what mistakes shaped them, how they think through a creative
-                problem — is scattered across conversations, performances, and
-                years of experience. What would happen if that knowledge became
-                teachable?
-              </p>
+              <div className="space-y-6">
+                {[
+                  { label: "Watch", desc: "Consume lessons and videos" },
+                  { label: "Watch more", desc: "Consume more content" },
+                  { label: "Try it alone", desc: "Practice without guidance" },
+                  { label: "Get stuck", desc: "No one points out what's wrong" },
+                  { label: "Lose momentum", desc: "Progress stalls" },
+                ].map((step, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <div className="flex flex-col items-center">
+                      <div className="w-8 h-8 rounded-full border border-border flex items-center justify-center">
+                        <span className="text-xs font-mono text-muted">
+                          {i + 1}
+                        </span>
+                      </div>
+                      {i < 4 && (
+                        <div className="w-px h-8 bg-border mt-2" />
+                      )}
+                    </div>
+                    <div className="pt-1">
+                      <div className="text-sm font-medium text-foreground">
+                        {step.label}
+                      </div>
+                      <div className="text-xs text-muted mt-0.5">
+                        {step.desc}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="p-6 bg-background-alt border border-border">
-                <div className="font-mono text-xs tracking-widest text-muted uppercase mb-3">
-                  What we consume
-                </div>
-                <div className="space-y-2 text-muted text-base">
-                  <div>→ A finished song</div>
-                  <div>→ A 2-hour interview</div>
-                  <div>→ Social media fragments</div>
-                  <div>→ Concert footage</div>
-                  <div className="pt-2 text-muted-light">The craft thinking is missing.</div>
-                </div>
+            {/* Eduneuro learning */}
+            <div className="p-8 md:p-10 bg-background-dark border border-border-light">
+              <div className="font-mono text-xs tracking-widest text-muted-light uppercase mb-8">
+                Learning with Eduneuro
               </div>
-
-              <div className="p-6 bg-accent-subtle border border-accent/20">
-                <div className="font-mono text-xs tracking-widest text-accent uppercase mb-3">
-                  What we&apos;re building
-                </div>
-                <div className="space-y-2 text-foreground text-base">
-                  <div>→ Structured learning from experts</div>
-                  <div>→ Ask questions in their knowledge</div>
-                  <div>→ Practice with personalized feedback</div>
-                  <div>→ Learn how they actually think</div>
-                  <div className="pt-2 text-accent font-medium">The craft thinking, accessible.</div>
-                </div>
+              <div className="space-y-6">
+                {[
+                  {
+                    label: "Learn",
+                    desc: "Start with a clear, focused lesson",
+                  },
+                  {
+                    label: "Practice",
+                    desc: "Apply what you learned in real practice",
+                  },
+                  {
+                    label: "Feedback",
+                    desc: "Get specific guidance on what to improve",
+                  },
+                  {
+                    label: "Adapt",
+                    desc: "The experience adjusts to your progress",
+                  },
+                  {
+                    label: "Improve",
+                    desc: "Track growth and take on harder challenges",
+                  },
+                ].map((step, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <div className="flex flex-col items-center">
+                      <div className="w-8 h-8 rounded-full border border-accent/40 bg-accent/10 flex items-center justify-center">
+                        <span className="text-xs font-mono text-accent">
+                          {i + 1}
+                        </span>
+                      </div>
+                      {i < 4 && (
+                        <div className="w-px h-8 bg-border-light/20 mt-2" />
+                      )}
+                    </div>
+                    <div className="pt-1">
+                      <div className="text-sm font-medium text-foreground-light">
+                        {step.label}
+                      </div>
+                      <div className="text-xs text-muted-light mt-0.5">
+                        {step.desc}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 3: SHOW THE FUTURE (INTERACTIVE DEMO) */}
-      <section id="experience" className="border-t border-border bg-background-dark">
+      {/* SECTION 3: INTERACTIVE DEMO */}
+      <section className="border-t border-border bg-background-dark">
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <div className="font-mono text-xs tracking-widest text-muted-light uppercase mb-6">
-              The experience
+              The learning experience
             </div>
-            <h2 className="font-serif text-3xl md:text-5xl text-foreground-light leading-snug">
-              Go beyond watching.
-              <br />
-              Learn how they think.
+            <h2 className="font-serif text-3xl md:text-5xl text-foreground-light leading-snug mb-4">
+              See how it works.
             </h2>
+            <p className="text-lg text-muted-light leading-relaxed">
+              An example of learning guitar — learn, practice, get feedback, and
+              improve.
+            </p>
           </div>
 
           <ProductDemo />
         </div>
       </section>
 
-      {/* SECTION 4: MEET THE EXPERIENCE */}
-      <section id="creator" className="border-t border-border">
+      {/* SECTION 4: HOW IT WORKS */}
+      <section id="how-it-works" className="border-t border-border">
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-          <div className="max-w-3xl mx-auto text-center mb-16">
+          <div className="max-w-3xl mx-auto text-center mb-20">
             <div className="font-mono text-xs tracking-widest text-muted uppercase mb-6">
-              Meet the experience
+              How you learn
             </div>
-            <h2 className="font-serif text-3xl md:text-5xl leading-snug mb-4">
-              Riyan Das
+            <h2 className="font-serif text-3xl md:text-5xl leading-snug mb-6">
+              The loop that builds skills.
             </h2>
-            <div className="text-muted text-base">
-              Producer · Songwriter · Guwahati
-            </div>
+            <p className="text-lg text-muted leading-relaxed max-w-2xl mx-auto">
+              Every learning experience follows the same loop — designed around
+              how people actually learn, practice, and remember.
+            </p>
           </div>
 
-          <CreatorExperience />
+          {/* Core loop bar */}
+          <div className="flex flex-wrap items-center justify-center gap-2 md:gap-0 mb-20 max-w-4xl mx-auto">
+            {[
+              "Learn",
+              "Do",
+              "Feedback",
+              "Adapt",
+              "Repeat",
+              "Improve",
+            ].map((word, i, arr) => (
+              <div key={word} className="flex items-center">
+                <div
+                  className={`px-4 py-2.5 font-mono text-sm tracking-wider ${
+                    i === 0
+                      ? "bg-accent text-background"
+                      : i === arr.length - 1
+                        ? "bg-success text-background"
+                        : "bg-background-alt text-foreground border border-border"
+                  }`}
+                >
+                  {word}
+                </div>
+                {i < arr.length - 1 && (
+                  <svg
+                    className="w-4 h-4 text-muted-light mx-1 md:mx-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                )}
+              </div>
+            ))}
+          </div>
 
-          <div className="max-w-3xl mx-auto mt-16 text-center">
-            <p className="text-lg text-muted leading-relaxed">
-              This is a fictional example — not a real person.
-              It shows what learning from an expert could feel like.
-              The creator supplies the knowledge.
-              The platform makes it teachable.
-              AI personalizes it to how you learn.
-            </p>
+          {/* Detailed steps */}
+          <div className="max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                {
+                  num: "01",
+                  title: "Learn",
+                  desc: "Start with a structured lesson designed to make the next step clear without overwhelming you. Information is delivered in the right amount, at the right pace.",
+                },
+                {
+                  num: "02",
+                  title: "Do",
+                  desc: "Don't just finish the lesson. Apply what you learned through real practice. Active engagement is where skills actually develop.",
+                },
+                {
+                  num: "03",
+                  title: "Get feedback",
+                  desc: "Depending on the skill, AI can analyze your performance, identify mistakes, and help you understand exactly what needs to change.",
+                },
+                {
+                  num: "04",
+                  title: "Adapt",
+                  desc: "If you're struggling, the experience changes. You may get a simpler explanation, a different example, or targeted practice on what's hard.",
+                },
+                {
+                  num: "05",
+                  title: "Repeat",
+                  desc: "Important skills return through spaced practice instead of being forgotten after one lesson. Repetition is structured, not random.",
+                },
+                {
+                  num: "06",
+                  title: "Improve",
+                  desc: "Track progress over time and gradually take on more difficult challenges. Growth is visible, measurable, and motivating.",
+                },
+              ].map((step) => (
+                <div
+                  key={step.num}
+                  className="p-8 bg-background border border-border hover:border-accent/30 transition-colors duration-300 group"
+                >
+                  <div className="font-mono text-xs text-accent mb-4">
+                    {step.num}
+                  </div>
+                  <h3 className="font-serif text-xl mb-3">{step.title}</h3>
+                  <p className="text-sm text-muted leading-relaxed">
+                    {step.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 5: WHY AI MATTERS */}
+      {/* SECTION 5: WHY A GOOD TEACHER WORKS */}
       <section className="border-t border-border bg-background-alt">
+        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+          <div className="grid md:grid-cols-[1fr_1fr] gap-16 md:gap-24 items-center">
+            <div>
+              <div className="font-mono text-xs tracking-widest text-muted uppercase mb-6">
+                Learning principles
+              </div>
+              <h2 className="font-serif text-3xl md:text-4xl leading-snug mb-6">
+                A great teacher doesn&apos;t just give you answers.
+              </h2>
+              <p className="text-lg text-muted leading-relaxed mb-8">
+                They notice where you&apos;re stuck. They explain things
+                another way. They simplify what&apos;s difficult. They correct
+                mistakes. They know when you&apos;re ready for the next level.
+              </p>
+              <p className="text-lg text-muted leading-relaxed">
+                Eduneuro uses AI to bring more of that adaptive learning
+                experience into online skill development. Not to replace
+                instructors — but to make learning more responsive, available,
+                and personalized.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {[
+                "Notices where you're stuck",
+                "Explains things another way",
+                "Simplifies difficult concepts",
+                "Gives you something to practice",
+                "Corrects mistakes",
+                "Knows when you're ready for more",
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-4 p-5 bg-background border border-border"
+                >
+                  <div className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <svg
+                      className="w-3.5 h-3.5 text-accent"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <span className="text-sm text-foreground leading-relaxed">
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 6: AI ADAPTATION */}
+      <section className="border-t border-border">
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <div className="font-mono text-xs tracking-widest text-muted uppercase mb-6">
-              Why AI is essential
+              How AI helps
             </div>
             <h2 className="font-serif text-3xl md:text-5xl leading-snug mb-6">
-              One lesson doesn&apos;t fit one learner.
+              AI that adapts to your practice.
             </h2>
-            <p className="text-lg text-muted leading-relaxed">
-              AI doesn&apos;t replace the creator.
-              It adapts their knowledge to how you actually learn.
+            <p className="text-lg text-muted leading-relaxed max-w-2xl mx-auto">
+              AI isn't just a chatbot beside a course. It's an active part of
+              the learning loop — responding to how you practice, where you
+              struggle, and when you're ready for more.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {[
               {
-                title: "Ask the lesson anything.",
-                desc: "Got a question mid-lesson? Ask it. The AI answers using the creator's actual knowledge.",
+                title: "You're struggling?",
+                desc: "The AI detects where you're stuck and adjusts — slower explanations, different examples, or targeted practice on that specific area.",
               },
               {
-                title: "You're struggling with rhythm? We'll approach it differently.",
-                desc: "The AI detects where you're stuck and adjusts — slower explanations, different examples, targeted practice.",
+                title: "Making the same mistake?",
+                desc: "The AI notices patterns in your practice and focuses on the weakness that's holding you back.",
               },
               {
-                title: "You've already mastered this. Let's move forward.",
-                desc: "No repeating what you already know. The AI recognizes what you understand and skips ahead.",
+                title: "Already mastering it?",
+                desc: "Move forward instead of repeating what you already know. The AI recognizes your progress and adjusts accordingly.",
               },
               {
-                title: "Here's where your arrangement is losing tension.",
-                desc: "After you practice, the AI gives specific feedback — not a score, but actionable insight based on the creator's principles.",
+                title: "Losing progress?",
+                desc: "Important skills return at the right time. Spaced review ensures what you learn stays with you.",
               },
             ].map((item) => (
               <div
@@ -227,219 +429,226 @@ export default function Home() {
               >
                 <div className="w-8 h-px bg-accent mb-6 group-hover:w-12 transition-all duration-300" />
                 <h3 className="font-serif text-xl mb-3">{item.title}</h3>
-                <p className="text-muted text-base leading-relaxed">{item.desc}</p>
+                <p className="text-muted text-base leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SECTION 6: THE LEARNING LOOP */}
-      <section className="border-t border-border">
+      {/* SECTION 7: GAMIFICATION */}
+      <section className="border-t border-border bg-background-dark">
+        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <div className="font-mono text-xs tracking-widest text-muted-light uppercase mb-6">
+              Learning is better when you want to come back
+            </div>
+            <h2 className="font-serif text-3xl md:text-5xl text-foreground-light leading-snug mb-6">
+              Turn progress into a challenge.
+            </h2>
+            <p className="text-lg text-muted-light leading-relaxed max-w-2xl mx-auto">
+              Learning doesn't have to be lonely. Challenges, streaks, and
+              friendly competition make practice more engaging — without feeling
+              like a game.
+            </p>
+          </div>
+
+          {/* Example challenge card */}
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-background-dark border border-border-light p-8 md:p-10">
+              <div className="font-mono text-xs tracking-widest text-muted-light uppercase mb-6">
+                Example challenge
+              </div>
+              <h3 className="font-serif text-2xl text-foreground-light mb-2">
+                30-Day Guitar Foundation
+              </h3>
+              <p className="text-sm text-muted-light mb-8">
+                Build consistent practice habits and master core skills.
+              </p>
+
+              <div className="space-y-4 mb-8">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-light">
+                    Daily practice streaks
+                  </span>
+                  <span className="font-mono text-xs text-accent">
+                    12 / 30 days
+                  </span>
+                </div>
+                <div className="w-full h-1.5 bg-background/50 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-accent rounded-full transition-all duration-500"
+                    style={{ width: "40%" }}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4 mb-8">
+                <div className="text-center p-4 bg-background/50 border border-border-light">
+                  <div className="font-mono text-lg text-foreground-light">
+                    89%
+                  </div>
+                  <div className="text-xs text-muted-light mt-1">
+                    Chord accuracy
+                  </div>
+                </div>
+                <div className="text-center p-4 bg-background/50 border border-border-light">
+                  <div className="font-mono text-lg text-foreground-light">
+                    7
+                  </div>
+                  <div className="text-xs text-muted-light mt-1">
+                    Day streak
+                  </div>
+                </div>
+                <div className="text-center p-4 bg-background/50 border border-border-light">
+                  <div className="font-mono text-lg text-foreground-light">
+                    +14%
+                  </div>
+                  <div className="text-xs text-muted-light mt-1">
+                    Improvement
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-xs text-muted-light leading-relaxed">
+                Progress is measured by consistency, improvement, and
+                completion — not just who's already the strongest. The
+                experience rewards meaningful practice over raw ability.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 8: SKILLS */}
+      <section id="skills" className="border-t border-border">
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <div className="font-mono text-xs tracking-widest text-muted uppercase mb-6">
-              The long-term architecture
+              Skills
             </div>
             <h2 className="font-serif text-3xl md:text-5xl leading-snug mb-6">
-              A platform that learns how to teach.
+              Built for practical skills.
             </h2>
-            <p className="text-lg text-muted leading-relaxed">
-              The more learners use the system, the better it gets at helping
-              each person learn. This is the long-term direction.
+            <p className="text-lg text-muted leading-relaxed max-w-2xl mx-auto">
+              Eduneuro&apos;s learning model can adapt across different skills —
+              each one needs its own practice system, feedback, and progression.
             </p>
           </div>
 
-          <div className="max-w-2xl mx-auto">
-            <div className="space-y-0">
-              {[
-                "Creator knowledge enters the system",
-                "Learners interact, ask questions, practice",
-                "The AI identifies misconceptions and patterns",
-                "Learning outcomes shape personalization",
-                "The system improves for the next learner",
-              ].map((step, i) => (
-                <div key={i} className="flex items-start gap-6 py-4 border-b border-border last:border-0">
-                  <div className="font-mono text-xs text-accent mt-1">
-                    {String(i + 1).padStart(2, "0")}
-                  </div>
-                  <div className="text-base text-foreground pt-0.5">
-                    {step}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-12 p-6 bg-background-alt border border-border">
-              <p className="text-sm text-muted leading-relaxed">
-                <span className="font-medium text-foreground">The principle:</span>{" "}
-                Every learner interaction makes the system smarter about how to
-                teach the next person — without replacing the creator&apos;s
-                authority over their own knowledge.
-              </p>
-            </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {[
+              {
+                title: "Guitar",
+                desc: "Learn a concept. Practice it. Get targeted guidance. Progress at your own pace.",
+              },
+              {
+                title: "Fitness",
+                desc: "Follow structured challenges, track performance, and use AI-assisted feedback to improve your practice.",
+              },
+              {
+                title: "Singing",
+                desc: "Practice specific skills, identify weaknesses, and work through progressively more difficult exercises.",
+              },
+              {
+                title: "Public Speaking",
+                desc: "Practice, review performance, and receive targeted feedback to build confidence over time.",
+              },
+              {
+                title: "Coding",
+                desc: "Write real code, get feedback on logic and style, and build skills through deliberate practice.",
+              },
+              {
+                title: "Photography",
+                desc: "Practice composition, get feedback on your shots, and develop an eye for better images.",
+              },
+            ].map((skill) => (
+              <div
+                key={skill.title}
+                className="p-8 bg-background border border-border hover:border-accent/30 transition-colors duration-300 group"
+              >
+                <div className="w-8 h-px bg-accent mb-6 group-hover:w-12 transition-all duration-300" />
+                <h3 className="font-serif text-xl mb-3">{skill.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">
+                  {skill.desc}
+                </p>
+              </div>
+            ))}
           </div>
+
+          <p className="text-center text-sm text-muted mt-12 max-w-2xl mx-auto">
+            Each skill requires its own specialized practice system, feedback
+            mechanisms, and progression model. We build carefully — one skill
+            at a time.
+          </p>
         </div>
       </section>
 
-      {/* SECTION 7: REGIONAL EXPANSION */}
-      <section className="border-t border-border bg-background-dark">
+      {/* SECTION 9: NEUROSCIENCE */}
+      <section className="border-t border-border bg-background-alt">
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-          <div className="max-w-3xl">
-            <div className="font-mono text-xs tracking-widest text-muted-light uppercase mb-6">
-              Where we start
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <div className="font-mono text-xs tracking-widest text-muted uppercase mb-6">
+              Designed around learning
             </div>
-            <h2 className="font-serif text-3xl md:text-5xl text-foreground-light leading-snug mb-8">
-              Assam.
-              <br />
-              Then the Northeast.
-              <br />
-              Then everywhere.
+            <h2 className="font-serif text-3xl md:text-5xl leading-snug mb-6">
+              Your brain doesn&apos;t learn from watching once.
             </h2>
-            <p className="text-lg text-muted-light leading-relaxed mb-12 max-w-2xl">
-              The most meaningful expertise is often the most local. Regional
-              languages, dialects, cultural knowledge — this is where the
-              platform begins. The infrastructure scales beyond any single
-              language or region.
+            <p className="text-lg text-muted leading-relaxed max-w-2xl mx-auto">
+              Learning involves attention, practice, feedback, remembering, and
+              repetition. Eduneuro is built around these processes to make
+              online learning more active and effective.
             </p>
-
-            <div className="grid grid-cols-3 gap-0 max-w-lg">
-              {[
-                {
-                  label: "ASSAM",
-                  status: "Active",
-                  active: true,
-                },
-                {
-                  label: "NORTHEAST",
-                  status: "Next",
-                  active: false,
-                },
-                {
-                  label: "REGIONAL INDIA",
-                  status: "Vision",
-                  active: false,
-                },
-              ].map((region) => (
-                <div
-                  key={region.label}
-                  className={`p-6 border ${
-                    region.active
-                      ? "border-accent bg-accent/5"
-                      : "border-border-light"
-                  }`}
-                >
-                  <div
-                    className={`font-mono text-sm tracking-widest mb-2 ${
-                      region.active ? "text-accent" : "text-muted-light"
-                    }`}
-                  >
-                    {region.label}
-                  </div>
-                  <div
-                    className={`text-xs ${
-                      region.active ? "text-accent/80" : "text-muted-light/60"
-                    }`}
-                  >
-                    {region.status}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
+            {[
+              {
+                title: "Focus",
+                desc: "Learn without unnecessary overload.",
+              },
+              {
+                title: "Practice",
+                desc: "Build skills by actively doing.",
+              },
+              {
+                title: "Feedback",
+                desc: "Understand what needs to change.",
+              },
+              {
+                title: "Memory",
+                desc: "Revisit important skills instead of forgetting them.",
+              },
+              {
+                title: "Adaptation",
+                desc: "Adjust the next step based on your progress.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="p-6 bg-background border border-border text-center"
+              >
+                <div className="font-mono text-xs tracking-widest text-accent uppercase mb-3">
+                  {item.title}
+                </div>
+                <p className="text-sm text-muted leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center text-sm text-muted mt-12 max-w-2xl mx-auto">
+            The neuroscience is the foundation, not the marketing. What matters
+            is that the experience feels responsive, personalized, and designed
+            around how you actually improve.
+          </p>
         </div>
       </section>
 
-      {/* SECTION 8: CREATOR MODEL */}
-      <section className="border-t border-border">
-        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-          <div className="grid md:grid-cols-[1fr_1fr] gap-16 md:gap-24 items-center">
-            <div>
-              <div className="font-mono text-xs tracking-widest text-muted uppercase mb-6">
-                For creators
-              </div>
-              <h2 className="font-serif text-3xl md:text-4xl leading-snug mb-6">
-                The expert remains the authority.
-              </h2>
-              <p className="text-lg text-muted leading-relaxed mb-8">
-                You don&apos;t need to become a course entrepreneur. The
-                platform handles the infrastructure. You contribute the
-                knowledge, experience, and perspective only you have.
-              </p>
-              <div className="space-y-3 text-sm">
-                <div className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0" />
-                  <span className="text-muted">Course structuring</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0" />
-                  <span className="text-muted">Technology and payments</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0" />
-                  <span className="text-muted">Student management</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0" />
-                  <span className="text-muted">AI assistance and localization</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 flex-shrink-0" />
-                  <span className="text-muted">Analytics and distribution</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="p-8 bg-background-alt border border-border">
-                <div className="font-mono text-xs tracking-widest text-muted uppercase mb-4">
-                  You provide
-                </div>
-                <div className="space-y-3">
-                  {[
-                    "Knowledge",
-                    "Experience",
-                    "Perspective",
-                    "Authenticity",
-                  ].map((item) => (
-                    <div key={item} className="text-base text-foreground">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex items-center justify-center py-4">
-                <svg className="w-6 h-6 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-              </div>
-
-              <div className="p-8 bg-background-alt border border-border">
-                <div className="font-mono text-xs tracking-widest text-muted uppercase mb-4">
-                  Platform handles
-                </div>
-                <div className="space-y-3">
-                  {[
-                    "Course structuring",
-                    "Technology",
-                    "Payments",
-                    "AI personalization",
-                    "Analytics",
-                    "Distribution",
-                  ].map((item) => (
-                    <div key={item} className="text-base text-foreground">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 9: EARLY ACCESS / WAITLIST */}
+      {/* SECTION 10: EARLY ACCESS / WAITLIST */}
       <section id="waitlist" className="border-t border-border">
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
           <div className="grid md:grid-cols-[1fr_1fr] gap-16 md:gap-24">
@@ -454,8 +663,8 @@ export default function Home() {
               </h2>
               <p className="text-lg text-muted leading-relaxed mb-8">
                 We&apos;re opening the first learning experiences with a small
-                group of early learners and creators. If this resonates with
-                you, join the waitlist.
+                group of early learners. If this resonates with you, join the
+                waitlist.
               </p>
 
               <div className="space-y-4 text-sm text-muted">
@@ -527,7 +736,7 @@ export default function Home() {
               <div className="bg-background-alt border border-border p-8 md:p-10">
                 <WaitlistForm />
 
-                {/* Post-signup referral panel - shown via onSuccess or URL param */}
+                {/* Post-signup referral panel */}
                 <div
                   id="referral-panel"
                   className="hidden mt-8 pt-8 border-t border-border"
@@ -571,7 +780,7 @@ export default function Home() {
                     <div className="flex gap-2">
                       <a
                         href={`https://wa.me/?text=${encodeURIComponent(
-                          "I just joined Eduniche's early access. Check it out — learn from creators who actually know their craft."
+                          "I just joined Eduneuro's early access. Check it out — learn practical skills with AI and neuroscience-informed practice."
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -582,8 +791,8 @@ export default function Home() {
                       <button
                         onClick={() => {
                           navigator.share?.({
-                            title: "Eduniche — Learn from creators",
-                            text: "I just joined Eduniche's early access. Learn from people who actually know their craft.",
+                            title: "Eduneuro — Learn skills by doing",
+                            text: "I just joined Eduneuro's early access. Learn practical skills with AI and neuroscience-informed practice.",
                           }).catch(() => {});
                         }}
                         className="flex-1 py-3 border border-border hover:border-accent hover:text-accent text-muted text-sm transition-colors duration-200"
@@ -618,11 +827,11 @@ export default function Home() {
           <div className="grid md:grid-cols-[1fr_1fr_1fr] gap-12">
             <div>
               <div className="font-serif text-xl text-foreground-light mb-4">
-                Eduniche
+                Eduneuro
               </div>
               <p className="text-sm text-muted-light leading-relaxed max-w-xs">
-                Structured learning from the people who actually live the craft,
-                personalized by AI to how you learn.
+                An AI-powered, neuroscience-informed platform for learning real
+                skills through active practice and personalized feedback.
               </p>
             </div>
 
@@ -631,11 +840,11 @@ export default function Home() {
                 Platform
               </div>
               <div className="space-y-2">
-                <a href="#experience" className="block text-sm text-muted-light hover:text-foreground-light transition-colors">
-                  Experience
+                <a href="#how-it-works" className="block text-sm text-muted-light hover:text-foreground-light transition-colors">
+                  How it works
                 </a>
-                <a href="#creator" className="block text-sm text-muted-light hover:text-foreground-light transition-colors">
-                  Creator knowledge
+                <a href="#skills" className="block text-sm text-muted-light hover:text-foreground-light transition-colors">
+                  Skills
                 </a>
                 <a href="#waitlist" className="block text-sm text-muted-light hover:text-foreground-light transition-colors">
                   Early access
@@ -649,10 +858,10 @@ export default function Home() {
               </div>
               <div className="space-y-2">
                 <a
-                  href="mailto:hello@eduniche.com"
+                  href="mailto:hello@eduneuro.com"
                   className="block text-sm text-muted-light hover:text-foreground-light transition-colors"
                 >
-                  hello@eduniche.com
+                  hello@eduneuro.com
                 </a>
               </div>
             </div>
@@ -660,10 +869,10 @@ export default function Home() {
 
           <div className="mt-16 pt-8 border-t border-border-light flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-xs text-muted-light">
-              Eduniche. All rights reserved.
+              Eduneuro. All rights reserved.
             </div>
             <div className="text-xs text-muted-light">
-              Creator-led. AI-assisted. Learner-personalized.
+              Learn. Practice. Get feedback. Improve.
             </div>
           </div>
         </div>
