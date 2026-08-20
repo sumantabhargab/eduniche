@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Eduniche
 
-## Getting Started
+Pre-launch website for Eduniche — a creator-led, AI-assisted, learner-personalized learning platform.
 
-First, run the development server:
+## Quick Start
 
 ```bash
+npm install
+cp .env.example .env.local
+# Fill in your Supabase credentials in .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js 16** (App Router, TypeScript, Turbopack)
+- **Tailwind CSS** (v4 with @theme inline)
+- **Supabase** (PostgreSQL + RLS)
+- **Fonts**: Inter (sans) + Playfair Display (serif)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture
 
-## Learn More
+```
+src/
+  app/
+    page.tsx           — Main homepage (all sections)
+    layout.tsx         — Root layout + fonts + metadata
+    globals.css        — Design tokens, animations, reduced-motion
+    api/
+      waitlist/route.ts    — POST: Create waitlist signup + referral attribution
+      leaderboard/route.ts — GET: Top referrers from database
+      ref/[code]/route.ts  — GET: Validate referral code
+  components/
+    ProductDemo.tsx       — Interactive 8-step learning demo
+    CreatorExperience.tsx — Q&A demo with fictional expert Riyan Das
+    WaitlistForm.tsx      — Form with validation + post-signup referral panel
+    Leaderboard.tsx       — Live top-referrers from DB
+  lib/
+    supabase/
+      server.ts       — createClient() + createServiceClient()
+      client.ts       — Browser client (for future use)
+      client-browser.ts — Browser client instance
+middleware.ts         — Sets referral cookie from URL params
+supabase/schema.sql   — Database schema + RLS + RPC
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Database Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Go to your Supabase project → SQL Editor
+2. Run the SQL in `supabase/schema.sql`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Required env vars:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
 
-## Deploy on Vercel
+## Referral System
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. User visits `/?ref=ABC123` → middleware sets cookie
+2. User signs up → API reads cookie + ref param → validates referral code → increments referrer's count
+3. After signup → user gets their own unique referral link
+4. Verified referrals only (actual signups count, not clicks)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment (Vercel)
+
+1. Push to GitHub
+2. Import into Vercel
+3. Set environment variables:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+4. Deploy
+
+## Features
+
+- Real waitlist with email deduplication
+- Referral system with unique codes
+- Leaderboard (top 50 by verified referrals)
+- Position tracking
+- Rate limiting (5 req/min per IP)
+- Server-side validation
+- RLS policies
+- Responsive design (390px → 1440px+)
+- Reduced motion support
+- Accessibility (semantic HTML, focus states, labels)
+- SEO (title, meta description, OG metadata)
