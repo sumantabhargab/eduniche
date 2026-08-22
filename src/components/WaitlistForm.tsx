@@ -13,10 +13,41 @@ export default function WaitlistForm({
   const [email, setEmail] = useState("");
   const [interest, setInterest] = useState("");
   const [desiredCreator, setDesiredCreator] = useState("");
+  const [learningChallenge, setLearningChallenge] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [alreadyJoined, setAlreadyJoined] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [invalidEmailDomain, setInvalidEmailDomain] = useState(false);
+  const [invalidEmailContent, setInvalidEmailContent] = useState(false);
+
+  // Inappropriate word blocklist (email local part)
+  const blocklist = [
+    "fuck", "shit", "cunt", "bitch", "dick", "pussy", "cock",
+    "nigger", "nigga", "chink", "spic", "kike", "fag", "retard",
+    "rape", "kill", "murder", "nazi", "hitler", "slut", "whore",
+    "wanker", "twat", "bastard", "penis", "vagina",
+    "porn", "sex", "xxx", "cum", "jizz", "anal",
+  ];
+
+  const containsBlockedWord = (input: string): boolean => {
+    const localPart = input.split("@")[0].toLowerCase();
+    return blocklist.some((word) => {
+      // Match whole word or as a substring (handles leetspeak basics)
+      return localPart.includes(word);
+    });
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setEmail(val);
+
+    const isNotGmail = val.length > 0 && !val.toLowerCase().endsWith("@gmail.com");
+    const hasBlockedWord = val.length > 0 && containsBlockedWord(val);
+
+    setInvalidEmailDomain(isNotGmail);
+    setInvalidEmailContent(hasBlockedWord);
+  };
   const [ref, setRef] = useState(referralCode);
   const [showReferralPanel, setShowReferralPanel] = useState(false);
   const [myReferralCode, setMyReferralCode] = useState("");
@@ -37,6 +68,7 @@ export default function WaitlistForm({
             email: email.trim(),
             interest: interest.trim() || undefined,
             desired_creator: desiredCreator.trim() || undefined,
+            learning_challenge: learningChallenge.trim() || undefined,
             ref,
           }),
         });
@@ -66,7 +98,7 @@ export default function WaitlistForm({
         setLoading(false);
       }
     },
-    [name, email, interest, desiredCreator, ref, onSuccess]
+    [name, email, interest, desiredCreator, learningChallenge, ref, onSuccess]
   );
 
   const referralUrl = typeof window !== "undefined" && myReferralCode
@@ -190,11 +222,36 @@ export default function WaitlistForm({
           id="email"
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleEmailChange}
           required
-          placeholder="you@example.com"
-          className="w-full px-4 py-3 bg-background border border-border text-foreground placeholder:text-muted-light text-base focus:border-accent focus:outline-none transition-colors duration-200"
+          placeholder="you@gmail.com"
+          className={`w-full px-4 py-3 bg-background text-foreground placeholder:text-muted-light text-base focus:outline-none transition-colors duration-200 border ${
+            invalidEmailDomain
+              ? "border-error focus:border-error"
+              : "border-border focus:border-accent"
+          }`}
         />
+        {invalidEmailDomain && (
+          <p className="text-xs text-error mt-1.5">Only @gmail.com addresses are accepted.</p>
+        )}
+        {invalidEmailContent && (
+          <p className="text-xs text-error mt-1.5">Please use an appropriate email address.</p>
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="learning-challenge" className="block text-xs font-mono tracking-widest uppercase text-muted mb-2">
+          What problem do you usually face while learning?
+        </label>
+        <textarea
+          id="learning-challenge"
+          value={learningChallenge}
+          onChange={(e) => setLearningChallenge(e.target.value)}
+          rows={3}
+          placeholder="e.g. I forget what I learn, I lose motivation mid-course, I don't know what to practice..."
+          className="w-full px-4 py-3 bg-background border border-border text-foreground placeholder:text-muted-light text-base focus:border-accent focus:outline-none transition-colors duration-200 resize-none"
+        />
+        <p className="text-xs text-muted mt-1">Optional — helps us build what matters most.</p>
       </div>
 
       {alreadyJoined && (

@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS waitlist_users (
   email TEXT UNIQUE NOT NULL,
   interest TEXT,
   desired_creator TEXT,
+  learning_challenge TEXT,
   referral_code TEXT UNIQUE NOT NULL DEFAULT '',
   referred_by TEXT DEFAULT '',
   referral_count INTEGER DEFAULT 0,
@@ -25,6 +26,17 @@ CREATE INDEX IF NOT EXISTS idx_waitlist_users_referral_code ON waitlist_users(re
 CREATE INDEX IF NOT EXISTS idx_waitlist_users_referred_by ON waitlist_users(referred_by);
 CREATE INDEX IF NOT EXISTS idx_waitlist_users_position ON waitlist_users(position);
 CREATE INDEX IF NOT EXISTS idx_waitlist_users_created_at ON waitlist_users(created_at);
+
+-- Migration: add learning_challenge column if it doesn't exist (for existing tables)
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'waitlist_users' AND column_name = 'learning_challenge'
+  ) THEN
+    ALTER TABLE waitlist_users ADD COLUMN learning_challenge TEXT;
+  END IF;
+END $$;
 
 -- Function to auto-assign position
 CREATE OR REPLACE FUNCTION assign_waitlist_position()
