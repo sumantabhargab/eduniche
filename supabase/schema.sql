@@ -78,6 +78,10 @@ LIMIT 50;
 -- Enable Row Level Security
 ALTER TABLE waitlist_users ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies if they exist (idempotent)
+DROP POLICY IF EXISTS "Anyone can join waitlist" ON waitlist_users;
+DROP POLICY IF EXISTS "Users can update own record" ON waitlist_users;
+
 -- Policy: Anyone can insert (waitlist signup)
 CREATE POLICY "Anyone can join waitlist"
   ON waitlist_users
