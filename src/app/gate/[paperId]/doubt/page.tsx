@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { use } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";
 import { TOC_QUESTIONS, type Question } from "@/data/questions-cse-toc";
 
@@ -24,19 +25,17 @@ const DOUBT_SUGGESTIONS = [
 
 export default function DoubtEnginePage({
   params,
-  searchParams,
 }: {
   params: Promise<{ paperId: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const resolvedParams = use(params);
-  const resolvedSearchParams = use(searchParams);
+  const searchParams = useSearchParams();
+  const questionId = searchParams.get("q");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const questionId = typeof resolvedSearchParams.q === "string" ? resolvedSearchParams.q : null;
   const selectedQuestion = questionId
     ? TOC_QUESTIONS.find((q) => q.id === questionId)
     : null;
