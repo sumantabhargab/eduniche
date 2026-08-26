@@ -45,10 +45,7 @@ export default function GateLandingPage() {
   const handlePaperClick = useCallback(
     (paper: GATEPaper) => {
       if (paper.processingStatus === "available") {
-        useGateEvent("exam_selected", { paper_id: paper.id });
         router.push(`/gate/${paper.id}`);
-      } else {
-        useGateEvent("unavailable_paper_clicked", { paper_id: paper.id });
       }
     },
     [router]
