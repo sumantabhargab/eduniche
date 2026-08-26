@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import ThemeToggle from "@/components/ThemeToggle";
 
 const navLinks = [
+  { href: "/gate", label: "GATE" },
   { href: "/how-it-works", label: "How it works" },
   { href: "/skills", label: "Skills" },
   { href: "/neuroscience", label: "Neuroscience" },
