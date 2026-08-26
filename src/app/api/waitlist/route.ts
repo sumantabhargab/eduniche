@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createServiceClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase/server";
 import { headers } from "next/headers";
 
 // Rate limiting map (in-memory, resets on server restart)
@@ -65,12 +65,16 @@ function generateReferralCode(length = 6): string {
 }
 
 async function generateUniqueReferralCode(
-  supabase: ReturnType<typeof createServiceClient>
+  supabase: Awaited<ReturnType<typeof createServerClient>>
 ): Promise<string> {
   const MAX_ATTEMPTS = 10;
 
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
     const code = generateReferralCode();
+
+    if (!supabase) {
+      return code;
+    }
 
     const { data, error } = await supabase
       .from("waitlist_users")
@@ -273,7 +277,10 @@ export async function POST(request: Request) {
       sanitizedLearningChallenge = trimmedChallenge || null;
     }
 
-    const supabase = createServiceClient();
+    const supabase = createServerClient();
+    if (!supabase) {
+      return NextResponse.json({ error: "Server not configured." }, { status: 500 });
+    }
 
     // Check whether email already exists
     const { data: existingUser, error: existingUserError } =

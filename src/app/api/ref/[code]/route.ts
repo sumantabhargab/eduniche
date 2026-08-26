@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createServiceClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase/server";
 
 export async function GET(
   request: Request,
@@ -12,7 +12,10 @@ export async function GET(
       return NextResponse.json({ valid: false }, { status: 400 });
     }
 
-    const supabase = createServiceClient();
+    const supabase = createServerClient();
+    if (!supabase) {
+      return NextResponse.json({ valid: false }, { status: 500 });
+    }
 
     const { data, error } = await supabase
       .from("waitlist_users")

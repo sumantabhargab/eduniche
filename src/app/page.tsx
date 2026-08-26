@@ -1,4 +1,5 @@
 import WaitlistSection from "@/components/WaitlistSection";
+import GATEIntroSection from "@/components/GATEIntroSection";
 
 export const metadata = {
   title: "Eduneuro — Learn skills by doing, not just watching",
@@ -173,6 +174,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* GATE */}
+      <GATEIntroSection />
 
       {/* WAITLIST */}
       <section id="waitlist" className="border-t border-border">
