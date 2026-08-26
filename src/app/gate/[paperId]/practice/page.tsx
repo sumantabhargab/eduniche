@@ -37,10 +37,6 @@ export default function PracticePage({ params }: { params: Promise<{ paperId: st
   useGateEvent("practice_page_opened", { paper_id: resolvedParams.paperId });
 
   const handleGenerate = useCallback(async () => {
-    useGateEvent("practice_generation_started", {
-      paper_id: resolvedParams.paperId,
-      mode,
-    });
     setGenerating(true);
     setGenerated(false);
 
@@ -49,10 +45,6 @@ export default function PracticePage({ params }: { params: Promise<{ paperId: st
 
     setGenerating(false);
     setGenerated(true);
-    useGateEvent("practice_generation_completed", {
-      paper_id: resolvedParams.paperId,
-      mode,
-    });
   }, [resolvedParams.paperId, mode]);
 
   return (
