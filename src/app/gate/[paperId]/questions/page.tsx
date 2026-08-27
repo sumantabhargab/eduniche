@@ -4,7 +4,8 @@ import { useState, useMemo, use } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";
-import { TOC_QUESTIONS, type Question } from "@/data/questions-cse-toc";
+import { getPaperById, type GATEPaper } from "@/lib/gate/config";
+import { getPaperQuestions, type ECEQuestion } from "@/lib/gate/paper-data";
 
 type FilterType = "all" | "MCQ" | "MSQ" | "NAT";
 type FilterMarks = "all" | "1" | "2";
@@ -12,14 +13,21 @@ type FilterDifficulty = "all" | "easy" | "medium" | "hard";
 type SortField = "year" | "topic" | "marks" | "difficulty" | "id";
 type SortDir = "asc" | "desc";
 
+type Question = ECEQuestion;
+
 export default function QuestionsPage({
   params,
 }: {
   params: Promise<{ paperId: string }>;
 }) {
   const resolvedParams = use(params);
+  const paperId = resolvedParams.paperId;
   const searchParams = useSearchParams();
   const topicFilter = searchParams.get("topic") || "all";
+
+  const paper = getPaperById(paperId);
+  const allQuestions = getPaperQuestions(paperId);
+  const paperName = paper?.shortName || paperId.toUpperCase();
 
   const [query, setQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<FilterType>("all");
@@ -31,7 +39,7 @@ export default function QuestionsPage({
   const [viewMode, setViewMode] = useState<"list" | "cards">("list");
 
   const filtered = useMemo(() => {
-    let result = [...TOC_QUESTIONS];
+    let result = [...allQuestions];
 
     if (query.trim()) {
       const q = query.toLowerCase();
@@ -88,18 +96,18 @@ export default function QuestionsPage({
 
   const uniqueTopics = useMemo(() => {
     const map = new Map<string, string>();
-    TOC_QUESTIONS.forEach((q) => {
+    allQuestions.forEach((q) => {
       const key = q.topic.toLowerCase().replace(/[^a-z0-9]/g, "-");
       map.set(key, q.topic);
     });
     return map;
-  }, []);
+  }, [allQuestions]);
 
   const typeCounts = useMemo(() => {
-    const counts = { all: TOC_QUESTIONS.length, MCQ: 0, MSQ: 0, NAT: 0 };
-    TOC_QUESTIONS.forEach((q) => { counts[q.type]++; });
+    const counts = { all: allQuestions.length, MCQ: 0, MSQ: 0, NAT: 0 };
+    allQuestions.forEach((q) => { counts[q.type]++; });
     return counts;
-  }, []);
+  }, [allQuestions]);
 
   const toggleSort = (field: SortField) => {
     if (sortField === field) setSortDir(d => d === "asc" ? "desc" : "asc");
@@ -120,7 +128,9 @@ export default function QuestionsPage({
         <section className="pt-8 pb-6 px-4 sm:px-6 border-b border-border">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center gap-2 text-xs text-muted mb-3">
-              <Link href={`/gate/${resolvedParams.paperId}`} className="hover:text-foreground transition-colors">GATE CSE</Link>
+              <Link href={`/gate/${resolvedParams.paperId}`} className="hover:text-foreground transition-colors">
+                GATE {paperName}
+              </Link>
               <span>/</span>
               <span className="text-foreground font-medium">Questions</span>
             </div>
@@ -130,7 +140,7 @@ export default function QuestionsPage({
                   Previous Year Questions
                 </h1>
                 <p className="text-sm text-muted mt-1">
-                  {TOC_QUESTIONS.length} questions from Theory of Computation (2004–2026)
+                  {allQuestions.length} questions from GATE {paperName}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -241,7 +251,7 @@ export default function QuestionsPage({
             </div>
 
             <div className="mt-3 text-xs text-muted">
-              Showing {filtered.length} of {TOC_QUESTIONS.length} questions
+              Showing {filtered.length} of {allQuestions.length} questions
             </div>
           </div>
         </section>
@@ -354,6 +364,7 @@ export default function QuestionsPage({
           question={selectedQuestion}
           onClose={() => setSelectedQuestion(null)}
           paperId={resolvedParams.paperId}
+          paperName={paperName}
         />
       )}
     </>
@@ -364,10 +375,12 @@ function QuestionDetailModal({
   question,
   onClose,
   paperId,
+  paperName,
 }: {
   question: Question;
   onClose: () => void;
   paperId: string;
+  paperName: string;
 }) {
   const [showAnswer, setShowAnswer] = useState(false);
   const [showExplanation, setShowExplanation] = useState(false);
@@ -388,7 +401,7 @@ function QuestionDetailModal({
               {question.type}
             </span>
             <span className="text-xs font-mono text-muted">{question.marks} marks</span>
-            <span className="text-xs font-mono text-muted">{question.year}{question.set ? ` ${question.set}` : ""}</span>
+            <span className="text-xs font-mono text-muted">{paperName} {question.year}{question.set ? ` ${question.set}` : ""}</span>
             <span className={`text-xs capitalize ${
               question.difficulty === "easy" ? "text-green-600" :
               question.difficulty === "medium" ? "text-amber-600" : "text-red-600"
@@ -406,7 +419,7 @@ function QuestionDetailModal({
           <div className="flex items-center gap-2 mb-4">
             <span className="text-xs text-muted">{question.topic}</span>
             <span className="text-xs text-muted-light">·</span>
-            <span className="text-xs text-muted">GATE CSE {question.year}</span>
+            <span className="text-xs text-muted">GATE {paperName} {question.year}</span>
           </div>
 
           {/* Question text */}

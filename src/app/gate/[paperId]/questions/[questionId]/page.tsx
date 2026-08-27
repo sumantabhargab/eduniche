@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import GateNav from "@/components/GateNav";
-import { TOC_QUESTIONS } from "@/data/questions-cse-toc";
+import { getPaperById, type GATEPaper } from "@/lib/gate/config";
+import { getPaperQuestions } from "@/lib/gate/paper-data";
 import { Metadata } from "next";
 
 interface PageProps {
@@ -9,18 +10,24 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { questionId } = await params;
-  const q = TOC_QUESTIONS.find((x) => x.id === questionId);
+  const { questionId, paperId } = await params;
+  const paper = getPaperById(paperId);
+  const paperName = paper?.shortName || paperId.toUpperCase();
+  const questions = getPaperQuestions(paperId);
+  const q = questions.find((x) => x.id === questionId);
   if (!q) return { title: "Question Not Found — Eduneuro" };
   return {
-    title: `${q.topic} — GATE CSE ${q.year} — Eduneuro`,
+    title: `${q.topic} — GATE ${paperName} ${q.year} — Eduneuro`,
     description: q.question.split("\n")[0],
   };
 }
 
 export default async function QuestionDetailPage({ params }: PageProps) {
   const { paperId, questionId } = await params;
-  const q = TOC_QUESTIONS.find((x) => x.id === questionId);
+  const paper = getPaperById(paperId);
+  const paperName = paper?.shortName || paperId.toUpperCase();
+  const questions = getPaperQuestions(paperId);
+  const q = questions.find((x) => x.id === questionId);
 
   if (!q) {
     notFound();
@@ -33,7 +40,7 @@ export default async function QuestionDetailPage({ params }: PageProps) {
         <section className="pt-8 pb-6 px-4 sm:px-6 border-b border-border">
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center gap-2 text-xs text-muted mb-3">
-              <Link href={`/gate/${paperId}`} className="hover:text-foreground transition-colors">GATE CSE</Link>
+              <Link href={`/gate/${paperId}`} className="hover:text-foreground transition-colors">GATE {paperName}</Link>
               <span>/</span>
               <Link href={`/gate/${paperId}/questions`} className="hover:text-foreground transition-colors">Questions</Link>
               <span>/</span>
@@ -50,7 +57,7 @@ export default async function QuestionDetailPage({ params }: PageProps) {
                 {q.type}
               </span>
               <span className="text-xs font-mono text-muted">{q.marks} marks</span>
-              <span className="text-xs font-mono text-muted">GATE CSE {q.year}{q.set ? ` ${q.set}` : ""}</span>
+              <span className="text-xs font-mono text-muted">GATE {paperName} {q.year}{q.set ? ` ${q.set}` : ""}</span>
               <span className={`text-xs capitalize ${
                 q.difficulty === "easy" ? "text-green-600" :
                 q.difficulty === "medium" ? "text-amber-600" : "text-red-600"

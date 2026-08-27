@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { TOC_RAW_DATA, TOC_TOTAL_MARKS_BY_YEAR } from "@/data/gate-cse-analysis";
 import { getPaperById } from "@/lib/gate/config";
+import { getPaperRawData, getPaperQuestions } from "@/lib/gate/paper-data";
+import { getPaperYears } from "@/lib/gate/paper-data";
 
 export const dynamic = "force-dynamic";
 
@@ -15,14 +16,20 @@ export async function GET(
       return NextResponse.json({ error: "Paper not available." }, { status: 404 });
     }
 
-    // Overall paper marks trend
-    const overallTrend = TOC_TOTAL_MARKS_BY_YEAR.map((y) => ({
-      year: y.year,
-      totalMarks: y.totalMarks,
-    }));
+    const rawData = getPaperRawData(paperId);
+    const allQuestions = getPaperQuestions(paperId);
+    const allYears = getPaperYears(paperId);
+
+    // Overall paper marks trend per year
+    const overallTrend = allYears.map((year) => {
+      const yearMarks = allQuestions
+        .filter((q) => q.year === year)
+        .reduce((sum, q) => sum + q.marks, 0);
+      return { year, totalMarks: yearMarks };
+    });
 
     // Per-subject trends
-    const subjectTrends = TOC_RAW_DATA.map((raw) => ({
+    const subjectTrends = rawData.map((raw) => ({
       id: raw.id,
       name: raw.name,
       yearlyData: raw.yearlyData.map((d) => ({
@@ -33,23 +40,24 @@ export async function GET(
     }));
 
     // Marks distribution by question type
-    const questionTypeDistribution = {
-      mcq: { count: 185, marks: 275 },
-      msq: { count: 80, marks: 120 },
-      nat: { count: 75, marks: 140 },
-    };
+    const mcqCount = allQuestions.filter((q) => q.type === "MCQ").length;
+    const msqCount = allQuestions.filter((q) => q.type === "MSQ").length;
+    const natCount = allQuestions.filter((q) => q.type === "NAT").length;
+    const mcqMarks = allQuestions.filter((q) => q.type === "MCQ").reduce((s, q) => s + q.marks, 0);
+    const msqMarks = allQuestions.filter((q) => q.type === "MSQ").reduce((s, q) => s + q.marks, 0);
+    const natMarks = allQuestions.filter((q) => q.type === "NAT").reduce((s, q) => s + q.marks, 0);
 
     return NextResponse.json({
       paperId,
       paperName: paper.name,
       overallTrend,
       subjectTrends,
-      questionTypeDistribution,
-      yearsAvailable: [
-        2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013,
-        2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023,
-        2024, 2025, 2026,
-      ],
+      questionTypeDistribution: {
+        mcq: { count: mcqCount, marks: mcqMarks },
+        msq: { count: msqCount, marks: msqMarks },
+        nat: { count: natCount, marks: natMarks },
+      },
+      yearsAvailable: allYears,
     });
   } catch {
     return NextResponse.json(

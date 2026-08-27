@@ -1,13 +1,6 @@
-import { NextResponse } from "next/server";
-import {
-  TOC_RAW_DATA,
-  ALL_AVAILABLE_YEARS,
-} from "@/data/gate-cse-analysis";
-import {
-  getChildren,
-  GATE_CSE_NODE_MAP,
-  GATE_CSE_CHILDREN_MAP,
-} from "@/data/gate-cse-syllabus";
+import { NextRequest, NextResponse } from "next/server";
+import { getPaperById } from "@/lib/gate/config";
+import { getPaperRawData } from "@/lib/gate/paper-data";
 import { computeTrend } from "@/lib/analytics/trends";
 import { computePriority } from "@/lib/analytics/priority";
 
@@ -18,38 +11,54 @@ export async function GET(
   { params }: { params: Promise<{ subjectId: string }> }
 ) {
   const { subjectId } = await params;
+  const url = new URL(request.url);
+  const paperId = url.searchParams.get("paperId") || "cse";
 
   try {
-    // First check if it's a raw data topic (FA, CFL, TM, etc.)
-    const rawData = TOC_RAW_DATA.find((s) => s.id === subjectId);
-    const node = GATE_CSE_NODE_MAP.get(subjectId);
+    // Infer paper from subject ID prefix
+    let paperId = "cse";
+    if (subjectId.startsWith("ece-")) {
+      paperId = "ece";
+    } else if (subjectId.startsWith("cset-")) {
+      paperId = "cse";
+    }
 
-    if (!rawData && !node) {
+    const paper = getPaperById(paperId);
+    const rawData = getPaperRawData(paperId).find((s) => s.id === subjectId);
+
+    if (!rawData) {
       return NextResponse.json({ error: "Subject not found." }, { status: 404 });
     }
 
-    const name = rawData?.name ?? node?.name ?? subjectId;
-    const topic = rawData?.topic ?? node?.name ?? "";
-    const totalQuestions = rawData?.totalQuestions ?? 0;
-    const totalMarks = rawData?.totalMarks ?? 0;
-    const yearlyData = rawData?.yearlyData ?? [];
-    const questionTypes = rawData?.questionTypes ?? {};
+    const name = rawData.name;
+    const topic = rawData.topic || "";
+    const totalQuestions = rawData.totalQuestions;
+    const totalMarks = rawData.totalMarks;
+    const yearlyData = rawData.yearlyData;
+    const questionTypes = rawData.questionTypes || {};
 
     // Compute trend if we have data
     let trend = null;
     let priority = null;
+    const allYears = paper?.availableYears || [];
     if (yearlyData.length > 0) {
-      trend = computeTrend(yearlyData, ALL_AVAILABLE_YEARS);
-      priority = computePriority({ yearlyOccurrences: yearlyData, allAvailableYears: ALL_AVAILABLE_YEARS });
+      trend = computeTrend(yearlyData, allYears);
+      priority = computePriority({
+        yearlyOccurrences: yearlyData,
+        allAvailableYears: allYears,
+      });
     }
 
-    // Get children (subtopics)
-    const children = getChildren(subjectId, GATE_CSE_NODE_MAP, GATE_CSE_CHILDREN_MAP);
-
-    // For raw data items, also include peer topics under the same parent
-    const subtopics = rawData
-      ? TOC_RAW_DATA.filter((s) => s.topic === rawData.topic)
-      : [];
+    // Get peer topics (same topic group)
+    const rawDataAll = getPaperRawData(paperId);
+    const subtopics = rawDataAll
+      .filter((s) => s.topic && s.topic === rawData.topic && s.id !== subjectId)
+      .map((s) => ({
+        id: s.id,
+        name: s.name,
+        totalQuestions: s.totalQuestions,
+        totalMarks: s.totalMarks,
+      }));
 
     return NextResponse.json({
       id: subjectId,
@@ -61,18 +70,8 @@ export async function GET(
       yearlyData,
       trend,
       priority,
-      children: children.map((c) => ({
-        id: c.id,
-        name: c.name,
-        nodeType: c.nodeType,
-        description: c.description,
-      })),
-      subtopics: subtopics.map((s) => ({
-        id: s.id,
-        name: s.name,
-        totalQuestions: s.totalQuestions,
-        totalMarks: s.totalMarks,
-      })),
+      children: [],
+      subtopics,
     });
   } catch {
     return NextResponse.json(

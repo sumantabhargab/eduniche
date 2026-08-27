@@ -3,17 +3,19 @@
 import { use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { GATE_CSE_SYLLABUS, getChildren, GATE_CSE_NODE_MAP, getAncestors } from "@/data/gate-cse-syllabus";
-import { TOC_RAW_DATA, ALL_AVAILABLE_YEARS } from "@/data/gate-cse-analysis";
-import { TOC_QUESTIONS, type Question } from "@/data/questions-cse-toc";
+import { getPaperById, type GATEPaper } from "@/lib/gate/config";
+import {
+  getPaperRawData,
+  getPaperQuestions,
+  getPaperYears,
+  getPaperDataSource,
+  type Question as ECEQuestion,
+  type ECEQuestion as Question,
+} from "@/lib/gate/paper-data";
 import { computeTrend } from "@/lib/analytics/trends";
 import { computePriority } from "@/lib/analytics/priority";
 import GateNav from "@/components/GateNav";
 import { useGateEvent } from "@/lib/tracking/useGateEvent";
-
-const SUBJECT_LOOKUP = new Map(
-  TOC_RAW_DATA.map((s) => [s.id, s])
-);
 
 export default function SubjectIntelligencePage({
   params,
@@ -25,12 +27,14 @@ export default function SubjectIntelligencePage({
   const subjectId = resolvedParams.subjectId;
   const router = useRouter();
 
+  const paper = getPaperById(paperId);
+  const rawData = getPaperRawData(paperId).find((s) => s.id === subjectId);
+  const paperQuestions = getPaperQuestions(paperId);
+  const allYears = getPaperYears(paperId);
+
   useGateEvent("subject_selected", { paper_id: paperId, subject_id: subjectId });
 
-  const rawData = SUBJECT_LOOKUP.get(subjectId);
-  const node = GATE_CSE_NODE_MAP.get(subjectId);
-
-  if (!rawData && !node) {
+  if (!paper || !rawData) {
     return (
       <>
         <GateNav />
@@ -47,40 +51,39 @@ export default function SubjectIntelligencePage({
     );
   }
 
-  const name = rawData?.name ?? node?.name ?? subjectId;
-  const totalQuestions = rawData?.totalQuestions ?? 0;
-  const totalMarks = rawData?.totalMarks ?? 0;
-  const yearlyData = rawData?.yearlyData ?? [];
-  const qt = rawData?.questionTypes ?? {};
+  const name = rawData.name;
+  const totalQuestions = rawData.totalQuestions;
+  const totalMarks = rawData.totalMarks;
+  const yearlyData = rawData.yearlyData;
+  const qt = rawData.questionTypes || {};
 
   // Compute analytics
-  let trend = null;
-  let priority = null;
+  let trend: ReturnType<typeof computeTrend> | null = null;
+  let priority: ReturnType<typeof computePriority> | null = null;
   if (yearlyData.length > 0) {
-    trend = computeTrend(yearlyData, ALL_AVAILABLE_YEARS);
+    trend = computeTrend(yearlyData, allYears);
     priority = computePriority({
       yearlyOccurrences: yearlyData,
-      allAvailableYears: ALL_AVAILABLE_YEARS,
+      allAvailableYears: allYears,
     });
   }
 
-  // Peer subtopics
-  const peers = rawData?.topic
-    ? TOC_RAW_DATA.filter((s) => s.topic === rawData.topic)
-    : [];
+  // Peer subtopics (subjects in the same topic group)
+  const rawDataAll = getPaperRawData(paperId);
+  const peers = rawDataAll.filter((s) => s.topic && s.topic === rawData.topic && s.id !== subjectId);
 
-  const children = getChildren(subjectId, GATE_CSE_NODE_MAP, new Map());
-  const ancestors = getAncestors(subjectId, GATE_CSE_NODE_MAP);
+  // Questions for this subject
+  const subjectQuestions = paperQuestions.filter((q: ECEQuestion) => q.subjectId === subjectId);
 
   // Compute max marks for bar chart
-  const maxYearlyMarks = yearlyData.length > 0
-    ? Math.max(...yearlyData.map((d) => d.marks))
-    : 20;
+  const maxYearlyMarks = yearlyData.length > 0 ? Math.max(...yearlyData.map((d) => d.marks)) : 20;
 
   const direction = trend?.trendDirection ?? "flat";
   const directionLabel = direction === "increasing" ? "Increasing"
     : direction === "decreasing" ? "Decreasing"
     : "Stable";
+
+  const paperName = paper.shortName;
 
   return (
     <>
@@ -94,23 +97,15 @@ export default function SubjectIntelligencePage({
                 href={`/gate/${paperId}`}
                 className="text-xs text-muted hover:text-foreground transition-colors"
               >
-                GATE CSE
+                GATE {paperName}
               </Link>
-              {ancestors.length > 0 && (
-                <>
-                  <span className="text-xs text-muted-light">/</span>
-                  {ancestors.map((anc) => (
-                    <span key={anc.id} className="text-xs text-muted">{anc.name}</span>
-                  ))}
-                </>
-              )}
             </div>
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div>
                 <h1 className="text-2xl sm:text-3xl font-medium tracking-tight text-foreground">
                   {name}
                 </h1>
-                {rawData?.topic && (
+                {rawData.topic && (
                   <p className="text-sm text-muted mt-1">Part of: {rawData.topic}</p>
                 )}
               </div>
@@ -134,13 +129,13 @@ export default function SubjectIntelligencePage({
               <div className="p-3 border border-border">
                 <p className="text-xs text-muted-light mb-1">Avg Marks/Year</p>
                 <p className="text-lg font-medium text-foreground">
-                  {ALL_AVAILABLE_YEARS.length > 0 ? Math.round(totalMarks / ALL_AVAILABLE_YEARS.length) : 0}
+                  {allYears.length > 0 ? Math.round(totalMarks / allYears.length) : 0}
                 </p>
               </div>
               <div className="p-3 border border-border">
                 <p className="text-xs text-muted-light mb-1">Presence Rate</p>
                 <p className="text-lg font-medium text-foreground">
-                  {yearlyData.filter((d) => d.marks > 0).length}/{ALL_AVAILABLE_YEARS.length}
+                  {yearlyData.filter((d) => d.marks > 0).length}/{allYears.length}
                 </p>
               </div>
             </div>
@@ -166,7 +161,7 @@ export default function SubjectIntelligencePage({
                     <p className="text-xs text-muted-light">Avg marks/year</p>
                     <p className="text-sm font-medium text-foreground">
                       {totalMarks / Math.max(yearlyData.length, 1) > 0
-                        ? (totalMarks / ALL_AVAILABLE_YEARS.length).toFixed(1)
+                        ? (totalMarks / allYears.length).toFixed(1)
                         : "0.0"}
                     </p>
                   </div>
@@ -243,7 +238,7 @@ export default function SubjectIntelligencePage({
                     <p className="text-xs text-muted">
                       Appeared in{" "}
                       {yearlyData.filter((d) => d.marks > 0).length} of{" "}
-                      {ALL_AVAILABLE_YEARS.length} years.{" "}
+                      {allYears.length} years.{" "}
                       {direction === "increasing"
                         ? "Mark allocation has increased recently."
                         : direction === "decreasing"
@@ -262,7 +257,7 @@ export default function SubjectIntelligencePage({
         )}
 
         {/* Subtopic breakdown (peers) */}
-        {peers.length > 1 && (
+        {peers.length > 0 && (
           <section className="py-8 px-4 sm:px-6 border-b border-border">
             <div className="max-w-6xl mx-auto">
               <h2 className="text-sm font-mono tracking-widest text-muted uppercase mb-4">
@@ -291,34 +286,6 @@ export default function SubjectIntelligencePage({
                       </div>
                     </Link>
                   ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Taxonomy children */}
-        {children.length > 0 && (
-          <section className="py-8 px-4 sm:px-6 border-b border-border">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-sm font-mono tracking-widest text-muted uppercase mb-4">
-                Subtopics
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                {children.map((child) => (
-                  <div
-                    key={child.id}
-                    className="p-3 border border-border text-sm text-muted"
-                  >
-                    <p className="font-medium text-foreground text-xs mb-0.5">
-                      {child.name}
-                    </p>
-                    {child.description && (
-                      <p className="text-xs text-muted-light line-clamp-1">
-                        {child.description}
-                      </p>
-                    )}
-                  </div>
-                ))}
               </div>
             </div>
           </section>
@@ -369,9 +336,7 @@ export default function SubjectIntelligencePage({
                 </p>
                 <div className="border border-border divide-y divide-border">
                   {predictedYears.map((py) => {
-                    const yearQuestions = TOC_QUESTIONS.filter(
-                      (q) => q.subjectId === subjectId && q.year === py.year
-                    );
+                    const yearQuestions = subjectQuestions.filter((q: ECEQuestion) => q.year === py.year);
                     return (
                       <div
                         key={py.year}
@@ -386,7 +351,7 @@ export default function SubjectIntelligencePage({
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          {yearQuestions.map((q) => (
+                          {yearQuestions.slice(0, 3).map((q: ECEQuestion) => (
                             <Link
                               key={q.id}
                               href={`/gate/${paperId}/questions/${q.id}`}
@@ -405,9 +370,9 @@ export default function SubjectIntelligencePage({
           );
         })()}
 
-        {/* ─── Syllabus Important Topics ─── */}
+        {/* ─── Syllabus: Important Topics ─── */}
         {(() => {
-          const subtopics = peers.length > 1
+          const subtopics = peers.length > 0
             ? [...peers].sort((a, b) => b.totalMarks - a.totalMarks)
             : rawData
               ? [{ id: rawData.id, name: rawData.name, totalQuestions: rawData.totalQuestions, totalMarks: rawData.totalMarks }]
@@ -420,7 +385,7 @@ export default function SubjectIntelligencePage({
                   Syllabus: Important Topics
                 </h2>
                 <p className="text-xs text-muted-light mb-4">
-                  {peers.length > 1
+                  {peers.length > 0
                     ? "Subtopics under this subject, ranked by total marks contribution."
                     : "This subject's marks contribution across all years."}
                 </p>
@@ -456,9 +421,8 @@ export default function SubjectIntelligencePage({
 
         {/* ─── Previous Year Questions (PYQs) ─── */}
         {(() => {
-          const pyqs = TOC_QUESTIONS
-            .filter((q) => q.subjectId === subjectId)
-            .sort((a, b) => b.year - a.year || a.id.localeCompare(b.id))
+          const pyqs = subjectQuestions
+            .sort((a: ECEQuestion, b: ECEQuestion) => b.year - a.year || a.id.localeCompare(b.id))
             .slice(0, 15);
           if (pyqs.length === 0) return null;
           return (
@@ -470,7 +434,7 @@ export default function SubjectIntelligencePage({
                       Previous Year Questions (PYQs)
                     </h2>
                     <p className="text-xs text-muted-light">
-                      Showing {pyqs.length} of {TOC_QUESTIONS.filter((q) => q.subjectId === subjectId).length} questions.
+                      Showing {pyqs.length} of {subjectQuestions.length} questions.
                     </p>
                   </div>
                   <Link
@@ -481,7 +445,7 @@ export default function SubjectIntelligencePage({
                   </Link>
                 </div>
                 <div className="space-y-3">
-                  {pyqs.map((q) => (
+                  {pyqs.map((q: ECEQuestion) => (
                     <div
                       key={q.id}
                       className="border border-border p-4 hover:border-accent/30 transition-colors"

@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { use } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";
+import { getPaperById, type GATEPaper } from "@/lib/gate/config";
+import { getPaperQuestions, getPaperRawData } from "@/lib/gate/paper-data";
 import { useGateEvent } from "@/lib/tracking/useGateEvent";
 
 type PracticeMode = "historical" | "priority" | "full-syllabus" | "subject-specific";
@@ -16,19 +18,15 @@ const MODES: { value: PracticeMode; label: string; description: string }[] = [
   { value: "subject-specific", label: "Subject Specific", description: "Focus on a single subject." },
 ];
 
-const SUBJECTS = [
-  { id: "cse-cf", name: "Computer Networks" },
-  { id: "cse-dm", name: "Database Management" },
-  { id: "cse-da", name: "Design & Analysis" },
-  { id: "cse-os", name: "Operating Systems" },
-  { id: "cse-sn", name: "Software Engineering" },
-  { id: "cse-wm", name: "Web Technology" },
-];
-
 export default function PracticePage({ params }: { params: Promise<{ paperId: string }> }) {
   const resolvedParams = use(params);
   const searchParams = useSearchParams();
   const preselectedSubject = searchParams.get("subject") || "";
+
+  const paper = getPaperById(resolvedParams.paperId);
+  const paperName = paper?.shortName || resolvedParams.paperId.toUpperCase();
+  const rawData = getPaperRawData(resolvedParams.paperId);
+  const SUBJECTS = rawData.map((s) => ({ id: s.id, name: s.name }));
 
   const [mode, setMode] = useState<PracticeMode>("historical");
   const [selectedSubject, setSelectedSubject] = useState(preselectedSubject);
@@ -55,7 +53,7 @@ export default function PracticePage({ params }: { params: Promise<{ paperId: st
           Practice Papers
         </h1>
         <p className="text-sm text-muted mb-6">
-          Generate intelligent practice papers based on historical patterns.
+          Generate intelligent practice papers based on historical patterns for GATE {paperName}.
         </p>
 
         {!generated ? (
@@ -149,7 +147,7 @@ export default function PracticePage({ params }: { params: Promise<{ paperId: st
               {/* Paper header */}
               <div className="p-4 border-b border-border bg-muted/5">
                 <h3 className="text-sm font-medium text-foreground">
-                  GATE CSE Practice Paper
+                  GATE {paperName} Practice Paper
                 </h3>
                 <p className="text-xs text-muted-light mt-0.5">
                   Mode: {MODES.find((m) => m.value === mode)?.label} · 3 questions ·
@@ -160,9 +158,9 @@ export default function PracticePage({ params }: { params: Promise<{ paperId: st
               {/* Questions */}
               <div className="divide-y divide-border">
                 {[
-                  { q: "Consider a 4-bit binary number. How many distinct values can be represented?", marks: 1, type: "NAT" },
-                  { q: "In a linked list implementation of a stack, where is the top element?", marks: 1, type: "MCQ" },
-                  { q: "Which of the following are valid TCP states during connection establishment? (Select all that apply)", marks: 1, type: "MSQ" },
+                  { q: `Consider a circuit with resistors in series-parallel combination. Find the equivalent resistance.`, marks: 1, type: "NAT" },
+                  { q: "In a network, which of the following theorems can be applied to find the current through a branch? (Select all that apply)", marks: 1, type: "MSQ" },
+                  { q: "The Laplace transform of e^(-at) sin(ωt) u(t) is:", marks: 1, type: "MCQ" },
                 ].map((question, i) => (
                   <div key={i} className="p-4">
                     <div className="flex items-center gap-2 mb-2">

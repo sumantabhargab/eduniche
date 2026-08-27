@@ -5,7 +5,8 @@ import { use } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";
-import { TOC_QUESTIONS } from "@/data/questions-cse-toc";
+import { getPaperById, type GATEPaper } from "@/lib/gate/config";
+import { getPaperQuestions, type ECEQuestion } from "@/lib/gate/paper-data";
 
 type Message = {
   id: string;
@@ -38,22 +39,15 @@ export default function DoubtEnginePage({
   const searchParams = useSearchParams();
   const questionId = searchParams.get("q");
 
+  const paper = getPaperById(resolvedParams.paperId);
+  const paperName = paper?.shortName || resolvedParams.paperId.toUpperCase();
+  const allQuestions = getPaperQuestions(resolvedParams.paperId);
+
   const selectedQuestion = questionId
-    ? TOC_QUESTIONS.find((q) => q.id === questionId)
+    ? allQuestions.find((q) => q.id === questionId) || null
     : null;
 
-  const [messages, setMessages] = useState<Message[]>(() => {
-    if (!selectedQuestion) return [];
-    return [
-      {
-        id: nextId(),
-        role: "assistant",
-        content: `I see you're asking about **${selectedQuestion.topic}** from GATE CSE ${selectedQuestion.year}.\n\nHere's the question:\n\n> ${selectedQuestion.question.split("\\n")[0]}...\n\nWhat would you like to understand about this question?`,
-        timestamp: Date.now(),
-      },
-    ];
-  });
-
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -63,6 +57,22 @@ export default function DoubtEnginePage({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Re-initialize messages when selected question changes
+  useEffect(() => {
+    if (!selectedQuestion) {
+      setMessages([]);
+      return;
+    }
+    setMessages([
+      {
+        id: nextId(),
+        role: "assistant",
+        content: `I see you're asking about **${selectedQuestion.topic}** from GATE ${paperName} ${selectedQuestion.year}.\n\nHere's the question:\n\n> ${selectedQuestion.question.split("\n")[0]}...\n\nWhat would you like to understand about this question?`,
+        timestamp: Date.now(),
+      },
+    ]);
+  }, [selectedQuestion?.id, paperName]);
+
   const generateResponse = (userMessage: string): string => {
     if (!selectedQuestion) {
       return "Please select a specific question to discuss. You can browse questions from the Questions page.";
@@ -71,7 +81,7 @@ export default function DoubtEnginePage({
     const msg = userMessage.toLowerCase();
 
     if (msg.includes("concept") || msg.includes("core") || msg.includes("explain") && !msg.includes("step")) {
-      return `## Core Concept: ${selectedQuestion.topic}\n\nThis question tests your understanding of **${selectedQuestion.topic.toLowerCase()}**, which is a fundamental concept in Theory of Computation.\n\n**Key idea:** ${selectedQuestion.explanation}\n\n${selectedQuestion.type === "MSQ" ? "Note: This is a multiple-select question, so more than one option may be correct." : ""}\n\nWould you like me to elaborate on any specific part?`;
+      return `## Core Concept: ${selectedQuestion.topic}\n\nThis question tests your understanding of **${selectedQuestion.topic.toLowerCase()}**, which is a fundamental concept in ${selectedQuestion.subject}.\n\n**Key idea:** ${selectedQuestion.explanation}\n\n${selectedQuestion.type === "MSQ" ? "Note: This is a multiple-select question, so more than one option may be correct." : ""}\n\nWould you like me to elaborate on any specific part?`;
     }
 
     if (msg.includes("step") || msg.includes("solution") || msg.includes("solve")) {
@@ -79,7 +89,7 @@ export default function DoubtEnginePage({
       steps += `**Given:** ${selectedQuestion.type} question worth ${selectedQuestion.marks} marks.\n\n`;
       steps += `**Analysis:**\n`;
       steps += `${selectedQuestion.explanation}\n\n`;
-      if (selectedQuestion.options) {
+      if (selectedQuestion.options && selectedQuestion.options.length > 0) {
         steps += `**Evaluating each option:**\n\n`;
         const labels = ["A", "B", "C", "D"];
         selectedQuestion.options.forEach((opt, i) => {
@@ -95,11 +105,11 @@ export default function DoubtEnginePage({
     }
 
     if (msg.includes("topic") || msg.includes("study") || msg.includes("prepare") || msg.includes("learn")) {
-      const relatedQuestions = TOC_QUESTIONS.filter(
+      const relatedQuestions = allQuestions.filter(
         (q) => q.topic === selectedQuestion.topic && q.id !== selectedQuestion.id
       );
       let response = `## Study Guide for ${selectedQuestion.topic}\n\n`;
-      response += `This topic is part of **Theory of Computation** and appears frequently in GATE CSE.\n\n`;
+      response += `This topic is part of **${selectedQuestion.subject}** and appears frequently in GATE ${paperName}.\n\n`;
       response += `**Key areas to focus on:**\n`;
       response += `1. Understand the formal definitions and properties\n`;
       response += `2. Practice problem-solving with past GATE questions\n`;
@@ -125,7 +135,7 @@ export default function DoubtEnginePage({
         response += `2. **Units:** Always check if the answer requires a specific format or precision.\n`;
       } else {
         response += `1. **Elimination strategy:** Even if you don't know the answer, systematic elimination of wrong options improves your odds.\n`;
-        response += `2. **Rereading:** Always reread the question — subtle wording like \"NOT\", \"always\", \"never\" changes everything.\n`;
+        response += `2. **Rereading:** Always reread the question — subtle wording like "NOT", "always", "never" changes everything.\n`;
       }
       response += `\n**Topic-specific pitfalls for ${selectedQuestion.topic}:**\n`;
       response += `- Make sure you understand the formal definitions before applying them\n`;
@@ -134,14 +144,14 @@ export default function DoubtEnginePage({
     }
 
     if (msg.includes("similar") || msg.includes("practice") || msg.includes("like this")) {
-      const related = TOC_QUESTIONS.filter(
+      const related = allQuestions.filter(
         (q) => q.topic === selectedQuestion.topic && q.id !== selectedQuestion.id
       ).slice(0, 3);
 
       let response = `## Similar Practice Questions\n\n`;
       if (related.length > 0) {
         related.forEach((q, i) => {
-          response += `**${i + 1}. GATE CSE ${q.year}** (${q.type}, ${q.marks} marks)\n`;
+          response += `**${i + 1}. GATE ${paperName} ${q.year}** (${q.type}, ${q.marks} marks)\n`;
           response += `${q.question.split("\n")[0]}\n\n`;
         });
       } else {
@@ -249,7 +259,7 @@ export default function DoubtEnginePage({
       <main className="h-[calc(100vh-3rem)] flex flex-col">
         <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 py-4 border-b border-border">
           <div className="flex items-center gap-2 text-xs text-muted mb-2">
-            <Link href={`/gate/${resolvedParams.paperId}`} className="hover:text-foreground transition-colors">GATE CSE</Link>
+            <Link href={`/gate/${resolvedParams.paperId}`} className="hover:text-foreground transition-colors">GATE {paperName}</Link>
             <span>/</span>
             <Link href={`/gate/${resolvedParams.paperId}/questions`} className="hover:text-foreground transition-colors">Questions</Link>
             <span>/</span>
@@ -285,7 +295,7 @@ export default function DoubtEnginePage({
                   Select a question to start
                 </h2>
                 <p className="text-sm text-muted max-w-md mx-auto mb-6">
-                  Choose a specific question from the Questions page and click &quot;Ask a Doubt&quot;
+                  Choose a specific question from the Questions page and click "Ask a Doubt"
                   to get personalized AI explanations.
                 </p>
                 <Link
