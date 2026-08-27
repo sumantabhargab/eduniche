@@ -9,6 +9,7 @@ const navLinks = [
   { href: "/how-it-works", label: "How it works" },
   { href: "/skills", label: "Skills" },
   { href: "/neuroscience", label: "Neuroscience" },
+  { href: "/library", label: "Library" },
 ];
 
 export default function Nav() {
