@@ -73,25 +73,39 @@ export default function WaitlistForm({
           }),
         });
 
-        const data = await res.json();
+        const contentType = res.headers.get("content-type");
+
+        // Guard against non-JSON responses (e.g. HTML error pages,
+        // server crashes, or misconfigured proxies)
+        let data: Record<string, unknown>;
+        if (contentType && contentType.includes("application/json")) {
+          data = await res.json();
+        } else {
+          const text = await res.text();
+          console.error("Waitlist: unexpected non-JSON response:", text.slice(0, 500));
+          throw new Error(`Server error (${res.status}). Please try again.`);
+        }
 
         if (!res.ok) {
           if (data.alreadyJoined) {
             setAlreadyJoined(true);
             return;
           }
-          throw new Error(data.error || "Something went wrong.");
+          throw new Error(
+            (data.error as string) || `Request failed (${res.status}). Please try again.`
+          );
         }
 
         setSuccess(true);
         setShowReferralPanel(true);
+        const userData = data.user as { referralCode?: string } | undefined;
         // Store the new user's own referral code
-        if (data.user?.referralCode) {
-          setMyReferralCode(data.user.referralCode);
+        if (userData?.referralCode) {
+          setMyReferralCode(userData.referralCode);
           // Set cookie so the referral link works across sessions
-          document.cookie = `eduniche_ref=${data.user.referralCode};path=/;max-age=${60*60*24*30};SameSite=Lax`;
+          document.cookie = `eduniche_ref=${userData.referralCode};path=/;max-age=${60*60*24*30};SameSite=Lax`;
         }
-        onSuccess?.(data.user);
+        onSuccess?.(userData as { name: string; referralCode: string; position: number; count: number });
       } catch (err) {
         setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
       } finally {

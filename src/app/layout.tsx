@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Playfair_Display } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -37,13 +38,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable} antialiased`}>
-      <body className="min-h-full bg-background text-foreground">
-        <ThemeProvider>
-          <Nav />
-          {children}
-          <Footer />
-        </ThemeProvider>
-      </body>
+        <body className="min-h-full bg-background text-foreground">
+           <ThemeProvider>
+               <Nav />
+                   {children}
+               <Footer />
+             </ThemeProvider>
+
+              <Analytics />
+          </body>
     </html>
   );
 }

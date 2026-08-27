@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/server";
 import { headers } from "next/headers";
 
 // Rate limiting map (in-memory, resets on server restart)
@@ -277,8 +278,10 @@ export async function POST(request: Request) {
       sanitizedLearningChallenge = trimmedChallenge || null;
     }
 
-    const supabase = createServerClient();
+    // Use service-role client so RLS doesn't block legitimate signups
+    const supabase = createServiceClient();
     if (!supabase) {
+      console.error("Waitlist: service client unavailable — check SUPABASE_SERVICE_ROLE_KEY in deployment env vars");
       return NextResponse.json({ error: "Server not configured." }, { status: 500 });
     }
 
