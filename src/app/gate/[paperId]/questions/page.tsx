@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback, use } from "react";
+import { useState, useMemo, use } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";

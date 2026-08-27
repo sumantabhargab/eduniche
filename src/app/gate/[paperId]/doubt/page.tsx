@@ -5,7 +5,7 @@ import { use } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";
-import { TOC_QUESTIONS, type Question } from "@/data/questions-cse-toc";
+import { TOC_QUESTIONS } from "@/data/questions-cse-toc";
 
 type Message = {
   id: string;
@@ -23,6 +23,12 @@ const DOUBT_SUGGESTIONS = [
   "Explain why other options are wrong",
 ];
 
+let msgCounter = 0;
+
+function nextId(): string {
+  return `msg-${Date.now()}-${++msgCounter}`;
+}
+
 export default function DoubtEnginePage({
   params,
 }: {
@@ -31,31 +37,31 @@ export default function DoubtEnginePage({
   const resolvedParams = use(params);
   const searchParams = useSearchParams();
   const questionId = searchParams.get("q");
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const selectedQuestion = questionId
     ? TOC_QUESTIONS.find((q) => q.id === questionId)
     : null;
 
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (!selectedQuestion) return [];
+    return [
+      {
+        id: nextId(),
+        role: "assistant",
+        content: `I see you're asking about **${selectedQuestion.topic}** from GATE CSE ${selectedQuestion.year}.\n\nHere's the question:\n\n> ${selectedQuestion.question.split("\\n")[0]}...\n\nWhat would you like to understand about this question?`,
+        timestamp: Date.now(),
+      },
+    ];
+  });
+
+  const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to the latest message
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  useEffect(() => {
-    if (selectedQuestion && messages.length === 0) {
-      setMessages([
-        {
-          id: "1",
-          role: "assistant",
-          content: `I see you're asking about **${selectedQuestion.topic}** from GATE CSE ${selectedQuestion.year}.\n\nHere's the question:\n\n> ${selectedQuestion.question.split("\n")[0]}...\n\nWhat would you like to understand about this question?`,
-          timestamp: Date.now(),
-        },
-      ]);
-    }
-  }, [selectedQuestion]);
 
   const generateResponse = (userMessage: string): string => {
     if (!selectedQuestion) {
@@ -167,12 +173,13 @@ export default function DoubtEnginePage({
   };
 
   const handleSend = () => {
-    if (!input.trim()) return;
+    const text = input.trim();
+    if (!text) return;
 
     const userMsg: Message = {
-      id: Date.now().toString(),
+      id: nextId(),
       role: "user",
-      content: input.trim(),
+      content: text,
       timestamp: Date.now(),
     };
 
@@ -180,12 +187,11 @@ export default function DoubtEnginePage({
     setInput("");
     setIsTyping(true);
 
-    // Simulate AI response delay
     setTimeout(() => {
       const response: Message = {
-        id: (Date.now() + 1).toString(),
+        id: nextId(),
         role: "assistant",
-        content: generateResponse(userMsg.content),
+        content: generateResponse(text),
         timestamp: Date.now(),
       };
       setMessages((prev) => [...prev, response]);
@@ -279,7 +285,7 @@ export default function DoubtEnginePage({
                   Select a question to start
                 </h2>
                 <p className="text-sm text-muted max-w-md mx-auto mb-6">
-                  Choose a specific question from the Questions page and click "Ask a Doubt"
+                  Choose a specific question from the Questions page and click &quot;Ask a Doubt&quot;
                   to get personalized AI explanations.
                 </p>
                 <Link

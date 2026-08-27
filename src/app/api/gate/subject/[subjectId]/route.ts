@@ -4,9 +4,9 @@ import {
   ALL_AVAILABLE_YEARS,
 } from "@/data/gate-cse-analysis";
 import {
-  GATE_CSE_SYLLABUS,
   getChildren,
   GATE_CSE_NODE_MAP,
+  GATE_CSE_CHILDREN_MAP,
 } from "@/data/gate-cse-syllabus";
 import { computeTrend } from "@/lib/analytics/trends";
 import { computePriority } from "@/lib/analytics/priority";
@@ -44,7 +44,7 @@ export async function GET(
     }
 
     // Get children (subtopics)
-    const children = getChildren(subjectId, GATE_CSE_NODE_MAP, require("@/data/gate-cse-syllabus").GATE_CSE_CHILDREN_MAP);
+    const children = getChildren(subjectId, GATE_CSE_NODE_MAP, GATE_CSE_CHILDREN_MAP);
 
     // For raw data items, also include peer topics under the same parent
     const subtopics = rawData

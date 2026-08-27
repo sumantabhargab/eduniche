@@ -178,7 +178,7 @@ export const IN_CONTROL_QUESTIONS: Question[] = [
     marks: 1,
     type: "NAT",
     question: "The centroid of root locus for G(s)H(s) = K/(s(s+2)(s+4)) is at s = _____.",
-    answer: -2",
+    answer: "-2",
     explanation: "Centroid = (Σ poles - Σ zeros) / (P - Z) = (0 + (-2) + (-4) - 0) / (3 - 0) = -6/3 = -2. The centroid lies on the real axis.",
     difficulty: "medium",
     tags: ["root-locus", "centroid", "1-mark"],

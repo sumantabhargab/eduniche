@@ -18,7 +18,7 @@ import { ECE_DIGITAL_QUESTIONS, ECE_DIGITAL_META } from "./questions-ece-digital
 import { ECE_CONTROL_QUESTIONS, ECE_CONTROL_META } from "./questions-ece-control";
 import { ECE_COMM_QUESTIONS, ECE_COMM_META } from "./questions-ece-communication";
 import { ECE_EM_QUESTIONS, ECE_EM_META } from "./questions-ece-em";
-import { ECE_NET_QUESTIONS, ECE_NET_META } from "./questions-ece-network";
+import { ECE_NETWORK_QUESTIONS, ECE_NETWORK_META } from "./questions-ece-networks";
 import { ECE_MATH_QUESTIONS, ECE_MATH_META } from "./questions-ece-math";
 import { ECE_SS_QUESTIONS, ECE_SS_META } from "./questions-ece-signals";
 import { ECE_APTITUDE_QUESTIONS, ECE_APTITUDE_META } from "./questions-ece-aptitude";
@@ -42,12 +42,12 @@ export const ECE_SUBJECTS: SubjectInfo[] = [
     id: "ece-networks",
     name: "Network Theory",
     icon: "🔌",
-    questionCount: ECE_NET_META.totalQuestions,
-    yearRange: ECE_NET_META.yearRange,
-    topics: ECE_NET_META.topics,
-    mcq: ECE_NET_META.questionTypes.mcq,
-    msq: ECE_NET_META.questionTypes.msq,
-    nat: ECE_NET_META.questionTypes.nat,
+    questionCount: ECE_NETWORK_META.totalQuestions,
+    yearRange: ECE_NETWORK_META.yearRange,
+    topics: ECE_NETWORK_META.topics,
+    mcq: ECE_NETWORK_META.questionTypes.mcq,
+    msq: ECE_NETWORK_META.questionTypes.msq,
+    nat: ECE_NETWORK_META.questionTypes.nat,
   },
   {
     id: "ece-signals",
@@ -169,7 +169,7 @@ export interface Question {
 }
 
 export const ECE_ALL_QUESTIONS: Question[] = [
-  ...ECE_NT_QUESTIONS,
+  ...ECE_NETWORK_QUESTIONS,
   ...ECE_SS_QUESTIONS,
   ...ECE_CONTROL_QUESTIONS,
   ...ECE_DIGITAL_QUESTIONS,
@@ -375,5 +375,14 @@ export function predictImportantTopics(subjectId: string, topN = 5): { topic: st
     return { topic: f.topic, probability, reason };
   });
 }
+
+export const ECE_DATA = {
+  subjects: ECE_SUBJECTS,
+  allQuestions: ECE_ALL_QUESTIONS,
+  totalQuestions: ECE_TOTAL_QUESTIONS,
+  yearRange: ECE_YEAR_RANGE,
+  questionTypes: ECE_QUESTION_TYPES,
+  allTopics: ECE_ALL_TOPICS,
+};
 
 export default ECE_DATA;
