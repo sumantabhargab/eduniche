@@ -1,7 +1,11 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { createServerClient } from "@supabase/ssr";
+import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  const response = NextResponse.next();
+  let response = NextResponse.next({
+    request: { headers: request.headers },
+  });
 
   // Track referral code from URL params
   const refCode = request.nextUrl.searchParams.get("ref");
@@ -14,17 +18,50 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  // Admin route protection — lightweight pre-filter
+  // Admin route protection
   if (request.nextUrl.pathname.startsWith("/admin")) {
+    // Allow login page through
     if (request.nextUrl.pathname === "/admin/login") {
       return response;
     }
 
-    const hasSession =
-      request.cookies.has("sb-access-token") ||
-      request.cookies.has("supabase-auth-token");
+    // Create SSR-aware Supabase client with request cookies
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              response.cookies.set(name, value, options);
+            });
+          },
+        },
+      }
+    );
 
-    if (!hasSession) {
+    // Validate session exists
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      return NextResponse.redirect(
+        new URL("/admin/login", request.url)
+      );
+    }
+
+    // Verify admin role
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", session.user.id)
+      .maybeSingle();
+
+    if (!profile || profile.role !== "admin") {
       return NextResponse.redirect(
         new URL("/admin/login", request.url)
       );

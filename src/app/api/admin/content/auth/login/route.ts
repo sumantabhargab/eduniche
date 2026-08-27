@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { adminLogin } from "@/modules/content-cms/lib/auth";
+import { getAdminSession, createRouteSupabaseClient, adminLogin } from "@/modules/content-cms/lib/auth";
 
 export async function POST(request: Request) {
   try {
@@ -12,7 +12,25 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await adminLogin(email, password);
+    // Response must be created before signInWithPassword so the
+    // @supabase/ssr onAuthStateChange callback can flush session
+    // cookies to response.cookies via applyServerStorage.
+    const response = NextResponse.next({
+      request: { headers: request.headers },
+    });
+
+    // SSR-aware client: reads existing cookies from request headers,
+    // writes new session cookies to the NextResponse after signIn.
+    const supabase = createRouteSupabaseClient(request, response);
+
+    if (!supabase) {
+      return NextResponse.json(
+        { error: "Server not configured." },
+        { status: 500 }
+      );
+    }
+
+    const result = await adminLogin(supabase, email, password);
 
     if (!result.session) {
       return NextResponse.json(
@@ -21,13 +39,7 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({
-      success: true,
-      user: {
-        email: result.session.user.email,
-        role: result.session.user.role,
-      },
-    });
+    return response;
   } catch {
     return NextResponse.json(
       { error: "Something went wrong." },

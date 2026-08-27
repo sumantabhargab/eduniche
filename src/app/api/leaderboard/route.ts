@@ -3,7 +3,7 @@ import { createServerClient } from "@/lib/supabase/server";
 
 export async function GET() {
   try {
-    const supabase = createServerClient();
+    const supabase = await createServerClient();
     if (!supabase) {
       return NextResponse.json({ error: "Server not configured." }, { status: 500 });
     }

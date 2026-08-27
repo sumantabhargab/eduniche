@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true });
     }
 
-    const supabase = createServerClient();
+    const supabase = await createServerClient();
     if (!supabase) {
       return NextResponse.json({ ok: true });
     }

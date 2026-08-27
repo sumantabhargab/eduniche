@@ -12,7 +12,7 @@ export async function GET(
       return NextResponse.json({ valid: false }, { status: 400 });
     }
 
-    const supabase = createServerClient();
+    const supabase = await createServerClient();
     if (!supabase) {
       return NextResponse.json({ valid: false }, { status: 500 });
     }
