@@ -30,9 +30,9 @@ export async function GET(
 
     // Per-subject trends
     const subjectTrends = rawData.map((raw) => ({
-      id: raw.id,
-      name: raw.name,
-      yearlyData: raw.yearlyData.map((d) => ({
+      id: raw!.id,
+      name: raw!.name,
+      yearlyData: raw!.yearlyData.map((d) => ({
         year: d.year,
         count: d.count,
         marks: d.marks,

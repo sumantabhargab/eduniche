@@ -5,15 +5,13 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";
 import { getPaperById, type GATEPaper } from "@/lib/gate/config";
-import { getPaperQuestions, type ECEQuestion } from "@/lib/gate/paper-data";
+import { getPaperQuestions, type Question } from "@/lib/gate/paper-data";
 
 type FilterType = "all" | "MCQ" | "MSQ" | "NAT";
 type FilterMarks = "all" | "1" | "2";
 type FilterDifficulty = "all" | "easy" | "medium" | "hard";
 type SortField = "year" | "topic" | "marks" | "difficulty" | "id";
 type SortDir = "asc" | "desc";
-
-type Question = ECEQuestion;
 
 export default function QuestionsPage({
   params,
@@ -430,7 +428,7 @@ function QuestionDetailModal({
           {/* Options */}
           {question.options && question.options.length > 0 && (
             <div className="space-y-2 mb-6">
-              {question.options.map((opt, i) => {
+              {question.options.map((opt: string, i: number) => {
                 const labels = ["A", "B", "C", "D", "E"];
                 const isCorrect = question.answer.includes(labels[i]);
                 return (

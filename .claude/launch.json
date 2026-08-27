@@ -3,9 +3,9 @@
   "configurations": [
     {
       "name": "eduniche-dev",
-      "command": "cd C:/Users/Sumanta Bhargab/eduniche/eduniche && npx next dev",
-      "port": 3001,
-      "autoPort": true
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["next", "dev"],
+      "port": 3001
     }
   ]
 }

@@ -4,7 +4,7 @@ import { use } from "react";
 import Link from "next/link";
 import GateNav from "@/components/GateNav";
 import { getPaperById, PAPERS, type GATEPaper } from "@/lib/gate/config";
-import { getPaperRawData, type ECEQuestion } from "@/lib/gate/paper-data";
+import { getPaperRawData, type Question } from "@/lib/gate/paper-data";
 import { useGateEvent } from "@/lib/tracking/useGateEvent";
 
 const STATUS_LABEL: Record<string, string> = {
@@ -67,15 +67,17 @@ export default function GateDashboardClient({
 
   // Get paper-specific raw data
   const rawData = getPaperRawData(paperId);
-  const subjects = rawData ? [...rawData].sort((a, b) => b.totalMarks - a.totalMarks) : [];
-  const totalMarksAll = subjects.reduce((sum, s) => sum + s.totalMarks, 0);
+  const allSubjects = (rawData || []).filter(Boolean);
+  const subjects = [...allSubjects].sort((a, b) => (b?.totalMarks || 0) - (a?.totalMarks || 0));
+  const totalMarksAll = subjects.reduce((sum, s) => sum + (s?.totalMarks || 0), 0);
 
   // Total questions per type (handle both CSE and ECE key formats)
   const totals = (rawData || []).reduce(
     (acc, s) => {
-      const mcq = s.questionTypes?.mcq ?? s.questionTypes?.MCQ ?? 0;
-      const msq = s.questionTypes?.msq ?? s.questionTypes?.MSQ ?? 0;
-      const nat = s.questionTypes?.nat ?? s.questionTypes?.NAT ?? 0;
+      const qt = s.questionTypes || {};
+      const mcq = qt.mcq ?? qt.MCQ ?? 0;
+      const msq = qt.msq ?? qt.MSQ ?? 0;
+      const nat = qt.nat ?? qt.NAT ?? 0;
       acc.mcq += mcq;
       acc.msq += msq;
       acc.nat += nat;
@@ -129,12 +131,12 @@ export default function GateDashboardClient({
               <div className="p-3 border border-border">
                 <p className="text-xs text-muted-light mb-1">Total Questions</p>
                 <p className="text-lg font-medium text-foreground">
-                  {subjects.reduce((s, x) => s + x.totalQuestions, 0)}
+                  {subjects.reduce((s, x) => s + (x?.totalQuestions || 0), 0)}
                 </p>
               </div>
               <div className="p-3 border border-border">
                 <p className="text-xs text-muted-light mb-1">Subjects</p>
-                <p className="text-lg font-medium text-foreground">{subjects.length}</p>
+                <p className="text-lg font-medium text-foreground">{subjects.filter(Boolean).length}</p>
               </div>
               <div className="p-3 border border-border">
                 <p className="text-xs text-muted-light mb-1">Years Covered</p>
@@ -153,7 +155,8 @@ export default function GateDashboardClient({
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {subjects.map((subject) => {
-                const marksPercent = Math.round((subject.totalMarks / totalMarksAll) * 100);
+                if (!subject) return null;
+                const marksPercent = totalMarksAll > 0 ? Math.round((subject.totalMarks / totalMarksAll) * 100) : 0;
                 return (
                   <Link
                     key={subject.id}
@@ -161,13 +164,13 @@ export default function GateDashboardClient({
                     className="block p-4 border border-border hover:border-accent transition-all duration-200 group"
                   >
                     <h3 className="text-sm font-medium text-foreground mb-2 group-hover:text-accent transition-colors">
-                      {subject.name}
+                      {subject.name || subject.id}
                     </h3>
                     <div className="flex items-center justify-between text-xs text-muted-light mb-2">
                       <span>
-                        {subject.totalMarks} marks ({marksPercent}%)
+                        {subject.totalMarks || 0} marks ({marksPercent}%)
                       </span>
-                      <span>{subject.totalQuestions} questions</span>
+                      <span>{subject.totalQuestions || 0} questions</span>
                     </div>
                     {/* Marks bar */}
                     <div className="h-1 bg-muted/10">
@@ -236,7 +239,7 @@ export default function GateDashboardClient({
                     <td className="px-4 py-2.5 text-xs font-mono text-foreground">{yearStart}–{yearEnd}</td>
                     <td className="px-4 py-2.5 text-xs text-muted">{paperShortName}</td>
                     <td className="px-4 py-2.5 text-xs text-muted text-right">{totals.mcq + totals.msq + totals.nat}</td>
-                    <td className="px-4 py-2.5 text-xs text-muted text-right">{subjects.reduce((s, x) => s + x.totalMarks, 0)}</td>
+                    <td className="px-4 py-2.5 text-xs text-muted text-right">{subjects.reduce((s, x) => s + (x?.totalMarks || 0), 0)}</td>
                     <td className="px-4 py-2.5 text-center">
                       <span className="text-xs text-green-600 bg-green-50 px-1.5 py-0.5 border border-green-200">
                         {paper.processingStatus === "available" ? "Complete" : "Partial"}

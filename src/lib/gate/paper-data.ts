@@ -19,13 +19,28 @@ import { TOC_RAW_DATA as CSE_RAW_DATA, ALL_AVAILABLE_YEARS as CSE_YEARS } from "
 import { ECE_TOC_QUESTIONS, type Question as ECEQuestion } from "@/data/questions-ece-toc";
 import { ECE_RAW_DATA, ALL_AVAILABLE_YEARS as ECE_YEARS, getSubjectRawData, getQuestionsForSubject, getTopicsForSubject } from "@/data/ece-analysis";
 
-// Re-export types
-export type { ECEQuestion };
+// Re-export the question type
+export type Question = {
+  id: string;
+  subject: string;
+  subjectId: string;
+  topic: string;
+  year: number;
+  set?: string;
+  marks: number;
+  type: "MCQ" | "MSQ" | "NAT";
+  question: string;
+  options?: string[];
+  answer: string;
+  explanation: string;
+  difficulty: "easy" | "medium" | "hard";
+  tags: string[];
+};
 
 export interface PaperDataSource {
   paper: GATEPaper;
   questions: ECEQuestion[];
-  rawData: ReturnType<typeof getSubjectRawData>[];
+  rawData: { id: string; name: string; topic?: string; totalQuestions: number; totalMarks: number; yearlyData: { year: number; count: number; marks: number }[]; questionTypes: Record<string, number> }[];
   allYears: number[];
   getSubjectQuestions: (subjectId: string) => ECEQuestion[];
   getSubjectTopics: (subjectId: string) => string[];
@@ -40,7 +55,7 @@ export function getPaperDataSource(paperId: string): PaperDataSource | null {
       return {
         paper,
         questions: CSE_QUESTIONS as unknown as ECEQuestion[],
-        rawData: CSE_RAW_DATA as unknown as ReturnType<typeof getSubjectRawData>[],
+        rawData: CSE_RAW_DATA as { id: string; name: string; topic?: string; totalQuestions: number; totalMarks: number; yearlyData: { year: number; count: number; marks: number }[]; questionTypes: Record<string, number> }[],
         allYears: CSE_YEARS,
         getSubjectQuestions: (id: string) => {
           // CSE questions don't have subjectId on individual items in the same way
@@ -56,8 +71,8 @@ export function getPaperDataSource(paperId: string): PaperDataSource | null {
         questions: ECE_TOC_QUESTIONS,
         rawData: ECE_RAW_DATA,
         allYears: ECE_YEARS,
-        getSubjectQuestions,
-        getSubjectTopics,
+        getSubjectQuestions: getQuestionsForSubject,
+        getSubjectTopics: getTopicsForSubject,
       };
 
     default:
@@ -70,7 +85,7 @@ export function getPaperQuestions(paperId: string): ECEQuestion[] {
   return src ? src.questions : [];
 }
 
-export function getPaperRawData(paperId: string) {
+export function getPaperRawData(paperId: string): { id: string; name: string; topic?: string; totalQuestions: number; totalMarks: number; yearlyData: { year: number; count: number; marks: number }[]; questionTypes: Record<string, number> }[] {
   const src = getPaperDataSource(paperId);
   return src ? src.rawData : [];
 }

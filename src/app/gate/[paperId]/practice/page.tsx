@@ -26,7 +26,7 @@ export default function PracticePage({ params }: { params: Promise<{ paperId: st
   const paper = getPaperById(resolvedParams.paperId);
   const paperName = paper?.shortName || resolvedParams.paperId.toUpperCase();
   const rawData = getPaperRawData(resolvedParams.paperId);
-  const SUBJECTS = rawData.map((s) => ({ id: s.id, name: s.name }));
+  const SUBJECTS = (rawData || []).filter(Boolean).map((s) => ({ id: s.id, name: s.name }));
 
   const [mode, setMode] = useState<PracticeMode>("historical");
   const [selectedSubject, setSelectedSubject] = useState(preselectedSubject);

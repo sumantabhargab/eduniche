@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";
 import { getPaperById, type GATEPaper } from "@/lib/gate/config";
-import { getPaperQuestions, type ECEQuestion } from "@/lib/gate/paper-data";
+import { getPaperQuestions, type Question } from "@/lib/gate/paper-data";
 
 type Message = {
   id: string;

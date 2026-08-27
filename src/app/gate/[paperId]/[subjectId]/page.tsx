@@ -4,14 +4,7 @@ import { use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getPaperById, type GATEPaper } from "@/lib/gate/config";
-import {
-  getPaperRawData,
-  getPaperQuestions,
-  getPaperYears,
-  getPaperDataSource,
-  type Question as ECEQuestion,
-  type ECEQuestion as Question,
-} from "@/lib/gate/paper-data";
+import { getPaperRawData, getPaperQuestions, getPaperYears, type Question } from "@/lib/gate/paper-data";
 import { computeTrend } from "@/lib/analytics/trends";
 import { computePriority } from "@/lib/analytics/priority";
 import GateNav from "@/components/GateNav";
@@ -27,8 +20,9 @@ export default function SubjectIntelligencePage({
   const subjectId = resolvedParams.subjectId;
   const router = useRouter();
 
-  const paper = getPaperById(paperId);
-  const rawData = getPaperRawData(paperId).find((s) => s.id === subjectId);
+  const paper: GATEPaper | undefined = getPaperById(paperId);
+  const rawDataList = getPaperRawData(paperId);
+  const rawData = rawDataList.find((s) => s.id === subjectId);
   const paperQuestions = getPaperQuestions(paperId);
   const allYears = getPaperYears(paperId);
 
@@ -51,15 +45,15 @@ export default function SubjectIntelligencePage({
     );
   }
 
-  const name = rawData.name;
-  const totalQuestions = rawData.totalQuestions;
-  const totalMarks = rawData.totalMarks;
-  const yearlyData = rawData.yearlyData;
+  const name: string = rawData.name;
+  const totalQuestions: number = rawData.totalQuestions || 0;
+  const totalMarks: number = rawData.totalMarks || 0;
+  const yearlyData = rawData.yearlyData || [];
   const qt = rawData.questionTypes || {};
 
   // Compute analytics
-  let trend: ReturnType<typeof computeTrend> | null = null;
-  let priority: ReturnType<typeof computePriority> | null = null;
+  let trend: { trendSlope: number; trendDirection: string } | null = null;
+  let priority: { score: number } | null = null;
   if (yearlyData.length > 0) {
     trend = computeTrend(yearlyData, allYears);
     priority = computePriority({
@@ -69,11 +63,13 @@ export default function SubjectIntelligencePage({
   }
 
   // Peer subtopics (subjects in the same topic group)
-  const rawDataAll = getPaperRawData(paperId);
-  const peers = rawDataAll.filter((s) => s.topic && s.topic === rawData.topic && s.id !== subjectId);
+  const peers: { id: string; name: string; totalQuestions: number; totalMarks: number }[] = rawDataList
+    .filter((s) => !!s && typeof s.topic === "string" && s.topic === rawData.topic && s.id !== subjectId)
+    .map((s) => ({ id: s.id, name: s.name, totalQuestions: s.totalQuestions || 0, totalMarks: s.totalMarks || 0 }))
+    .sort((a, b) => b.totalMarks - a.totalMarks);
 
   // Questions for this subject
-  const subjectQuestions = paperQuestions.filter((q: ECEQuestion) => q.subjectId === subjectId);
+  const subjectQuestions = paperQuestions.filter((q: Question) => q.subjectId === subjectId);
 
   // Compute max marks for bar chart
   const maxYearlyMarks = yearlyData.length > 0 ? Math.max(...yearlyData.map((d) => d.marks)) : 20;
@@ -143,7 +139,7 @@ export default function SubjectIntelligencePage({
         </section>
 
         {/* Trend */}
-        {trend && (
+        {trend && yearlyData.length > 0 && (
           <section className="py-8 px-4 sm:px-6 border-b border-border">
             <div className="max-w-6xl mx-auto">
               <h2 className="text-sm font-mono tracking-widest text-muted uppercase mb-4">
@@ -160,9 +156,7 @@ export default function SubjectIntelligencePage({
                   <div>
                     <p className="text-xs text-muted-light">Avg marks/year</p>
                     <p className="text-sm font-medium text-foreground">
-                      {totalMarks / Math.max(yearlyData.length, 1) > 0
-                        ? (totalMarks / allYears.length).toFixed(1)
-                        : "0.0"}
+                      {(totalMarks / Math.max(allYears.length, 1)).toFixed(1)}
                     </p>
                   </div>
                   <div>
@@ -184,12 +178,12 @@ export default function SubjectIntelligencePage({
                 {/* Bar chart */}
                 <div className="flex items-end gap-1 h-16">
                   {yearlyData.map((d) => {
-                    const height = maxYearlyMarks > 0 ? Math.max(4, (d.marks / maxYearlyMarks) * 100) : 4;
+                    const h = maxYearlyMarks > 0 ? Math.max(4, (d.marks / maxYearlyMarks) * 100) : 4;
                     return (
                       <div
                         key={d.year}
                         className="flex-1 bg-accent/30 hover:bg-accent/60 transition-colors min-w-[4px]"
-                        style={{ height: `${height}%` }}
+                        style={{ height: `${h}%` }}
                         title={`${d.year}: ${d.marks} marks`}
                       />
                     );
@@ -264,28 +258,26 @@ export default function SubjectIntelligencePage({
                 Subtopic Breakdown
               </h2>
               <div className="border border-border">
-                {peers
-                  .sort((a, b) => b.totalMarks - a.totalMarks)
-                  .map((sub, i) => (
-                    <Link
-                      key={sub.id}
-                      href={`/gate/${paperId}/${sub.id}`}
-                      className={`flex items-center justify-between p-3.5 hover:bg-muted/5 transition-colors ${
-                        i !== peers.length - 1 ? "border-b border-border" : ""
-                      }`}
-                    >
-                      <div>
-                        <p className="text-sm font-medium text-foreground">{sub.name}</p>
-                        <p className="text-xs text-muted-light">
-                          {sub.totalQuestions} questions
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm font-mono text-foreground">{sub.totalMarks}</p>
-                        <p className="text-xs text-muted-light">marks</p>
-                      </div>
-                    </Link>
-                  ))}
+                {peers.map((sub, i) => (
+                  <Link
+                    key={sub.id}
+                    href={`/gate/${paperId}/${sub.id}`}
+                    className={`flex items-center justify-between p-3.5 hover:bg-muted/5 transition-colors ${
+                      i !== peers.length - 1 ? "border-b border-border" : ""
+                    }`}
+                  >
+                    <div>
+                      <p className="text-sm font-medium text-foreground">{sub.name}</p>
+                      <p className="text-xs text-muted-light">
+                        {sub.totalQuestions} questions
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-mono text-foreground">{sub.totalMarks}</p>
+                      <p className="text-xs text-muted-light">marks</p>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           </section>
@@ -299,9 +291,9 @@ export default function SubjectIntelligencePage({
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
-                { key: "mcq", label: "MCQ", desc: "Multiple Choice — single correct", count: qt.mcq ?? 0, marks: 0 },
-                { key: "msq", label: "MSQ", desc: "Multiple Select — one or more correct", count: qt.msq ?? 0, marks: 0 },
-                { key: "nat", label: "NAT", desc: "Numerical Answer Type", count: qt.nat ?? 0, marks: 0 },
+                { key: "mcq", label: "MCQ", desc: "Multiple Choice — single correct", count: qt.mcq || 0, marks: 0 },
+                { key: "msq", label: "MSQ", desc: "Multiple Select — one or more correct", count: qt.msq || 0, marks: 0 },
+                { key: "nat", label: "NAT", desc: "Numerical Answer Type", count: qt.nat || 0, marks: 0 },
               ].map((qtItem) => (
                 <div key={qtItem.key} className="border border-border p-4">
                   <h3 className="text-sm font-medium text-foreground mb-1">
@@ -319,7 +311,7 @@ export default function SubjectIntelligencePage({
         </section>
 
         {/* ─── Predicted Papers (Recent High-Frequency Years) ─── */}
-        {priority && (() => {
+        {priority && yearlyData.length > 0 && (() => {
           const predictedYears = yearlyData
             .filter((d) => d.marks >= 3)
             .sort((a, b) => b.year - a.year)
@@ -336,7 +328,7 @@ export default function SubjectIntelligencePage({
                 </p>
                 <div className="border border-border divide-y divide-border">
                   {predictedYears.map((py) => {
-                    const yearQuestions = subjectQuestions.filter((q: ECEQuestion) => q.year === py.year);
+                    const yearQuestions = subjectQuestions.filter((q: Question) => q.year === py.year);
                     return (
                       <div
                         key={py.year}
@@ -351,7 +343,7 @@ export default function SubjectIntelligencePage({
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
-                          {yearQuestions.slice(0, 3).map((q: ECEQuestion) => (
+                          {yearQuestions.slice(0, 3).map((q: Question) => (
                             <Link
                               key={q.id}
                               href={`/gate/${paperId}/questions/${q.id}`}
@@ -373,7 +365,7 @@ export default function SubjectIntelligencePage({
         {/* ─── Syllabus: Important Topics ─── */}
         {(() => {
           const subtopics = peers.length > 0
-            ? [...peers].sort((a, b) => b.totalMarks - a.totalMarks)
+            ? peers
             : rawData
               ? [{ id: rawData.id, name: rawData.name, totalQuestions: rawData.totalQuestions, totalMarks: rawData.totalMarks }]
               : [];
@@ -422,7 +414,7 @@ export default function SubjectIntelligencePage({
         {/* ─── Previous Year Questions (PYQs) ─── */}
         {(() => {
           const pyqs = subjectQuestions
-            .sort((a: ECEQuestion, b: ECEQuestion) => b.year - a.year || a.id.localeCompare(b.id))
+            .sort((a: Question, b: Question) => b.year - a.year || a.id.localeCompare(b.id))
             .slice(0, 15);
           if (pyqs.length === 0) return null;
           return (
@@ -445,7 +437,7 @@ export default function SubjectIntelligencePage({
                   </Link>
                 </div>
                 <div className="space-y-3">
-                  {pyqs.map((q: ECEQuestion) => (
+                  {pyqs.map((q: Question) => (
                     <div
                       key={q.id}
                       className="border border-border p-4 hover:border-accent/30 transition-colors"
@@ -474,9 +466,9 @@ export default function SubjectIntelligencePage({
                       </p>
                       {q.options && q.options.length > 0 && (
                         <div className="mt-2 flex flex-wrap gap-2">
-                          {q.options.map((opt, i) => (
+                          {q.options.map((opt, idx) => (
                             <span
-                              key={i}
+                              key={idx}
                               className={`text-xs px-2 py-0.5 border ${
                                 q.answer.includes(opt)
                                   ? "border-green-300 bg-green-50 text-green-700"
