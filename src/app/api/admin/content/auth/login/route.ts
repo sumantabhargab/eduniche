@@ -12,11 +12,14 @@ export async function POST(request: Request) {
       );
     }
 
-    // Response must be created before signInWithPassword so the
-    // @supabase/ssr onAuthStateChange callback can flush session
-    // cookies to response.cookies via applyServerStorage.
-    const response = NextResponse.next({
-      request: { headers: request.headers },
+    // NextResponse.next() is for middleware pass-through — it creates a
+    // Response that expects further pipeline processing. In a Route Handler
+    // (the terminal handler) that incompatible Response causes the SSR
+    // cookie machinery to throw "[object Response]".  Use NextResponse.json()
+    // which gives us a fully-formed Response with a working cookies() setter.
+    const response = NextResponse.json({ ok: true }, {
+      status: 200,
+      headers: new Headers(request.headers),
     });
 
     // SSR-aware client: reads existing cookies from request headers,
@@ -25,7 +28,7 @@ export async function POST(request: Request) {
 
     if (!supabase) {
       return NextResponse.json(
-        { error: "Server not configured." },
+        { error: "Server not configured. Supabase credentials are missing." },
         { status: 500 }
       );
     }
@@ -40,9 +43,12 @@ export async function POST(request: Request) {
     }
 
     return response;
-  } catch {
+  } catch (err) {
+    // Log the actual error so server logs reveal the failing line / cause.
+    console.error("[login] unexpected server error:", err);
+    const message = err instanceof Error ? err.message : "Something went wrong.";
     return NextResponse.json(
-      { error: "Something went wrong." },
+      { error: message },
       { status: 500 }
     );
   }
