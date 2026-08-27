@@ -14,9 +14,28 @@ export async function middleware(request: NextRequest) {
     });
   }
 
+  // Admin route protection — lightweight pre-filter
+  if (request.nextUrl.pathname.startsWith("/admin")) {
+    if (request.nextUrl.pathname === "/admin/login") {
+      return response;
+    }
+
+    const hasSession =
+      request.cookies.has("sb-access-token") ||
+      request.cookies.has("supabase-auth-token");
+
+    if (!hasSession) {
+      return NextResponse.redirect(
+        new URL("/admin/login", request.url)
+      );
+    }
+  }
+
   return response;
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|api/admin/content/upload).*)",
+  ],
 };
