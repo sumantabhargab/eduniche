@@ -20,6 +20,9 @@ export default function WaitlistForm({
   const [success, setSuccess] = useState(false);
   const [invalidEmailDomain, setInvalidEmailDomain] = useState(false);
   const [invalidEmailContent, setInvalidEmailContent] = useState(false);
+  const [ref, setRef] = useState(referralCode);
+  const [showReferralPanel, setShowReferralPanel] = useState(false);
+  const [myReferralCode, setMyReferralCode] = useState("");
 
   // Inappropriate word blocklist (email local part)
   const blocklist = [
@@ -32,25 +35,17 @@ export default function WaitlistForm({
 
   const containsBlockedWord = (input: string): boolean => {
     const localPart = input.split("@")[0].toLowerCase();
-    return blocklist.some((word) => {
-      // Match whole word or as a substring (handles leetspeak basics)
-      return localPart.includes(word);
-    });
+    return blocklist.some((word) => localPart.includes(word));
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setEmail(val);
-
     const isNotGmail = val.length > 0 && !val.toLowerCase().endsWith("@gmail.com");
     const hasBlockedWord = val.length > 0 && containsBlockedWord(val);
-
     setInvalidEmailDomain(isNotGmail);
     setInvalidEmailContent(hasBlockedWord);
   };
-  const [ref, setRef] = useState(referralCode);
-  const [showReferralPanel, setShowReferralPanel] = useState(false);
-  const [myReferralCode, setMyReferralCode] = useState("");
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {

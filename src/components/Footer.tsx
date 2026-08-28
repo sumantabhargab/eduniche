@@ -6,7 +6,8 @@ const footerLinks = [
   { href: "/how-it-works", label: "How it works" },
   { href: "/skills", label: "Skills" },
   { href: "/neuroscience", label: "Neuroscience" },
-  { href: "/#waitlist", label: "Early access" },
+  { href: "/library", label: "Library" },
+  { href: "/gate", label: "GATE" },
 ];
 
 export default function Footer() {

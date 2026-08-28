@@ -41,7 +41,9 @@ export default function RootLayout({
         <body className="min-h-full bg-background text-foreground">
            <ThemeProvider>
                <Nav />
+               <main className="min-h-[calc(100vh-4rem)]">
                    {children}
+               </main>
                <Footer />
              </ThemeProvider>
 

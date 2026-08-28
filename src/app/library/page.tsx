@@ -5,6 +5,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { LibraryHome } from "@/modules/virtual-library/features/home/components/LibraryHome";
 import { DoubtPanel } from "@/modules/virtual-library/features/ai-doubt-engine/components/DoubtPanel";
 import { DailyPlanner } from "@/modules/virtual-library/features/planner/components/DailyPlanner";
@@ -14,10 +15,11 @@ import { virtualLibraryConfig } from "@/modules/virtual-library/config/feature-f
 export default function LibraryPage() {
   const [doubtOpen, setDoubtOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("library");
+  const router = useRouter();
 
   const rooms = useMemo(() => roomService.getRooms(), []);
 
-  // Parse URL tab param
+  // Parse URL tab param on mount
   if (typeof window !== "undefined") {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
@@ -34,9 +36,45 @@ export default function LibraryPage() {
     );
   }
 
+  const tabs = [
+    { key: "library", label: "Library" },
+    { key: "rooms", label: "Study Rooms" },
+    { key: "planner", label: "Study Planner" },
+    { key: "doubts", label: "AI Doubts" },
+  ];
+
+  const switchTab = (key: string) => {
+    setActiveTab(key);
+    const url = new URL(window.location.href);
+    url.searchParams.set("tab", key);
+    router.replace(url.pathname + url.search);
+  };
+
   return (
     <div className="space-y-8">
-      {/* Tab content */}
+      {/* Tab bar */}
+      <div className="border-b border-border">
+        <div className="max-w-6xl mx-auto px-6">
+          <nav className="flex gap-0">
+            {tabs.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => switchTab(tab.key)}
+                className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 -mb-px ${
+                  activeTab === tab.key
+                    ? "border-accent text-accent"
+                    : "border-transparent text-muted hover:text-foreground"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+        </div>
+      </div>
+
+      {/* Tab content area */}
+      <div className="max-w-6xl mx-auto px-6">
       {activeTab === "library" && <LibraryHome />}
 
       {activeTab === "rooms" && (
@@ -90,6 +128,7 @@ export default function LibraryPage() {
           <DoubtPanel isOpen={doubtOpen} onClose={() => setDoubtOpen(false)} />
         </div>
       )}
+      </div>
     </div>
   );
 }

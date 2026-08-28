@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface AdminLayoutClientProps {
   admin: {
@@ -13,10 +15,7 @@ interface AdminLayoutClientProps {
   children: React.ReactNode;
 }
 
-export default function AdminLayoutClient({
-  admin,
-  children,
-}: AdminLayoutClientProps) {
+function AdminInner({ admin, children }: AdminLayoutClientProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
   const router = useRouter();
@@ -79,9 +78,22 @@ export default function AdminLayoutClient({
             </svg>
             {!collapsed && <span>Files</span>}
           </a>
+          <a
+            href="/"
+            className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+              isActive("/")
+                ? "bg-accent-subtle text-accent"
+                : "text-muted hover:text-foreground hover:bg-background-alt"
+            }`}
+          >
+            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+            </svg>
+            {!collapsed && <span>Back to site</span>}
+          </a>
         </nav>
 
-        {/* User / Sign out */}
+        {/* Bottom section */}
         <div className="border-t border-border p-3 space-y-2">
           {!collapsed && (
             <div className="px-2 py-1.5">
@@ -89,6 +101,18 @@ export default function AdminLayoutClient({
               <p className="text-xs text-muted capitalize">{admin.user.role}</p>
             </div>
           )}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setCollapsed((v) => !v)}
+              className="flex items-center justify-center w-full px-2 py-1.5 text-xs text-muted hover:text-foreground transition-colors"
+              title={collapsed ? "Expand" : "Collapse"}
+            >
+              <svg className={`w-4 h-4 transition-transform ${collapsed ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+              </svg>
+            </button>
+            <ThemeToggle />
+          </div>
           <button
             onClick={handleSignOut}
             className="flex items-center gap-3 w-full px-4 py-2 text-sm text-muted hover:text-foreground transition-colors rounded-lg hover:bg-background-alt"
@@ -104,5 +128,13 @@ export default function AdminLayoutClient({
       {/* Main content */}
       <main className="flex-1 overflow-auto">{children}</main>
     </div>
+  );
+}
+
+export default function AdminLayoutClient({ admin, children }: AdminLayoutClientProps) {
+  return (
+    <ThemeProvider>
+      <AdminInner admin={admin} children={children} />
+    </ThemeProvider>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useCallback } from "react";
 import type { FolderInfo, ResourceInfo } from "./FileManagerClient";
 import UploadZone from "./UploadZone";
 
@@ -46,7 +46,12 @@ export default function ResourceGrid({
     id: string
   ) {
     e.preventDefault();
-    setContextMenu({ type, id, x: e.clientX, y: e.clientY });
+    // Clamp context menu so it doesn't go off-screen
+    const menuWidth = 160;
+    const menuHeight = 80;
+    const x = Math.min(e.clientX, window.innerWidth - menuWidth - 8);
+    const y = Math.min(e.clientY, window.innerHeight - menuHeight - 8);
+    setContextMenu({ type, id, x, y });
   }
 
   function handleDelete(itemId: string) {

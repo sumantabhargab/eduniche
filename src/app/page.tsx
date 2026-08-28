@@ -56,6 +56,12 @@ export default function Home() {
                   />
                 </svg>
               </a>
+              <a
+                href="/library"
+                className="inline-flex items-center px-8 py-4 border border-border hover:border-foreground text-foreground font-medium text-base transition-all duration-200"
+              >
+                <span>Library</span>
+              </a>
               <span className="text-sm text-muted py-4">
                 Starting with practical skills. Built around how people learn,
                 practice, and improve.
