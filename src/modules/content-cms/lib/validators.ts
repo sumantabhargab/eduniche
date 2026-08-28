@@ -77,6 +77,11 @@ export function validateFileUpload(file: File): { valid: true } | { valid: false
     "text/plain",
     "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.ms-powerpoint",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "application/octet-stream",
   ];
   if (file.size > MAX_FILE_SIZE_BYTES) {
     return { valid: false, error: `File exceeds ${MAX_FILE_SIZE_BYTES / (1024 * 1024)}MB limit.` };

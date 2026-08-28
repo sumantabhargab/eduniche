@@ -24,9 +24,13 @@ export async function uploadFile(
   }
 
   const ext = file.name.includes(".")
-    ? file.name.slice(file.name.lastIndexOf("."))
+    ? file.name.slice(file.name.lastIndexOf(".")).toLowerCase()
     : "";
-  const storagePath = `${folderId}/${resourceId}_${file.name}${ext}`;
+  const baseName = file.name.includes(".")
+    ? file.name.slice(0, file.name.lastIndexOf("."))
+    : file.name;
+  const safeBase = baseName.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const storagePath = `${folderId}/${resourceId}${ext ? ext : ""}`;
 
   const { error } = await supabase.storage
     .from(STORAGE_BUCKET)

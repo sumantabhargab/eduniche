@@ -12,6 +12,7 @@ interface ResourceGridProps {
   onNavigate: (folderId: string) => void;
   onCreateFolder: (name: string) => void;
   onUploadComplete: () => void;
+  onUploadError: (message: string) => void;
 }
 
 export default function ResourceGrid({
@@ -22,6 +23,7 @@ export default function ResourceGrid({
   onNavigate,
   onCreateFolder,
   onUploadComplete,
+  onUploadError,
 }: ResourceGridProps) {
   const [showNewFolder, setShowNewFolder] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
@@ -167,6 +169,7 @@ export default function ResourceGrid({
           <UploadZone
             folderId={currentFolderId}
             onUploadComplete={onUploadComplete}
+            onError={onUploadError}
           />
         </div>
       </div>

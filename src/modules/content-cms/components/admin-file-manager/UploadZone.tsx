@@ -1,22 +1,27 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 
 interface UploadZoneProps {
   folderId: string | null;
   onUploadComplete: () => void;
+  onError?: (message: string) => void;
 }
 
-export default function UploadZone({ folderId, onUploadComplete }: UploadZoneProps) {
+export default function UploadZone({ folderId, onUploadComplete, onError }: UploadZoneProps) {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState<Record<string, number>>({});
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const handleError = useCallback((msg: string) => {
+    onError?.(msg);
+  }, [onError]);
+
   async function handleUpload(files: FileList | null) {
     if (!files || files.length === 0) return;
     if (!folderId) {
-      alert("Please select a folder first.");
+      handleError("Please select a folder first.");
       return;
     }
 
@@ -41,21 +46,30 @@ export default function UploadZone({ folderId, onUploadComplete }: UploadZonePro
         }
       };
 
-      const result = await new Promise<{ ok: boolean }>((resolve) => {
+      const result = await new Promise<{ ok: boolean; error?: string }>((resolve) => {
         xhr.onload = () => {
           if (xhr.status >= 200 && xhr.status < 300) {
             resolve({ ok: true });
           } else {
-            resolve({ ok: false });
+            try {
+              const body = JSON.parse(xhr.responseText);
+              resolve({ ok: false, error: body.error || `Upload failed (${xhr.status})` });
+            } catch {
+              resolve({ ok: false, error: `Upload failed (${xhr.status})` });
+            }
           }
         };
-        xhr.onerror = () => resolve({ ok: false });
+        xhr.onerror = () => {
+          handleError("Network error during upload.");
+          resolve({ ok: false, error: "Network error" });
+        };
         xhr.send(formData);
       });
 
       if (result.ok) {
         newProgress[file.name] = 100;
-      } else {
+      } else if (result.error) {
+        handleError(`${file.name}: ${result.error}`);
         delete newProgress[file.name];
       }
       setProgress({ ...newProgress });
@@ -63,7 +77,9 @@ export default function UploadZone({ folderId, onUploadComplete }: UploadZonePro
 
     setUploading(false);
     setProgress({});
-    onUploadComplete();
+    if (files.length > 0) {
+      onUploadComplete();
+    }
   }
 
   return (

@@ -52,6 +52,8 @@ export default function AdminFileManager({
   const [allFolders, setAllFolders] = useState<FolderInfo[]>([]);
   const [searchResults, setSearchResults] = useState<{ folders: FolderInfo[]; resources: ResourceInfo[] } | null>(null);
 
+  const [error, setError] = useState<string | null>(null);
+
   // Load all folders for the sidebar tree
   useEffect(() => {
     fetch("/api/admin/content/folders?all=true")
@@ -76,9 +78,10 @@ export default function AdminFileManager({
 
   async function loadFolderContents(folderId: string | null) {
     setLoading(true);
+    setError(null);
     try {
       const url = folderId
-        ? `/api/admin/content/folders/${folderId}`
+        ? `/api/admin/content/folders?folder_id=${folderId}`
         : "/api/admin/content/folders";
 
       const res = await fetch(url);
@@ -150,20 +153,29 @@ export default function AdminFileManager({
   };
 
   const handleCreateFolder = async (name: string) => {
+    setError(null);
     const res = await fetch("/api/admin/content/folders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, parent_id: currentFolderId }),
     });
-    if (res.ok) {
-      loadFolderContents(currentFolderId);
-      // Refresh tree
-      fetch("/api/admin/content/folders?all=true")
-        .then((r) => r.json())
-        .then((data) => {
-          if (data.folders) setAllFolders(data.folders);
-        });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      setError(data.error || `Failed to create folder (${res.status}).`);
+      return;
     }
+
+    loadFolderContents(currentFolderId);
+    fetch("/api/admin/content/folders?all=true")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.folders) setAllFolders(data.folders);
+      });
+  };
+
+  const handleUploadError = (message: string) => {
+    setError(message);
   };
 
   const handleUploadComplete = () => {
@@ -204,6 +216,11 @@ export default function AdminFileManager({
         </div>
 
         <div className="flex-1 overflow-auto p-6">
+          {error && (
+            <div className="mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm rounded-lg p-3">
+              {error}
+            </div>
+          )}
           <ResourceGrid
             folders={folders}
             resources={resources}
@@ -212,6 +229,7 @@ export default function AdminFileManager({
             onNavigate={handleNavigateToFolder}
             onCreateFolder={handleCreateFolder}
             onUploadComplete={handleUploadComplete}
+            onUploadError={handleUploadError}
           />
         </div>
       </div>

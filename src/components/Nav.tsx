@@ -4,6 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
+import AnnouncementBell from "@/modules/announcements/components/AnnouncementBell";
+import NotificationPanel from "@/modules/announcements/components/NotificationPanel";
+import AnnouncementViewer from "@/modules/announcements/components/AnnouncementViewer";
+import type { Announcement } from "@/modules/announcements/types";
 
 const navLinks = [
   { href: "/gate", label: "GATE", matchPrefix: true },
@@ -16,6 +20,8 @@ const navLinks = [
 export default function Nav() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState<Announcement | null>(null);
 
   const isActive = (link: typeof navLinks[0]) => {
     if (link.matchPrefix) return pathname?.startsWith(link.href) ?? false;
@@ -30,57 +36,56 @@ export default function Nav() {
         </Link>
 
         {/* Desktop nav */}
-        <div className="flex items-center gap-8">
-          <div className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm transition-colors duration-200 ${
-                  isActive(link)
-                    ? "text-accent"
-                    : "text-muted hover:text-foreground"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+        <div className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => (
             <Link
-              href="/admin"
-              className="text-sm text-muted hover:text-foreground transition-colors duration-200"
-              title="Admin"
+              key={link.href}
+              href={link.href}
+              className={`text-sm transition-colors duration-200 ${
+                isActive(link)
+                  ? "text-accent"
+                  : "text-muted hover:text-foreground"
+              }`}
             >
-              Admin
+              {link.label}
             </Link>
-          </div>
-
-          <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/#waitlist"
-              className="inline-flex items-center px-5 py-2 bg-accent hover:bg-accent-hover text-background text-sm font-medium transition-colors duration-200"
-            >
-              Join early access
-            </Link>
-            <ThemeToggle />
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileOpen((v) => !v)}
-            className="md:hidden flex items-center justify-center w-9 h-9 text-muted hover:text-foreground"
-            aria-label="Toggle menu"
+          ))}
+          <Link
+            href="/admin"
+            className="text-sm text-muted hover:text-foreground transition-colors duration-200"
+            title="Admin"
           >
-            {mobileOpen ? (
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
-            )}
-          </button>
+            Admin
+          </Link>
         </div>
+
+        <div className="hidden md:flex items-center gap-3">
+          <AnnouncementBell onClick={() => setNotificationOpen((v) => !v)} />
+          <Link
+            href="/#waitlist"
+            className="inline-flex items-center px-5 py-2 bg-accent hover:bg-accent-hover text-background text-sm font-medium transition-colors duration-200"
+          >
+            Join early access
+          </Link>
+          <ThemeToggle />
+        </div>
+
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setMobileOpen((v) => !v)}
+          className="md:hidden flex items-center justify-center w-9 h-9 text-muted hover:text-foreground"
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          )}
+        </button>
       </div>
 
       {/* Mobile dropdown */}
@@ -118,6 +123,24 @@ export default function Nav() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Notification panel */}
+      {notificationOpen && (
+        <NotificationPanel
+          isOpen={notificationOpen}
+          onClose={() => setNotificationOpen(false)}
+          onViewAnnouncement={(a) => {
+            setNotificationOpen(false);
+            setSelectedAnnouncement(a);
+          }}
+        />
+      )}
+      {selectedAnnouncement && (
+        <AnnouncementViewer
+          announcement={selectedAnnouncement}
+          onClose={() => setSelectedAnnouncement(null)}
+        />
       )}
     </nav>
   );
