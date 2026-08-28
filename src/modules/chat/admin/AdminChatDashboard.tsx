@@ -7,6 +7,7 @@
 "use client";
 
 import { useState } from "react";
+import { useAdminConversations } from "../hooks/useAdminConversations";
 import AdminConversationSidebar from "./AdminConversationSidebar";
 import AdminConversationView from "./AdminConversationView";
 
@@ -21,6 +22,7 @@ interface AdminChatDashboardProps {
 
 export default function AdminChatDashboard({ admin }: AdminChatDashboardProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { refresh } = useAdminConversations();
 
   return (
     <div className="flex h-[calc(100vh-3.5rem)]">
@@ -30,8 +32,8 @@ export default function AdminChatDashboard({ admin }: AdminChatDashboardProps) {
         onSelect={setSelectedId}
       />
       <AdminConversationView
-        admin={admin}
         conversationId={selectedId ?? undefined}
+        onRefresh={refresh}
       />
     </div>
   );

@@ -3,8 +3,7 @@ import { Inter } from "next/font/google";
 import { Playfair_Display } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
+import { ChatWidgetClient } from "@/modules/chat/components/ChatWidgetClient";
 import "./globals.css";
 
 const inter = Inter({
@@ -40,15 +39,26 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfair.variable} antialiased`}>
         <body className="min-h-full bg-background text-foreground">
            <ThemeProvider>
-               <Nav />
+               <NavAndFooter />
+               <ChatWidgetClient />
                <main className="min-h-[calc(100vh-4rem)]">
                    {children}
                </main>
-               <Footer />
+               <Analytics />
              </ThemeProvider>
-
-              <Analytics />
           </body>
     </html>
+  );
+}
+
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+
+function NavAndFooter() {
+  return (
+    <>
+      <Nav />
+      <Footer />
+    </>
   );
 }

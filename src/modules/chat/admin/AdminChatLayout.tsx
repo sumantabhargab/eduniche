@@ -8,18 +8,12 @@
 import AdminChatLayoutClient from "./AdminChatLayoutClient";
 
 interface AdminChatLayoutProps {
-  admin: {
-    user: {
-      email: string;
-      role: string;
-    };
-  };
   children: React.ReactNode;
 }
 
-export default function AdminChatLayout({ admin, children }: AdminChatLayoutProps) {
+export default function AdminChatLayout({ children }: AdminChatLayoutProps) {
   return (
-    <AdminChatLayoutClient admin={admin}>
+    <AdminChatLayoutClient>
       {children}
     </AdminChatLayoutClient>
   );

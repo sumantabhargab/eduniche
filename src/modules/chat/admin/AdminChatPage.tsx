@@ -16,7 +16,7 @@ export default async function AdminChatPage() {
   const admin = await requireAdmin();
 
   return (
-    <AdminChatLayoutClient admin={admin}>
+    <AdminChatLayoutClient>
       <AdminChatDashboard admin={admin} />
     </AdminChatLayoutClient>
   );
