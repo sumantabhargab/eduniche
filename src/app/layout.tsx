@@ -39,11 +39,12 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfair.variable} antialiased`}>
         <body className="min-h-full bg-background text-foreground">
            <ThemeProvider>
-               <NavAndFooter />
+               <Nav />
                <ChatWidgetClient />
                <main className="min-h-[calc(100vh-4rem)]">
                    {children}
                </main>
+               <Footer />
                <Analytics />
              </ThemeProvider>
           </body>
@@ -53,12 +54,3 @@ export default function RootLayout({
 
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-
-function NavAndFooter() {
-  return (
-    <>
-      <Nav />
-      <Footer />
-    </>
-  );
-}
