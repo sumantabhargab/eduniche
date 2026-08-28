@@ -2,9 +2,9 @@
  * ConversationList — renders the list of conversation items.
  */
 
-import { type Conversation } from "../../types/chat";
+import { type Conversation } from "../types/chat";
 import { ConversationItem } from "./ConversationItem";
-import { formatRelativeTime, truncate } from "../../utils/format";
+import { formatRelativeTime, truncate } from "../utils/format";
 
 interface ConversationListProps {
   conversations: Conversation[];

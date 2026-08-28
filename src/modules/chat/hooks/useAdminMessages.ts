@@ -14,7 +14,7 @@ import {
   subscribeToMessages,
   markConversationRead,
   joinConversationAsAdmin,
-} from "../services";
+} from "..";
 import type { Message, MessagesPage } from "../types/chat";
 
 export interface UseAdminMessagesOptions {

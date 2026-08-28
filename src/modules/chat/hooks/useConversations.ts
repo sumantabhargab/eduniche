@@ -6,10 +6,10 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  type Conversation,
   listMyConversations,
   markConversationRead,
 } from "../services/conversations";
+import type { Conversation } from "../types/chat";
 
 export interface UseConversationsOptions {
   /** Optional status filter. */
@@ -78,7 +78,7 @@ export function useConversations(
  */
 export async function openConversation(
   conversationId: string
-): Promise<{ conversation: Conversation | null; error: string | null }> {
+): Promise<{ data: Conversation | null; error: string | null }> {
   const { findConversationById } = await import("../services/conversations");
   const result = await findConversationById(conversationId);
   if (result.error) return result;

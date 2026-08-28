@@ -102,7 +102,7 @@ export default function AnnouncementEditor({ initial }: AnnouncementEditorProps)
         router.push("/admin/announcements");
       } else {
         const client = getAnnouncementsSupabase();
-        const { data: { user } } = await client?.auth.getUser().catch(() => ({ data: { user: null } }));
+        const { data: { user } } = (await client?.auth.getUser().catch(() => ({ data: { user: null } }))) ?? { data: { user: null } };
         if (!user) {
           setError("You must be logged in to create an announcement.");
           return;

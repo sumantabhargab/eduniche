@@ -5,8 +5,8 @@
 "use client";
 
 import { useState } from "react";
-import { useAdminConversations } from "../../hooks/useAdminConversations";
-import ConversationItemList from "./AdminConversationList";
+import { useAdminConversations } from "../hooks/useAdminConversations";
+import AdminConversationList from "./AdminConversationList";
 
 interface AdminConversationSidebarProps {
   selectedId: string | null;
@@ -83,7 +83,7 @@ export default function AdminConversationSidebar({ selectedId, onSelect, admin }
             {searchQuery ? "No conversations match your search." : "No conversations yet."}
           </div>
         ) : (
-          <ConversationItemList
+          <AdminConversationList
             conversations={filteredConversations}
             selectedId={selectedId}
             onSelect={onSelect}

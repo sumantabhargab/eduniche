@@ -8,6 +8,7 @@
 
 import { requireAdmin } from "@/modules/content-cms/lib/auth";
 import AdminChatLayoutClient from "./AdminChatLayoutClient";
+import AdminChatDashboard from "./AdminChatDashboard";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ export default async function AdminChatPage() {
 
   return (
     <AdminChatLayoutClient admin={admin}>
-      <AdminChatDashboard />
+      <AdminChatDashboard admin={admin} />
     </AdminChatLayoutClient>
   );
 }

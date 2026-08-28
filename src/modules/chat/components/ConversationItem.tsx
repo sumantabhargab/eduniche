@@ -4,9 +4,8 @@
 
 "use client";
 
-import type { Conversation } from "../../types/chat";
-import { displayName } from "../../utils/format";
-import { formatClockTime, formatRelativeTime } from "../../utils/format";
+import type { Conversation } from "../types/chat";
+import { displayName, formatClockTime, formatRelativeTime, truncate } from "../utils/format";
 
 interface ConversationItemProps {
   conversation: Conversation;

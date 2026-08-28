@@ -1,37 +1,27 @@
 /**
- * ConversationItemList + ConversationItem — admin sidebar items.
+ * AdminConversationList — renders the list of conversation items for the admin sidebar.
  */
 
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import type { Conversation } from "../../types/chat";
-import { displayName, formatRelativeTime, truncate } from "../../utils/format";
+import { type Conversation } from "../types/chat";
+import { ConversationItem } from "../components/ConversationItem";
+import { formatRelativeTime, truncate } from "../utils/format";
 
-interface ConversationItemListProps {
+interface AdminConversationListProps {
   conversations: Conversation[];
   selectedId: string | null;
   onSelect: (id: string) => void;
 }
 
-export default function ConversationItemList({
+export default function AdminConversationList({
   conversations,
   selectedId,
   onSelect,
-}: ConversationItemListProps) {
-  // Sort: unread first, then by last_message_at
-  const sorted = [...conversations].sort((a, b) => {
-    const aHasUnread = a.unread_count > 0 ? 1 : 0;
-    const bHasUnread = b.unread_count > 0 ? 1 : 0;
-    if (aHasUnread !== bHasUnread) return bHasUnread - aHasUnread;
-    const aTime = a.last_message_at ? new Date(a.last_message_at).getTime() : 0;
-    const bTime = b.last_message_at ? new Date(b.last_message_at).getTime() : 0;
-    return bTime - aTime;
-  });
-
+}: AdminConversationListProps) {
   return (
     <>
-      {sorted.map((conv) => (
+      {conversations.map((conv) => (
         <button
           key={conv.id}
           onClick={() => onSelect(conv.id)}
@@ -50,7 +40,7 @@ export default function ConversationItemList({
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between gap-2">
               <span className="text-sm font-medium text-foreground truncate">
-                {displayName(conv.other_participant?.full_name ?? null, conv.other_participant?.email ?? "")}
+                {conv.other_participant?.full_name ?? conv.other_participant?.email ?? "Unknown"}
               </span>
               {conv.last_message && (
                 <span className="text-[10px] text-muted shrink-0">
@@ -62,7 +52,7 @@ export default function ConversationItemList({
               <p className="text-xs text-muted truncate">
                 {conv.last_message?.deleted_at
                   ? "Message deleted"
-                  : conv.last_message
+                  : conv.last_message?.content
                     ? truncate(conv.last_message.content, 40)
                     : "No messages yet"}
               </p>

@@ -10,11 +10,10 @@ import { useCallback, useState } from "react";
 import { ChatHeader } from "./ChatHeader";
 import { ConversationList } from "./ConversationList";
 import { useChatWidget } from "./ChatWidget";
-import { useConversations } from "../hooks/useConversations";
-import { openConversation } from "../services/conversations";
+import { useConversations, openConversation } from "../hooks/useConversations";
 import { createConversation } from "../services/conversations";
 import { getChatSupabase } from "../services/supabase";
-import { ConversationView } from "./MessageView";
+import { ConversationView } from "./ConversationView";
 
 export function ChatWindow() {
   const { isOpen, closeChat } = useChatWidget();

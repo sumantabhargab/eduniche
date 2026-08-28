@@ -5,7 +5,9 @@
 "use client";
 
 import { type ReactNode, useEffect, useRef } from "react";
-import { type Message, formatClockTime, formatDayLabel } from "../../utils/format";
+import { type Message } from "../types/chat";
+import { formatClockTime, formatDayLabel } from "../utils/format";
+import { MessageBubble } from "./MessageBubble";
 
 interface MessageListProps {
   messages: Message[];

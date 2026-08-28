@@ -15,7 +15,7 @@ import { getChatSupabase } from "./supabase";
 
 type MessageHandler = (message: any) => void;
 
-let activeChannels = new Map<string, ReturnType<ReturnType<typeof getChatSupabase> extends import("@supabase/supabase-js").SupabaseClient ? any : never>["channel"]>();
+let activeChannels: any[] = [];
 
 /**
  * Subscribe to new messages in a conversation.
@@ -32,8 +32,8 @@ export function subscribeToMessages(
   const channelName = `chat:messages:${conversationId}`;
 
   // Clean up any existing subscription on this conversation
-  if (activeChannels.has(channelName)) {
-    activeChannels.get(channelName)!.unsubscribe();
+  if (activeChannels.find((c: any) => c.channelName === channelName)) {
+    activeChannels.find((c: any) => c.channelName === channelName)!.unsubscribe();
   }
 
   const channel = supabase
@@ -69,11 +69,11 @@ export function subscribeToMessages(
       }
     });
 
-  activeChannels.set(channelName, channel);
+  activeChannels.push({ channelName, unsubscribe: () => channel.unsubscribe() });
 
   return () => {
     channel.unsubscribe();
-    activeChannels.delete(channelName);
+    activeChannels = activeChannels.filter((c: any) => c.channelName !== channelName);
   };
 }
 
@@ -89,10 +89,6 @@ export function subscribeToReads(
   if (!supabase) return () => {};
 
   const channelName = `chat:reads:${conversationId}`;
-
-  if (activeChannels.has(channelName)) {
-    activeChannels.get(channelName)!.unsubscribe();
-  }
 
   const channel = supabase
     .channel(channelName)
@@ -122,11 +118,12 @@ export function subscribeToReads(
       }
     });
 
-  activeChannels.set(channelName, channel);
+  const entry = { channelName, unsubscribe: () => channel.unsubscribe() };
+  activeChannels.push(entry);
 
   return () => {
     channel.unsubscribe();
-    activeChannels.delete(channelName);
+    activeChannels = activeChannels.filter((c: any) => c.channelName !== channelName);
   };
 }
 
@@ -142,8 +139,8 @@ export function subscribeToConversationUpdates(
 
   const channelName = `chat:conv:${conversationId}`;
 
-  if (activeChannels.has(channelName)) {
-    activeChannels.get(channelName)!.unsubscribe();
+  if (activeChannels.find((c: any) => c.channelName === channelName)) {
+    activeChannels.find((c: any) => c.channelName === channelName)!.unsubscribe();
   }
 
   const channel = supabase
@@ -166,11 +163,11 @@ export function subscribeToConversationUpdates(
       }
     });
 
-  activeChannels.set(channelName, channel);
+  activeChannels.push({ channelName, unsubscribe: () => channel.unsubscribe() });
 
   return () => {
     channel.unsubscribe();
-    activeChannels.delete(channelName);
+    activeChannels = activeChannels.filter((c: any) => c.channelName !== channelName);
   };
 }
 
@@ -178,8 +175,8 @@ export function subscribeToConversationUpdates(
  * Clean up all active channels (e.g., on logout / page unload).
  */
 export function cleanupAllRealtime() {
-  for (const channel of activeChannels.values()) {
-    channel.unsubscribe();
+  for (const c of activeChannels) {
+    c.unsubscribe();
   }
-  activeChannels.clear();
+  activeChannels = [];
 }

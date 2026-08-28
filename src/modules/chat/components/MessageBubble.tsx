@@ -4,8 +4,8 @@
 
 "use client";
 
-import { type Message } from "../../types/chat";
-import { formatClockTime } from "../../utils/format";
+import { type Message } from "../types/chat";
+import { formatClockTime } from "../utils/format";
 
 interface MessageBubbleProps {
   message: Message;

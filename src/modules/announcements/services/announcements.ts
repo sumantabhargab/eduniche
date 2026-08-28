@@ -11,6 +11,7 @@ import {
 } from "./supabase";
 import type {
   Announcement,
+  AnnouncementCreateInput,
   AnnouncementFilters,
   AnnouncementRow,
   AnnouncementsPage,

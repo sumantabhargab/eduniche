@@ -13,7 +13,7 @@ import {
   sendMessage,
   subscribeToMessages,
   markConversationRead,
-} from "../services";
+} from "..";
 import type { Message, MessagesPage } from "../types/chat";
 
 export interface UseMessagesOptions {
