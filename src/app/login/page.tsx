@@ -1,6 +1,7 @@
 /**
  * Login page at /login
  * Handles Google OAuth and email sign-in via Supabase Auth.
+ * Shows username setup form for new users without a profile.
  */
 
 "use client";
@@ -32,18 +33,25 @@ function LoginInner() {
   const redirectTo = searchParams.get("redirect") || "/dashboard";
 
   useEffect(() => {
-    // Check if user is already logged in
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
-        // Check if they need a username
+        // If no profile row exists, re-authenticate to trigger the DB trigger
+        // (profiles_id_fkey creates the profile on auth.users INSERT)
         const { data: profile } = await supabase
           .from("profiles")
           .select("username")
           .eq("id", session.user.id)
           .maybeSingle();
 
-        if (!profile?.username) {
+        if (!profile) {
+          // No profile row — sign out and re-authenticate to trigger profile creation
+          await supabase.auth.signOut();
+          setError("Session needs to be refreshed. Please sign in again.");
+          return;
+        }
+
+        if (!profile.username) {
           setShowUsernameForm(true);
         } else {
           router.push(redirectTo);
@@ -62,7 +70,17 @@ function LoginInner() {
             .eq("id", session.user.id)
             .maybeSingle();
 
-          if (!profile?.username) {
+          if (!profile) {
+            // No profile row — trigger creation by re-authenticating
+            const { error: signOutErr } = await supabase.auth.signOut();
+            if (signOutErr) {
+              console.error("Sign-out error:", signOutErr);
+            }
+            setError("Session needs to be refreshed. Please sign in again.");
+            return;
+          }
+
+          if (!profile.username) {
             setShowUsernameForm(true);
           } else {
             router.push(redirectTo);
@@ -111,6 +129,15 @@ function LoginInner() {
       const data = await res.json();
 
       if (!res.ok) {
+        // Handle recoverable errors — re-auth to trigger profile creation
+        if (data.code === 'POLICY_ERROR' || data.code === 'VERIFY_FAILED') {
+          await supabase.auth.signOut();
+          setError("Please sign in again to complete setup.");
+          setShowUsernameForm(false);
+          setUsernameLoading(false);
+          return;
+        }
+
         setError(data.error || "Failed to set username.");
         setUsernameLoading(false);
         return;
