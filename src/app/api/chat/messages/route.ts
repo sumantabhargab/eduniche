@@ -21,6 +21,24 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     const limit = Math.min(parseInt(url.searchParams.get("limit") || "50"), 100);
 
+    // Premium gating — chat requires active subscription
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      const { data: sub } = await supabase
+        .from("user_subscriptions")
+        .select("status, expires_at")
+        .eq("user_id", session.user.id)
+        .eq("status", "active")
+        .gte("expires_at", new Date().toISOString())
+        .maybeSingle();
+
+      if (!sub) {
+        return NextResponse.json({ error: "Premium required.", upgradeRequired: true }, { status: 403 });
+      }
+    } else {
+      return NextResponse.json({ error: "Premium required.", upgradeRequired: true }, { status: 403 });
+    }
+
     const { data: messages, error } = await supabase
       .from("chat_messages")
       .select("id, user_id, content, content_type, created_at")
@@ -43,7 +61,6 @@ export async function GET(request: Request) {
     const profileMap = new Map((profiles ?? []).map(p => [p.id, p]));
 
     // Check if current user is muted
-    const { data: { session } } = await supabase.auth.getSession();
     let isMuted = false;
     let isBanned = false;
 

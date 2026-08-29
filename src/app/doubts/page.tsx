@@ -138,6 +138,30 @@ export default function DoubtsPage() {
     );
   }
 
+  if (!isPremium && user) {
+    return (
+      <div className="max-w-2xl mx-auto px-6 py-16 text-center">
+        <div className="bg-card border border-border rounded-2xl p-8">
+          <div className="text-4xl mb-4">💡</div>
+          <h2 className="text-2xl font-bold mb-3">Premium Required</h2>
+          <p className="text-muted mb-6">
+            The AI Doubt Engine is available for Premium subscribers.
+          </p>
+          <div className="bg-accent/30 rounded-xl p-6 mb-6">
+            <div className="text-lg font-bold mb-1">₹49 <span className="text-sm font-normal text-muted">/ month</span></div>
+            <p className="text-sm text-muted">Get access to the AI Doubt Engine, live chat, and more.</p>
+          </div>
+          <a
+            href="/pricing"
+            className="inline-flex px-8 py-3 bg-foreground text-background rounded-xl font-semibold hover:opacity-90 transition-opacity"
+          >
+            Upgrade to Premium
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-3xl mx-auto px-6 py-8">
       <div className="mb-6">

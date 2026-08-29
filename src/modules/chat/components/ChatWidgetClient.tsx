@@ -1,37 +1,23 @@
 /**
- * ChatWidgetClient — client wrapper that renders the floating chat FAB + window.
+ * ChatWidgetClient — client wrapper that conditionally renders the floating chat FAB.
  *
- * Mounted as a child of the root layout so the button appears on every page.
- * Wraps ChatButton + ChatWindow in ChatWidgetProvider for state management.
+ * IMPORTANT: This is the OLD chat system (conversations/messages tables) which is NOT
+ * part of the MVP. The actual global chat is at /chat using the new chat_messages table.
+ *
+ * This widget is hidden for now to avoid errors from the missing conversations table.
+ * Re-enable when the old chat system tables are created and the widget is updated.
  */
 
 "use client";
 
-import { ChatWidgetProvider, ChatButton } from "./ChatWidget";
-import { ChatWindow } from "./ChatWindow";
-import { useConversations } from "@/modules/chat/hooks/useConversations";
+import { useAuth } from "@/lib/hooks/useAuth";
 
 export function ChatWidgetClient() {
-  return (
-    <ChatWidgetProvider>
-      <ChatInner />
-    </ChatWidgetProvider>
-  );
-}
+  const { user, loading } = useAuth();
 
-function ChatInner() {
-  const { totalUnread } = useConversations({ refreshMs: 30000 });
+  // OLD chat system disabled for MVP — old tables don't exist in remote DB.
+  // The global chat lives at /chat using the new chat_messages table.
+  if (!user || loading) return null;
 
-  return (
-    <>
-      <ChatButton />
-      <ChatWindow />
-      <input
-        type="hidden"
-        value={totalUnread}
-        readOnly
-        aria-hidden="true"
-      />
-    </>
-  );
+  return null;
 }

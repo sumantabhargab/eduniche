@@ -14,17 +14,21 @@ const asBoolean = (val: string | undefined, fallback: boolean): boolean => {
  * Virtual Library configuration. Read once at module load.
  */
 export const virtualLibraryConfig = {
-  /** Master switch — disable to hide the entire library */
-  enabled: asBoolean(process.env.NEXT_PUBLIC_VIRTUAL_LIBRARY_ENABLED, true),
+  /** Master switch — the library is the content browser. Keep enabled. */
+  enabled: true,
 
   /** Enable video presence in rooms (requires real WebRTC provider) */
-  videoEnabled: asBoolean(process.env.NEXT_PUBLIC_VIRTUAL_LIBRARY_VIDEO, false),
+  videoEnabled: false,
 
-  /** Enable live chat in rooms */
-  chatEnabled: asBoolean(process.env.NEXT_PUBLIC_VIRTUAL_LIBRARY_CHAT, true),
+  /** Enable live chat in rooms
+   *  NOTE: The old chat system (conversations/messages tables) is NOT part of MVP.
+   *        The actual global chat is at /chat using chat_messages table. */
+  chatEnabled: false,
 
-  /** Enable the AI doubt engine */
-  aiEnabled: asBoolean(process.env.NEXT_PUBLIC_VIRTUAL_LIBRARY_AI, false),
+  /** Enable the AI doubt engine
+   *  NOTE: AI Doubt Engine is at /doubts using ai_conversations/ai_messages tables.
+   *        This flag controls the in-library AI panel, not the standalone /doubts page. */
+  aiEnabled: false,
 } as const;
 
 export type VirtualLibraryConfig = typeof virtualLibraryConfig;

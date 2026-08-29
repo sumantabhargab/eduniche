@@ -2,22 +2,19 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
+import { useAuth } from "@/lib/hooks/useAuth";
 
-const navLinks = [
-  { href: "/gate", label: "GATE", matchPrefix: true },
-  { href: "/how-it-works", label: "How it works", matchPrefix: false },
-  { href: "/library", label: "Library", matchPrefix: true },
-];
-
-export default function Nav() {
+function NavInner() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, loading } = useAuth();
+  const isAuthenticated = !!user && !loading;
 
-  const isActive = (link: typeof navLinks[0]) => {
-    if (link.matchPrefix) return pathname?.startsWith(link.href) ?? false;
-    return pathname === link.href;
+  const isActive = (href: string, matchPrefix?: boolean) => {
+    if (matchPrefix) return pathname?.startsWith(href) ?? false;
+    return pathname === href;
   };
 
   return (
@@ -29,33 +26,88 @@ export default function Nav() {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
+          <Link
+            href="/gate"
+            className={`text-sm transition-colors ${
+              isActive("/gate", true) ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            GATE
+          </Link>
+          <Link
+            href="/library"
+            className={`text-sm transition-colors ${
+              isActive("/library", true) ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            Library
+          </Link>
+          {isAuthenticated && (
             <Link
-              key={link.href}
-              href={link.href}
-              className={`text-sm transition-colors duration-200 ${
-                isActive(link) ? "text-accent" : "text-muted hover:text-foreground"
+              href="/leaderboard"
+              className={`text-sm transition-colors ${
+                isActive("/leaderboard") ? "text-accent" : "text-muted hover:text-foreground"
               }`}
             >
-              {link.label}
+              Leaderboard
             </Link>
-          ))}
+          )}
+          {isAuthenticated && (
+            <Link
+              href="/chat"
+              className={`text-sm transition-colors ${
+                isActive("/chat") ? "text-accent" : "text-muted hover:text-foreground"
+              }`}
+            >
+              Chat
+            </Link>
+          )}
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/dashboard"
-            className="text-sm text-muted hover:text-foreground transition-colors"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="/pricing"
-            className="inline-flex items-center px-5 py-2 bg-foreground text-background text-sm font-medium transition-colors hover:opacity-90"
-          >
-            Get Premium
-          </Link>
-          <ThemeToggle />
+          {isAuthenticated ? (
+            <>
+              <Link
+                href="/dashboard"
+                className={`text-sm transition-colors ${
+                  isActive("/dashboard") ? "text-accent" : "text-muted hover:text-foreground"
+                }`}
+              >
+                Dashboard
+              </Link>
+              {user?.role === "admin" && (
+                <Link
+                  href="/admin"
+                  className="text-sm text-accent hover:text-foreground transition-colors"
+                >
+                  Admin
+                </Link>
+              )}
+              <Link
+                href="/pricing"
+                className="inline-flex items-center px-5 py-2 bg-foreground text-background text-sm font-medium transition-colors hover:opacity-90"
+              >
+                Get Premium
+              </Link>
+              <ThemeToggle />
+            </>
+          ) : (
+            <>
+              <Link
+                href="/pricing"
+                className="text-sm text-muted hover:text-foreground transition-colors"
+              >
+                Pricing
+              </Link>
+              <Link
+                href="/login"
+                className="inline-flex items-center px-5 py-2 bg-foreground text-background text-sm font-medium transition-colors hover:opacity-90"
+              >
+                Sign In
+              </Link>
+              <ThemeToggle />
+            </>
+          )}
         </div>
 
         {/* Mobile hamburger */}
@@ -80,38 +132,53 @@ export default function Nav() {
       {mobileOpen && (
         <div className="md:hidden border-t border-border bg-background">
           <div className="px-6 py-4 space-y-3">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className={`block text-sm transition-colors ${
-                  isActive(link) ? "text-accent" : "text-muted hover:text-foreground"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/dashboard"
-              onClick={() => setMobileOpen(false)}
-              className="block text-sm text-muted hover:text-foreground"
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/pricing"
-              onClick={() => setMobileOpen(false)}
-              className="block text-sm text-accent font-medium"
-            >
-              Get Premium
-            </Link>
+            <Link href="/gate" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">GATE</Link>
+            <Link href="/library" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Library</Link>
+            {isAuthenticated && (
+              <>
+                <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Dashboard</Link>
+                <Link href="/leaderboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Leaderboard</Link>
+                <Link href="/chat" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Chat</Link>
+                {user?.role === "admin" && (
+                  <Link href="/admin" onClick={() => setMobileOpen(false)} className="block text-sm text-accent font-medium">Admin</Link>
+                )}
+              </>
+            )}
             <div className="pt-2">
+              {isAuthenticated ? (
+                <>
+                  <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block text-sm text-accent font-medium mb-2">Get Premium</Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground mb-2">Pricing</Link>
+                  <Link href="/login" onClick={() => setMobileOpen(false)} className="block text-sm text-accent font-medium mb-2">Sign In</Link>
+                </>
+              )}
               <ThemeToggle />
             </div>
           </div>
         </div>
       )}
     </nav>
+  );
+}
+
+export default function Nav() {
+  return (
+    <Suspense fallback={
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <Link href="/" className="font-serif text-xl text-foreground">Eduneuro</Link>
+          <div className="hidden md:flex items-center gap-3">
+            <Link href="/library" className="text-sm text-muted hover:text-foreground">Library</Link>
+            <Link href="/pricing" className="text-sm text-muted hover:text-foreground">Pricing</Link>
+            <Link href="/login" className="inline-flex items-center px-5 py-2 bg-foreground text-background text-sm font-medium">Sign In</Link>
+          </div>
+        </div>
+      </nav>
+    }>
+      <NavInner />
+    </Suspense>
   );
 }

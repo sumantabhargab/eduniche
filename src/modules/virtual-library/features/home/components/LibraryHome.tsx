@@ -23,40 +23,50 @@ export function LibraryHome() {
   const [rooms, setRooms] = useState<StudyRoom[]>([]);
   const [userLabel, setUserLabel] = useState<string>("there");
   const [participantId, setParticipantId] = useState<string>("");
+  const [resolvedUser, setResolvedUser] = useState(false);
 
   useEffect(() => {
-    const svc = new RoomService();
-    svc.getRooms().then(setRooms).catch(() => setRooms([]));
+    // Study rooms feature is disabled for MVP — no rooms table in remote DB.
+    // The library still serves as a content browser (folders + documents).
+    setRooms([]);
+    setResolvedUser(true);
+    setUserLabel("there");
 
-    // Resolve display name
+    // Resolve display name for greeting (optional, non-blocking)
     (async () => {
       try {
-        const { getChatSupabase } = await import("@/modules/chat/services/supabase");
-        const supabase = getChatSupabase();
-        if (supabase) {
-          const { data } = await supabase.auth.getUser();
-          if (data.user) {
-            const { data: profile } = await supabase
-              .from("profiles").select("display_name, full_name, email").eq("id", data.user.id).maybeSingle();
-            const label =
-              profile?.display_name || profile?.full_name ||
-              data.user.user_metadata?.full_name ||
-              data.user.email?.split("@")[0] || "there";
-            setUserLabel(label);
-            setParticipantId(data.user.id);
-            return;
-          }
+        const supabase = (await import("@/lib/supabase/client")).createBrowserClient();
+        if (!supabase) return;
+        const { data } = await supabase.auth.getUser();
+        if (data.user) {
+          const { data: profile } = await supabase
+            .from("profiles").select("display_name, full_name, email").eq("id", data.user.id).maybeSingle();
+          const label =
+            profile?.display_name || profile?.full_name ||
+            data.user.user_metadata?.full_name ||
+            data.user.email?.split("@")[0] || "there";
+          setUserLabel(label);
+          setParticipantId(data.user.id);
         }
-      } catch {}
-      // Anonymous fallback (no fake name)
-      const id = (typeof crypto !== "undefined" && "randomUUID" in crypto)
-        ? crypto.randomUUID() : `guest-${Math.random().toString(36).slice(2, 10)}`;
-      setParticipantId(id);
-      setUserLabel("there");
+      } catch {
+        // ignore — anonymous fallback
+      } finally {
+        setResolvedUser(true);
+      }
     })();
   }, []);
 
-  const totalStudents = rooms.reduce((sum: number, r) => sum + (r.activeCount ?? 0), 0);
+  if (!resolvedUser) {
+    return (
+      <div className="space-y-4">
+        <div className="animate-pulse h-8 w-64 bg-accent/20 rounded" />
+        <div className="animate-pulse h-4 w-96 bg-accent/20 rounded" />
+      </div>
+    );
+  }
+
+  const totalStudents = 0;
+  const roomsAvailable = false;
 
   // Get hour-based greeting
   const hour = typeof window !== "undefined" ? new Date().getHours() : 12;

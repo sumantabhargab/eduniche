@@ -1,6 +1,6 @@
 /**
  * GET /api/study/stats
- * Returns user's study statistics.
+ * Returns user's study statistics with period filtering.
  */
 
 import { NextResponse } from "next/server";
@@ -26,7 +26,8 @@ export async function GET(request: Request) {
       .from("study_sessions")
       .select("*")
       .eq("user_id", session.user.id)
-      .eq("validation_status", "valid");
+      .eq("validation_status", "valid")
+      .order("started_at", { ascending: true });
 
     if (error) {
       console.error("Stats fetch error:", error);
@@ -35,30 +36,31 @@ export async function GET(request: Request) {
 
     const allSessions = sessions ?? [];
 
-    // Calculate stats
+    // Calculate total stats
     const totalSeconds = allSessions.reduce((sum, s) => sum + (s.duration_seconds || 0), 0);
     const totalHours = Math.floor(totalSeconds / 3600);
     const totalMinutes = Math.floor((totalSeconds % 3600) / 60);
 
-    // Period-specific
-    let periodSeconds = totalSeconds;
-    let periodSessions = allSessions.length;
+    // Period filtering (server-side for accuracy)
+    let periodSessions = allSessions;
+    let cutoff: Date | null = null;
 
-    if (period !== "all") {
-      const cutoff = new Date();
-      if (period === "today") {
-        cutoff.setHours(0, 0, 0, 0);
-      } else if (period === "week") {
-        cutoff.setDate(cutoff.getDate() - 7);
-      } else if (period === "month") {
-        cutoff.setDate(cutoff.getDate() - 30);
-      }
-
-      const filtered = allSessions.filter(s => new Date(s.started_at) >= cutoff);
-      periodSeconds = filtered.reduce((sum, s) => sum + (s.duration_seconds || 0), 0);
-      periodSessions = filtered.length;
+    if (period === "today") {
+      cutoff = new Date();
+      cutoff.setHours(0, 0, 0, 0);
+    } else if (period === "week") {
+      cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - 7);
+    } else if (period === "month") {
+      cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - 30);
     }
 
+    if (cutoff) {
+      periodSessions = allSessions.filter(s => new Date(s.started_at) >= cutoff);
+    }
+
+    const periodSeconds = periodSessions.reduce((sum, s) => sum + (s.duration_seconds || 0), 0);
     const pHours = Math.floor(periodSeconds / 3600);
     const pMinutes = Math.floor((periodSeconds % 3600) / 60);
 
@@ -70,34 +72,26 @@ export async function GET(request: Request) {
       .maybeSingle();
 
     const dailyGoal = profile?.daily_goal_minutes ?? 120;
+    const userTimezone = profile?.timezone || "Asia/Kolkata";
 
-    // Calculate today's progress
-    const { data: todaySessions } = await supabase
-      .from("study_sessions")
-      .select("duration_seconds")
-      .eq("user_id", session.user.id)
-      .eq("validation_status", "valid")
-      .gte("started_at", new Date(new Date().toISOString().split('T')[0]).toISOString());
-
-    const todaySeconds = (todaySessions ?? []).reduce((sum, s) => sum + (s.duration_seconds || 0), 0);
+    // Calculate today's progress (timezone-aware)
+    const todayStr = new Date().toLocaleDateString("en-CA", { timeZone: userTimezone }); // YYYY-MM-DD in user's TZ
+    const todaySessions = allSessions.filter(s => {
+      const sessionDate = new Date(s.started_at).toLocaleDateString("en-CA", { timeZone: userTimezone });
+      return sessionDate === todayStr;
+    });
+    const todaySeconds = todaySessions.reduce((sum, s) => sum + (s.duration_seconds || 0), 0);
     const todayMinutes = Math.floor(todaySeconds / 60);
     const goalProgress = Math.min(100, Math.round((todayMinutes / dailyGoal) * 100));
 
-    // Calculate streak
-    const { data: streakSessions } = await supabase
-      .from("study_sessions")
-      .select("started_at")
-      .eq("user_id", session.user.id)
-      .eq("validation_status", "valid")
-      .order("started_at", { ascending: true });
-
-    const streak = calculateStreak(streakSessions ?? [], profile?.timezone ?? 'Asia/Kolkata');
+    // Calculate streak (timezone-aware)
+    const streak = calculateStreak(allSessions, userTimezone);
 
     return NextResponse.json({
       period,
-      total: { hours: totalHours, minutes: totalMinutes, seconds: totalSeconds },
-      periodTotal: { hours: pHours, minutes: pMinutes, seconds: periodSeconds },
-      sessions: periodSessions,
+      total: { hours: totalHours, minutes: totalMinutes },
+      periodTotal: { hours: pHours, minutes: pMinutes },
+      sessions: periodSessions.length,
       dailyGoal,
       goalProgress,
       todayMinutes,
@@ -108,42 +102,42 @@ export async function GET(request: Request) {
   }
 }
 
+/**
+ * Calculates current and longest study streak in days.
+ * Uses timezone-aware date grouping — respects the user's local timezone.
+ */
 function calculateStreak(sessions: { started_at: string }[], timezone: string): { current: number; longest: number } {
   if (sessions.length === 0) return { current: 0, longest: 0 };
 
   const MIN_SESSION_MINUTES = 15;
-  const daySet = new Set<string>();
 
+  // Group sessions by local date
+  const daySet = new Set<string>();
   for (const s of sessions) {
-    const date = new Date(s.started_at);
-    const localDate = new Date(date.toLocaleString("en-US", { timeZone: timezone }));
-    daySet.add(localDate.toISOString().split('T')[0]);
+    const localDate = new Date(s.started_at).toLocaleDateString("en-CA", { timeZone: timezone }); // YYYY-MM-DD
+    daySet.add(localDate);
   }
 
   const days = Array.from(daySet).sort().reverse();
-  const today = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }))
-    .toISOString().split('T')[0];
-  const yesterday = new Date(Date.now() - 86400000)
-    .toLocaleString("en-US", { timeZone: timezone }).split('T')[0];
+  const today = new Date().toLocaleDateString("en-CA", { timeZone: timezone });
 
-  let currentStreak = 0;
-  let checkDate = today;
-
+  // Check if streak is alive (today or yesterday)
+  const yesterday = new Date(Date.now() - 86400000).toLocaleDateString("en-CA", { timeZone: timezone });
   if (days[0] !== today && days[0] !== yesterday) {
     return { current: 0, longest: days.length > 0 ? 1 : 0 };
   }
 
+  // Count consecutive days
+  let currentStreak = 0;
+  let checkDate = today;
+
   for (const day of days) {
     if (day === checkDate) {
       currentStreak++;
-      const prev = new Date(checkDate + 'T00:00:00');
-      prev.setDate(prev.getDate() - 1);
-      checkDate = prev.toISOString().split('T')[0];
-    } else if (day === new Date(Date.now() - 86400000).toISOString().split('T')[0] && currentStreak === 0) {
-      currentStreak++;
-      const prev = new Date(checkDate + 'T00:00:00');
-      prev.setDate(prev.getDate() - 1);
-      checkDate = prev.toISOString().split('T')[0];
+      // Go back one day
+      const d = new Date(checkDate + "T12:00:00Z");
+      d.setUTCDate(d.getUTCDate() - 1);
+      checkDate = d.toISOString().split('T')[0];
     } else {
       break;
     }
