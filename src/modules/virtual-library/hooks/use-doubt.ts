@@ -1,18 +1,16 @@
 /**
  * Hook for AI doubt engine state.
+ *
+ * Uses the real /api/ai/doubt endpoint which calls Groq.
+ * Requires authentication — shows sign-in prompt when not logged in.
  */
 
 "use client";
 
-import { useState, useCallback } from "react";
-import { AIService } from "../services/ai-service";
-import { mockAIProvider } from "../providers/mock-ai";
-import { classifyBranch } from "../features/ai-doubt-engine/services/branch-classifier";
+import { useState, useCallback, useEffect } from "react";
 import type { DoubtRequest, DoubtResponse } from "../types/index";
-import { createAnonymousId } from "../services/session-service";
 
 export interface UseDoubtOptions {
-  participantId?: string;
   defaultBranchId?: string;
 }
 
@@ -32,24 +30,59 @@ export interface UseDoubtReturn {
   /** Error message if any */
   error: string | null;
   /** Submit the doubt */
-  submit: (roomId?: string) => Promise<DoubtResponse | null>;
+  submit: () => Promise<DoubtResponse | null>;
   /** Clear the current Q&A */
   clear: () => void;
-  /** Whether the AI engine is available */
+  /** Conversation ID for follow-up questions */
+  conversationId: string | null;
+  /** Whether the user is authenticated */
+  isAuthenticated: boolean;
+  /** Set auth state */
+  setAuthState: (auth: boolean) => void;
+  /** Whether the AI service is available */
   available: boolean;
+}
+
+function classifyBranch(question: string): { branchId: string; confidence: "high" | "medium" | "low" } {
+  const lower = question.toLowerCase();
+  if (/\b(turing|automata|pda|regular|context.free|decidab|halting|npda|regex)\b/.test(lower)) return { branchId: "cse", confidence: "high" };
+  if (/\b(dynamic.programming|knapsack|lcs|matrix.chain|optimal|subsequence|dp\b)/.test(lower)) return { branchId: "cse", confidence: "high" };
+  if (/\b(dbms|normalization|sql|transaction|acid|concurrency|joins|rdbms)\b/.test(lower)) return { branchId: "cse", confidence: "high" };
+  if (/\b(network|circuit|control|signals|analog|digital|ece)\b/.test(lower)) return { branchId: "ece", confidence: "medium" };
+  if (/\b(machine|power|electrical|transformer|motor)\b/.test(lower)) return { branchId: "ee", confidence: "medium" };
+  if (/\b(thermo|fluid|som|tom|manufacturing|heat)\b/.test(lower)) return { branchId: "me", confidence: "medium" };
+  if (/\b(probability|statistics|bayes|linear.algebra|ml|deep.learning|data)\b/.test(lower)) return { branchId: "da", confidence: "medium" };
+  if (/\b(structural|geotech|environmental|transport|surveying)\b/.test(lower)) return { branchId: "ce", confidence: "medium" };
+  return { branchId: "cse", confidence: "low" };
 }
 
 export function useDoubt(options: UseDoubtOptions = {}): UseDoubtReturn {
   const { defaultBranchId = "cse" } = options;
-  const participantId = options.participantId ?? createAnonymousId();
-  const service = new AIService(mockAIProvider);
-
   const [question, setQuestion] = useState("");
   const [branchId, setBranchId] = useState(defaultBranchId);
   const [confidence, setConfidence] = useState<"high" | "medium" | "low">("low");
   const [response, setResponse] = useState<DoubtResponse | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [isAuthenticated, setAuthState] = useState(false);
+
+  // Check auth state on mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const { getChatSupabase } = await import("@/modules/chat/services/supabase");
+        const supabase = getChatSupabase();
+        if (supabase) {
+          const { data: { user } } = await supabase.auth.getUser();
+          setAuthState(!!user);
+        }
+      } catch {
+        // Not authenticated
+      }
+    };
+    checkAuth();
+  }, []);
 
   const handleQuestionChange = useCallback((q: string) => {
     setQuestion(q);
@@ -60,36 +93,82 @@ export function useDoubt(options: UseDoubtOptions = {}): UseDoubtReturn {
     }
   }, []);
 
-  const submit = useCallback(
-    async (roomId?: string): Promise<DoubtResponse | null> => {
-      if (!question.trim() || isSubmitting) return null;
+  const [apiAvailable, setApiAvailable] = useState(false);
 
-      setIsSubmitting(true);
-      setError(null);
-      setResponse(null);
-
+  // Detect API availability on mount
+  useEffect(() => {
+    let cancelled = false;
+    const check = async () => {
       try {
-        const request: DoubtRequest = {
-          id: `doubt-${Date.now()}`,
-          participantId,
-          roomId,
-          question: question.trim(),
-          branchId,
-          createdAt: new Date().toISOString(),
-        };
-
-        const result = await service.askDoubt(request);
-        setResponse(result);
-        return result;
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
-        return null;
-      } finally {
-        setIsSubmitting(false);
+        const res = await fetch("/api/ai/doubt", { method: "POST" });
+        if (cancelled) return;
+        setApiAvailable(res.ok);
+      } catch {
+        if (!cancelled) setApiAvailable(false);
       }
-    },
-    [question, branchId, participantId, service, isSubmitting],
-  );
+    };
+    check();
+    return () => { cancelled = true; };
+  }, []);
+
+  const submit = useCallback(async (): Promise<DoubtResponse | null> => {
+    if (!question.trim() || isSubmitting) return null;
+
+    if (!isAuthenticated) {
+      setError("Please sign in to use the AI assistant.");
+      return null;
+    }
+
+    if (!apiAvailable) {
+      setError("The AI assistant is not configured. Please set GROQ_API_KEY in the server environment.");
+      return null;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+    setResponse(null);
+
+    try {
+      const res = await fetch("/api/ai/doubt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question: question.trim(),
+          conversationId: conversationId ?? undefined,
+          branchId,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error ?? `Request failed (${res.status})`);
+      }
+
+      // Store conversation ID for follow-up
+      if (data.id && !conversationId) {
+        setConversationId(data.id);
+      }
+
+      const aiResponse: DoubtResponse = {
+        id: data.id,
+        requestId: data.requestId,
+        answer: data.answer,
+        references: data.references ?? [],
+        confidence: data.confidence ?? "medium",
+        createdAt: data.createdAt ?? new Date().toISOString(),
+      };
+
+      setResponse(aiResponse);
+      return aiResponse;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      setError(message);
+      return null;
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [question, branchId, conversationId, isSubmitting, isAuthenticated, apiAvailable]);
 
   const clear = useCallback(() => {
     setQuestion("");
@@ -108,6 +187,9 @@ export function useDoubt(options: UseDoubtOptions = {}): UseDoubtReturn {
     error,
     submit,
     clear,
-    available: service.available,
+    conversationId,
+    isAuthenticated,
+    setAuthState,
+    available: apiAvailable,
   };
 }

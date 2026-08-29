@@ -6,11 +6,11 @@
 
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { roomService } from "../../../services/room-service";
-import { createAnonymousId, createUserLabel } from "../../../services/session-service";
+import { RoomService } from "../../../services/room-service";
+import type { StudyRoom } from "../../../types/index";
 import { StudyPlanSummary } from "./StudyPlanSummary";
 
 const fadeUp = {
@@ -20,13 +20,46 @@ const fadeUp = {
 };
 
 export function LibraryHome() {
-  const participantId = useMemo(() => createAnonymousId(), []);
-  const userLabel = useMemo(() => createUserLabel(participantId), [participantId]);
-  const rooms = roomService.getRooms();
-  const totalStudents = rooms.reduce((sum, r) => sum + r.activeCount, 0);
+  const [rooms, setRooms] = useState<StudyRoom[]>([]);
+  const [userLabel, setUserLabel] = useState<string>("there");
+  const [participantId, setParticipantId] = useState<string>("");
+
+  useEffect(() => {
+    const svc = new RoomService();
+    svc.getRooms().then(setRooms).catch(() => setRooms([]));
+
+    // Resolve display name
+    (async () => {
+      try {
+        const { getChatSupabase } = await import("@/modules/chat/services/supabase");
+        const supabase = getChatSupabase();
+        if (supabase) {
+          const { data } = await supabase.auth.getUser();
+          if (data.user) {
+            const { data: profile } = await supabase
+              .from("profiles").select("display_name, full_name, email").eq("id", data.user.id).maybeSingle();
+            const label =
+              profile?.display_name || profile?.full_name ||
+              data.user.user_metadata?.full_name ||
+              data.user.email?.split("@")[0] || "there";
+            setUserLabel(label);
+            setParticipantId(data.user.id);
+            return;
+          }
+        }
+      } catch {}
+      // Anonymous fallback (no fake name)
+      const id = (typeof crypto !== "undefined" && "randomUUID" in crypto)
+        ? crypto.randomUUID() : `guest-${Math.random().toString(36).slice(2, 10)}`;
+      setParticipantId(id);
+      setUserLabel("there");
+    })();
+  }, []);
+
+  const totalStudents = rooms.reduce((sum: number, r) => sum + (r.activeCount ?? 0), 0);
 
   // Get hour-based greeting
-  const hour = new Date().getHours();
+  const hour = typeof window !== "undefined" ? new Date().getHours() : 12;
   const greeting =
     hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
 

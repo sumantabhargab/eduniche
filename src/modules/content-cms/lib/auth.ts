@@ -51,7 +51,7 @@ export async function createSupabaseServerClient() {
  */
 export function createRouteSupabaseClient(
   request: Request,
-  response: NextResponse
+  response?: NextResponse
 ) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
@@ -71,7 +71,7 @@ export function createRouteSupabaseClient(
       },
       setAll(cookiesToSet) {
         cookiesToSet.forEach(({ name, value, options }) => {
-          response.cookies.set(name, value, options);
+          response?.cookies.set(name, value, options);
         });
       },
     },
@@ -79,11 +79,48 @@ export function createRouteSupabaseClient(
 }
 
 /**
- * Get the current session and verify admin role.
- * Returns the session if admin, null otherwise.
+ * Get admin session from a Route Handler context.
+ * Uses createRouteSupabaseClient which reads cookies from the request
+ * directly (cookies() from next/headers doesn't work in Route Handlers).
  */
 export async function getAdminSession(): Promise<AdminSession | null> {
   const supabase = await createSupabaseServerClient();
+  if (!supabase) return null;
+
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
+
+  if (error || !session?.user) return null;
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", session.user.id)
+    .maybeSingle();
+
+  if (profileError || !profile || profile.role !== "admin") return null;
+
+  return {
+    user: {
+      id: session.user.id,
+      email: session.user.email ?? "",
+      role: profile.role,
+    },
+  };
+}
+
+/**
+ * Get admin session from a Route Handler context.
+ * Uses createRouteSupabaseClient which reads cookies from the request
+ * directly (cookies() from next/headers doesn't work in Route Handlers).
+ */
+export async function getAdminSessionFromRoute(
+  request: Request,
+  _response?: NextResponse
+): Promise<AdminSession | null> {
+  const supabase = createRouteSupabaseClient(request, _response);
   if (!supabase) return null;
 
   const {

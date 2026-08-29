@@ -31,7 +31,7 @@ export function DoubtPanel({ roomId, isOpen, onClose }: DoubtPanelProps) {
   } = useDoubt();
 
   const handleSubmit = async () => {
-    await submit(roomId);
+    await submit();
   };
 
   const handleClose = () => {

@@ -13,6 +13,10 @@ const STORE: Map<string, StoredMessage[]> = new Map();
 export class MockChatProvider implements ChatProvider {
   readonly enabled = true;
 
+  async isAuthenticated(): Promise<boolean> {
+    return false;
+  }
+
   subscribe(
     roomId: string,
     onMessage: (message: ChatMessage) => void,

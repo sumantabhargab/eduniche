@@ -6,6 +6,7 @@ import type { ChatMessage } from "../../../types/index";
 
 interface ChatMessageProps {
   message: ChatMessage;
+  currentUserId?: string;
 }
 
 function formatTime(iso: string): string {
@@ -13,7 +14,7 @@ function formatTime(iso: string): string {
   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
-export function ChatMessage({ message }: ChatMessageProps) {
+export function ChatMessage({ message, currentUserId }: ChatMessageProps) {
   if (message.type === "system") {
     return (
       <div className="text-center py-1.5">
@@ -24,7 +25,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
     );
   }
 
-  const isCurrentUser = message.authorId === "current-user";
+  const isCurrentUser = currentUserId ? message.authorId === currentUserId : false;
 
   return (
     <div className={`flex ${isCurrentUser ? "justify-end" : "justify-start"}`}>

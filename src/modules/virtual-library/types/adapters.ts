@@ -68,6 +68,12 @@ export interface VideoProvider {
 // ─── Chat Provider ──────────────────────────────────────────────────────────
 
 export interface ChatProvider {
+  /** Whether the chat provider is active */
+  readonly enabled: boolean;
+
+  /** Check whether the user is authenticated */
+  isAuthenticated(): Promise<boolean>;
+
   /** Subscribe to new messages in a room */
   subscribe(
     roomId: string,

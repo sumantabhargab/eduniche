@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAdminSession, createRouteSupabaseClient, adminLogin } from "@/modules/content-cms/lib/auth";
+import { getAdminSessionFromRoute, createRouteSupabaseClient, adminLogin } from "@/modules/content-cms/lib/auth";
 
 export async function POST(request: Request) {
   try {

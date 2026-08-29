@@ -54,6 +54,9 @@ export function useStudySession(
   const [session, setSession] = useState<StudySession | null>(null);
   const [focusSeconds, setFocusSeconds] = useState(0);
 
+  // Track whether the current pause was auto-triggered by tab visibility change
+  const autoPausedRef = useRef(false);
+
   // Tick timer
   useEffect(() => {
     if (status !== "running") return;
@@ -62,6 +65,31 @@ export function useStudySession(
     }, 1000);
     return () => clearInterval(interval);
   }, [status]);
+
+  // Auto-pause when the tab is hidden, auto-resume when it becomes visible again.
+  // Keeps the focus timer honest: it only advances while the user is actually in the screen.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        if (machineRef.current.status === "running") {
+          machineRef.current.pause();
+          autoPausedRef.current = true;
+          setStatus("paused");
+        }
+      } else if (document.visibilityState === "visible") {
+        if (autoPausedRef.current && machineRef.current.status === "paused") {
+          machineRef.current.resume();
+          autoPausedRef.current = false;
+          setStatus("running");
+        }
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
 
   // Listen for session updates from the machine
   useEffect(() => {

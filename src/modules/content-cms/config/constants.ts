@@ -1,6 +1,20 @@
 /**
  * Constants for the Content CMS module.
+ *
+ * ALLOWED_MIME_TYPES, ALLOWED_EXTENSIONS, MAX_FILE_SIZE_BYTES and friends are
+ * imported from ../config/file-types — the single source of truth for upload
+ * rules. Do NOT define them here.
  */
+
+import {
+  ALLOWED_EXTENSIONS,
+  ALLOWED_MIME_TYPES,
+  FILE_INPUT_ACCEPT,
+  MAX_FILE_SIZE_BYTES,
+  MAX_FILE_SIZE_MB,
+  STORAGE_BUCKET,
+  formatAllowedTypesHint,
+} from "../config/file-types";
 
 export const RESOURCE_TYPES: { value: string; label: string }[] = [
   { value: "notes", label: "Notes" },
@@ -29,26 +43,13 @@ export const BRANCHES: { id: string; name: string; shortName: string }[] = [
 
 export const DEFAULT_CATEGORIES = ["Notes", "PYQs", "Books", "Practice", "Other"];
 
-export const MAX_UPLOAD_SIZE_MB = 50;
-export const MAX_UPLOAD_SIZE_BYTES = MAX_UPLOAD_SIZE_MB * 1024 * 1024;
-export const ALLOWED_MIME_TYPES = [
-  "application/pdf",
-  "image/png",
-  "image/jpeg",
-  "image/jpg",
-  "image/webp",
-  "image/svg+xml",
-  "application/zip",
-  "application/x-zip-compressed",
-  "text/plain",
-  "application/msword",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  "application/vnd.ms-powerpoint",
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-  "application/vnd.ms-excel",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-];
-
-export const STORAGE_BUCKET = process.env.NEXT_PUBLIC_CONTENT_BUCKET || "eduniche-content";
-
-export const ITEMS_PER_PAGE = 50;
+// Re-export from file-types for convenience
+export {
+  ALLOWED_MIME_TYPES,
+  ALLOWED_EXTENSIONS,
+  FILE_INPUT_ACCEPT,
+  MAX_FILE_SIZE_BYTES,
+  MAX_FILE_SIZE_MB,
+  STORAGE_BUCKET,
+  formatAllowedTypesHint,
+};

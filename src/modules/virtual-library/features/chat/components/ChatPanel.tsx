@@ -1,31 +1,57 @@
 /**
  * ChatPanel — collapsible chat sidebar within rooms.
+ *
+ * Shows an auth prompt when the user is not signed in.
+ * Displays messages with real user names from Supabase profiles.
  */
 
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import type { ChatMessage } from "../../../types/index";
 import { ChatMessage as ChatMessageBubble } from "./ChatMessage";
+import { getChatSupabase } from "@/modules/chat/services/supabase";
 
 interface ChatPanelProps {
   messages: ChatMessage[];
   onSendMessage: (content: string) => Promise<void>;
   compact?: boolean;
+  currentUserId?: string;
+  requireAuth?: boolean;
 }
 
-export function ChatPanel({ messages, onSendMessage, compact }: ChatPanelProps) {
+export function ChatPanel({
+  messages,
+  onSendMessage,
+  compact,
+  currentUserId,
+  requireAuth = true,
+}: ChatPanelProps) {
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Check auth state
+  useEffect(() => {
+    const check = async () => {
+      const supabase = getChatSupabase();
+      if (supabase) {
+        const { data: { user } } = await supabase.auth.getUser();
+        setAuthenticated(!!user);
+      }
+    };
+    check();
+  }, []);
+
   // Auto-scroll
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (messages.length > 0) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages.length]);
 
   const handleSend = async () => {
     if (!input.trim() || isSending) return;
@@ -46,6 +72,26 @@ export function ChatPanel({ messages, onSendMessage, compact }: ChatPanelProps) 
       handleSend();
     }
   };
+
+  // Auth required gate
+  if (requireAuth && !authenticated) {
+    return (
+      <div className={`bg-card border border-border rounded-2xl flex flex-col overflow-hidden ${
+        compact ? "h-[500px]" : "h-[500px] sm:h-[600px]"
+      }`}>
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+          <h3 className="font-semibold text-sm">Chat</h3>
+        </div>
+        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+          <div className="text-3xl mb-3">🔒</div>
+          <p className="text-sm text-muted mb-1">Sign in to join the conversation</p>
+          <p className="text-xs text-muted">
+            Chat is available for registered users only.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`bg-card border border-border rounded-2xl flex flex-col overflow-hidden ${
@@ -73,7 +119,11 @@ export function ChatPanel({ messages, onSendMessage, compact }: ChatPanelProps) 
             )}
 
             {messages.map((msg) => (
-              <ChatMessageBubble key={msg.id} message={msg} />
+              <ChatMessageBubble
+                key={msg.id}
+                message={msg}
+                currentUserId={currentUserId}
+              />
             ))}
             <div ref={bottomRef} />
           </div>

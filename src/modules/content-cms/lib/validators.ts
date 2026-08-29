@@ -1,7 +1,16 @@
 /**
  * Input validation utilities for the Content CMS.
  * Uses simple runtime checks — no external validation library needed.
+ *
+ * File-type validation delegates to ../config/file-types which is the single
+ * source of truth for both allowed extensions and allowed MIME types.
  */
+
+import {
+  MAX_FILE_SIZE_BYTES,
+  matchFileType,
+  formatAllowedTypesHint,
+} from "../config/file-types";
 
 const MAX_NAME = 100;
 const MAX_FILENAME = 255;
@@ -11,7 +20,6 @@ const MAX_TAG = 50;
 const MAX_TAGS = 20;
 const MAX_DESC = 2000;
 const MAX_SEARCH = 200;
-const MAX_FILE_SIZE = 200 * 1024 * 1024;
 
 const INVALID_NAME_CHARS = /[<>:"/\\|?*\x00-\x1f]/;
 
@@ -63,31 +71,33 @@ export function validateSearchQuery(q: string, limit = 50) {
   return { q: trimmed, limit: safeLimit };
 }
 
-export function validateFileUpload(file: File): { valid: true } | { valid: false; error: string } {
-  const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE;
-  const ALLOWED_MIME_TYPES = [
-    "application/pdf",
-    "image/png",
-    "image/jpeg",
-    "image/jpg",
-    "image/webp",
-    "image/svg+xml",
-    "application/zip",
-    "application/x-zip-compressed",
-    "text/plain",
-    "application/msword",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "application/vnd.ms-powerpoint",
-    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-    "application/vnd.ms-excel",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "application/octet-stream",
-  ];
+export type FileValidationResult =
+  | { valid: true }
+  | { valid: false; error: string };
+
+/**
+ * Validate an uploaded file using both extension and MIME type.
+ *
+ * Browsers and OSes report inconsistent MIME types for plain-text formats
+ * (.md → text/plain, .csv → text/plain, .rtf → application/rtf). This
+ * function accepts a file when EITHER its extension OR its MIME type matches
+ * an allowed rule defined in ../config/file-types.
+ */
+export function validateFileUpload(file: File): FileValidationResult {
   if (file.size > MAX_FILE_SIZE_BYTES) {
-    return { valid: false, error: `File exceeds ${MAX_FILE_SIZE_BYTES / (1024 * 1024)}MB limit.` };
+    return {
+      valid: false,
+      error: `File "${file.name}" exceeds the ${MAX_FILE_SIZE_BYTES / (1024 * 1024)} MB limit.`,
+    };
   }
-  if (!ALLOWED_MIME_TYPES.includes(file.type)) {
-    return { valid: false, error: `File type "${file.type}" is not allowed.` };
+
+  const match = matchFileType(file.name, file.type);
+  if (!match) {
+    return {
+      valid: false,
+      error: `File type not supported. ${formatAllowedTypesHint()}`,
+    };
   }
+
   return { valid: true };
 }

@@ -4,29 +4,47 @@
 
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { LibraryHome } from "@/modules/virtual-library/features/home/components/LibraryHome";
 import { DoubtPanel } from "@/modules/virtual-library/features/ai-doubt-engine/components/DoubtPanel";
 import { DailyPlanner } from "@/modules/virtual-library/features/planner/components/DailyPlanner";
-import { roomService } from "@/modules/virtual-library/services/room-service";
+import { RoomService } from "@/modules/virtual-library/services/room-service";
+import { RoomList } from "@/modules/virtual-library/features/rooms/components/RoomList";
 import { virtualLibraryConfig } from "@/modules/virtual-library/config/feature-flags";
+import type { StudyRoom } from "@/modules/virtual-library/types/index";
 
 export default function LibraryPage() {
   const [doubtOpen, setDoubtOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string>("library");
+  const [rooms, setRooms] = useState<StudyRoom[]>([]);
+  const [isLoadingRooms, setIsLoadingRooms] = useState(true);
   const router = useRouter();
-
-  const rooms = useMemo(() => roomService.getRooms(), []);
+  const roomService = useMemo(() => new RoomService(), []);
 
   // Parse URL tab param on mount
-  if (typeof window !== "undefined") {
+  useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
     if (tab && ["planner", "doubts", "library", "rooms"].includes(tab)) {
       setActiveTab(tab);
     }
-  }
+  }, []);
+
+  // Load rooms from DB
+  useEffect(() => {
+    let cancelled = false;
+    setIsLoadingRooms(true);
+    roomService.getRooms().then((r) => {
+      if (!cancelled) {
+        setRooms(r);
+        setIsLoadingRooms(false);
+      }
+    }).catch(() => {
+      if (!cancelled) setIsLoadingRooms(false);
+    });
+    return () => { cancelled = true; };
+  }, [roomService]);
 
   if (!virtualLibraryConfig.enabled) {
     return (
@@ -75,59 +93,43 @@ export default function LibraryPage() {
 
       {/* Tab content area */}
       <div className="max-w-6xl mx-auto px-6">
-      {activeTab === "library" && <LibraryHome />}
+        {activeTab === "library" && <LibraryHome />}
 
-      {activeTab === "rooms" && (
-        <div>
-          <h2 className="text-2xl font-bold mb-6">Study Rooms</h2>
-          {/* RoomList would go here — importing would cause circular deps */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {rooms.map((room) => (
-              <a
-                key={room.id}
-                href={`/library/room/${room.id}`}
-                className="block bg-card border border-border rounded-2xl p-5 hover:border-foreground/30 transition-colors"
-              >
-                <h3 className="font-semibold mb-1">{room.name}</h3>
-                <p className="text-sm text-muted mb-3">{room.description}</p>
-                <div className="flex items-center gap-2 text-sm text-muted">
-                  <span className="w-2 h-2 rounded-full bg-green-500" />
-                  <span>{room.activeCount} studying</span>
-                </div>
-              </a>
-            ))}
+        {activeTab === "rooms" && (
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Study Rooms</h2>
+            <RoomList />
           </div>
-        </div>
-      )}
+        )}
 
-      {activeTab === "planner" && (
-        <div>
-          <h2 className="text-2xl font-bold mb-6">Study Planner</h2>
-          <DailyPlanner />
-        </div>
-      )}
+        {activeTab === "planner" && (
+          <div>
+            <h2 className="text-2xl font-bold mb-6">Study Planner</h2>
+            <DailyPlanner />
+          </div>
+        )}
 
-      {activeTab === "doubts" && (
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold mb-6">AI Doubt Engine</h2>
-          <DoubtPanel isOpen={true} onClose={() => {}} />
-        </div>
-      )}
+        {activeTab === "doubts" && (
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-2xl font-bold mb-6">AI Doubt Engine</h2>
+            <DoubtPanel isOpen={true} onClose={() => {}} />
+          </div>
+        )}
 
-      {/* Floating Doubt button */}
-      <button
-        onClick={() => setDoubtOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-foreground text-background rounded-full shadow-lg flex items-center justify-center text-2xl hover:opacity-90 transition-opacity"
-        title="Ask a doubt"
-      >
-        💡
-      </button>
+        {/* Floating Doubt button */}
+        <button
+          onClick={() => setDoubtOpen(true)}
+          className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-foreground text-background rounded-full shadow-lg flex items-center justify-center text-2xl hover:opacity-90 transition-opacity"
+          title="Ask a doubt"
+        >
+          💡
+        </button>
 
-      {doubtOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[380px]">
-          <DoubtPanel isOpen={doubtOpen} onClose={() => setDoubtOpen(false)} />
-        </div>
-      )}
+        {doubtOpen && (
+          <div className="fixed bottom-24 right-6 z-50 w-[380px]">
+            <DoubtPanel isOpen={doubtOpen} onClose={() => setDoubtOpen(false)} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { getAdminSession } from "@/modules/content-cms/lib/auth";
+import { getAdminSessionFromRoute } from "@/modules/content-cms/lib/auth";
 import { getFolder } from "@/modules/content-cms/services/folder-service";
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const admin = await getAdminSession();
+  const admin = await getAdminSessionFromRoute(request);
   if (!admin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

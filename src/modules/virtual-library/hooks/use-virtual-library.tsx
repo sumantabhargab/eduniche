@@ -3,6 +3,8 @@
  *
  * Wires together all services and providers, exposes a unified
  * context to the entire /library route tree.
+ *
+ * Uses real Supabase-backed implementations for chat, realtime, and AI.
  */
 
 "use client";
@@ -10,30 +12,26 @@
 import React, {
   createContext,
   useContext,
+  useEffect,
   useMemo,
+  useState,
   type ReactNode,
 } from "react";
 import { virtualLibraryConfig } from "../config/feature-flags";
-import { mockRealtimeProvider } from "../providers/mock-realtime";
-import { mockChatProvider } from "../providers/mock-chat";
-import { mockAIProvider } from "../providers/mock-ai";
-import { noopVideoProvider } from "../providers/noop-video";
 import { RoomService } from "../services/room-service";
 import { ChatService } from "../services/chat-service";
 import { AIService } from "../services/ai-service";
 import { PlannerService } from "../services/planner-service";
-import { libraryEventEmitter } from "../services/event-emitter";
+import { RealChatProvider } from "../providers/real-chat";
+import { groqAIProvider } from "../providers/real-ai";
 import type {
-  StudySession,
   ChatMessage,
   StudyPlan,
   Participant,
 } from "../types/index";
-import { createAnonymousId, createUserLabel } from "../services/session-service";
-import { createSessionStateMachine, type SessionStateMachine } from "../services/session-service";
 import { getAllBranches, getBranchById } from "../config/syllabus";
 
-// ─── Context Shape ──────────────────────────────────────────────────────────
+// ─── Context Shape ────────────────────────────────────────────────────────────
 
 interface VirtualLibraryContextValue {
   /** Feature flag config */
@@ -53,11 +51,6 @@ interface VirtualLibraryContextValue {
   aiService: AIService;
   plannerService: PlannerService;
 
-  // Session state machine
-  sessionMachine: SessionStateMachine;
-  setSessionTopic: (topic: string) => void;
-  setSessionSubject: (subjectId: string) => void;
-
   // Branches
   branches: ReturnType<typeof getAllBranches>;
   getBranch: (id: string) => ReturnType<typeof getBranchById>;
@@ -70,37 +63,66 @@ interface VirtualLibraryContextValue {
   setCurrentPlan: (plan: StudyPlan | null) => void;
 }
 
-// ─── Provider ───────────────────────────────────────────────────────────────
+// ─── Provider ────────────────────────────────────────────────────────────────
 
 const VirtualLibraryContext = createContext<VirtualLibraryContextValue | null>(null);
 
 export function VirtualLibraryProvider({ children }: { children: ReactNode }) {
-  const participantId = useMemo(() => createAnonymousId(), []);
-  const userLabel = useMemo(() => createUserLabel(participantId), [participantId]);
+  const [participantId, setParticipantId] = useState<string>("");
+  const [userLabel, setUserLabel] = useState<string>("there");
+
+  useEffect(() => {
+    let cancelled = false;
+    const resolveUser = async () => {
+      try {
+        const { getChatSupabase } = await import("@/modules/chat/services/supabase");
+        const supabase = getChatSupabase();
+        if (!supabase) {
+          if (!cancelled) {
+            setParticipantId(`anon-${Math.random().toString(36).slice(2, 10)}`);
+          }
+          return;
+        }
+        const { data } = await supabase.auth.getUser();
+        if (cancelled) return;
+        if (data.user) {
+          setParticipantId(data.user.id);
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("display_name, full_name, email")
+            .eq("id", data.user.id)
+            .maybeSingle();
+          const label =
+            profile?.display_name ||
+            profile?.full_name ||
+            data.user.user_metadata?.full_name ||
+            data.user.email?.split("@")[0] ||
+            "there";
+          setUserLabel(label);
+        } else {
+          setParticipantId(`anon-${Math.random().toString(36).slice(2, 10)}`);
+        }
+      } catch {
+        if (!cancelled) {
+          setParticipantId(`anon-${Math.random().toString(36).slice(2, 10)}`);
+        }
+      }
+    };
+    resolveUser();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const roomService = useMemo(() => new RoomService(), []);
-  const chatService = useMemo(
-    () => new ChatService(mockChatProvider),
-    [],
-  );
-  const aiService = useMemo(
-    () => new AIService(mockAIProvider),
-    [],
-  );
+  const chatService = useMemo(() => new ChatService(), []);
+  const aiService = useMemo(() => new AIService(groqAIProvider), []);
   const plannerService = useMemo(() => new PlannerService(), []);
 
-  // Session state
-  const sessionMachine = useMemo(
-    () =>
-      createSessionStateMachine(
-        participantId,
-        "main-library",
-        "all",
-      ),
-    [participantId],
-  );
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [participants, setParticipants] = useState<Participant[]>([]);
+  const [currentPlan, setCurrentPlan] = useState<StudyPlan | null>(null);
 
-  // Branches
   const branches = useMemo(() => getAllBranches(), []);
   const getBranch = useMemo(() => getBranchById, []);
 
@@ -114,16 +136,13 @@ export function VirtualLibraryProvider({ children }: { children: ReactNode }) {
       chatService,
       aiService,
       plannerService,
-      sessionMachine,
-      setSessionTopic: () => {},
-      setSessionSubject: () => {},
       branches,
       getBranch,
-      messages: [],
-      setMessages: () => {},
-      participants: [],
-      currentPlan: null,
-      setCurrentPlan: () => {},
+      messages,
+      setMessages,
+      participants,
+      currentPlan,
+      setCurrentPlan,
     }),
     [
       participantId,
@@ -132,10 +151,12 @@ export function VirtualLibraryProvider({ children }: { children: ReactNode }) {
       chatService,
       aiService,
       plannerService,
-      sessionMachine,
       branches,
       getBranch,
-    ],
+      messages,
+      participants,
+      currentPlan,
+    ]
   );
 
   if (!virtualLibraryConfig.enabled) {

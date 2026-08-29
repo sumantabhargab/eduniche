@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { getAdminSession } from "@/modules/content-cms/lib/auth";
+import { getAdminSessionFromRoute } from "@/modules/content-cms/lib/auth";
 import { searchResources } from "@/modules/content-cms/services/resource-service";
 
 export async function GET(request: Request) {
-  const admin = await getAdminSession();
+  const admin = await getAdminSessionFromRoute(request);
   if (!admin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

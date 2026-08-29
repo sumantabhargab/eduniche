@@ -22,7 +22,12 @@ export {
 
 // ─── Services ────────────────────────────────────────────────────────────────
 
-export { roomService } from "./services/room-service";
+import { RoomService } from "./services/room-service";
+
+export { RoomService };
+
+/** Backward-compatible singleton instance */
+export const roomService = new RoomService();
 export { plannerService } from "./services/planner-service";
 export { libraryEventEmitter, emitLibraryEvent } from "./services/event-emitter";
 

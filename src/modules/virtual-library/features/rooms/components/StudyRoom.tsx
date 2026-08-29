@@ -11,12 +11,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useChat } from "../../../hooks/use-chat";
 import { useStudySession } from "../../../hooks/use-study-session";
 import { useRooms } from "../../../hooks/use-rooms";
-import { roomService } from "../../../services/room-service";
 import { ChatPanel } from "../../../features/chat/components/ChatPanel";
 import { VideoGrid } from "./VideoGrid";
 import { StudyTimer } from "../../../features/study-session/components/StudyTimer";
 import { virtualLibraryConfig } from "../../../config/feature-flags";
 import { createAnonymousId } from "../../../services/session-service";
+import { getChatSupabase } from "@/modules/chat/services/supabase";
+import { realRealtimeProvider } from "../../../providers/real-realtime";
 
 interface StudyRoomProps {
   roomId: string;
@@ -33,17 +34,75 @@ if (virtualLibraryConfig.videoEnabled) {
 export function StudyRoom({ roomId }: StudyRoomProps) {
   const participantId = useMemo(() => createAnonymousId(), []);
   const [activeTab, setActiveTab] = useState<"focus" | "chat" | "video">("focus");
+  const [currentUserId, setCurrentUserId] = useState<string | undefined>(undefined);
 
   const { rooms, activeRoom, participants, joinRoom, leaveRoom, setActiveRoom } = useRooms();
 
   // Set the active room from the URL param
   useEffect(() => {
-    const room = roomService.getRoom(roomId);
-    if (room) {
-      setActiveRoom(room);
+    let cancelled = false;
+
+    (async () => {
+      const supabase = getChatSupabase();
+      let userId = participantId;
+
+      if (supabase) {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          userId = user.id;
+
+          // Ensure profile exists
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("id")
+            .eq("id", user.id)
+            .maybeSingle();
+
+          if (!profile) {
+            const displayName = user.email?.split("@")[0] ?? "User";
+            await supabase.from("profiles").upsert(
+              { id: user.id, role: "student", display_name: displayName, full_name: displayName, email: user.email },
+              { onConflict: "id", ignoreDuplicates: true }
+            );
+          }
+        }
+      }
+
+      if (cancelled) return;
+
+      setCurrentUserId(userId);
+
+      // Load room from DB
+      if (supabase) {
+        const { data } = await supabase
+          .from("study_rooms")
+          .select("*")
+          .eq("id", roomId)
+          .maybeSingle();
+
+        if (data && !cancelled) {
+          const r = data as any;
+          setActiveRoom({
+            id: r.id,
+            name: r.name,
+            description: r.description ?? "",
+            branchId: r.branch_id ?? "all",
+            mode: r.mode ?? "focus",
+            activeCount: 0,
+            maxParticipants: r.max_participants ?? 50,
+            createdAt: r.created_at,
+            isOpen: r.is_open,
+          });
+        }
+      }
+
       joinRoom(roomId);
-    }
-    return () => leaveRoom(roomId, participantId);
+    })();
+
+    return () => {
+      cancelled = true;
+      leaveRoom(roomId, participantId);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId, participantId]);
 
@@ -171,6 +230,7 @@ export function StudyRoom({ roomId }: StudyRoomProps) {
                   <ChatPanel
                     messages={messages}
                     onSendMessage={sendMessage}
+                    currentUserId={currentUserId}
                   />
                 ) : (
                   <div className="text-center py-16 text-muted">

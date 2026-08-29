@@ -5,8 +5,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { roomService, type RoomService } from "../services/room-service";
 import type { Participant, StudyRoom } from "../types/index";
+import { realRealtimeProvider } from "../providers/real-realtime";
 
 export interface UseRoomsOptions {
   branchFilter?: string;
@@ -22,11 +22,11 @@ export interface UseRoomsReturn {
   /** Whether rooms are loading */
   isLoading: boolean;
   /** Join a room */
-  joinRoom: (roomId: string) => () => void;
+  joinRoom: (roomId: string) => Promise<() => void>;
   /** Leave a room */
-  leaveRoom: (roomId: string, participantId: string) => void;
+  leaveRoom: (roomId: string, participantId: string) => Promise<void>;
   /** Select a room as active */
-  setActiveRoom: (room: StudyRoom) => void;
+  setActiveRoom: (room: StudyRoom | null) => void;
 }
 
 export function useRooms(options: UseRoomsOptions = {}): UseRoomsReturn {
@@ -39,58 +39,153 @@ export function useRooms(options: UseRoomsOptions = {}): UseRoomsReturn {
 
   // Load rooms
   useEffect(() => {
+    let cancelled = false;
     setIsLoading(true);
-    const loaded = roomService.getRooms(branchFilter);
-    setRooms(loaded);
-    setIsLoading(false);
+
+    const load = async () => {
+      try {
+        const { getChatSupabase } = await import("@/modules/chat/services/supabase");
+        const supabase = getChatSupabase();
+        if (!supabase || cancelled) {
+          setRooms([]);
+          setIsLoading(false);
+          return;
+        }
+
+        let q = supabase
+          .from("study_rooms")
+          .select("*")
+          .eq("is_open", true)
+          .order("name", { ascending: true });
+
+        const { data, error } = await q;
+        if (cancelled) return;
+
+        if (error || !data) {
+          setRooms([]);
+        } else {
+          const rooms: StudyRoom[] = data.map((r: any) => ({
+            id: r.id,
+            name: r.name,
+            description: r.description ?? "",
+            branchId: r.branch_id ?? "all",
+            mode: r.mode ?? "focus",
+            activeCount: 0,
+            maxParticipants: r.max_participants ?? 50,
+            createdAt: r.created_at,
+            isOpen: r.is_open,
+          }));
+          setRooms(rooms);
+        }
+        if (!cancelled) setIsLoading(false);
+      } catch {
+        if (!cancelled) {
+          setRooms([]);
+          setIsLoading(false);
+        }
+      }
+    };
+
+    load();
+
+    return () => { cancelled = true; };
   }, [branchFilter]);
 
-  // Subscribe to active room updates
+  // Refresh participants periodically
   useEffect(() => {
-    if (!activeRoom) return;
-    const unsub = roomService.subscribeRoom(activeRoom.id, (updated) => {
-      setActiveRoom(updated);
-      setRooms((prev) =>
-        prev.map((r) => (r.id === updated.id ? updated : r)),
+    if (!joinedRoomId) return;
+
+    const refreshParticipants = async () => {
+      const supabase = (await import("@/modules/chat/services/supabase")).getChatSupabase();
+      if (!supabase || !joinedRoomId) return;
+
+      const fiveMinAgo = new Date(Date.now() - 300000).toISOString();
+      const { data } = await supabase
+        .from("study_room_presence")
+        .select("user_id, participant_label, joined_at")
+        .eq("room_id", joinedRoomId)
+        .gte("last_seen_at", fiveMinAgo)
+        .order("joined_at", { ascending: true });
+
+      if (data) {
+        setParticipants(
+          data.map((row: any) => ({
+            id: row.user_id,
+            joinedAt: new Date(row.joined_at).getTime(),
+            isMuted: false,
+            isVideoOn: false,
+            label: row.participant_label ?? "Student",
+          }))
+        );
+      }
+    };
+
+    refreshParticipants();
+    const interval = setInterval(refreshParticipants, 10000);
+    return () => clearInterval(interval);
+  }, [joinedRoomId]);
+
+  const joinRoom = useCallback(async (roomId: string) => {
+    const supabase = (await import("@/modules/chat/services/supabase")).getChatSupabase();
+    if (!supabase) return () => {};
+
+    const { data: { user } } = await supabase.auth.getUser();
+    const userId = user?.id ?? `anon-${Date.now()}`;
+    const email = user?.email ?? "";
+    const label = email ? email.split("@")[0] : `Student-${userId.slice(0, 6)}`;
+
+    // Check if profile exists, create if not
+    if (user) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (!profile) {
+        await supabase.from("profiles").upsert({
+          id: user.id,
+          role: "student",
+          display_name: label,
+        }, { onConflict: "id", ignoreDuplicates: true });
+      }
+    }
+
+    await supabase
+      .from("study_room_presence")
+      .upsert(
+        {
+          room_id: roomId,
+          user_id: userId,
+          participant_label: label,
+          last_seen_at: new Date().toISOString(),
+        },
+        { onConflict: "room_id,user_id" }
       );
+
+    setJoinedRoomId(roomId);
+
+    // Subscribe to presence changes
+    const unsub = realRealtimeProvider.subscribePresence(roomId, () => {
+      // Presence updates handled by interval
     });
+
     return unsub;
-  }, [activeRoom]);
+  }, []);
 
-  const joinRoom = useCallback(
-    (roomId: string) => {
-      // Create a simple participant
-      const participant: Participant = {
-        id: `user-${Date.now()}`,
-        joinedAt: Date.now(),
-        isMuted: false,
-        isVideoOn: false,
-        label: "You",
-      };
+  const leaveRoom = useCallback(async (roomId: string, participantId: string) => {
+    const supabase = (await import("@/modules/chat/services/supabase")).getChatSupabase();
+    if (!supabase) return;
 
-      const unsub = roomService.joinRoom(roomId, participant);
-      setJoinedRoomId(roomId);
+    await supabase
+      .from("study_room_presence")
+      .delete()
+      .eq("room_id", roomId)
+      .eq("user_id", participantId);
 
-      // Subscribe to presence
-      roomService.subscribeRoom(roomId, () => {
-        setParticipants(roomService.getParticipants(roomId));
-      });
-
-      setParticipants(roomService.getParticipants(roomId));
-
-      return unsub;
-    },
-    [],
-  );
-
-  const leaveRoom = useCallback(
-    (roomId: string, participantId: string) => {
-      roomService.leaveRoom(roomId, participantId);
-      setJoinedRoomId(null);
-      setParticipants([]);
-    },
-    [],
-  );
+    setJoinedRoomId(null);
+    setParticipants([]);
+  }, []);
 
   return {
     rooms,

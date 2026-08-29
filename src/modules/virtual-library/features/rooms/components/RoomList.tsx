@@ -6,11 +6,12 @@
 
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { roomService } from "../../../services/room-service";
+import { roomServiceInstance } from "../../../services/room-service";
 import { RoomCard } from "./RoomCard";
 import { getAllBranches } from "../../../config/syllabus";
+import type { StudyRoom } from "../../../types/index";
 
 const FILTERS = [
   { id: "all", label: "All Rooms" },
@@ -22,8 +23,12 @@ const FILTERS = [
 export function RoomList() {
   const [modeFilter, setModeFilter] = useState<string>("all");
   const [branchFilter, setBranchFilter] = useState<string>("all");
-  const rooms = roomService.getRooms();
+  const [rooms, setRooms] = useState<StudyRoom[]>([]);
   const branches = useMemo(() => getAllBranches(), []);
+
+  useEffect(() => {
+    roomServiceInstance.getRooms().then(setRooms).catch(() => setRooms([]));
+  }, []);
 
   const filtered = useMemo(() => {
     return rooms.filter((r) => {

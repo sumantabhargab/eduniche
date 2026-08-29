@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAdminSession } from "@/modules/content-cms/lib/auth";
+import { getAdminSessionFromRoute } from "@/modules/content-cms/lib/auth";
 import { getResource, updateResource, deleteResource } from "@/modules/content-cms/services/resource-service";
 import type { ResourceUpdateInput } from "@/modules/content-cms/types";
 
@@ -7,7 +7,7 @@ export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const admin = await getAdminSession();
+  const admin = await getAdminSessionFromRoute(_request);
   if (!admin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -29,7 +29,7 @@ export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const admin = await getAdminSession();
+  const admin = await getAdminSessionFromRoute(request);
   if (!admin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -52,7 +52,7 @@ export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const admin = await getAdminSession();
+  const admin = await getAdminSessionFromRoute(_request);
   if (!admin) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
