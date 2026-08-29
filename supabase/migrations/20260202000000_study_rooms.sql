@@ -2,7 +2,7 @@
 -- Study Rooms — virtual library rooms
 -- ============================================
 
-CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEME public;
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 
 CREATE TABLE IF NOT EXISTS study_rooms (
   id TEXT PRIMARY KEY,

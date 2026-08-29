@@ -2,26 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
-import AnnouncementBell from "@/modules/announcements/components/AnnouncementBell";
-import NotificationPanel from "@/modules/announcements/components/NotificationPanel";
-import AnnouncementViewer from "@/modules/announcements/components/AnnouncementViewer";
-import type { Announcement } from "@/modules/announcements/types";
 
 const navLinks = [
   { href: "/gate", label: "GATE", matchPrefix: true },
   { href: "/how-it-works", label: "How it works", matchPrefix: false },
-  { href: "/skills", label: "Skills", matchPrefix: false },
-  { href: "/neuroscience", label: "Neuroscience", matchPrefix: false },
   { href: "/library", label: "Library", matchPrefix: true },
 ];
 
 export default function Nav() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [notificationOpen, setNotificationOpen] = useState(false);
-  const [selectedAnnouncement, setSelectedAnnouncement] = useState<Announcement | null>(null);
 
   const isActive = (link: typeof navLinks[0]) => {
     if (link.matchPrefix) return pathname?.startsWith(link.href) ?? false;
@@ -42,30 +34,26 @@ export default function Nav() {
               key={link.href}
               href={link.href}
               className={`text-sm transition-colors duration-200 ${
-                isActive(link)
-                  ? "text-accent"
-                  : "text-muted hover:text-foreground"
+                isActive(link) ? "text-accent" : "text-muted hover:text-foreground"
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/admin"
-            className="text-sm text-muted hover:text-foreground transition-colors duration-200"
-            title="Admin"
-          >
-            Admin
-          </Link>
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <AnnouncementBell onClick={() => setNotificationOpen((v) => !v)} />
           <Link
-            href="/#waitlist"
-            className="inline-flex items-center px-5 py-2 bg-accent hover:bg-accent-hover text-background text-sm font-medium transition-colors duration-200"
+            href="/dashboard"
+            className="text-sm text-muted hover:text-foreground transition-colors"
           >
-            Join early access
+            Dashboard
+          </Link>
+          <Link
+            href="/pricing"
+            className="inline-flex items-center px-5 py-2 bg-foreground text-background text-sm font-medium transition-colors hover:opacity-90"
+          >
+            Get Premium
           </Link>
           <ThemeToggle />
         </div>
@@ -105,42 +93,24 @@ export default function Nav() {
               </Link>
             ))}
             <Link
-              href="/admin"
+              href="/dashboard"
               onClick={() => setMobileOpen(false)}
               className="block text-sm text-muted hover:text-foreground"
             >
-              Admin
+              Dashboard
             </Link>
             <Link
-              href="/#waitlist"
+              href="/pricing"
               onClick={() => setMobileOpen(false)}
               className="block text-sm text-accent font-medium"
             >
-              Join early access
+              Get Premium
             </Link>
             <div className="pt-2">
               <ThemeToggle />
             </div>
           </div>
         </div>
-      )}
-
-      {/* Notification panel */}
-      {notificationOpen && (
-        <NotificationPanel
-          isOpen={notificationOpen}
-          onClose={() => setNotificationOpen(false)}
-          onViewAnnouncement={(a) => {
-            setNotificationOpen(false);
-            setSelectedAnnouncement(a);
-          }}
-        />
-      )}
-      {selectedAnnouncement && (
-        <AnnouncementViewer
-          announcement={selectedAnnouncement}
-          onClose={() => setSelectedAnnouncement(null)}
-        />
       )}
     </nav>
   );

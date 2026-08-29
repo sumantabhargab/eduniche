@@ -2,7 +2,7 @@
 -- AI Doubt Engine — Conversation Persistence
 -- ============================================
 
-CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEME public;
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
 
 -- ─── AI Conversations ─────────────────────────────────────────────────────────
 
