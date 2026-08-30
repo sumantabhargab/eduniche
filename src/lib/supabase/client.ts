@@ -1,12 +1,17 @@
 /**
- * Supabase browser client.
+ * Supabase SSR-aware browser client.
  *
- * Returns a stable singleton instance for the lifetime of the page.
- * Multiple calls from the same page return the same client, preventing
- * GoTrueClient duplicate-instance warnings and useCallback dependency churn.
+ * Uses @supabase/ssr's createBrowserClient which syncs the auth session
+ * to cookies so that server-side route handlers (createServerClient)
+ * can read it. Plain @supabase/supabase-js createClient stores sessions
+ * in localStorage only — server routes cannot see them.
+ *
+ * Singleton: the same client instance is returned for the lifetime of
+ * the page to prevent GoTrueClient duplicate-instance warnings.
  */
 
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { createBrowserClient as createSsrBrowserClient } from "@supabase/ssr";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 let cached: SupabaseClient | null | undefined;
 
@@ -21,6 +26,6 @@ export function createBrowserClient(): SupabaseClient | null {
     return null;
   }
 
-  cached = createClient(supabaseUrl, supabaseKey);
+  cached = createSsrBrowserClient(supabaseUrl, supabaseKey);
   return cached;
 }

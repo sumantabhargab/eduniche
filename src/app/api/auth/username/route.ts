@@ -2,14 +2,9 @@
  * POST /api/auth/username
  * Sets the user's username. One-time set on first login.
  *
- * Supports two flows:
- * 1. New OAuth user (no profile row) — INSERT creates the profile.
- * 2. Existing user without username — UPDATE adds it.
- *
- * Profiles are created by this endpoint or via the DB trigger
- * (profiles_id_fkey → auto-insert on auth.users INSERT).
- * New OAuth users who reach this endpoint without a profile row
- * can be re-authenticated to trigger the trigger-based creation.
+ * The server client reads the session from cookies, which are set by
+ * @supabase/ssr's createBrowserClient on the client side. If the session
+ * is missing here, the root cause is in the client — fix createBrowserClient.
  */
 
 import { NextResponse } from "next/server";
@@ -34,6 +29,7 @@ export async function POST(request: Request) {
   try {
     const supabase = await createServerClient();
     if (!supabase) {
+      console.error("[username] Server client not configured");
       return NextResponse.json({ error: "Server not configured." }, { status: 500 });
     }
 
@@ -42,22 +38,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
 
-    const rl = checkRateLimit({ maxRequests: 5, windowMs: 60000 }, getClientIdentifier(request) + session.user.id);
+    const userId = session.user.id;
+
+    const rl = checkRateLimit({ maxRequests: 5, windowMs: 60000 }, getClientIdentifier(request) + userId);
     if (!rl.allowed) {
       return NextResponse.json({ error: "Too many requests." }, { status: 429 });
     }
 
     const body = await request.json().catch(() => ({}));
-    const username = typeof body.username === 'string' ? body.username.trim() : "";
+    const rawUsername = typeof body.username === 'string' ? body.username.trim() : "";
 
-    // Validate format
-    if (!username || username.length < 3 || username.length > 20) {
+    if (!rawUsername || rawUsername.length < 3 || rawUsername.length > 20) {
       return NextResponse.json({ error: "Username must be 3-20 characters." }, { status: 400 });
     }
 
-    const sanitized = username.toLowerCase().replace(/[^a-z0-9_]/g, '');
+    const sanitized = rawUsername.toLowerCase().replace(/[^a-z0-9_]/g, '');
 
-    if (sanitized !== username.toLowerCase()) {
+    if (sanitized !== rawUsername.toLowerCase()) {
       return NextResponse.json({ error: "Username can only contain letters, numbers, and underscores." }, { status: 400 });
     }
 
@@ -68,8 +65,6 @@ export async function POST(request: Request) {
     if (!/^[a-z0-9_]{3,20}$/.test(sanitized)) {
       return NextResponse.json({ error: "Invalid username format." }, { status: 400 });
     }
-
-    const userId = session.user.id;
 
     // Check if a profile row exists for this user
     const { data: existing } = await supabase
@@ -94,7 +89,6 @@ export async function POST(request: Request) {
     }
 
     // Collect profile data from OAuth or email signup
-    const provider = session.user.app_metadata?.provider || 'email';
     const displayName = session.user.user_metadata?.full_name ||
       session.user.user_metadata?.name ||
       session.user.email?.split('@')[0] || 'User';
@@ -112,7 +106,7 @@ export async function POST(request: Request) {
       updated_at: new Date().toISOString(),
     };
 
-    let profileError: { code?: string; message?: string } | null = null;
+    let writeError: { code?: string; message?: string; details?: string; hint?: string } | null = null;
 
     if (existing) {
       // Profile exists without username — UPDATE
@@ -121,24 +115,31 @@ export async function POST(request: Request) {
         .update(profileData)
         .eq("id", userId);
 
-      profileError = error;
+      writeError = error;
     } else {
       // No profile row — INSERT (for new OAuth users)
       const { error } = await supabase
         .from("profiles")
         .insert(profileData);
 
-      profileError = error;
+      writeError = error;
     }
 
-    if (profileError) {
-      console.error("Profile write error:", profileError);
+    if (writeError) {
+      console.error("Profile write error:", {
+        code: writeError.code,
+        message: writeError.message,
+        details: writeError.details,
+        hint: writeError.hint,
+        userId,
+        hasExisting: !!existing,
+      });
 
-      if (isPostgrestUniqueViolation(profileError)) {
+      if (isPostgrestUniqueViolation(writeError)) {
         return NextResponse.json({ error: "That username is already taken." }, { status: 409 });
       }
 
-      if (isPostgrestPolicyError(profileError)) {
+      if (isPostgrestPolicyError(writeError)) {
         return NextResponse.json({
           error: "Session expired. Please sign out and sign in again, then choose your username.",
           code: "POLICY_ERROR",
