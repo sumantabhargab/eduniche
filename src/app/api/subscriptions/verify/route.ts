@@ -91,6 +91,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Failed to activate subscription." }, { status: 500 });
     }
 
+    // Sync plan to profiles table
+    const planValue = plan === 'weekly' ? 'weekly_premium' : 'monthly_premium';
+    await supabase
+      .from("profiles")
+      .update({ plan: planValue })
+      .eq("id", session.user.id);
+
     return NextResponse.json({ success: true, subscription });
   } catch (e) {
     console.error("Subscription verify error:", e);

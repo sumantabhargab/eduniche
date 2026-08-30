@@ -1,6 +1,7 @@
 /**
  * Public Library browser at /library
- * Shows folders and documents. Free users see free docs, premium users see all.
+ * Shows folders and documents. Free users see free folders/resources;
+ * premium users see everything.
  */
 
 "use client";
@@ -17,6 +18,7 @@ interface Folder {
   branch: string | null;
   subject: string | null;
   depth: number;
+  premium: boolean;
   created_at: string;
 }
 
@@ -46,35 +48,47 @@ function LibraryInner() {
 
   const folderId = searchParams.get("folder");
 
+  // Check premium status
   useEffect(() => {
-    checkAuth();
-  }, []);
+    const checkAuth = async () => {
+      if (!supabase) return;
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          // Check plan first (faster)
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("plan")
+            .eq("id", session.user.id)
+            .maybeSingle();
 
-  const checkAuth = async () => {
-    if (!supabase) return;
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        const { data: sub } = await supabase
-          .from("user_subscriptions")
-          .select("status, expires_at")
-          .eq("user_id", session.user.id)
-          .eq("status", "active")
-          .gte("expires_at", new Date().toISOString())
-          .maybeSingle();
+          const plan = (profile as any)?.plan;
+          if (plan === "monthly_premium" || plan === "weekly_premium") {
+            setIsPremium(true);
+            return;
+          }
 
-        setIsPremium(!!sub);
+          // Fallback: check active subscription
+          const { data: sub } = await supabase
+            .from("user_subscriptions")
+            .select("status, expires_at")
+            .eq("user_id", session.user.id)
+            .eq("status", "active")
+            .gte("expires_at", new Date().toISOString())
+            .maybeSingle();
+          setIsPremium(!!sub);
+        }
+      } catch {
+        // ignore
       }
-    } catch (e) {
-      // ignore
-    }
-  };
+    };
+    checkAuth();
+  }, [supabase]);
 
   const loadFolder = useCallback(async (fid: string | null) => {
     if (!supabase) { setLoading(false); return; }
 
     setLoading(true);
-
     try {
       // Load child folders
       let folderQuery = supabase
@@ -88,9 +102,14 @@ function LibraryInner() {
         folderQuery = folderQuery.is("parent_id", null);
       }
 
+      // Filter premium folders if user is not premium
+      if (!isPremium) {
+        folderQuery = folderQuery.eq("premium", false);
+      }
+
       const { data: folderData } = await folderQuery;
 
-      // Load resources
+      // Load resources for this folder
       let resQuery = supabase
         .from("content_resources")
         .select("id, name, description, mime_type, branch, subject, resource_type, access_tier, file_size, created_at")
@@ -103,6 +122,11 @@ function LibraryInner() {
         resQuery = resQuery.is("folder_id", null);
       }
 
+      // Free users only see free resources
+      if (!isPremium) {
+        resQuery = resQuery.eq("access_tier", "free");
+      }
+
       const { data: resData } = await resQuery;
 
       setFolders(folderData || []);
@@ -112,7 +136,7 @@ function LibraryInner() {
       if (fid) {
         try {
           const { data: breadcrumbData } = await supabase.rpc("get_folder_breadcrumbs", {
-            folder_id: fid,
+            start_folder_id: fid,
           });
 
           if (breadcrumbData) {
@@ -125,7 +149,7 @@ function LibraryInner() {
               .maybeSingle();
             setBreadcrumbs(current ? [current] : []);
           }
-        } catch (e) {
+        } catch {
           const { data: current } = await supabase
             .from("content_folders")
             .select("*")
@@ -141,24 +165,47 @@ function LibraryInner() {
     } finally {
       setLoading(false);
     }
-  }, [supabase]);
+  }, [supabase, isPremium]);
 
   useEffect(() => {
+    if (folderId) {
+      const findFolder = async () => {
+        if (!supabase) return;
+        const { data } = await supabase
+          .from("content_folders")
+          .select("*")
+          .eq("id", folderId)
+          .maybeSingle();
+        if (data) setCurrentFolder(data as Folder);
+      };
+      findFolder();
+    } else {
+      setCurrentFolder(null);
+    }
     loadFolder(folderId);
-  }, [folderId, loadFolder]);
+  }, [folderId, loadFolder, supabase]);
 
-  const filteredFolders = folders.filter(f => f.name.toLowerCase().includes(searchQuery.toLowerCase()));
-  const filteredResources = resources.filter(r => r.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredFolders = folders.filter((f) =>
+    f.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  const filteredResources = resources.filter((r) =>
+    r.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">
       <div className="mb-8">
         <h1 className="text-3xl md:text-4xl font-bold mb-2">Library</h1>
         <p className="text-muted">Browse GATE study resources and content.</p>
+        {!isPremium && (
+          <Link href="/pricing" className="text-sm text-accent hover:underline mt-2 inline-block">
+            Upgrade to Premium for full access →
+          </Link>
+        )}
       </div>
 
       {/* Breadcrumbs */}
-      {breadcrumbs.length > 0 && (
+      {(breadcrumbs.length > 0 || currentFolder) && (
         <div className="flex items-center gap-2 mb-6 text-sm flex-wrap">
           <Link href="/library" className="text-muted hover:text-foreground">Library</Link>
           {breadcrumbs.map((crumb, i) => (
@@ -250,13 +297,15 @@ function LibraryInner() {
 }
 
 function ResourceCard({ resource, isPremium }: { resource: Resource; isPremium: boolean }) {
-  const isLocked = resource.access_tier === 'premium' && !isPremium;
+  const isLocked = resource.access_tier === "premium" && !isPremium;
 
-  const icon = resource.mime_type.includes('pdf') ? '📄' :
-               resource.mime_type.includes('markdown') || resource.mime_type.includes('text') ? '📝' :
-               '📃';
+  const icon = resource.mime_type.includes("pdf")
+    ? "📄"
+    : resource.mime_type.includes("markdown") || resource.mime_type.includes("text")
+      ? "📝"
+      : "📃";
 
-  const fileSizeMB = resource.file_size ? (resource.file_size / (1024 * 1024)).toFixed(1) : '0';
+  const fileSizeMB = resource.file_size ? (resource.file_size / (1024 * 1024)).toFixed(1) : "0";
 
   return (
     <Link
@@ -268,13 +317,15 @@ function ResourceCard({ resource, isPremium }: { resource: Resource; isPremium: 
         <div className="flex-1 min-w-0">
           <div className="flex items-start gap-2">
             <h3 className="font-medium flex-1">{resource.name}</h3>
-            {resource.access_tier === 'premium' && (
-              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                isLocked
-                  ? "bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-400"
-                  : "bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-400"
-              }`}>
-                {isLocked ? "🔒 Premium" : "✓ Premium"}
+            {resource.access_tier === "premium" && (
+              <span
+                className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                  isLocked
+                    ? "bg-amber-100 text-amber-700"
+                    : "bg-green-100 text-green-700"
+                }`}
+              >
+                {isLocked ? "Premium" : "Premium"}
               </span>
             )}
           </div>

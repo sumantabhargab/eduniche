@@ -1,6 +1,6 @@
 /**
  * Login page at /login
- * Handles Google OAuth and email sign-in via Supabase Auth.
+ * Handles Google OAuth and email sign-in/sign-up via Supabase Auth.
  * Shows username setup form for new users without a profile.
  */
 
@@ -13,6 +13,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 export const dynamic = 'force-dynamic';
 
+type AuthMode = "signin" | "signup";
+
 function LoginInner() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -20,6 +22,10 @@ function LoginInner() {
   const [showUsernameForm, setShowUsernameForm] = useState(false);
   const [username, setUsername] = useState("");
   const [usernameLoading, setUsernameLoading] = useState(false);
+  const [mode, setMode] = useState<AuthMode>("signin");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createBrowserClient();
@@ -33,6 +39,17 @@ function LoginInner() {
   }
 
   const redirectTo = searchParams.get("redirect") || "/dashboard";
+
+  const resetForm = () => {
+    setError(null);
+    setPassword("");
+    setConfirmPassword("");
+  };
+
+  const switchMode = (newMode: AuthMode) => {
+    setMode(newMode);
+    resetForm();
+  };
 
   useEffect(() => {
     let unsub: (() => void) | undefined;
@@ -65,12 +82,8 @@ function LoginInner() {
       setChecking(false);
     };
 
-    // Listen for the auth listener to settle before concluding there is no session.
-    // A synchronous getSession() here races with the async code exchange in the
-    // @supabase/ssr GoTrueClient and produces a false "Session needs to be refreshed" error.
     const { data: { subscription } } = supabase.auth.onAuthStateChange(handler);
 
-    // Safety timeout in case onAuthStateChange never fires (e.g. no session at all).
     const timeout = setTimeout(() => {
       setChecking(false);
     }, 1500);
@@ -99,8 +112,61 @@ function LoginInner() {
         setError(error.message);
         setLoading(false);
       }
-    } catch (e) {
+    } catch {
       setError("Login failed. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  const handleEmailAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    if (!email || !password) {
+      setError("Please enter your email and password.");
+      return;
+    }
+
+    if (mode === "signup") {
+      if (password.length < 6) {
+        setError("Password must be at least 6 characters.");
+        return;
+      }
+      if (password !== confirmPassword) {
+        setError("Passwords do not match.");
+        return;
+      }
+    }
+
+    setLoading(true);
+
+    try {
+      if (mode === "signup") {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(redirectTo)}`,
+          },
+        });
+
+        if (error) {
+          setError(error.message);
+          setLoading(false);
+        }
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (error) {
+          setError(error.message);
+          setLoading(false);
+        }
+      }
+    } catch {
+      setError("Authentication failed. Please try again.");
       setLoading(false);
     }
   };
@@ -121,7 +187,6 @@ function LoginInner() {
       const data = await res.json();
 
       if (!res.ok) {
-        // Handle recoverable errors — re-auth to trigger profile creation
         if (data.code === 'POLICY_ERROR' || data.code === 'VERIFY_FAILED') {
           await supabase.auth.signOut();
           setError("Please sign in again to complete setup.");
@@ -137,7 +202,7 @@ function LoginInner() {
 
       setShowUsernameForm(false);
       router.push(redirectTo);
-    } catch (e) {
+    } catch {
       setError("Something went wrong.");
       setUsernameLoading(false);
     }
@@ -196,6 +261,10 @@ function LoginInner() {
     );
   }
 
+  const authButtonLabel = mode === "signup"
+    ? (loading ? "Creating account..." : "Sign Up")
+    : (loading ? "Signing in..." : "Sign In");
+
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-6">
       <div className="max-w-md w-full text-center">
@@ -213,6 +282,54 @@ function LoginInner() {
         )}
 
         <div className="space-y-4">
+          <form onSubmit={handleEmailAuth} className="space-y-3">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email address"
+              autoComplete="email"
+              disabled={loading}
+              className="w-full px-4 py-3 bg-card border border-border rounded-xl focus:outline-none focus:ring-1 focus:ring-foreground/30 disabled:opacity-50"
+            />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              disabled={loading}
+              className="w-full px-4 py-3 bg-card border border-border rounded-xl focus:outline-none focus:ring-1 focus:ring-foreground/30 disabled:opacity-50"
+            />
+            {mode === "signup" && (
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm password"
+                autoComplete="new-password"
+                disabled={loading}
+                className="w-full px-4 py-3 bg-card border border-border rounded-xl focus:outline-none focus:ring-1 focus:ring-foreground/30 disabled:opacity-50"
+              />
+            )}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 bg-foreground text-background rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+            >
+              {authButtonLabel}
+            </button>
+          </form>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted">or</span>
+            </div>
+          </div>
+
           <button
             onClick={handleGoogleLogin}
             disabled={loading}
@@ -224,9 +341,16 @@ function LoginInner() {
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
             </svg>
-            <span className="font-medium">{loading ? "Signing in..." : "Continue with Google"}</span>
+            <span className="font-medium">Continue with Google</span>
           </button>
         </div>
+
+        <p className="text-sm text-muted mt-6">
+          {mode === "signup"
+            ? <>Already have an account? <button onClick={() => switchMode("signin")} className="underline hover:text-foreground">Sign in</button></>
+            : <>Don't have an account? <button onClick={() => switchMode("signup")} className="underline hover:text-foreground">Sign up</button></>
+          }
+        </p>
 
         <p className="text-xs text-muted mt-8">
           By signing in, you agree to our{" "}

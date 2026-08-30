@@ -333,33 +333,33 @@ GRANT ALL ON user_badges TO service_role;
 GRANT SELECT, INSERT ON user_badges TO authenticated;
 
 -- Seed badge definitions
-INSERT INTO badge_definitions (badge_key, name, description, icon, rarity, criteria) VALUES
+INSERT INTO badge_definitions (key, name, description, icon, rarity, criteria) VALUES
   ('first_session', 'First Steps', 'Completed your first study session', '🎯', 'common', '{"sessions_required": 1}')
-ON CONFLICT (badge_key) DO NOTHING;
+ON CONFLICT (key) DO NOTHING;
 
-INSERT INTO badge_definitions (badge_key, name, description, icon, rarity, criteria) VALUES
+INSERT INTO badge_definitions (key, name, description, icon, rarity, criteria) VALUES
   ('consistent', 'Consistent', 'Studied for 3 consecutive days', '🔥', 'rare', '{"streak_required": 3}')
-ON CONFLICT (badge_key) DO NOTHING;
+ON CONFLICT (key) DO NOTHING;
 
-INSERT INTO badge_definitions (badge_key, name, description, icon, rarity, criteria) VALUES
+INSERT INTO badge_definitions (key, name, description, icon, rarity, criteria) VALUES
   ('scholar', 'Scholar', 'Accumulated 10 minutes of study time', '📚', 'common', '{"minutes_required": 10}')
-ON CONFLICT (badge_key) DO NOTHING;
+ON CONFLICT (key) DO NOTHING;
 
-INSERT INTO badge_definitions (badge_key, name, description, icon, rarity, criteria) VALUES
+INSERT INTO badge_definitions (key, name, description, icon, rarity, criteria) VALUES
   ('dedicated', 'Dedicated', 'Accumulated 50 minutes of study time', '💪', 'rare', '{"minutes_required": 50}')
-ON CONFLICT (badge_key) DO NOTHING;
+ON CONFLICT (key) DO NOTHING;
 
-INSERT INTO badge_definitions (badge_key, name, description, icon, rarity, criteria) VALUES
+INSERT INTO badge_definitions (key, name, description, icon, rarity, criteria) VALUES
   ('hundred_club', 'Hundred Club', 'Accumulated 100 minutes of study time', '💯', 'epic', '{"minutes_required": 100}')
-ON CONFLICT (badge_key) DO NOTHING;
+ON CONFLICT (key) DO NOTHING;
 
-INSERT INTO badge_definitions (badge_key, name, description, icon, rarity, criteria) VALUES
+INSERT INTO badge_definitions (key, name, description, icon, rarity, criteria) VALUES
   ('deep_focus', 'Deep Focus', 'Completed a single session of 5+ hours', '🧠', 'epic', '{"single_session_minutes": 300}')
-ON CONFLICT (badge_key) DO NOTHING;
+ON CONFLICT (key) DO NOTHING;
 
-INSERT INTO badge_definitions (badge_key, name, description, icon, rarity, criteria) VALUES
+INSERT INTO badge_definitions (key, name, description, icon, rarity, criteria) VALUES
   ('elite_scholar', 'Elite Scholar', 'Accumulated 500 minutes of study time', '🏆', 'legendary', '{"minutes_required": 500}')
-ON CONFLICT (badge_key) DO NOTHING;
+ON CONFLICT (key) DO NOTHING;
 
 -- ─── Global Chat ────────────────────────────────────────────────────────────
 
@@ -466,10 +466,11 @@ GRANT ALL ON banned_users TO service_role;
 GRANT SELECT ON banned_users TO authenticated;
 
 -- Moderation logs
+-- Moderation logs
 CREATE TABLE IF NOT EXISTS moderation_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  moderator_id UUID NOT NULL REFERENCES auth.users(id),
-  target_user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  moderator_id UUID REFERENCES auth.users(id),
+  target_user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   action TEXT NOT NULL CHECK (action IN ('mute', 'unmute', 'ban', 'unban', 'delete_message', 'warn', 'pin', 'unpin')),
   message_id UUID REFERENCES chat_messages(id) ON DELETE CASCADE,
   reason TEXT,
@@ -477,6 +478,16 @@ CREATE TABLE IF NOT EXISTS moderation_logs (
 );
 
 CREATE INDEX IF NOT EXISTS idx_moderation_logs_target ON moderation_logs(target_user_id);
+
+-- Add moderator_id if table exists without it (idempotent migration fix)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'moderation_logs')
+     AND NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'moderation_logs' AND column_name = 'moderator_id') THEN
+    ALTER TABLE moderation_logs ADD COLUMN moderator_id UUID REFERENCES auth.users(id);
+  END IF;
+END $$;
+
 CREATE INDEX IF NOT EXISTS idx_moderation_logs_moderator ON moderation_logs(moderator_id);
 
 ALTER TABLE moderation_logs ENABLE ROW LEVEL SECURITY;
@@ -583,6 +594,8 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON study_room_presence TO authenticated;
 
 -- ─── RPC: get_folder_breadcrumbs() ──────────────────────────────────────────
 
+DROP FUNCTION IF EXISTS get_folder_breadcrumbs(UUID);
+
 CREATE OR REPLACE FUNCTION get_folder_breadcrumbs(p_folder_id UUID)
 RETURNS TABLE (
   id UUID,
@@ -638,14 +651,14 @@ CREATE POLICY "users_update_own_chat_media"
   ON storage.objects FOR UPDATE
   USING (
     bucket_id = 'chat-media'
-    AND auth.uid() = owner_id
+    AND auth.uid()::text = owner_id
   );
 
 CREATE POLICY "users_delete_own_chat_media"
   ON storage.objects FOR DELETE
   USING (
     bucket_id = 'chat-media'
-    AND auth.uid() = owner_id
+    AND auth.uid()::text = owner_id
   );
 
 GRANT ALL ON storage.objects TO service_role;

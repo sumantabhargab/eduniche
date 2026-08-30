@@ -10,6 +10,27 @@ import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
 import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
 
+async function isUserPremium(supabase: any, userId: string): Promise<boolean> {
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("plan")
+    .eq("id", userId)
+    .maybeSingle();
+
+  const plan = (profile as any)?.plan;
+  if (plan === "monthly_premium" || plan === "weekly_premium") return true;
+
+  const { data: sub } = await supabase
+    .from("user_subscriptions")
+    .select("status, expires_at")
+    .eq("user_id", userId)
+    .eq("status", "active")
+    .gte("expires_at", new Date().toISOString())
+    .maybeSingle();
+
+  return !!sub;
+}
+
 // GET - Recent messages
 export async function GET(request: Request) {
   try {
@@ -21,18 +42,11 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     const limit = Math.min(parseInt(url.searchParams.get("limit") || "50"), 100);
 
-    // Premium gating — chat requires active subscription
+    // Premium gating — chat requires active subscription or plan
     const { data: { session } } = await supabase.auth.getSession();
     if (session?.user) {
-      const { data: sub } = await supabase
-        .from("user_subscriptions")
-        .select("status, expires_at")
-        .eq("user_id", session.user.id)
-        .eq("status", "active")
-        .gte("expires_at", new Date().toISOString())
-        .maybeSingle();
-
-      if (!sub) {
+      const premium = await isUserPremium(supabase, session.user.id);
+      if (!premium) {
         return NextResponse.json({ error: "Premium required.", upgradeRequired: true }, { status: 403 });
       }
     } else {

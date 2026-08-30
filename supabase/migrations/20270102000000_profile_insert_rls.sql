@@ -14,6 +14,8 @@
 -- INSERT policy: users can create their own profile row
 -- The WITH CHECK ensures auth.uid() = id at insert time (cannot create a
 -- profile for another user or with a mismatched id).
+DROP POLICY IF EXISTS "users_insert_own_profile" ON profiles;
+
 CREATE POLICY "users_insert_own_profile"
   ON profiles FOR INSERT
   WITH CHECK (auth.uid() = id);

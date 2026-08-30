@@ -71,7 +71,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { name, parent_id } = body;
+  const { name, parent_id, branch, subject, resource_type, premium } = body;
 
   if (!name || typeof name !== "string") {
     return NextResponse.json(
@@ -81,7 +81,14 @@ export async function POST(request: Request) {
   }
 
   const result = await createFolder(
-    { name, parent_id: parent_id ?? null },
+    {
+      name,
+      parent_id: parent_id ?? null,
+      branch: branch ?? null,
+      subject: subject ?? null,
+      resource_type: resource_type ?? null,
+      premium: premium === true,
+    },
     admin.user.id
   );
 

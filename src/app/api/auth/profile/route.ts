@@ -23,7 +23,7 @@ export async function GET() {
     // Get profile
     const { data: profile } = await supabase
       .from("profiles")
-      .select("id, username, display_name, avatar_url, daily_goal_minutes, timezone, role, created_at")
+      .select("id, username, display_name, avatar_url, daily_goal_minutes, timezone, role, created_at, plan")
       .eq("id", userId)
       .maybeSingle();
 
@@ -43,6 +43,8 @@ export async function GET() {
       .eq("user_id", userId);
 
     const hasUsername = !!profile?.username;
+    const userPlan = (profile?.plan as "free" | "monthly_premium" | "weekly_premium") || "free";
+    const isPremiumFromPlan = userPlan === "monthly_premium" || userPlan === "weekly_premium";
 
     return NextResponse.json({
       user: {
@@ -55,9 +57,10 @@ export async function GET() {
         daily_goal_minutes: profile?.daily_goal_minutes ?? 120,
         timezone: profile?.timezone || 'Asia/Kolkata',
         role: profile?.role || 'student',
+        plan: userPlan,
         created_at: profile?.created_at || session.user.created_at,
         badge_count: badgeCount || 0,
-        isPremium: !!subscription,
+        isPremium: !!subscription || isPremiumFromPlan,
       },
       subscription: subscription ? {
         plan: subscription.plan,
@@ -65,7 +68,7 @@ export async function GET() {
         expires_at: subscription.expires_at,
         started_at: subscription.started_at,
       } : null,
-      isPremium: !!subscription,
+      isPremium: !!subscription || isPremiumFromPlan,
     });
   } catch (e) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });

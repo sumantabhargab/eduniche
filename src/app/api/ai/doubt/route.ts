@@ -96,6 +96,19 @@ async function retrieveRelevantContent(
 
 async function validatePremium(supabase: any, userId: string): Promise<boolean> {
   try {
+    // Check plan first (fast, no RPC needed)
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("plan")
+      .eq("id", userId)
+      .maybeSingle();
+
+    const plan = (profile as any)?.plan;
+    if (plan === "monthly_premium" || plan === "weekly_premium") {
+      return true;
+    }
+
+    // Fallback: check active subscription
     const { data, error } = await supabase.rpc("has_active_subscription", {
       p_user_id: userId,
     });

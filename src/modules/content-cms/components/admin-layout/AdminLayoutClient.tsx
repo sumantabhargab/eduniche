@@ -79,6 +79,19 @@ function AdminInner({ admin, children }: AdminLayoutClientProps) {
             {!collapsed && <span>Announcements</span>}
           </a>
           <a
+            href="/admin/users"
+            className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+              isActive("/admin/users")
+                ? "bg-accent-subtle text-accent"
+                : "text-muted hover:text-foreground hover:bg-background-alt"
+            }`}
+          >
+            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-3.725-3.316c-.333.076-.67.15-1.01.221-2.597.454-5.465.59-7.854.59s-5.257-.136-7.854-.59a15.663 15.663 0 01-1.01-.221 4.125 4.125 0 00-3.725 3.316 9.337 9.337 0 004.121.952m5.375 0a9 9 0 10-5.375 0m5.375 0v-3.75" />
+            </svg>
+            {!collapsed && <span>Users</span>}
+          </a>
+          <a
             href="/admin"
             className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
               isActive("/admin")

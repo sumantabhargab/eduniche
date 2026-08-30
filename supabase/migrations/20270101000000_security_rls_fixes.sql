@@ -14,14 +14,31 @@ DROP POLICY IF EXISTS "Users read own profile" ON public.profiles;
 DROP POLICY IF EXISTS "Users update own profile" ON public.profiles;
 
 -- Ensure remaining policies are correct (recreate if they were accidentally dropped)
+DROP POLICY IF EXISTS users_read_own_profile ON public.profiles;
+DROP POLICY IF EXISTS users_update_own_profile ON public.profiles;
+
 CREATE POLICY users_read_own_profile ON public.profiles
   FOR SELECT
   USING (auth.uid() = id);
 
-CREATE POLICY users_update_own_profile ON public.profiles
+-- Only admins can update profiles (including plan)
+DROP POLICY IF EXISTS admin_update_profiles ON public.profiles;
+CREATE POLICY admin_update_profiles ON public.profiles
   FOR UPDATE
-  USING (auth.uid() = id)
-  WITH CHECK (auth.uid() = id);
+  USING (
+    EXISTS (
+      SELECT 1 FROM profiles p2
+      WHERE p2.id = auth.uid()
+        AND p2.role = ANY (ARRAY['admin'::text, 'owner'::text])
+    )
+  )
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM profiles p2
+      WHERE p2.id = auth.uid()
+        AND p2.role = ANY (ARRAY['admin'::text, 'owner'::text])
+    )
+  );
 
 -- ============================================================
 -- CONTENT_RESOURCES: Enforce access_tier gating
@@ -49,13 +66,21 @@ CREATE POLICY public_read_published_free ON public.content_resources
   FOR SELECT
   USING ((visibility = 'published'::text) AND (access_tier = 'free'::text));
 
--- Authenticated with active subscription: premium content
+-- Authenticated with active subscription OR premium plan: premium content
 CREATE POLICY authenticated_read_premium ON public.content_resources
   FOR SELECT
   USING (
     (visibility = 'published'::text)
     AND (access_tier = 'premium'::text)
     AND (
+      -- Premium plan on profile (fast path)
+      EXISTS (
+        SELECT 1 FROM profiles
+        WHERE profiles.id = auth.uid()
+          AND profiles.plan = ANY (ARRAY['monthly_premium'::text, 'weekly_premium'::text])
+      )
+      OR
+      -- Active subscription
       EXISTS (
         SELECT 1 FROM user_subscriptions
         WHERE user_subscriptions.user_id = auth.uid()

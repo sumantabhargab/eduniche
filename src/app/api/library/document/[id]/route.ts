@@ -48,16 +48,27 @@ export async function GET(
         return NextResponse.json({ error: "Premium access required. Please sign in." }, { status: 401 });
       }
 
-      const { data: sub } = await supabase
-        .from("user_subscriptions")
-        .select("status, expires_at")
-        .eq("user_id", session.user.id)
-        .eq("status", "active")
-        .gte("expires_at", new Date().toISOString())
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("plan")
+        .eq("id", session.user.id)
         .maybeSingle();
 
-      if (!sub) {
-        return NextResponse.json({ error: "Premium access required. Please upgrade." }, { status: 403 });
+      const plan = (profile as any)?.plan;
+      const hasPremiumPlan = plan === "monthly_premium" || plan === "weekly_premium";
+
+      if (!hasPremiumPlan) {
+        const { data: sub } = await supabase
+          .from("user_subscriptions")
+          .select("status, expires_at")
+          .eq("user_id", session.user.id)
+          .eq("status", "active")
+          .gte("expires_at", new Date().toISOString())
+          .maybeSingle();
+
+        if (!sub) {
+          return NextResponse.json({ error: "Premium access required. Please upgrade." }, { status: 403 });
+        }
       }
     }
 

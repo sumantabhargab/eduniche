@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { FolderInfo } from "./FileManagerClient";
+import { useState, useMemo } from "react";
+import type { FolderInfo } from "./FileManagerClient";
 
 interface ContentTreeProps {
   folders: FolderInfo[];
@@ -17,8 +17,26 @@ export default function ContentTree({ folders, currentFolderId, onNavigate }: Co
     return new Set();
   });
 
-  // Build tree from flat list
-  const rootFolders = folders.filter((f) => f.parent_id === null);
+  // Build a nested tree from the flat list
+  const tree = useMemo(() => {
+    const map = new Map<string, FolderInfo & { children: FolderInfo[] }>();
+    const roots: (FolderInfo & { children: FolderInfo[] })[] = [];
+
+    for (const f of folders) {
+      map.set(f.id, { ...f, children: [] });
+    }
+
+    for (const f of folders) {
+      const node = map.get(f.id)!;
+      if (f.parent_id && map.has(f.parent_id)) {
+        map.get(f.parent_id)!.children.push(node);
+      } else {
+        roots.push(node);
+      }
+    }
+
+    return roots;
+  }, [folders]);
 
   function toggleExpand(folderId: string) {
     setExpanded((prev) => {
@@ -32,13 +50,8 @@ export default function ContentTree({ folders, currentFolderId, onNavigate }: Co
     });
   }
 
-  function getChildren(folderId: string): FolderInfo[] {
-    return folders.filter((f) => f.parent_id === folderId);
-  }
-
-  function renderNode(folder: FolderInfo, depth: number): React.ReactNode {
-    const children = getChildren(folder.id);
-    const hasChildren = children.length > 0;
+  function renderNode(folder: FolderInfo & { children: FolderInfo[] }, depth: number): React.ReactNode {
+    const hasChildren = folder.children.length > 0;
     const isExpanded = expanded.has(folder.id);
     const isActive = currentFolderId === folder.id;
 
@@ -77,7 +90,7 @@ export default function ContentTree({ folders, currentFolderId, onNavigate }: Co
         </button>
         {isExpanded && hasChildren && (
           <div>
-            {children.map((child) => renderNode(child, depth + 1))}
+            {folder.children.map((child) => renderNode(child as FolderInfo & { children: FolderInfo[] }, depth + 1))}
           </div>
         )}
       </div>
@@ -86,7 +99,7 @@ export default function ContentTree({ folders, currentFolderId, onNavigate }: Co
 
   return (
     <div className="py-2">
-      {rootFolders.map((folder) => renderNode(folder, 0))}
+      {tree.map((folder) => renderNode(folder, 0))}
       {folders.length === 0 && (
         <p className="text-xs text-muted px-4 py-2">No folders yet</p>
       )}

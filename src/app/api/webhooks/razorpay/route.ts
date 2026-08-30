@@ -71,11 +71,28 @@ export async function POST(request: Request) {
           updated_at: new Date().toISOString(),
         })
         .eq("id", sub.id);
+
+      // Sync plan to profiles so premium access works immediately
+      if (sub.user_id && sub.plan) {
+        const planValue = sub.plan === "weekly" ? "weekly_premium" : "monthly_premium";
+        await supabase
+          .from("profiles")
+          .update({ plan: planValue })
+          .eq("id", sub.user_id);
+      }
     } else if (status === "failed" || status === "refunded") {
       await supabase
         .from("user_subscriptions")
         .update({ status: "failed", updated_at: new Date().toISOString() })
         .eq("id", sub.id);
+
+      // Sync plan back to free when subscription fails/refunds
+      if (sub.user_id) {
+        await supabase
+          .from("profiles")
+          .update({ plan: "free" })
+          .eq("id", sub.user_id);
+      }
     }
 
     return NextResponse.json({ received: true });

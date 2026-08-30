@@ -13,6 +13,7 @@ interface AuthUser {
   daily_goal_minutes: number;
   timezone: string;
   role: string;
+  plan: "free" | "monthly_premium" | "weekly_premium";
   isPremium: boolean;
   subscription?: {
     plan: string;

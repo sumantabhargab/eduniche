@@ -93,6 +93,7 @@ export async function createFolder(
       branch: input.branch ?? null,
       subject: input.subject ?? null,
       resource_type: input.resource_type ?? null,
+      premium: input.premium ?? false,
       created_by: userId,
     })
     .select("*")
@@ -128,6 +129,10 @@ export async function updateFolder(
     updates.name = nameCheck.value;
   }
 
+  if (input.premium !== undefined) {
+    updates.premium = input.premium;
+  }
+
   if (input.parent_id !== undefined) {
     if (input.parent_id !== null) {
       const parentResult = await getFolder(input.parent_id);
@@ -135,8 +140,12 @@ export async function updateFolder(
         return { folder: null, error: parentResult.error || "Target folder not found." };
       }
       updates.parent_id = input.parent_id;
+      updates.path = `${parentResult.folder.path}/${parentResult.folder.id}`;
+      updates.depth = parentResult.folder.depth + 1;
     } else {
       updates.parent_id = null;
+      updates.path = "";
+      updates.depth = 0;
     }
   }
 
@@ -170,43 +179,27 @@ export async function deleteFolder(
     return { deleted: false, cascadeCount: 0, error: idCheck.error };
   }
 
-  const { data: childFolders, error: childError } = await supabase
-    .from("content_folders")
-    .select("id")
-    .eq("parent_id", folderId);
+  // Use recursive SQL function for proper cascade delete
+  const { data, error } = await supabase.rpc("delete_folder_cascade", {
+    p_folder_id: folderId,
+  });
 
-  if (childError) {
-    return { deleted: false, cascadeCount: 0, error: childError.message };
+  if (error) {
+    return { deleted: false, cascadeCount: 0, error: error.message };
   }
 
-  const { data: resources, error: resourceError } = await supabase
-    .from("content_resources")
-    .select("storage_path")
-    .eq("folder_id", folderId);
+  const result = data?.[0];
+  const cascadeCount = (result?.deleted_folders ?? 0) + (result?.deleted_resources ?? 0);
 
-  if (resourceError) {
-    return { deleted: false, cascadeCount: 0, error: resourceError.message };
-  }
-
+  // Finally delete the root folder itself
   const { error: deleteError } = await supabase
     .from("content_folders")
     .delete()
     .eq("id", folderId);
 
   if (deleteError) {
-    return { deleted: false, cascadeCount: 0, error: deleteError.message };
+    return { deleted: false, cascadeCount, error: deleteError.message };
   }
 
-  let cascadeCount = 0;
-  if (childFolders?.length) {
-    cascadeCount += childFolders.length;
-  }
-  if (resources?.length) {
-    cascadeCount += resources.length;
-
-    const storagePaths = resources.map((r) => r.storage_path);
-    await supabase.storage.from(STORAGE_BUCKET).remove(storagePaths);
-  }
-
-  return { deleted: true, cascadeCount };
+  return { deleted: true, cascadeCount: cascadeCount + 1 };
 }

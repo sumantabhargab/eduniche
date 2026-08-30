@@ -16,6 +16,7 @@ export interface ContentFolder {
   subject: string | null;
   resource_type: string | null;
   sort_order: number;
+  premium: boolean;
   created_at: string;
   updated_at: string;
   created_by: string | null;
@@ -49,11 +50,13 @@ export interface FolderCreateInput {
   branch?: string | null;
   subject?: string | null;
   resource_type?: string | null;
+  premium?: boolean;
 }
 
 export interface FolderUpdateInput {
   name?: string;
   parent_id?: string | null;
+  premium?: boolean;
 }
 
 export interface ResourceCreateInput {
