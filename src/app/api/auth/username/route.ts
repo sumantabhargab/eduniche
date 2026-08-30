@@ -33,7 +33,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Server not configured." }, { status: 500 });
     }
 
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+    // STEP 1: Log session state
+    console.log("[username][diag] session_check:", JSON.stringify({
+      hasSession: !!session,
+      sessionError: sessionError?.message || sessionError?.code || null,
+      userId: session?.user?.id || null,
+      email: session?.user?.email || null,
+      provider: session?.user?.app_metadata?.provider || null,
+    }));
+
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
@@ -66,29 +76,36 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid username format." }, { status: 400 });
     }
 
-    // Check if a profile row exists for this user
+    // STEP 2: Check if profile row exists
     const { data: existing } = await supabase
       .from("profiles")
-      .select("username")
+      .select("username, role, display_name")
       .eq("id", userId)
       .maybeSingle();
+
+    console.log("[username][diag] existing_profile:", JSON.stringify({
+      exists: !!existing,
+      profile: existing ? { username: existing.username, role: existing.role } : null,
+    }));
 
     if (existing?.username) {
       return NextResponse.json({ error: "Username already set." }, { status: 400 });
     }
 
-    // Check username uniqueness across all profiles
+    // STEP 3: Check username uniqueness
     const { data: dupCheck } = await supabase
       .from("profiles")
       .select("id")
       .eq("username", sanitized)
       .maybeSingle();
 
+    console.log("[username][diag] uniqueness_check:", JSON.stringify({ conflict: !!dupCheck }));
+
     if (dupCheck) {
       return NextResponse.json({ error: "That username is already taken." }, { status: 409 });
     }
 
-    // Collect profile data from OAuth or email signup
+    // STEP 4: Collect profile data
     const displayName = session.user.user_metadata?.full_name ||
       session.user.user_metadata?.name ||
       session.user.email?.split('@')[0] || 'User';
@@ -106,67 +123,74 @@ export async function POST(request: Request) {
       updated_at: new Date().toISOString(),
     };
 
+    console.log("[username][diag] profile_data:", JSON.stringify({
+      ...profileData,
+      avatar_url: avatarUrl ? "[present]" : null,
+    }));
+
+    // STEP 5: Write — INSERT (no profile) or UPDATE (profile exists without username)
     let writeError: { code?: string; message?: string; details?: string; hint?: string } | null = null;
+    let writeOp: string;
 
     if (existing) {
-      // Profile exists without username — UPDATE
+      writeOp = "UPDATE";
       const { error } = await supabase
         .from("profiles")
         .update(profileData)
         .eq("id", userId);
-
       writeError = error;
     } else {
-      // No profile row — INSERT (for new OAuth users)
+      writeOp = "INSERT";
       const { error } = await supabase
         .from("profiles")
         .insert(profileData);
-
       writeError = error;
     }
 
-    if (writeError) {
-      console.error("Profile write error:", {
+    console.log("[username][diag] write_result:", JSON.stringify({
+      op: writeOp,
+      success: !writeError,
+      error: writeError ? {
         code: writeError.code,
         message: writeError.message,
         details: writeError.details,
         hint: writeError.hint,
-        userId,
-        hasExisting: !!existing,
-      });
+      } : null,
+    }));
 
+    if (writeError) {
       if (isPostgrestUniqueViolation(writeError)) {
         return NextResponse.json({ error: "That username is already taken." }, { status: 409 });
       }
-
       if (isPostgrestPolicyError(writeError)) {
         return NextResponse.json({
           error: "Session expired. Please sign out and sign in again, then choose your username.",
           code: "POLICY_ERROR",
         }, { status: 403 });
       }
-
       return NextResponse.json({ error: "Failed to set username." }, { status: 500 });
     }
 
-    // Verify the row exists after the write (probe for RLS/silent failures)
+    // STEP 6: Verify
     const { data: verify } = await supabase
       .from("profiles")
       .select("username")
       .eq("id", userId)
       .maybeSingle();
 
+    console.log("[username][diag] verify:", JSON.stringify({ verified: !!verify?.username }));
+
     if (!verify?.username) {
-      console.error("Profile probe failed after write — user:", userId);
       return NextResponse.json({
         error: "Profile not created. Please sign out and sign in again.",
         code: "VERIFY_FAILED",
       }, { status: 500 });
     }
 
+    console.log("[username][diag] SUCCESS username=" + sanitized);
     return NextResponse.json({ success: true, username: sanitized });
   } catch (e) {
-    console.error("Username setup unexpected error:", e);
+    console.error("[username][diag] unexpected:", e);
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 }
