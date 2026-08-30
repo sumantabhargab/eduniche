@@ -35,15 +35,6 @@ export async function POST(request: Request) {
 
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
-    // STEP 1: Log session state
-    console.log("[username][diag] session_check:", JSON.stringify({
-      hasSession: !!session,
-      sessionError: sessionError?.message || sessionError?.code || null,
-      userId: session?.user?.id || null,
-      email: session?.user?.email || null,
-      provider: session?.user?.app_metadata?.provider || null,
-    }));
-
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
@@ -76,36 +67,29 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid username format." }, { status: 400 });
     }
 
-    // STEP 2: Check if profile row exists
+    // Check if profile row exists
     const { data: existing } = await supabase
       .from("profiles")
       .select("username, role, display_name")
       .eq("id", userId)
       .maybeSingle();
 
-    console.log("[username][diag] existing_profile:", JSON.stringify({
-      exists: !!existing,
-      profile: existing ? { username: existing.username, role: existing.role } : null,
-    }));
-
     if (existing?.username) {
       return NextResponse.json({ error: "Username already set." }, { status: 400 });
     }
 
-    // STEP 3: Check username uniqueness
+    // Check username uniqueness
     const { data: dupCheck } = await supabase
       .from("profiles")
       .select("id")
       .eq("username", sanitized)
       .maybeSingle();
 
-    console.log("[username][diag] uniqueness_check:", JSON.stringify({ conflict: !!dupCheck }));
-
     if (dupCheck) {
       return NextResponse.json({ error: "That username is already taken." }, { status: 409 });
     }
 
-    // STEP 4: Collect profile data
+    // Collect profile data
     const displayName = session.user.user_metadata?.full_name ||
       session.user.user_metadata?.name ||
       session.user.email?.split('@')[0] || 'User';
@@ -123,40 +107,21 @@ export async function POST(request: Request) {
       updated_at: new Date().toISOString(),
     };
 
-    console.log("[username][diag] profile_data:", JSON.stringify({
-      ...profileData,
-      avatar_url: avatarUrl ? "[present]" : null,
-    }));
-
-    // STEP 5: Write — INSERT (no profile) or UPDATE (profile exists without username)
+    // Write — INSERT (no profile) or UPDATE (profile exists without username)
     let writeError: { code?: string; message?: string; details?: string; hint?: string } | null = null;
-    let writeOp: string;
 
     if (existing) {
-      writeOp = "UPDATE";
       const { error } = await supabase
         .from("profiles")
         .update(profileData)
         .eq("id", userId);
       writeError = error;
     } else {
-      writeOp = "INSERT";
       const { error } = await supabase
         .from("profiles")
         .insert(profileData);
       writeError = error;
     }
-
-    console.log("[username][diag] write_result:", JSON.stringify({
-      op: writeOp,
-      success: !writeError,
-      error: writeError ? {
-        code: writeError.code,
-        message: writeError.message,
-        details: writeError.details,
-        hint: writeError.hint,
-      } : null,
-    }));
 
     if (writeError) {
       if (isPostgrestUniqueViolation(writeError)) {
@@ -171,14 +136,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Failed to set username." }, { status: 500 });
     }
 
-    // STEP 6: Verify
+    // Verify write succeeded
     const { data: verify } = await supabase
       .from("profiles")
       .select("username")
       .eq("id", userId)
       .maybeSingle();
-
-    console.log("[username][diag] verify:", JSON.stringify({ verified: !!verify?.username }));
 
     if (!verify?.username) {
       return NextResponse.json({
@@ -187,10 +150,9 @@ export async function POST(request: Request) {
       }, { status: 500 });
     }
 
-    console.log("[username][diag] SUCCESS username=" + sanitized);
     return NextResponse.json({ success: true, username: sanitized });
   } catch (e) {
-    console.error("[username][diag] unexpected:", e);
+    console.error("[username] unexpected:", e);
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 }

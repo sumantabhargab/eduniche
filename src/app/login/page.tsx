@@ -52,8 +52,7 @@ function LoginInner() {
         .maybeSingle();
 
       if (!profile) {
-        await supabase.auth.signOut();
-        setError("Please sign in again to complete setup.");
+        setShowUsernameForm(true);
         setChecking(false);
         return;
       }
@@ -116,6 +115,7 @@ function LoginInner() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username }),
+        credentials: "include",
       });
 
       const data = await res.json();
