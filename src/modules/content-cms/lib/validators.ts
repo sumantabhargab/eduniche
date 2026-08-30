@@ -48,7 +48,16 @@ export function validateUuid(value: unknown, field = "ID"): { valid: true; value
   return { valid: true, value };
 }
 
-export function validateVisibility(value: unknown): { valid: true; value: string } | { valid: false; error: string } {
+import type { ResourceVisibility } from "../types";
+
+export function validateAccessTier(value: unknown): { valid: true; value: "free" | "premium" } | { valid: false; error: string } {
+  if (value === "free" || value === "premium") {
+    return { valid: true, value };
+  }
+  return { valid: false, error: "Access tier must be free or premium." };
+}
+
+export function validateVisibility(value: unknown): { valid: true; value: ResourceVisibility } | { valid: false; error: string } {
   if (value === "draft" || value === "published" || value === "archived") {
     return { valid: true, value };
   }

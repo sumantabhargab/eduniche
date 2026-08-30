@@ -35,6 +35,7 @@ export interface ContentResource {
   subject: string | null;
   resource_type: string | null;
   visibility: ResourceVisibility;
+  access_tier: "free" | "premium";
   tags: string[];
   description: string | null;
   created_at: string;
@@ -66,6 +67,7 @@ export interface ResourceCreateInput {
   subject?: string | null;
   resource_type?: string | null;
   visibility?: ResourceVisibility;
+  access_tier?: "free" | "premium";
   tags?: string[];
   description?: string;
 }
@@ -74,6 +76,7 @@ export interface ResourceUpdateInput {
   name?: string;
   folder_id?: string;
   visibility?: ResourceVisibility;
+  access_tier?: "free" | "premium";
   resource_type?: string | null;
   tags?: string[];
   description?: string;

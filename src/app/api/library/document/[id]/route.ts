@@ -21,13 +21,24 @@ export async function GET(
     // Fetch resource metadata
     const { data: resource, error } = await supabase
       .from("content_resources")
-      .select("id, name, original_filename, mime_type, storage_path, access_tier, visibility, description")
+      .select("id, name, original_filename, mime_type, storage_path, access_tier, visibility, description, folder_id")
       .eq("id", id)
       .eq("visibility", "published")
       .maybeSingle();
 
     if (error || !resource) {
       return NextResponse.json({ error: "Document not found." }, { status: 404 });
+    }
+
+    // Fetch folder breadcrumbs
+    let breadcrumbs: { id: string; name: string }[] = [];
+    if (resource.folder_id) {
+      const { data: bc } = await supabase.rpc("get_folder_breadcrumbs", {
+        start_folder_id: resource.folder_id,
+      });
+      if (bc) {
+        breadcrumbs = bc as { id: string; name: string }[];
+      }
     }
 
     // Check premium access
@@ -65,6 +76,8 @@ export async function GET(
         mime_type: resource.mime_type,
         description: resource.description,
         access_tier: resource.access_tier,
+        folder_id: resource.folder_id,
+        breadcrumbs,
         signed_url: urlResult.url,
       },
     });

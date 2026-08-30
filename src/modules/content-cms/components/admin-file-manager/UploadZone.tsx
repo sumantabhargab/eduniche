@@ -6,6 +6,7 @@ import {
   FILE_INPUT_ACCEPT,
   MAX_FILE_SIZE_BYTES,
 } from "@/modules/content-cms/config/file-types";
+import { ACCESS_TIER_OPTIONS, VISIBILITY_OPTIONS } from "@/modules/content-cms/config/constants";
 
 interface UploadProgress {
   status: "pending" | "signing" | "uploading" | "confirming" | "done" | "error";
@@ -29,6 +30,8 @@ export default function UploadZone({
     {}
   );
   const [dragOver, setDragOver] = useState(false);
+  const [accessTier, setAccessTier] = useState<string>("free");
+  const [visibility, setVisibility] = useState<string>("draft");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleError = useCallback((msg: string) => {
@@ -144,6 +147,8 @@ export default function UploadZone({
           original_filename: name,
           file_size: file.size,
           content_type: file.type || "application/octet-stream",
+          visibility,
+          access_tier: accessTier,
         }),
       });
     } catch {
@@ -247,6 +252,37 @@ export default function UploadZone({
         </div>
       ) : (
         <div className="flex flex-col gap-3">
+          {folderId && !dragOver && (
+            <div className="flex items-center gap-3">
+              <select
+                value={accessTier}
+                onChange={(e) => setAccessTier(e.target.value)}
+                disabled={uploading}
+                className="text-sm border border-border rounded-lg px-2 py-1.5 bg-background text-foreground disabled:opacity-60"
+                title="Access tier"
+              >
+                {ACCESS_TIER_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={visibility}
+                onChange={(e) => setVisibility(e.target.value)}
+                disabled={uploading}
+                className="text-sm border border-border rounded-lg px-2 py-1.5 bg-background text-foreground disabled:opacity-60"
+                title="Visibility"
+              >
+                {VISIBILITY_OPTIONS.filter((v) => v.value !== "archived").map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <div className="flex items-center gap-2">
             <button
               onClick={() => inputRef.current?.click()}

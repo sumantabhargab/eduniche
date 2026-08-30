@@ -17,6 +17,8 @@ type DocumentType = {
   mime_type: string;
   description: string | null;
   access_tier: "free" | "premium";
+  folder_id: string | null;
+  breadcrumbs: { id: string; name: string }[];
   signed_url: string;
 };
 
@@ -142,6 +144,30 @@ export default function DocumentViewerPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-8">
+      {/* Breadcrumbs */}
+      {document.breadcrumbs.length > 0 && (
+        <nav className="flex items-center gap-1.5 text-sm text-muted mb-4 flex-wrap">
+          <Link href="/library" className="hover:text-foreground transition-colors">
+            Library
+          </Link>
+          {document.breadcrumbs.map((crumb) => (
+            <span key={crumb.id} className="flex items-center gap-1.5">
+              <span className="text-border">/</span>
+              {crumb.id ? (
+                <Link
+                  href={`/library?folder=${crumb.id}`}
+                  className="hover:text-foreground transition-colors"
+                >
+                  {crumb.name}
+                </Link>
+              ) : (
+                <span className="text-foreground">{crumb.name}</span>
+              )}
+            </span>
+          ))}
+        </nav>
+      )}
+
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-start justify-between gap-4">

@@ -30,6 +30,11 @@ export const VISIBILITY_OPTIONS: { value: string; label: string }[] = [
   { value: "archived", label: "Archived" },
 ];
 
+export const ACCESS_TIER_OPTIONS: { value: string; label: string }[] = [
+  { value: "free", label: "Free" },
+  { value: "premium", label: "Premium" },
+];
+
 export const BRANCHES: { id: string; name: string; shortName: string }[] = [
   { id: "cse", name: "Computer Science & Engineering", shortName: "CSE" },
   { id: "ece", name: "Electronics & Communication Engineering", shortName: "ECE" },

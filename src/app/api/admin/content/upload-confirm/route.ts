@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { getAdminSessionFromRoute } from "@/modules/content-cms/lib/auth";
-import { validateUuid, validateResourceName } from "@/modules/content-cms/lib/validators";
+import {
+  validateUuid,
+  validateResourceName,
+  validateVisibility,
+  validateAccessTier,
+} from "@/modules/content-cms/lib/validators";
 import { createResource } from "@/modules/content-cms/services/resource-service";
 import { getFolder } from "@/modules/content-cms/services/folder-service";
 import { STORAGE_BUCKET } from "@/modules/content-cms/config/constants";
@@ -28,6 +33,8 @@ export async function POST(request: Request) {
       original_filename,
       file_size,
       content_type,
+      visibility,
+      access_tier,
     } = body;
 
     if (!path || typeof path !== "string") {
@@ -74,6 +81,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: nameCheck.error }, { status: 400 });
     }
 
+    // Default: Free tier, Draft visibility (safe defaults)
+    const tierCheck = validateAccessTier(access_tier);
+    if (!tierCheck.valid) {
+      return NextResponse.json({ error: tierCheck.error }, { status: 400 });
+    }
+    const resolvedTier = tierCheck.value;
+
+    const visCheck = validateVisibility(visibility);
+    if (!visCheck.valid) {
+      return NextResponse.json({ error: visCheck.error }, { status: 400 });
+    }
+    const resolvedVisibility = visCheck.value;
+
     const result = await createResource(
       {
         name: nameCheck.value,
@@ -85,7 +105,8 @@ export async function POST(request: Request) {
         branch: folderResult.folder.branch,
         subject: folderResult.folder.subject,
         resource_type: folderResult.folder.resource_type,
-        visibility: "draft",
+        visibility: resolvedVisibility,
+        access_tier: resolvedTier,
       },
       admin.user.id
     );

@@ -17,6 +17,7 @@ import {
   validateResourceName,
   validateUuid,
   validateVisibility,
+  validateAccessTier,
   validateTags,
   validateFileUpload,
   validateFolderName,
@@ -112,6 +113,7 @@ export async function createResource(
       subject: input.subject ?? null,
       resource_type: input.resource_type ?? null,
       visibility: input.visibility ?? "draft",
+      access_tier: input.access_tier ?? "free",
       tags: input.tags ?? [],
       description: input.description ?? null,
       uploaded_by: userId,
@@ -155,6 +157,14 @@ export async function updateResource(
       return { resource: null, error: visCheck.error };
     }
     updates.visibility = visCheck.value;
+  }
+
+  if (input.access_tier !== undefined) {
+    const tierCheck = validateAccessTier(input.access_tier);
+    if (!tierCheck.valid) {
+      return { resource: null, error: tierCheck.error };
+    }
+    updates.access_tier = tierCheck.value;
   }
 
   if (input.tags !== undefined) {

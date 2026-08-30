@@ -13,6 +13,8 @@ interface ResourceGridProps {
   onCreateFolder: (name: string) => void;
   onUploadComplete: () => void;
   onUploadError: (message: string) => void;
+  onPublishResource?: (resourceId: string) => void;
+  onUnpublishResource?: (resourceId: string) => void;
 }
 
 export default function ResourceGrid({
@@ -24,6 +26,8 @@ export default function ResourceGrid({
   onCreateFolder,
   onUploadComplete,
   onUploadError,
+  onPublishResource,
+  onUnpublishResource,
 }: ResourceGridProps) {
   const [showNewFolder, setShowNewFolder] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
@@ -49,8 +53,8 @@ export default function ResourceGrid({
   ) {
     e.preventDefault();
     // Clamp context menu so it doesn't go off-screen
-    const menuWidth = 160;
-    const menuHeight = 80;
+    const menuWidth = 180;
+    const menuHeight = 140;
     const x = Math.min(e.clientX, window.innerWidth - menuWidth - 8);
     const y = Math.min(e.clientY, window.innerHeight - menuHeight - 8);
     setContextMenu({ type, id, x, y });
@@ -72,6 +76,17 @@ export default function ResourceGrid({
 
   function handleMove(itemId: string) {
     // TODO: implement move modal
+    setContextMenu(null);
+  }
+
+  function handleToggleVisibility(itemId: string) {
+    const resource = resources.find((r) => r.id === itemId);
+    if (!resource) return;
+    if (resource.visibility === "published") {
+      onUnpublishResource?.(itemId);
+    } else {
+      onPublishResource?.(itemId);
+    }
     setContextMenu(null);
   }
 
@@ -236,17 +251,28 @@ export default function ResourceGrid({
                 <span className="text-xs text-muted">
                   {formatFileSize(resource.file_size)}
                 </span>
-                <span
-                  className={`text-xs px-2 py-0.5 rounded-full ${
-                    resource.visibility === "published"
-                      ? "bg-green-100 text-green-700"
-                      : resource.visibility === "draft"
-                      ? "bg-yellow-100 text-yellow-700"
-                      : "bg-gray-100 text-gray-600"
-                  }`}
-                >
-                  {resource.visibility}
-                </span>
+                <div className="flex flex-wrap items-center gap-1 justify-center">
+                  <span
+                    className={`text-xs px-2 py-0.5 rounded-full ${
+                      resource.visibility === "published"
+                        ? "bg-green-100 text-green-700"
+                        : resource.visibility === "draft"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : "bg-gray-100 text-gray-600"
+                    }`}
+                  >
+                    {resource.visibility}
+                  </span>
+                  <span
+                    className={`text-xs px-2 py-0.5 rounded-full ${
+                      resource.access_tier === "premium"
+                        ? "bg-purple-100 text-purple-700"
+                        : "bg-blue-50 text-blue-600"
+                    }`}
+                  >
+                    {resource.access_tier}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
@@ -261,9 +287,22 @@ export default function ResourceGrid({
             onClick={() => setContextMenu(null)}
           />
           <div
-            className="fixed z-50 bg-white rounded-lg shadow-lg border border-border py-1 min-w-[160px]"
+            className="fixed z-50 bg-white rounded-lg shadow-lg border border-border py-1 min-w-[180px]"
             style={{ left: contextMenu.x, top: contextMenu.y }}
           >
+            {contextMenu.type === "resource" && (
+              <>
+                <button
+                  onClick={() => handleToggleVisibility(contextMenu.id)}
+                  className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-background-alt transition-colors"
+                >
+                  {resources.find((r) => r.id === contextMenu.id)?.visibility === "published"
+                    ? "Unpublish"
+                    : "Publish"}
+                </button>
+                <div className="border-t border-border my-1" />
+              </>
+            )}
             <button
               onClick={() => handleMove(contextMenu.id)}
               className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-background-alt transition-colors"

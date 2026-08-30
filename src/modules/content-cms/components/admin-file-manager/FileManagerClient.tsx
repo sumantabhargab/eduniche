@@ -29,6 +29,7 @@ export interface ResourceInfo {
   subject: string | null;
   resource_type: string | null;
   visibility: string;
+  access_tier: string;
   tags: string[];
   description: string | null;
   created_at: string;
@@ -182,6 +183,24 @@ export default function AdminFileManager({
     loadFolderContents(currentFolderId);
   };
 
+  const handlePublishResource = async (resourceId: string) => {
+    await fetch(`/api/admin/content/resources/${resourceId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visibility: "published" }),
+    });
+    loadFolderContents(currentFolderId);
+  };
+
+  const handleUnpublishResource = async (resourceId: string) => {
+    await fetch(`/api/admin/content/resources/${resourceId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visibility: "draft" }),
+    });
+    loadFolderContents(currentFolderId);
+  };
+
   return (
     <div className="flex h-full">
       {/* Sidebar tree */}
@@ -230,6 +249,8 @@ export default function AdminFileManager({
             onCreateFolder={handleCreateFolder}
             onUploadComplete={handleUploadComplete}
             onUploadError={handleUploadError}
+            onPublishResource={handlePublishResource}
+            onUnpublishResource={handleUnpublishResource}
           />
         </div>
       </div>
