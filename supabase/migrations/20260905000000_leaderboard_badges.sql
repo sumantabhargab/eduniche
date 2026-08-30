@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS badge_definitions (
 
 ALTER TABLE badge_definitions ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "badge_definitions_readable" ON badge_definitions;
 CREATE POLICY "badge_definitions_readable"
   ON badge_definitions FOR SELECT
   USING (true);

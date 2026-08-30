@@ -3,9 +3,11 @@
 import { useState, useCallback } from "react";
 import type { FolderInfo, ResourceInfo } from "./FileManagerClient";
 import UploadZone from "./UploadZone";
+import FolderSelect from "./FolderSelect";
 
 interface ResourceGridProps {
   folders: FolderInfo[];
+  allFolders: FolderInfo[];
   resources: ResourceInfo[];
   currentFolderId: string | null;
   loading: boolean;
@@ -15,10 +17,13 @@ interface ResourceGridProps {
   onUploadError: (message: string) => void;
   onPublishResource?: (resourceId: string) => void;
   onUnpublishResource?: (resourceId: string) => void;
+  selectedUploadFolderId?: string | null;
+  onUploadFolderChange?: (folderId: string) => void;
 }
 
 export default function ResourceGrid({
   folders,
+  allFolders,
   resources,
   currentFolderId,
   loading,
@@ -28,6 +33,8 @@ export default function ResourceGrid({
   onUploadError,
   onPublishResource,
   onUnpublishResource,
+  selectedUploadFolderId,
+  onUploadFolderChange,
 }: ResourceGridProps) {
   const [showNewFolder, setShowNewFolder] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
@@ -38,6 +45,9 @@ export default function ResourceGrid({
     x: number;
     y: number;
   } | null>(null);
+
+  const [moveTarget, setMoveTarget] = useState<string | null>(null);
+  const [moveFolderId, setMoveFolderId] = useState<string>("");
 
   function handleCreateFolder() {
     if (!newFolderName.trim()) return;
@@ -75,8 +85,35 @@ export default function ResourceGrid({
   }
 
   function handleMove(itemId: string) {
-    // TODO: implement move modal
+    setMoveTarget(itemId);
+    setMoveFolderId("");
     setContextMenu(null);
+  }
+
+  function handleMoveConfirm() {
+    if (!moveTarget || !moveFolderId) {
+      setMoveTarget(null);
+      setMoveFolderId("");
+      return;
+    }
+    fetch(`/api/admin/content/resources/${moveTarget}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ folder_id: moveFolderId }),
+    })
+      .then(() => {
+        setMoveTarget(null);
+        setMoveFolderId("");
+        onUploadComplete();
+      })
+      .catch(() => {
+        setMoveTarget(null);
+      });
+  }
+
+  function handleMoveCancel() {
+    setMoveTarget(null);
+    setMoveFolderId("");
   }
 
   function handleToggleVisibility(itemId: string) {
@@ -183,6 +220,9 @@ export default function ResourceGrid({
           )}
           <UploadZone
             folderId={currentFolderId}
+            allFolders={allFolders}
+            selectedFolderId={selectedUploadFolderId}
+            onFolderChange={onUploadFolderChange}
             onUploadComplete={onUploadComplete}
             onError={onUploadError}
           />
@@ -315,6 +355,47 @@ export default function ResourceGrid({
             >
               Delete
             </button>
+          </div>
+        </>
+      )}
+
+      {/* Move resource dialog */}
+      {moveTarget && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/30"
+            onClick={handleMoveCancel}
+          />
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="bg-white rounded-xl shadow-xl border border-border p-6 w-full max-w-sm mx-4">
+              <h3 className="text-lg font-serif text-foreground mb-1">
+                Move Resource
+              </h3>
+              <p className="text-sm text-muted mb-4">
+                Select a new destination folder for this resource.
+              </p>
+              <FolderSelect
+                folders={allFolders}
+                value={moveFolderId || null}
+                onChange={setMoveFolderId}
+                placeholder="Choose destination folder..."
+              />
+              <div className="flex justify-end gap-2 mt-5">
+                <button
+                  onClick={handleMoveCancel}
+                  className="px-4 py-2 text-sm text-muted hover:text-foreground transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleMoveConfirm}
+                  disabled={!moveFolderId}
+                  className="px-4 py-2 bg-accent text-background text-sm font-medium rounded-lg hover:bg-accent-hover disabled:opacity-50 transition-colors"
+                >
+                  Move
+                </button>
+              </div>
+            </div>
           </div>
         </>
       )}

@@ -54,10 +54,11 @@ export default function AdminFileManager({
   const [searchResults, setSearchResults] = useState<{ folders: FolderInfo[]; resources: ResourceInfo[] } | null>(null);
 
   const [error, setError] = useState<string | null>(null);
+  const [selectedUploadFolderId, setSelectedUploadFolderId] = useState<string | null>(null);
 
-  // Load all folders for the sidebar tree
+  // Load all folders for the sidebar tree and folder selector
   useEffect(() => {
-    fetch("/api/admin/content/folders?all=true")
+    fetch("/api/admin/content/folders?all=true&recursive=true")
       .then((r) => r.json())
       .then((data) => {
         if (data.folders) {
@@ -168,7 +169,7 @@ export default function AdminFileManager({
     }
 
     loadFolderContents(currentFolderId);
-    fetch("/api/admin/content/folders?all=true")
+    fetch("/api/admin/content/folders?all=true&recursive=true")
       .then((r) => r.json())
       .then((data) => {
         if (data.folders) setAllFolders(data.folders);
@@ -242,6 +243,7 @@ export default function AdminFileManager({
           )}
           <ResourceGrid
             folders={folders}
+            allFolders={allFolders}
             resources={resources}
             currentFolderId={currentFolderId}
             loading={loading}
@@ -251,6 +253,8 @@ export default function AdminFileManager({
             onUploadError={handleUploadError}
             onPublishResource={handlePublishResource}
             onUnpublishResource={handleUnpublishResource}
+            selectedUploadFolderId={selectedUploadFolderId}
+            onUploadFolderChange={setSelectedUploadFolderId}
           />
         </div>
       </div>

@@ -15,6 +15,7 @@ export default function PricingPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<"weekly" | "monthly">("monthly");
 
   const handleUpgrade = async (plan: "weekly" | "monthly") => {
     if (!user) {
@@ -140,7 +141,10 @@ export default function PricingPage() {
             "Cosmetic badges",
             "Predicted mock papers",
           ]}
-          onSelect={() => handleUpgrade("weekly")}
+          plan="weekly"
+          isSelected={selectedPlan === "weekly"}
+          onSelect={() => setSelectedPlan("weekly")}
+          onUpgrade={() => handleUpgrade("weekly")}
           loading={loading}
           disabled={isPremium}
           highlighted={false}
@@ -161,7 +165,10 @@ export default function PricingPage() {
             "Cosmetic badges",
             "Predicted mock papers",
           ]}
-          onSelect={() => handleUpgrade("monthly")}
+          plan="monthly"
+          isSelected={selectedPlan === "monthly"}
+          onSelect={() => setSelectedPlan("monthly")}
+          onUpgrade={() => handleUpgrade("monthly")}
           loading={loading}
           disabled={isPremium}
           highlighted={true}
@@ -187,7 +194,10 @@ function PricingCard({
   price,
   period,
   features,
+  plan,
+  isSelected,
   onSelect,
+  onUpgrade,
   loading,
   disabled,
   highlighted,
@@ -196,15 +206,40 @@ function PricingCard({
   price: string;
   period: string;
   features: string[];
+  plan: "weekly" | "monthly";
+  isSelected: boolean;
   onSelect: () => void;
+  onUpgrade: () => void;
   loading: boolean;
   disabled: boolean;
   highlighted: boolean;
 }) {
   return (
-    <div className={`bg-card border rounded-2xl p-8 relative ${
-      highlighted ? "border-foreground shadow-lg" : "border-border"
-    }`}>
+    <div
+      role="radio"
+      aria-checked={isSelected}
+      tabIndex={disabled ? -1 : 0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          if (!disabled && !loading) onSelect();
+        }
+      }}
+      onClick={() => {
+        if (!disabled && !loading) onSelect();
+      }}
+      className={`bg-card border rounded-2xl p-8 relative cursor-pointer outline-none transition-all duration-300 ease-out focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+        isSelected ? "scale-[1.03] border-foreground shadow-lg shadow-foreground/10" : "border-border hover:border-foreground/40"
+      } ${
+        disabled ? "opacity-60 cursor-not-allowed" : ""
+      }`}
+    >
+      {isSelected && (
+        <div
+          className="absolute inset-0 rounded-2xl pointer-events-none"
+          style={{ boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.12)" }}
+        />
+      )}
       {highlighted && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-foreground text-background px-4 py-1 rounded-full text-xs font-semibold">
           POPULAR
@@ -227,13 +262,18 @@ function PricingCard({
         ))}
       </ul>
       <button
-        onClick={onSelect}
+        onClick={(e) => {
+          e.stopPropagation();
+          onUpgrade();
+        }}
         disabled={disabled || loading}
-        className={`w-full py-3 rounded-xl font-semibold transition-colors ${
+        className={`w-full py-3 rounded-xl font-semibold transition-all duration-200 ${
           disabled || loading
             ? "bg-muted text-muted cursor-not-allowed"
-            : highlighted
+            : isSelected
             ? "bg-foreground text-background hover:opacity-90"
+            : highlighted
+            ? "bg-foreground/80 text-background hover:bg-foreground"
             : "border border-foreground hover:bg-foreground/5"
         }`}
       >

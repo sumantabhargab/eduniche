@@ -7,6 +7,8 @@ import {
   MAX_FILE_SIZE_BYTES,
 } from "@/modules/content-cms/config/file-types";
 import { ACCESS_TIER_OPTIONS, VISIBILITY_OPTIONS } from "@/modules/content-cms/config/constants";
+import { FolderInfo } from "./FileManagerClient";
+import FolderSelect from "./FolderSelect";
 
 interface UploadProgress {
   status: "pending" | "signing" | "uploading" | "confirming" | "done" | "error";
@@ -18,12 +20,21 @@ interface UploadZoneProps {
   folderId: string | null;
   onUploadComplete: () => void;
   onError?: (message: string) => void;
+  /** All folders for the destination selector dropdown */
+  allFolders?: FolderInfo[];
+  /** Folder selected from the dropdown (takes precedence over folderId) */
+  selectedFolderId?: string | null;
+  /** Called when the user picks a folder from the dropdown */
+  onFolderChange?: (folderId: string) => void;
 }
 
 export default function UploadZone({
   folderId,
   onUploadComplete,
   onError,
+  allFolders,
+  selectedFolderId,
+  onFolderChange,
 }: UploadZoneProps) {
   const [uploading, setUploading] = useState(false);
   const [progressMap, setProgressMap] = useState<Record<string, UploadProgress>>(
@@ -33,6 +44,9 @@ export default function UploadZone({
   const [accessTier, setAccessTier] = useState<string>("free");
   const [visibility, setVisibility] = useState<string>("draft");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // The effective folder: dropdown selection takes precedence, fallback to sidebar folderId
+  const effectiveFolderId = selectedFolderId ?? folderId;
 
   const handleError = useCallback((msg: string) => {
     onError?.(msg);
@@ -56,7 +70,6 @@ export default function UploadZone({
       };
     }
 
-    // Extension check (handles .md, .txt, .csv, etc. where MIME can vary)
     const lowerName = name.toLowerCase();
     const ext = lowerName.includes(".")
       ? lowerName.slice(lowerName.lastIndexOf("."))
@@ -70,7 +83,7 @@ export default function UploadZone({
       };
     }
 
-    if (!folderId) {
+    if (!effectiveFolderId) {
       return { ok: false as const, error: "No folder selected." };
     }
 
@@ -89,7 +102,7 @@ export default function UploadZone({
         body: JSON.stringify({
           filename: name,
           file_size: file.size,
-          folder_id: folderId,
+          folder_id: effectiveFolderId,
           content_type: file.type || "application/octet-stream",
         }),
       });
@@ -113,7 +126,6 @@ export default function UploadZone({
     updateProgress(name, { status: "uploading", progress: 5 });
 
     // ── Step 2: PUT file binary directly to the signed URL ───────────────
-    // This goes straight to Supabase Storage — no Next.js body parser involved.
     let putRes: Response;
     try {
       putRes = await fetch(signData.signedUrl, {
@@ -143,7 +155,7 @@ export default function UploadZone({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           path: signData.path,
-          folder_id: folderId,
+          folder_id: effectiveFolderId,
           original_filename: name,
           file_size: file.size,
           content_type: file.type || "application/octet-stream",
@@ -172,7 +184,7 @@ export default function UploadZone({
 
   async function handleUpload(files: FileList | null) {
     if (!files || files.length === 0) return;
-    if (!folderId) {
+    if (!effectiveFolderId) {
       handleError("Please select a folder first.");
       return;
     }
@@ -180,30 +192,21 @@ export default function UploadZone({
     setUploading(true);
     const fileArray = Array.from(files);
 
-    // Initialize progress for all files
     for (const f of fileArray) {
       updateProgress(f.name, { status: "pending", progress: 0 });
     }
 
-    // Upload sequentially — independent state per file
     const results: { name: string; ok: boolean; error?: string }[] = [];
     for (const file of fileArray) {
       const result = await uploadOne(file);
       results.push({ name: file.name, ...result });
-
-      // Track XHR-style progress for the PUT to the signed URL
-      if (result.ok) {
-        // Upload was successful — progress already set to 100
-      }
     }
 
-    // Surface first error (if any) to the user
     const failures = results.filter((r) => !r.ok);
     if (failures.length > 0) {
       handleError(`${failures[0].name}: ${failures[0].error}`);
     }
 
-    // Brief delay so the user can see the 100% state
     setTimeout(() => {
       setProgressMap({});
       setUploading(false);
@@ -212,6 +215,8 @@ export default function UploadZone({
       }
     }, failures.length > 0 ? 2000 : 600);
   }
+
+  const uploadDisabled = !effectiveFolderId || uploading;
 
   return (
     <div>
@@ -225,10 +230,10 @@ export default function UploadZone({
           handleUpload(e.target.files);
           e.target.value = "";
         }}
-        disabled={!folderId || uploading}
+        disabled={uploadDisabled}
       />
 
-      {!folderId ? (
+      {!effectiveFolderId ? (
         <button
           onClick={() => {}}
           disabled
@@ -252,41 +257,52 @@ export default function UploadZone({
         </div>
       ) : (
         <div className="flex flex-col gap-3">
-          {folderId && !dragOver && (
-            <div className="flex items-center gap-3">
-              <select
-                value={accessTier}
-                onChange={(e) => setAccessTier(e.target.value)}
-                disabled={uploading}
-                className="text-sm border border-border rounded-lg px-2 py-1.5 bg-background text-foreground disabled:opacity-60"
-                title="Access tier"
-              >
-                {ACCESS_TIER_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={visibility}
-                onChange={(e) => setVisibility(e.target.value)}
-                disabled={uploading}
-                className="text-sm border border-border rounded-lg px-2 py-1.5 bg-background text-foreground disabled:opacity-60"
-                title="Visibility"
-              >
-                {VISIBILITY_OPTIONS.filter((v) => v.value !== "archived").map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* Folder selector dropdown */}
+          {allFolders && allFolders.length > 0 && (
+            <FolderSelect
+              folders={allFolders}
+              value={selectedFolderId ?? null}
+              onChange={(fid) => onFolderChange?.(fid)}
+              placeholder="Choose destination folder..."
+              disabled={uploading}
+            />
           )}
 
+          {/* Access tier and visibility selects */}
+          <div className="flex items-center gap-3">
+            <select
+              value={accessTier}
+              onChange={(e) => setAccessTier(e.target.value)}
+              disabled={uploading}
+              className="text-sm border border-border rounded-lg px-2 py-1.5 bg-background text-foreground disabled:opacity-60"
+              title="Access tier"
+            >
+              {ACCESS_TIER_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+            <select
+              value={visibility}
+              onChange={(e) => setVisibility(e.target.value)}
+              disabled={uploading}
+              className="text-sm border border-border rounded-lg px-2 py-1.5 bg-background text-foreground disabled:opacity-60"
+              title="Visibility"
+            >
+              {VISIBILITY_OPTIONS.filter((v) => v.value !== "archived").map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Upload button */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => inputRef.current?.click()}
-              disabled={uploading}
+              disabled={uploadDisabled}
               className="px-4 py-2 bg-accent text-background text-sm font-medium rounded-lg hover:bg-accent-hover disabled:opacity-60 transition-colors"
             >
               {uploading ? "Uploading..." : "Upload Files"}
@@ -296,6 +312,7 @@ export default function UploadZone({
             </span>
           </div>
 
+          {/* Drag-and-drop area (hidden, used as drop target) */}
           <div
             onClick={() => inputRef.current?.click()}
             onDragOver={(e) => {

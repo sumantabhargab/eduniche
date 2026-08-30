@@ -19,8 +19,24 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const all = searchParams.get("all") === "true";
+  const recursive = searchParams.get("recursive") === "true";
 
   if (all) {
+    if (recursive) {
+      const supabase = await import("@/lib/supabase/server").then(m => m.createServiceClient());
+      if (!supabase) {
+        return NextResponse.json({ folders: [], error: "Server not configured." }, { status: 500 });
+      }
+      const { data, error } = await supabase
+        .from("content_folders")
+        .select("*")
+        .order("depth", { ascending: true })
+        .order("name", { ascending: true });
+      if (error) {
+        return NextResponse.json({ folders: [], error: error.message }, { status: 500 });
+      }
+      return NextResponse.json({ folders: data ?? [] });
+    }
     const { folders } = await listChildFolders(null);
     return NextResponse.json({ folders });
   }

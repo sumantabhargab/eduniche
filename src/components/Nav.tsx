@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, Suspense } from "react";
+import { useState, Suspense } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useAuth } from "@/lib/hooks/useAuth";
 
@@ -110,12 +110,27 @@ function NavInner() {
           )}
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile auth action + hamburger */}
+        {isAuthenticated ? (
+          <Link
+            href="/dashboard"
+            className="text-sm font-medium text-foreground md:hidden"
+          >
+            Dashboard
+          </Link>
+        ) : (
+          <Link
+            href="/login"
+            className="text-sm font-medium text-accent md:hidden"
+          >
+            Sign In
+          </Link>
+        )}
         <button
-          onClick={() => setMobileOpen((v) => !v)}
-          className="md:hidden flex items-center justify-center w-9 h-9 text-muted hover:text-foreground"
-          aria-label="Toggle menu"
-        >
+            onClick={() => setMobileOpen((v) => !v)}
+            className="flex items-center justify-center w-9 h-9 text-muted hover:text-foreground"
+            aria-label="Toggle menu"
+          >
           {mobileOpen ? (
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -136,7 +151,6 @@ function NavInner() {
             <Link href="/library" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Library</Link>
             {isAuthenticated && (
               <>
-                <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Dashboard</Link>
                 <Link href="/leaderboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Leaderboard</Link>
                 <Link href="/chat" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Chat</Link>
                 {user?.role === "admin" && (
@@ -145,16 +159,6 @@ function NavInner() {
               </>
             )}
             <div className="pt-2">
-              {isAuthenticated ? (
-                <>
-                  <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block text-sm text-accent font-medium mb-2">Get Premium</Link>
-                </>
-              ) : (
-                <>
-                  <Link href="/pricing" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground mb-2">Pricing</Link>
-                  <Link href="/login" onClick={() => setMobileOpen(false)} className="block text-sm text-accent font-medium mb-2">Sign In</Link>
-                </>
-              )}
               <ThemeToggle />
             </div>
           </div>
