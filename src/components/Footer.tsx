@@ -14,7 +14,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-border">
       <div className="max-w-6xl mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-[1fr_1fr_1fr] gap-12">
+        <div className="grid md:grid-cols-[1fr_1fr_1fr_1fr] gap-12">
           <div>
             <div className="font-serif text-xl text-foreground mb-4">
               Eduneuro
@@ -39,6 +39,26 @@ export default function Footer() {
                   {link.label}
                 </Link>
               ))}
+            </div>
+          </div>
+
+          <div>
+            <div className="font-mono text-xs tracking-widest text-muted uppercase mb-4">
+              Legal
+            </div>
+            <div className="space-y-2">
+              <Link
+                href="/privacy"
+                className="block text-sm text-muted hover:text-foreground transition-colors"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
+                className="block text-sm text-muted hover:text-foreground transition-colors"
+              >
+                Terms of Service
+              </Link>
             </div>
           </div>
 

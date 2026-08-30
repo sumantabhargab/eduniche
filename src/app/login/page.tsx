@@ -6,7 +6,8 @@
 
 "use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
+import Link from "next/link";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -229,7 +230,10 @@ function LoginInner() {
         </div>
 
         <p className="text-xs text-muted mt-8">
-          By signing in, you agree to our Terms of Service and Privacy Policy.
+          By signing in, you agree to our{" "}
+          <Link href="/terms" className="underline hover:text-foreground">Terms of Service</Link>{" "}
+          and{" "}
+          <Link href="/privacy" className="underline hover:text-foreground">Privacy Policy</Link>.
         </p>
       </div>
     </div>

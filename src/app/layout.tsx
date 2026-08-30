@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { Playfair_Display } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 import { ChatWidgetClient } from "@/modules/chat/components/ChatWidgetClient";
 import "./globals.css";
 
@@ -51,6 +53,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
