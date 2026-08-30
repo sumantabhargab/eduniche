@@ -16,6 +16,7 @@ export const dynamic = 'force-dynamic';
 function LoginInner() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [showUsernameForm, setShowUsernameForm] = useState(false);
   const [username, setUsername] = useState("");
   const [usernameLoading, setUsernameLoading] = useState(false);
@@ -34,63 +35,53 @@ function LoginInner() {
   const redirectTo = searchParams.get("redirect") || "/dashboard";
 
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        // If no profile row exists, re-authenticate to trigger the DB trigger
-        // (profiles_id_fkey creates the profile on auth.users INSERT)
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("username")
-          .eq("id", session.user.id)
-          .maybeSingle();
+    let unsub: (() => void) | undefined;
 
-        if (!profile) {
-          // No profile row — sign out and re-authenticate to trigger profile creation
-          await supabase.auth.signOut();
-          setError("Session needs to be refreshed. Please sign in again.");
-          return;
+    const handler = async (event: string, session: { user?: { id: string } } | null) => {
+      if (!session?.user) {
+        if (event === "INITIAL_SESSION") {
+          setChecking(false);
         }
-
-        if (!profile.username) {
-          setShowUsernameForm(true);
-        } else {
-          router.push(redirectTo);
-        }
+        return;
       }
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("username")
+        .eq("id", session.user.id)
+        .maybeSingle();
+
+      if (!profile) {
+        await supabase.auth.signOut();
+        setError("Please sign in again to complete setup.");
+        setChecking(false);
+        return;
+      }
+
+      if (!profile.username) {
+        setShowUsernameForm(true);
+      } else {
+        router.push(redirectTo);
+      }
+      setChecking(false);
     };
 
-    checkSession();
+    // Listen for the auth listener to settle before concluding there is no session.
+    // A synchronous getSession() here races with the async code exchange in the
+    // @supabase/ssr GoTrueClient and produces a false "Session needs to be refreshed" error.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(handler);
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (session?.user && event === "SIGNED_IN") {
-          const { data: profile } = await supabase
-            .from("profiles")
-            .select("username")
-            .eq("id", session.user.id)
-            .maybeSingle();
+    // Safety timeout in case onAuthStateChange never fires (e.g. no session at all).
+    const timeout = setTimeout(() => {
+      setChecking(false);
+    }, 1500);
 
-          if (!profile) {
-            // No profile row — trigger creation by re-authenticating
-            const { error: signOutErr } = await supabase.auth.signOut();
-            if (signOutErr) {
-              console.error("Sign-out error:", signOutErr);
-            }
-            setError("Session needs to be refreshed. Please sign in again.");
-            return;
-          }
+    unsub = () => {
+      subscription.unsubscribe();
+      clearTimeout(timeout);
+    };
 
-          if (!profile.username) {
-            setShowUsernameForm(true);
-          } else {
-            router.push(redirectTo);
-          }
-        }
-      }
-    );
-
-    return () => subscription.unsubscribe();
+    return unsub;
   }, [supabase, router, redirectTo]);
 
   const handleGoogleLogin = async () => {
@@ -151,6 +142,14 @@ function LoginInner() {
       setUsernameLoading(false);
     }
   };
+
+  if (checking) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center px-6">
+        <div className="animate-pulse text-muted">Loading...</div>
+      </div>
+    );
+  }
 
   if (showUsernameForm) {
     return (

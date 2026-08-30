@@ -6,17 +6,16 @@
 "use client";
 
 import { useEffect, Suspense } from "react";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { useRouter, useSearchParams } from "next/navigation";
 
-type AuthEvent = Parameters<
-  ReturnType<ReturnType<typeof createBrowserClient>>["auth"]["onAuthStateChange"]
->[0];
+type AuthClient = NonNullable<ReturnType<typeof createBrowserClient>>;
 
 function AuthCallbackInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = createBrowserClient();
+  const supabase: AuthClient | null = createBrowserClient();
 
   if (!supabase) {
     router.push("/login?error=" + encodeURIComponent("Authentication failed."));
@@ -26,8 +25,9 @@ function AuthCallbackInner() {
   const redirectTo = searchParams.get("redirect") || "/dashboard";
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event: AuthEvent, session) => {
+    const client = supabase as AuthClient;
+    const { data: { subscription } } = client.auth.onAuthStateChange(
+      async (event, session) => {
         if (event === "INITIAL_SESSION" || event === "SIGNED_IN") {
           if (session?.user) {
             const { data: profile } = await supabase
