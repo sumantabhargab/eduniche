@@ -58,7 +58,7 @@ export default function AdminFileManager({
 
   // Load all folders for the sidebar tree and folder selector
   useEffect(() => {
-    fetch("/api/admin/content/folders?all=true&recursive=true")
+    fetch("/api/admin/content/folders?all=true&recursive=true", { credentials: "include" })
       .then((r) => r.json())
       .then((data) => {
         if (data.folders) {
@@ -86,7 +86,15 @@ export default function AdminFileManager({
         ? `/api/admin/content/folders?folder_id=${folderId}`
         : "/api/admin/content/folders";
 
-      const res = await fetch(url);
+      const res = await fetch(url, { credentials: "include" });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        setError(errData.error || `Failed to load (${res.status}).`);
+        setLoading(false);
+        return;
+      }
+
       const data = await res.json();
 
       if (data.folders) {
@@ -102,7 +110,7 @@ export default function AdminFileManager({
 
       // Load breadcrumbs
       if (folderId) {
-        const bcRes = await fetch(`/api/admin/content/folders/${folderId}/breadcrumbs`);
+        const bcRes = await fetch(`/api/admin/content/folders/${folderId}/breadcrumbs`, { credentials: "include" });
         const bcData = await bcRes.json();
         if (bcData.breadcrumbs) {
           setBreadcrumbs(bcData.breadcrumbs);
@@ -128,7 +136,8 @@ export default function AdminFileManager({
     setLoading(true);
     try {
       const res = await fetch(
-        `/api/admin/content/search?q=${encodeURIComponent(query)}`
+        `/api/admin/content/search?q=${encodeURIComponent(query)}`,
+        { credentials: "include" }
       );
       const data = await res.json();
       setSearchResults(data);
@@ -160,6 +169,7 @@ export default function AdminFileManager({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, parent_id: currentFolderId }),
+      credentials: "include",
     });
 
     if (!res.ok) {
@@ -169,7 +179,7 @@ export default function AdminFileManager({
     }
 
     loadFolderContents(currentFolderId);
-    fetch("/api/admin/content/folders?all=true&recursive=true")
+    fetch("/api/admin/content/folders?all=true&recursive=true", { credentials: "include" })
       .then((r) => r.json())
       .then((data) => {
         if (data.folders) setAllFolders(data.folders);
@@ -189,6 +199,7 @@ export default function AdminFileManager({
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ visibility: "published" }),
+      credentials: "include",
     });
     loadFolderContents(currentFolderId);
   };
@@ -198,6 +209,7 @@ export default function AdminFileManager({
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ visibility: "draft" }),
+      credentials: "include",
     });
     loadFolderContents(currentFolderId);
   };

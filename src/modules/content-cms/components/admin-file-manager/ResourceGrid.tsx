@@ -75,7 +75,7 @@ export default function ResourceGrid({
       ? `/api/admin/content/folders/${itemId}`
       : `/api/admin/content/resources/${itemId}`;
 
-    fetch(endpoint, { method: "DELETE" })
+    fetch(endpoint, { method: "DELETE", credentials: "include" })
       .then(() => {
         onUploadComplete();
       })
@@ -100,6 +100,7 @@ export default function ResourceGrid({
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ folder_id: moveFolderId }),
+      credentials: "include",
     })
       .then(() => {
         setMoveTarget(null);

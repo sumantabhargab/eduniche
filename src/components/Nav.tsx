@@ -65,6 +65,28 @@ function NavInner() {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
+          {isAuthenticated && (
+            <Link
+              href="/profile"
+              className="flex items-center gap-2.5 hover:bg-background-alt rounded-xl px-2 py-1.5 transition-colors"
+              title="View profile"
+            >
+              {user?.avatar_url ? (
+                <img
+                  src={user.avatar_url}
+                  alt=""
+                  className="w-8 h-8 rounded-full object-cover border border-border"
+                />
+              ) : (
+                <span className="w-8 h-8 rounded-full bg-accent text-background text-xs font-medium flex items-center justify-center uppercase">
+                  {(user?.display_name || user?.username || user?.email || "U")[0]}
+                </span>
+              )}
+              <span className="text-sm text-foreground font-medium max-w-[120px] truncate">
+                {user?.display_name || user?.username || user?.email?.split("@")[0]}
+              </span>
+            </Link>
+          )}
           {isAuthenticated ? (
             <>
               <Link
@@ -158,7 +180,22 @@ function NavInner() {
                 )}
               </>
             )}
-            <div className="pt-2">
+            <div className="pt-2 border-t border-border">
+              {isAuthenticated && (
+                <Link href="/profile" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-sm text-foreground font-medium mb-3">
+                  {user?.avatar_url ? (
+                    <img src={user.avatar_url} alt="" className="w-6 h-6 rounded-full object-cover" />
+                  ) : (
+                    <span className="w-6 h-6 rounded-full bg-accent text-background text-xs font-medium flex items-center justify-center uppercase">
+                      {(user?.display_name || user?.username || user?.email || "U")[0]}
+                    </span>
+                  )}
+                  <span className="truncate">
+                    {user?.display_name || user?.username || user?.email?.split("@")[0]}
+                  </span>
+                </Link>
+              )}
+              {isAuthenticated && <div className="border-t border-border my-2" />}
               <ThemeToggle />
             </div>
           </div>
