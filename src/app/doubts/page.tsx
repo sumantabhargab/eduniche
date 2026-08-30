@@ -76,6 +76,7 @@ export default function DoubtsPage() {
           subjectId: null,
           topic: null,
         }),
+        credentials: "include",
       });
 
       const data = await res.json();

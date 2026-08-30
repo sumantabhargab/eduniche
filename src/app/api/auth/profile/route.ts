@@ -57,6 +57,7 @@ export async function GET() {
         role: profile?.role || 'student',
         created_at: profile?.created_at || session.user.created_at,
         badge_count: badgeCount || 0,
+        isPremium: !!subscription,
       },
       subscription: subscription ? {
         plan: subscription.plan,

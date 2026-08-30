@@ -105,12 +105,30 @@ function NavInner() {
                   Admin
                 </Link>
               )}
-              <Link
-                href="/pricing"
-                className="inline-flex items-center px-5 py-2 bg-foreground text-background text-sm font-medium transition-colors hover:opacity-90"
-              >
-                Get Premium
-              </Link>
+              {user?.isPremium ? (
+                <span
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium border border-amber-400/40 bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-amber-500/10 text-amber-600 dark:text-amber-400 shadow-[0_0_12px_-2px_rgba(245,158,11,0.3)]"
+                  title="Premium subscription active"
+                  aria-label="Premium subscription active"
+                >
+                  <svg
+                    className="w-3.5 h-3.5"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 2 14.5 8.5 21 9.5 16 14 17.5 21 12 17.5 6.5 21 8 14 3 9.5 9.5 8.5z" />
+                  </svg>
+                  <span className="tracking-wide">EduPremium</span>
+                </span>
+              ) : (
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center px-5 py-2 bg-foreground text-background text-sm font-medium transition-colors hover:opacity-90"
+                >
+                  Get Premium
+                </Link>
+              )}
               <ThemeToggle />
             </>
           ) : (
@@ -196,6 +214,22 @@ function NavInner() {
                 </Link>
               )}
               {isAuthenticated && <div className="border-t border-border my-2" />}
+              {user?.isPremium ? (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium border border-amber-400/40 bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-amber-500/10 text-amber-600 dark:text-amber-400 self-start">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2 14.5 8.5 21 9.5 16 14 17.5 21 12 17.5 6.5 21 8 14 3 9.5 9.5 8.5z" />
+                  </svg>
+                  <span className="tracking-wide">EduPremium</span>
+                </span>
+              ) : (
+                <Link
+                  href="/pricing"
+                  onClick={() => setMobileOpen(false)}
+                  className="inline-flex items-center px-5 py-2.5 bg-foreground text-background text-sm font-medium rounded-xl hover:opacity-90 transition-opacity"
+                >
+                  Get Premium
+                </Link>
+              )}
               <ThemeToggle />
             </div>
           </div>

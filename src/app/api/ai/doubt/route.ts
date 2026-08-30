@@ -4,21 +4,22 @@
  * AI Doubt Engine endpoint.
  * - Validates premium access
  * - Retrieves relevant EduNeuro content
- * - Calls Groq API server-side
+ * - Calls Groq API server-side via SDK
  * - Returns grounded response
  */
 
 import { NextResponse } from "next/server";
+import { Groq } from "groq-sdk";
 import { createServerClient } from "@/lib/supabase/server";
 import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
 
-const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
+const GROQ_MODEL = "llama-3.3-70b-versatile";
 const MAX_QUESTION_LENGTH = 2000;
 const RATE_LIMIT_WINDOW = 60000;
 const RATE_LIMIT_MAX = 20;
 
 interface ChatMessage {
-  role: "user" | "assistant" | "system";
+  role: "system" | "user" | "assistant";
   content: string;
 }
 
@@ -35,8 +36,13 @@ Your core principles:
 - Keep responses focused and relevant to the user's question
 - Use markdown formatting for readability
 
-When EduNeuro library context is provided below, use it as your primary reference. Cite relevant sections.
+When EduNeuro library context is provided below, use it as your primary reference. Cite relevant sections by name.
 If the context doesn't contain enough information, say so clearly rather than guessing.`;
+
+function devLog(message: string, data?: Record<string, unknown>) {
+  const ts = new Date().toISOString().slice(11, 23);
+  console.log(`[AI-DOUBT ${ts}] ${message}`, data ?? "");
+}
 
 async function retrieveRelevantContent(
   supabase: any,
@@ -44,48 +50,58 @@ async function retrieveRelevantContent(
   question: string
 ): Promise<string> {
   try {
-    // Simple keyword-based retrieval from published content
     const keywords = question
       .toLowerCase()
-      .replace(/[^a-z0-9\s]/g, '')
+      .replace(/[^a-z0-9\s]/g, "")
       .split(/\s+/)
-      .filter(w => w.length > 3)
+      .filter((w) => w.length > 3)
       .slice(0, 10);
 
-    if (keywords.length === 0) return "";
+    devLog("RAG: keywords extracted", { count: keywords.length, keywords });
 
-    const searchTerm = keywords.join(' ');
+    if (keywords.length === 0) {
+      devLog("RAG: no keywords, skipping retrieval");
+      return "";
+    }
 
-    const { data: resources } = await supabase
+    const searchTerm = keywords.join(" ");
+
+    const { data: resources, error: ragError } = await supabase
       .from("content_resources")
       .select("name, description, branch, subject, resource_type")
       .eq("visibility", "published")
       .or(`name.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`)
       .limit(5);
 
-    if (!resources || resources.length === 0) return "";
+    if (ragError) {
+      devLog("RAG: query error", { error: ragError.message });
+      return "";
+    }
 
-    // In a full implementation, you would also extract and chunk document text here
-    // For MVP, we return relevant metadata as context
-    const context = (resources ?? []).map((r: any) =>
-      `[${r.resource_type || 'Resource'}] ${r.name} (${r.subject || r.branch || 'General'})`
-    ).join('\n');
+    const chunkCount = resources?.length ?? 0;
+    devLog("RAG: retrieved chunks", { count: chunkCount });
+
+    if (!resources || chunkCount === 0) return "";
+
+    const context = (resources ?? []).map(
+      (r: any) => `[${r.resource_type || "Resource"}] ${r.name} (${r.subject || r.branch || "General"})`
+    ).join("\n");
 
     return `\n\nRelevant EduNeuro Library resources:\n${context}\n`;
-  } catch (e) {
+  } catch (e: any) {
+    devLog("RAG: exception", { error: e?.message });
     return "";
   }
 }
 
 async function validatePremium(supabase: any, userId: string): Promise<boolean> {
   try {
-    // Check via RPC function
-    const { data, error } = await supabase.rpc('has_active_subscription', {
-      p_user_id: userId
+    const { data, error } = await supabase.rpc("has_active_subscription", {
+      p_user_id: userId,
     });
 
     if (error) {
-      // Fallback: check subscriptions table directly
+      devLog("Premium: RPC error, falling back to direct query", { error: error.message });
       const { data: subs } = await supabase
         .from("user_subscriptions")
         .select("status, expires_at")
@@ -98,7 +114,8 @@ async function validatePremium(supabase: any, userId: string): Promise<boolean> 
     }
 
     return data === true;
-  } catch (e) {
+  } catch (e: any) {
+    devLog("Premium: validation exception", { error: e?.message });
     return false;
   }
 }
@@ -115,139 +132,169 @@ async function getConversationHistory(
       .order("created_at", { ascending: true })
       .limit(20);
 
-    return (messages ?? []).map((m: any) => ({ role: m.role as ChatMessage["role"], content: m.content }));
-  } catch (e) {
+    return (messages ?? []).map((m: any) => ({
+      role: m.role as ChatMessage["role"],
+      content: m.content,
+    }));
+  } catch {
     return [];
   }
 }
 
 export async function POST(request: Request) {
   try {
+    // --- 0. Server / env check ---
+    const groqApiKey = process.env.GROQ_API_KEY;
+    if (!groqApiKey) {
+      devLog("ERROR: GROQ_API_KEY not configured");
+      return NextResponse.json(
+        { error: "AI engine not configured.", detail: "Missing GROQ_API_KEY" },
+        { status: 500 }
+      );
+    }
+    devLog("GROQ_API_KEY configured: true");
+
+    // --- 1. Auth ---
     const supabase = await createServerClient();
     if (!supabase) {
       return NextResponse.json({ error: "Server not configured." }, { status: 500 });
     }
-    const sb = supabase; // non-null from here
 
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) {
+      devLog("Auth: no session");
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
+    devLog("Auth: user authenticated", { userId: session.user.id });
 
-    // Rate limit
-    const rl = checkRateLimit({ maxRequests: RATE_LIMIT_MAX, windowMs: RATE_LIMIT_WINDOW },
-      getClientIdentifier(request) + session.user.id);
+    // --- 2. Rate limit ---
+    const rl = checkRateLimit(
+      { maxRequests: RATE_LIMIT_MAX, windowMs: RATE_LIMIT_WINDOW },
+      getClientIdentifier(request) + session.user.id
+    );
     if (!rl.allowed) {
-      return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+      devLog("Rate limit: exceeded");
+      return NextResponse.json(
+        { error: "Too many requests. Please try again later." },
+        { status: 429 }
+      );
     }
 
-    // Check premium access
-    const isPremium = await validatePremium(sb, session.user.id);
+    // --- 3. Premium check ---
+    const isPremium = await validatePremium(supabase, session.user.id);
     if (!isPremium) {
-      return NextResponse.json({
-        error: "Premium required.",
-        upgradeRequired: true,
-        plans: {
-          weekly: { price: 20, currency: "INR", period: "week" },
-          monthly: { price: 49, currency: "INR", period: "month" },
-        }
-      }, { status: 403 });
+      devLog("Premium: user not premium", { userId: session.user.id });
+      return NextResponse.json(
+        { error: "Premium required.", upgradeRequired: true },
+        { status: 403 }
+      );
     }
+    devLog("Premium: user has active subscription");
 
+    // --- 4. Parse request ---
     const body = await request.json().catch(() => ({}));
-    const question = typeof body.question === 'string' ? body.question.trim() : "";
-    const conversationId = typeof body.conversationId === 'string' ? body.conversationId : null;
+    const question = typeof body.question === "string" ? body.question.trim() : "";
+    const conversationId =
+      typeof body.conversationId === "string" ? body.conversationId : null;
 
     if (!question || question.length === 0) {
       return NextResponse.json({ error: "Please ask a question." }, { status: 400 });
     }
     if (question.length > MAX_QUESTION_LENGTH) {
-      return NextResponse.json({ error: `Question too long. Max ${MAX_QUESTION_LENGTH} characters.` }, { status: 400 });
+      return NextResponse.json(
+        { error: `Question too long. Max ${MAX_QUESTION_LENGTH} characters.` },
+        { status: 400 }
+      );
     }
+    devLog("Request: question received", { length: question.length, conversationId });
 
-    // Check for image upload
-    let hasImage = false;
-    const formData = await request.formData().catch(() => null);
-    const imageFile = formData?.get("image") as File | null;
-    if (imageFile && imageFile.size > 0) {
-      hasImage = true;
-    }
+    // --- 5. RAG / Library retrieval ---
+    const libraryContext = await retrieveRelevantContent(
+      supabase,
+      session.user.id,
+      question
+    );
 
-    // Get Groq API key (server-side only)
-    const apiKey = process.env.GROQ_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json({
-        answer: "The AI engine is not configured. Please add GROQ_API_KEY to the server environment.",
-        confidence: "low",
-        references: [],
-      }, { status: 200 });
-    }
+    // --- 6. Build messages ---
+    const systemPrompt = libraryContext
+      ? DEFAULT_SYSTEM_PROMPT + libraryContext
+      : DEFAULT_SYSTEM_PROMPT;
 
-    // Retrieve relevant library context
-    const libraryContext = await retrieveRelevantContent(sb, session.user.id, question);
-
-    // Get conversation history
-    let messages: ChatMessage[] = [
-      { role: "system", content: DEFAULT_SYSTEM_PROMPT + libraryContext },
-    ];
-
-    let finalConversationId = conversationId;
+    const messages: ChatMessage[] = [{ role: "system", content: systemPrompt }];
 
     if (conversationId) {
-      const history = await getConversationHistory(sb, conversationId);
+      const history = await getConversationHistory(supabase, conversationId);
       messages.push(...history);
     }
-
     messages.push({ role: "user", content: question });
 
     // Save user message
     if (conversationId) {
-      await sb.from("ai_messages").insert({
+      await supabase.from("ai_messages").insert({
         conversation_id: conversationId,
         role: "user",
         content: question,
       });
     }
 
-    // Call Groq
+    let finalConversationId = conversationId;
+
+    // --- 7. Call Groq ---
+    devLog("Groq: starting request", { model: GROQ_MODEL, messageCount: messages.length });
+
     let answer = "";
-    let confidence: string = "medium";
+    let confidence: "high" | "medium" | "low" = "medium";
 
     try {
-      const response = await fetch(GROQ_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: process.env.GROQ_MODEL || "llama-3.3-70b-versatile",
-          messages,
-          max_tokens: 2048,
-          temperature: 0.7,
-          top_p: 0.9,
-        }),
+      const groq = new Groq({ apiKey: groqApiKey });
+
+      const completion = await groq.chat.completions.create({
+        model: GROQ_MODEL,
+        messages,
+        max_tokens: 2048,
+        temperature: 0.7,
+        top_p: 0.9,
       });
 
-      if (!response.ok) {
-        const errorBody = await response.text();
-        console.error("Groq API error:", response.status, errorBody);
-        answer = "I'm having trouble processing your question right now. Please try again in a moment.";
+      answer = completion.choices?.[0]?.message?.content || "";
+
+      if (!answer) {
+        devLog("Groq: empty response");
+        answer =
+          "I received an empty response. Please try rephrasing your question.";
         confidence = "low";
       } else {
-        const data = await response.json();
-        answer = data.choices?.[0]?.message?.content || "I couldn't generate a response. Please try again.";
+        devLog("Groq: response received", { length: answer.length });
         confidence = "high";
       }
-    } catch (e) {
-      console.error("Groq API call failed:", e);
-      answer = "I'm having trouble connecting right now. Please check your connection and try again.";
+    } catch (groqError: any) {
+      devLog("Groq: API call failed", {
+        message: groqError?.message,
+        status: groqError?.status,
+      });
+
+      if (groqError?.status === 429) {
+        return NextResponse.json(
+          { answer: "AI is temporarily rate-limited. Please try again in a moment.", confidence: "low" },
+          { status: 200 }
+        );
+      }
+      if (groqError?.status === 401) {
+        devLog("Groq: authentication error — check GROQ_API_KEY");
+        return NextResponse.json(
+          { error: "AI authentication failed.", detail: "Invalid API key" },
+          { status: 500 }
+        );
+      }
+
+      answer =
+        "I'm having trouble processing your question right now. Please try again in a moment.";
       confidence = "low";
     }
 
     // Save assistant message
-    if (conversationId) {
-      await sb.from("ai_messages").insert({
+    if (conversationId && answer) {
+      await supabase.from("ai_messages").insert({
         conversation_id: conversationId,
         role: "assistant",
         content: answer,
@@ -260,14 +307,20 @@ export async function POST(request: Request) {
       references: [],
       conversationId: finalConversationId,
     });
-  } catch (e) {
-    console.error("AI doubt error:", e);
-    return NextResponse.json({ error: "An unexpected error occurred." }, { status: 500 });
+  } catch (e: any) {
+    devLog("FATAL: unhandled error", {
+      message: e?.message,
+      stack: e?.stack?.split("\n").slice(0, 3).join("\n"),
+    });
+    return NextResponse.json(
+      { error: "An unexpected server error occurred." },
+      { status: 500 }
+    );
   }
 }
 
 export async function OPTIONS() {
-  return new NextResponse(null, {
+  return new Response(null, {
     status: 204,
     headers: {
       "Access-Control-Allow-Origin": "*",
