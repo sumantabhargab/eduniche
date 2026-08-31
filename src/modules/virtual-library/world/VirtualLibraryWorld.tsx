@@ -224,13 +224,12 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
 
         const { data: profile } = await supabase
           .from("profiles")
-          .select("display_name, full_name, email")
+          .select("display_name")
           .eq("id", user.id)
           .maybeSingle();
 
         const label =
           profile?.display_name ||
-          profile?.full_name ||
           user.user_metadata?.full_name ||
           user.email?.split("@")[0] ||
           "there";
@@ -402,13 +401,12 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
           // Fetch sender name from profiles
           const { data: profile } = await supabase
             .from("profiles")
-            .select("display_name, full_name")
+            .select("display_name")
             .eq("id", record.user_id)
             .maybeSingle();
 
           const label =
             profile?.display_name ||
-            profile?.full_name ||
             record.user_id?.slice(0, 8) ||
             "Student";
 
@@ -460,14 +458,14 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
   });
 
   // Movement via WASD/arrows
+  // Runs once on mount. Reads position from localPlayerRef each frame.
+  // The tick function handles the case where player/collision aren't ready yet.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    if (!localPlayer) return;
-
     const collision = collisionRef.current;
-    if (!collision) return;
-
     const keys = new Set<string>();
     let lastBroadcast = 0;
+    let currentRoomId: string | null = null;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
@@ -489,6 +487,13 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       const dt = Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
 
+      // Skip if player or collision not ready
+      const current = localPlayerRef.current;
+      if (!current || !collision) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+
       let dx = 0, dy = 0;
       if (keys.has("w") || keys.has("arrowup")) dy -= 1;
       if (keys.has("s") || keys.has("arrowdown")) dy += 1;
@@ -501,12 +506,6 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
         dy *= inv;
       }
 
-      const current = localPlayerRef.current;
-      if (!current) {
-        raf = requestAnimationFrame(tick);
-        return;
-      }
-
       if (dx !== 0 || dy !== 0) {
         const speed = WORLD_CONFIG.playerSpeed;
         const targetX = current.x + dx * speed * dt;
@@ -514,42 +513,36 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
 
         const result = collision.resolveMovement(current.x, current.y, targetX, targetY);
 
-        const newPlayer: Partial<WorldPlayer> = {
-          x: result.x,
-          y: result.y,
-          dx,
-          dy,
-          isMoving: true,
-          targetX,
-          targetY,
-          lastUpdate: Date.now(),
-        };
+        localPlayerRef.current = { ...current, x: result.x, y: result.y, dx, dy, isMoving: true };
 
-        setLocalPlayer((prev) => (prev ? { ...prev, ...newPlayer } : prev));
+        setLocalPlayer((prev) => {
+          if (!prev) return prev;
+          return { ...prev, x: result.x, y: result.y, dx, dy, isMoving: true, targetX, targetY, lastUpdate: Date.now() };
+        });
 
-        // Detect room change
-        const room = collision.getTileAt(result.x, result.y);
-        // Use a simple room lookup from current tile
         const newRoom = findRoomFromPosition(result.x, result.y);
-        if (newRoom && newRoom !== currentRoom) {
-          handleRoomChange(newRoom);
+        if (newRoom && newRoom !== currentRoomId) {
+          currentRoomId = newRoom;
+          setCurrentRoom(newRoom);
+          setShowRoomInfo(true);
+          if (roomInfoTimeoutRef.current) clearTimeout(roomInfoTimeoutRef.current);
+          roomInfoTimeoutRef.current = setTimeout(() => setShowRoomInfo(false), 5000);
         }
 
-        // Throttle broadcast
         const now = Date.now();
         if (now - lastBroadcast > WORLD_CONFIG.broadcastInterval) {
           lastBroadcast = now;
-          multiplayerManager.updateLocalPlayer(newPlayer);
+          multiplayerManager.updateLocalPlayer({
+            x: result.x, y: result.y, dx, dy, isMoving: true,
+            targetX, targetY, lastUpdate: now,
+          });
         }
       } else if (current.isMoving) {
-        const newPlayer: Partial<WorldPlayer> = {
-          dx: 0,
-          dy: 0,
-          isMoving: false,
-          lastUpdate: Date.now(),
-        };
-        setLocalPlayer((prev) => (prev ? { ...prev, ...newPlayer } : prev));
-        multiplayerManager.updateLocalPlayer(newPlayer);
+        localPlayerRef.current = { ...current, dx: 0, dy: 0, isMoving: false };
+        setLocalPlayer((prev) => {
+          if (!prev) return prev;
+          return { ...prev, dx: 0, dy: 0, isMoving: false, lastUpdate: Date.now() };
+        });
       }
 
       raf = requestAnimationFrame(tick);
@@ -562,7 +555,8 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       window.removeEventListener("keyup", handleKeyUp);
       cancelAnimationFrame(raf);
     };
-  }, [localPlayer, currentRoom, handleRoomChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Cleanup
   useEffect(() => {
