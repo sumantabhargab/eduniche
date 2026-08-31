@@ -322,11 +322,13 @@ export async function POST(request: Request) {
       devLog("Groq: API call failed", {
         message: groqError?.message,
         status: groqError?.status,
+        code: groqError?.code,
+        type: groqError?.type,
       });
 
       if (groqError?.status === 429) {
         return NextResponse.json(
-          { answer: "AI is temporarily rate-limited. Please try again in a moment.", confidence: "low" },
+          { answer: "EduNeuro is temporarily busy. Please try again in a moment.", confidence: "low" },
           { status: 200 }
         );
       }
@@ -338,8 +340,7 @@ export async function POST(request: Request) {
         );
       }
 
-      answer =
-        "I'm having trouble processing your question right now. Please try again in a moment.";
+      answer = "I'm having trouble processing your question right now. Please try again in a moment.";
       confidence = "low";
     }
 

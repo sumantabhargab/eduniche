@@ -96,13 +96,20 @@ export function useDoubt(options: UseDoubtOptions = {}): UseDoubtReturn {
   const [apiAvailable, setApiAvailable] = useState(false);
 
   // Detect API availability on mount
+  // We send a POST to the endpoint — any response other than a network error
+  // means the endpoint exists. 401 means the API is available but requires auth.
   useEffect(() => {
     let cancelled = false;
     const check = async () => {
       try {
-        const res = await fetch("/api/ai/doubt", { method: "POST" });
+        const res = await fetch("/api/ai/doubt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: "availability check" }),
+        });
         if (cancelled) return;
-        setApiAvailable(res.ok);
+        // Endpoint exists if it returns anything (200, 401, 429, 503) other than 404 or network error
+        setApiAvailable(res.status !== 404);
       } catch {
         if (!cancelled) setApiAvailable(false);
       }

@@ -35,6 +35,14 @@ function NavInner() {
             GATE
           </Link>
           <Link
+            href="/doubts"
+            className={`text-sm transition-colors ${
+              isActive("/doubts") ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            Doubt Engine
+          </Link>
+          <Link
             href="/library"
             className={`text-sm transition-colors ${
               isActive("/library", true) ? "text-accent" : "text-muted hover:text-foreground"
@@ -188,6 +196,7 @@ function NavInner() {
         <div className="md:hidden border-t border-border bg-background">
           <div className="px-6 py-4 space-y-3">
             <Link href="/gate" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">GATE</Link>
+            <Link href="/doubts" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Doubt Engine</Link>
             <Link href="/library" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Library</Link>
             {isAuthenticated && (
               <>
