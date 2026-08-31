@@ -2,11 +2,9 @@
  * Paper-level data dispatcher.
  *
  * Maps `paperId` to the correct data imports so gate pages can be
- * paper-agnostic — they import from here instead of directly from
- * CSE or ECE data files.
- *
- * Usage:
- *   import { getPaperQuestions, getPaperAnalysis, getPaperRawData } from '@/lib/gate/paper-data';
+ * paper-agnostic. For branches with real question banks (CSE, ECE),
+ * returns the actual data. For all others, returns null — client
+ * components should use the API endpoint instead.
  */
 
 import { PAPERS, type GATEPaper } from "@/lib/gate/config";
@@ -17,30 +15,26 @@ import { TOC_RAW_DATA as CSE_RAW_DATA, ALL_AVAILABLE_YEARS as CSE_YEARS } from "
 
 // ECE
 import { ECE_TOC_QUESTIONS, type Question as ECEQuestion } from "@/data/questions-ece-toc";
-import { ECE_RAW_DATA, ALL_AVAILABLE_YEARS as ECE_YEARS, getSubjectRawData, getQuestionsForSubject, getTopicsForSubject } from "@/data/ece-analysis";
-
-// Re-export the question type
-export type Question = {
-  id: string;
-  subject: string;
-  subjectId: string;
-  topic: string;
-  year: number;
-  set?: string;
-  marks: number;
-  type: "MCQ" | "MSQ" | "NAT";
-  question: string;
-  options?: string[];
-  answer: string;
-  explanation: string;
-  difficulty: "easy" | "medium" | "hard";
-  tags: string[];
-};
+import {
+  ECE_RAW_DATA,
+  ALL_AVAILABLE_YEARS as ECE_YEARS,
+  getSubjectRawData,
+  getQuestionsForSubject,
+  getTopicsForSubject,
+} from "@/data/ece-analysis";
 
 export interface PaperDataSource {
   paper: GATEPaper;
   questions: ECEQuestion[];
-  rawData: { id: string; name: string; topic?: string; totalQuestions: number; totalMarks: number; yearlyData: { year: number; count: number; marks: number }[]; questionTypes: Record<string, number> }[];
+  rawData: {
+    id: string;
+    name: string;
+    topic?: string;
+    totalQuestions: number;
+    totalMarks: number;
+    yearlyData: { year: number; count: number; marks: number }[];
+    questionTypes: Record<string, number>;
+  }[];
   allYears: number[];
   getSubjectQuestions: (subjectId: string) => ECEQuestion[];
   getSubjectTopics: (subjectId: string) => string[];
@@ -55,13 +49,9 @@ export function getPaperDataSource(paperId: string): PaperDataSource | null {
       return {
         paper,
         questions: CSE_QUESTIONS as unknown as ECEQuestion[],
-        rawData: CSE_RAW_DATA as { id: string; name: string; topic?: string; totalQuestions: number; totalMarks: number; yearlyData: { year: number; count: number; marks: number }[]; questionTypes: Record<string, number> }[],
+        rawData: CSE_RAW_DATA as PaperDataSource["rawData"],
         allYears: CSE_YEARS,
-        getSubjectQuestions: (id: string) => {
-          // CSE questions don't have subjectId on individual items in the same way
-          // For now, return empty — CSE questions page uses TOC_QUESTIONS directly
-          return [] as ECEQuestion[];
-        },
+        getSubjectQuestions: () => [],
         getSubjectTopics: () => [],
       };
 
@@ -85,7 +75,7 @@ export function getPaperQuestions(paperId: string): ECEQuestion[] {
   return src ? src.questions : [];
 }
 
-export function getPaperRawData(paperId: string): { id: string; name: string; topic?: string; totalQuestions: number; totalMarks: number; yearlyData: { year: number; count: number; marks: number }[]; questionTypes: Record<string, number> }[] {
+export function getPaperRawData(paperId: string): PaperDataSource["rawData"] {
   const src = getPaperDataSource(paperId);
   return src ? src.rawData : [];
 }

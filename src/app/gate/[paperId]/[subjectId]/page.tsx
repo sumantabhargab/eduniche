@@ -1,10 +1,10 @@
 "use client";
 
-import { use } from "react";
+import { use, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getPaperById, type GATEPaper } from "@/lib/gate/config";
-import { getPaperRawData, getPaperQuestions, getPaperYears, type Question } from "@/lib/gate/paper-data";
+import { fetchPaperData, type RawSubject } from "@/lib/gate/paper-data-client";
 import { computeTrend } from "@/lib/analytics/trends";
 import { computePriority } from "@/lib/analytics/priority";
 import GateNav from "@/components/GateNav";
@@ -21,14 +21,79 @@ export default function SubjectIntelligencePage({
   const router = useRouter();
 
   const paper: GATEPaper | undefined = getPaperById(paperId);
-  const rawDataList = getPaperRawData(paperId);
-  const rawData = rawDataList.find((s) => s.id === subjectId);
-  const paperQuestions = getPaperQuestions(paperId);
-  const allYears = getPaperYears(paperId);
+  const [paperData, setPaperData] = useState<{ rawData: RawSubject[]; questions: any[]; allYears: number[] } | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useGateEvent("subject_selected", { paper_id: paperId, subject_id: subjectId });
 
-  if (!paper || !rawData) {
+  // Fetch paper data from API
+  useEffect(() => {
+    if (!paper || paper.processingStatus !== "available") return;
+
+    let cancelled = false;
+    setLoading(true);
+
+    fetchPaperData(paperId)
+      .then((data) => {
+        if (!cancelled) {
+          setPaperData({ rawData: data.rawData, questions: data.questions, allYears: data.allYears });
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [paperId, paper]);
+
+  if (!paper) {
+    return (
+      <>
+        <GateNav />
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+          <h1 className="text-2xl font-medium text-foreground mb-2">Paper Not Found</h1>
+          <p className="text-sm text-muted mb-6">
+            The paper you&apos;re looking for doesn&apos;t exist.
+          </p>
+          <Link href={`/gate`} className="text-sm text-accent hover:text-accent-hover transition-colors">
+            Back to Paper Selection
+          </Link>
+        </main>
+      </>
+    );
+  }
+
+  if (loading) {
+    return (
+      <>
+        <GateNav />
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+          <div className="text-center text-sm text-muted">Loading subject data...</div>
+        </main>
+      </>
+    );
+  }
+
+  if (!paperData) {
+    return (
+      <>
+        <GateNav />
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+          <h1 className="text-2xl font-medium text-foreground mb-2">Subject Not Found</h1>
+          <p className="text-sm text-muted mb-6">
+            The subject you&apos;re looking for doesn&apos;t exist or data is still being prepared.
+          </p>
+          <Link href={`/gate/${paperId}`} className="text-sm text-accent hover:text-accent-hover transition-colors">
+            Back to Dashboard
+          </Link>
+        </main>
+      </>
+    );
+  }
+
+  const rawData = paperData.rawData.find((s) => s.id === subjectId);
+  if (!rawData) {
     return (
       <>
         <GateNav />
@@ -49,6 +114,7 @@ export default function SubjectIntelligencePage({
   const totalQuestions: number = rawData.totalQuestions || 0;
   const totalMarks: number = rawData.totalMarks || 0;
   const yearlyData = rawData.yearlyData || [];
+  const allYears = paperData.allYears;
   const qt = rawData.questionTypes || {};
 
   // Compute analytics
@@ -62,16 +128,15 @@ export default function SubjectIntelligencePage({
     });
   }
 
-  // Peer subtopics (subjects in the same topic group)
-  const peers: { id: string; name: string; totalQuestions: number; totalMarks: number }[] = rawDataList
+  // Peer subtopics
+  const peers: { id: string; name: string; totalQuestions: number; totalMarks: number }[] = paperData.rawData
     .filter((s) => !!s && typeof s.topic === "string" && s.topic === rawData.topic && s.id !== subjectId)
     .map((s) => ({ id: s.id, name: s.name, totalQuestions: s.totalQuestions || 0, totalMarks: s.totalMarks || 0 }))
     .sort((a, b) => b.totalMarks - a.totalMarks);
 
   // Questions for this subject
-  const subjectQuestions = paperQuestions.filter((q: Question) => q.subjectId === subjectId);
+  const subjectQuestions = (paperData.questions || []).filter((q: any) => q.subjectId === subjectId);
 
-  // Compute max marks for bar chart
   const maxYearlyMarks = yearlyData.length > 0 ? Math.max(...yearlyData.map((d) => d.marks)) : 20;
 
   const direction = trend?.trendDirection ?? "flat";
@@ -105,12 +170,6 @@ export default function SubjectIntelligencePage({
                   <p className="text-sm text-muted mt-1">Part of: {rawData.topic}</p>
                 )}
               </div>
-              <Link
-                href={`/gate/${paperId}/practice?subject=${subjectId}`}
-                className="inline-flex items-center justify-center px-4 py-2 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors shrink-0"
-              >
-                Practice This Subject
-              </Link>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
@@ -284,83 +343,33 @@ export default function SubjectIntelligencePage({
         )}
 
         {/* Question types */}
-        <section className="py-8 px-4 sm:px-6">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-sm font-mono tracking-widest text-muted uppercase mb-4">
-              Question Types
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {[
-                { key: "mcq", label: "MCQ", desc: "Multiple Choice — single correct", count: qt.mcq || 0, marks: 0 },
-                { key: "msq", label: "MSQ", desc: "Multiple Select — one or more correct", count: qt.msq || 0, marks: 0 },
-                { key: "nat", label: "NAT", desc: "Numerical Answer Type", count: qt.nat || 0, marks: 0 },
-              ].map((qtItem) => (
-                <div key={qtItem.key} className="border border-border p-4">
-                  <h3 className="text-sm font-medium text-foreground mb-1">
-                    {qtItem.label}
-                  </h3>
-                  <p className="text-xs text-muted-light mb-2">{qtItem.desc}</p>
-                  <div className="flex items-center gap-4 text-xs text-muted">
-                    <span>{qtItem.count} questions</span>
-                    <span>{qtItem.marks} marks</span>
+        {Object.keys(qt).length > 0 && (
+          <section className="py-8 px-4 sm:px-6">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-sm font-mono tracking-widest text-muted uppercase mb-4">
+                Question Types
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  { key: "mcq", label: "MCQ", desc: "Multiple Choice — single correct", count: qt.mcq || 0, marks: 0 },
+                  { key: "msq", label: "MSQ", desc: "Multiple Select — one or more correct", count: qt.msq || 0, marks: 0 },
+                  { key: "nat", label: "NAT", desc: "Numerical Answer Type", count: qt.nat || 0, marks: 0 },
+                ].map((qtItem) => (
+                  <div key={qtItem.key} className="border border-border p-4">
+                    <h3 className="text-sm font-medium text-foreground mb-1">
+                      {qtItem.label}
+                    </h3>
+                    <p className="text-xs text-muted-light mb-2">{qtItem.desc}</p>
+                    <div className="flex items-center gap-4 text-xs text-muted">
+                      <span>{qtItem.count} questions</span>
+                      <span>{qtItem.marks} marks</span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ─── Predicted Papers (Recent High-Frequency Years) ─── */}
-        {priority && yearlyData.length > 0 && (() => {
-          const predictedYears = yearlyData
-            .filter((d) => d.marks >= 3)
-            .sort((a, b) => b.year - a.year)
-            .slice(0, 5);
-          if (predictedYears.length === 0) return null;
-          return (
-            <section className="py-8 px-4 sm:px-6 border-t border-border">
-              <div className="max-w-6xl mx-auto">
-                <h2 className="text-sm font-mono tracking-widest text-muted uppercase mb-1">
-                  Predicted Papers
-                </h2>
-                <p className="text-xs text-muted-light mb-4">
-                  Recent years where this topic carried significant marks — strong indicator for upcoming papers.
-                </p>
-                <div className="border border-border divide-y divide-border">
-                  {predictedYears.map((py) => {
-                    const yearQuestions = subjectQuestions.filter((q: Question) => q.year === py.year);
-                    return (
-                      <div
-                        key={py.year}
-                        className="flex items-center justify-between p-3.5 hover:bg-muted/5 transition-colors"
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className="text-sm font-mono font-medium text-foreground w-12">
-                            {py.year}
-                          </span>
-                          <span className="text-xs text-muted">
-                            {py.count} question{py.count !== 1 ? "s" : ""} · {py.marks} marks
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          {yearQuestions.slice(0, 3).map((q: Question) => (
-                            <Link
-                              key={q.id}
-                              href={`/gate/${paperId}/questions/${q.id}`}
-                              className="text-xs text-accent hover:text-accent-hover transition-colors"
-                            >
-                              {q.type} ({q.marks}m)
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                ))}
               </div>
-            </section>
-          );
-        })()}
+            </div>
+          </section>
+        )}
 
         {/* ─── Syllabus: Important Topics ─── */}
         {(() => {
@@ -410,88 +419,6 @@ export default function SubjectIntelligencePage({
             </section>
           );
         })()}
-
-        {/* ─── Previous Year Questions (PYQs) ─── */}
-        {(() => {
-          const pyqs = subjectQuestions
-            .sort((a: Question, b: Question) => b.year - a.year || a.id.localeCompare(b.id))
-            .slice(0, 15);
-          if (pyqs.length === 0) return null;
-          return (
-            <section className="py-8 px-4 sm:px-6 border-t border-border">
-              <div className="max-w-6xl mx-auto">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <h2 className="text-sm font-mono tracking-widest text-muted uppercase mb-1">
-                      Previous Year Questions (PYQs)
-                    </h2>
-                    <p className="text-xs text-muted-light">
-                      Showing {pyqs.length} of {subjectQuestions.length} questions.
-                    </p>
-                  </div>
-                  <Link
-                    href={`/gate/${paperId}/questions?subject=${subjectId}`}
-                    className="text-xs text-accent hover:text-accent-hover transition-colors"
-                  >
-                    View all →
-                  </Link>
-                </div>
-                <div className="space-y-3">
-                  {pyqs.map((q: Question) => (
-                    <div
-                      key={q.id}
-                      className="border border-border p-4 hover:border-accent/30 transition-colors"
-                    >
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xs font-mono text-muted-light">
-                          {q.year} · {q.type} · {q.marks}m
-                        </span>
-                        <span className={`text-xs px-1.5 py-0.5 border ${
-                          q.difficulty === "easy"
-                            ? "border-green-200 text-green-700 bg-green-50"
-                            : q.difficulty === "hard"
-                            ? "border-red-200 text-red-700 bg-red-50"
-                            : "border-amber-200 text-amber-700 bg-amber-50"
-                        }`}>
-                          {q.difficulty}
-                        </span>
-                        {q.set && (
-                          <span className="text-xs text-muted-light">
-                            {q.set}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-sm text-foreground leading-relaxed line-clamp-3">
-                        {q.question}
-                      </p>
-                      {q.options && q.options.length > 0 && (
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {q.options.map((opt, idx) => (
-                            <span
-                              key={idx}
-                              className={`text-xs px-2 py-0.5 border ${
-                                q.answer.includes(opt)
-                                  ? "border-green-300 bg-green-50 text-green-700"
-                                  : "border-border text-muted"
-                              }`}
-                            >
-                              {opt}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      <div className="mt-2 flex items-center gap-2">
-                        <span className="text-xs text-muted-light">
-                          Answer: <span className="text-foreground font-medium">{q.answer}</span>
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-          )}
-        )()}
       </main>
     </>
   );

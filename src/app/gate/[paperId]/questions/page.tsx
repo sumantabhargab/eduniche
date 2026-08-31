@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useMemo, use } from "react";
+import { useState, useMemo, use, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";
 import { getPaperById, type GATEPaper } from "@/lib/gate/config";
-import { getPaperQuestions, type Question } from "@/lib/gate/paper-data";
+import { fetchPaperData, type Question } from "@/lib/gate/paper-data-client";
+import { useGateEvent } from "@/lib/tracking/useGateEvent";
 
 type FilterType = "all" | "MCQ" | "MSQ" | "NAT";
 type FilterMarks = "all" | "1" | "2";
@@ -13,7 +14,7 @@ type FilterDifficulty = "all" | "easy" | "medium" | "hard";
 type SortField = "year" | "topic" | "marks" | "difficulty" | "id";
 type SortDir = "asc" | "desc";
 
-export default function QuestionsPage({
+export default function GateQuestionsPage({
   params,
 }: {
   params: Promise<{ paperId: string }>;
@@ -24,8 +25,30 @@ export default function QuestionsPage({
   const topicFilter = searchParams.get("topic") || "all";
 
   const paper = getPaperById(paperId);
-  const allQuestions = getPaperQuestions(paperId);
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useGateEvent("questions_viewed", { paper_id: paperId });
+
+  useEffect(() => {
+    if (!paper || paper.processingStatus !== "available") return;
+    let cancelled = false;
+    setLoading(true);
+    fetchPaperData(paperId)
+      .then((data) => {
+        if (!cancelled) {
+          setQuestions(data.questions || []);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => { cancelled = true; };
+  }, [paperId, paper]);
+
   const paperName = paper?.shortName || paperId.toUpperCase();
+  const allQuestions = questions;
 
   const [query, setQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<FilterType>("all");
@@ -118,6 +141,21 @@ export default function QuestionsPage({
     </span>
   );
 
+  if (!paper || paper.processingStatus !== "available") {
+    return (
+      <>
+        <GateNav />
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+          <h1 className="text-2xl font-medium text-foreground mb-2">Paper Not Available</h1>
+          <p className="text-sm text-muted mb-6">Questions for this paper are not yet available.</p>
+          <Link href={`/gate`} className="text-sm text-accent hover:text-accent-hover transition-colors">
+            Back to Paper Selection
+          </Link>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
       <GateNav />
@@ -138,134 +176,118 @@ export default function QuestionsPage({
                   Previous Year Questions
                 </h1>
                 <p className="text-sm text-muted mt-1">
-                  {allQuestions.length} questions from GATE {paperName}
+                  {loading ? "Loading..." : `${allQuestions.length} questions from GATE ${paperName}`}
                 </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setViewMode("list")}
-                  className={`px-3 py-1.5 text-xs border transition-colors ${
-                    viewMode === "list" ? "border-accent text-accent" : "border-border text-muted hover:text-foreground"
-                  }`}
-                >
-                  List
-                </button>
-                <button
-                  onClick={() => setViewMode("cards")}
-                  className={`px-3 py-1.5 text-xs border transition-colors ${
-                    viewMode === "cards" ? "border-accent text-accent" : "border-border text-muted hover:text-foreground"
-                  }`}
-                >
-                  Cards
-                </button>
               </div>
             </div>
           </div>
         </section>
 
         {/* Filters */}
-        <section className="py-4 px-4 sm:px-6 border-b border-border bg-background-alt">
-          <div className="max-w-6xl mx-auto">
-            {/* Search */}
-            <div className="mb-4">
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search questions, topics, answers..."
-                className="w-full sm:w-96 px-3 py-2 text-sm bg-background border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
-              />
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              {/* Type filter */}
-              <div className="flex items-center gap-1">
-                <span className="text-xs text-muted mr-1">Type:</span>
-                {(["all", "MCQ", "MSQ", "NAT"] as FilterType[]).map((t) => (
-                  <button
-                    key={t}
-                    onClick={() => setTypeFilter(t)}
-                    className={`px-2.5 py-1 text-xs border transition-colors ${
-                      typeFilter === t
-                        ? "border-accent text-accent bg-accent/5"
-                        : "border-border text-muted hover:text-foreground"
-                    }`}
-                  >
-                    {t === "all" ? "All" : `${t} (${typeCounts[t]})`}
-                  </button>
-                ))}
+        {allQuestions.length > 0 && (
+          <section className="py-4 px-4 sm:px-6 border-b border-border bg-background-alt">
+            <div className="max-w-6xl mx-auto">
+              {/* Search */}
+              <div className="mb-4">
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search questions, topics, answers..."
+                  className="w-full sm:w-96 px-3 py-2 text-sm bg-background border border-border text-foreground placeholder:text-muted focus:outline-none focus:border-accent transition-colors"
+                />
               </div>
 
-              {/* Marks filter */}
-              <div className="flex items-center gap-1">
-                <span className="text-xs text-muted mr-1">Marks:</span>
-                {(["all", "1", "2"] as FilterMarks[]).map((m) => (
+              <div className="flex flex-wrap gap-3">
+                {/* Type filter */}
+                <div className="flex items-center gap-1">
+                  <span className="text-xs text-muted mr-1">Type:</span>
+                  {(["all", "MCQ", "MSQ", "NAT"] as FilterType[]).map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setTypeFilter(t)}
+                      className={`px-2.5 py-1 text-xs border transition-colors ${
+                        typeFilter === t
+                          ? "border-accent text-accent bg-accent/5"
+                          : "border-border text-muted hover:text-foreground"
+                      }`}
+                    >
+                      {t === "all" ? "All" : `${t} (${typeCounts[t] || 0})`}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Marks filter */}
+                <div className="flex items-center gap-1">
+                  <span className="text-xs text-muted mr-1">Marks:</span>
+                  {(["all", "1", "2"] as FilterMarks[]).map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => setMarksFilter(m)}
+                      className={`px-2.5 py-1 text-xs border transition-colors ${
+                        marksFilter === m
+                          ? "border-accent text-accent bg-accent/5"
+                          : "border-border text-muted hover:text-foreground"
+                      }`}
+                    >
+                      {m === "all" ? "All" : `${m} mark`}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Difficulty filter */}
+                <div className="flex items-center gap-1">
+                  <span className="text-xs text-muted mr-1">Level:</span>
+                  {(["all", "easy", "medium", "hard"] as FilterDifficulty[]).map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setDifficultyFilter(d)}
+                      className={`px-2.5 py-1 text-xs border transition-colors ${
+                        difficultyFilter === d
+                          ? "border-accent text-accent bg-accent/5"
+                          : "border-border text-muted hover:text-foreground"
+                      }`}
+                    >
+                      {d === "all" ? "All" : d}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Topic filter */}
+                {topicFilter !== "all" && (
                   <button
-                    key={m}
-                    onClick={() => setMarksFilter(m)}
-                    className={`px-2.5 py-1 text-xs border transition-colors ${
-                      marksFilter === m
-                        ? "border-accent text-accent bg-accent/5"
-                        : "border-border text-muted hover:text-foreground"
-                    }`}
+                    onClick={() => {
+                      const url = new URL(window.location.href);
+                      url.searchParams.delete("topic");
+                      window.history.replaceState({}, "", url);
+                      window.location.reload();
+                    }}
+                    className="px-2.5 py-1 text-xs border border-amber-200 text-amber-700 bg-amber-50 hover:bg-amber-100 transition-colors"
                   >
-                    {m === "all" ? "All" : `${m} mark`}
+                    Clear topic filter
                   </button>
-                ))}
+                )}
               </div>
 
-              {/* Difficulty filter */}
-              <div className="flex items-center gap-1">
-                <span className="text-xs text-muted mr-1">Level:</span>
-                {(["all", "easy", "medium", "hard"] as FilterDifficulty[]).map((d) => (
-                  <button
-                    key={d}
-                    onClick={() => setDifficultyFilter(d)}
-                    className={`px-2.5 py-1 text-xs border transition-colors ${
-                      difficultyFilter === d
-                        ? "border-accent text-accent bg-accent/5"
-                        : "border-border text-muted hover:text-foreground"
-                    }`}
-                  >
-                    {d === "all" ? "All" : d}
-                  </button>
-                ))}
+              <div className="mt-3 text-xs text-muted">
+                Showing {filtered.length} of {allQuestions.length} questions
               </div>
-
-              {/* Topic filter */}
-              {topicFilter !== "all" && (
-                <button
-                  onClick={() => {
-                    const url = new URL(window.location.href);
-                    url.searchParams.delete("topic");
-                    window.history.replaceState({}, "", url);
-                    window.location.reload();
-                  }}
-                  className="px-2.5 py-1 text-xs border border-amber-200 text-amber-700 bg-amber-50 hover:bg-amber-100 transition-colors"
-                >
-                  Clear topic filter
-                </button>
-              )}
             </div>
-
-            <div className="mt-3 text-xs text-muted">
-              Showing {filtered.length} of {allQuestions.length} questions
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Results */}
         <section className="py-6 px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
-            {filtered.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-16 text-sm text-muted">Loading questions...</div>
+            ) : filtered.length === 0 ? (
               <div className="text-center py-16 border border-border">
-                <p className="text-sm text-muted">No questions match your filters.</p>
-                <button
-                  onClick={() => { setQuery(""); setTypeFilter("all"); setMarksFilter("all"); setDifficultyFilter("all"); }}
-                  className="mt-3 text-xs text-accent hover:text-accent-hover transition-colors"
-                >
-                  Clear all filters
-                </button>
+                <p className="text-sm text-muted">
+                  {allQuestions.length === 0
+                    ? "Questions are being prepared for this paper. Check back soon."
+                    : "No questions match your filters."}
+                </p>
               </div>
             ) : viewMode === "list" ? (
               /* List View */

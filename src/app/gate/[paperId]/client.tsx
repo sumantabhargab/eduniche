@@ -1,10 +1,10 @@
 "use client";
 
-import { use } from "react";
+import { use, useState, useEffect } from "react";
 import Link from "next/link";
 import GateNav from "@/components/GateNav";
-import { getPaperById, PAPERS, type GATEPaper } from "@/lib/gate/config";
-import { getPaperRawData, type Question } from "@/lib/gate/paper-data";
+import { getPaperById, type GATEPaper } from "@/lib/gate/config";
+import { fetchPaperData, type PaperData, type RawSubject } from "@/lib/gate/paper-data-client";
 import { useGateEvent } from "@/lib/tracking/useGateEvent";
 
 const STATUS_LABEL: Record<string, string> = {
@@ -21,8 +21,38 @@ export default function GateDashboardClient({
   const resolvedParams = use(params);
   const paperId = resolvedParams.paperId;
   const paper = getPaperById(paperId);
+  const [paperData, setPaperData] = useState<PaperData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useGateEvent("dashboard_viewed", { paper_id: paperId });
+
+  // Fetch paper data from API
+  useEffect(() => {
+    if (!paper || paper.processingStatus !== "available") return;
+
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+
+    fetchPaperData(paperId)
+      .then((data) => {
+        if (!cancelled) {
+          setPaperData(data);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setError(err.message || "Failed to load");
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [paperId, paper]);
 
   // Unavailable / not found state
   if (!paper) {
@@ -65,14 +95,40 @@ export default function GateDashboardClient({
     );
   }
 
-  // Get paper-specific raw data
-  const rawData = getPaperRawData(paperId);
-  const allSubjects = (rawData || []).filter(Boolean);
-  const subjects = [...allSubjects].sort((a, b) => (b?.totalMarks || 0) - (a?.totalMarks || 0));
+  // Loading state
+  if (loading) {
+    return (
+      <>
+        <GateNav />
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+          <div className="text-center text-sm text-muted">Loading paper data...</div>
+        </main>
+      </>
+    );
+  }
+
+  if (error || !paperData) {
+    return (
+      <>
+        <GateNav />
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+          <div className="text-center">
+            <h1 className="text-2xl font-medium text-foreground mb-2">Unable to Load</h1>
+            <p className="text-sm text-muted mb-6">{error || "No data available for this paper."}</p>
+            <Link href="/gate" className="inline-block text-sm text-accent hover:text-accent-hover transition-colors">
+              Back to Paper Selection
+            </Link>
+          </div>
+        </main>
+      </>
+    );
+  }
+
+  const rawData = paperData.rawData || [];
+  const subjects = [...rawData].sort((a, b) => (b?.totalMarks || 0) - (a?.totalMarks || 0));
   const totalMarksAll = subjects.reduce((sum, s) => sum + (s?.totalMarks || 0), 0);
 
-  // Total questions per type (handle both CSE and ECE key formats)
-  const totals = (rawData || []).reduce(
+  const totals = rawData.reduce(
     (acc, s) => {
       const qt = s.questionTypes || {};
       const mcq = qt.mcq ?? qt.MCQ ?? 0;
@@ -86,12 +142,13 @@ export default function GateDashboardClient({
     { mcq: 0, msq: 0, nat: 0 }
   );
 
-  // Paper-specific metadata
   const paperCode = paper.code;
   const paperShortName = paper.shortName;
-  const availableYears = paper.availableYears || [];
+  const availableYears = paperData.allYears || paper.availableYears || [];
   const yearStart = availableYears.length > 0 ? Math.min(...availableYears) : 2000;
   const yearEnd = availableYears.length > 0 ? Math.max(...availableYears) : 2026;
+
+  const hasRealQuestions = paperData.questions.length > 0;
 
   return (
     <>
@@ -114,12 +171,14 @@ export default function GateDashboardClient({
                   <p className="text-sm text-muted mt-1 max-w-xl">{paper.description}</p>
                 )}
               </div>
-              <Link
-                href={`/gate/${paperId}/practice`}
-                className="inline-flex items-center justify-center px-4 py-2 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors"
-              >
-                Generate Practice
-              </Link>
+              {hasRealQuestions && (
+                <Link
+                  href={`/gate/${paperId}/practice`}
+                  className="inline-flex items-center justify-center px-4 py-2 bg-foreground text-background text-sm font-medium hover:bg-foreground/90 transition-colors"
+                >
+                  Generate Practice
+                </Link>
+              )}
             </div>
 
             {/* Quick stats */}
@@ -131,7 +190,7 @@ export default function GateDashboardClient({
               <div className="p-3 border border-border">
                 <p className="text-xs text-muted-light mb-1">Total Questions</p>
                 <p className="text-lg font-medium text-foreground">
-                  {subjects.reduce((s, x) => s + (x?.totalQuestions || 0), 0)}
+                  {paperData.questions.length || subjects.reduce((s, x) => s + (x?.totalQuestions || 0), 0)}
                 </p>
               </div>
               <div className="p-3 border border-border">
@@ -143,6 +202,17 @@ export default function GateDashboardClient({
                 <p className="text-lg font-medium text-foreground">{yearStart}–{yearEnd}</p>
               </div>
             </div>
+
+            {/* Notice: branch analysis only (no questions yet) */}
+            {!hasRealQuestions && (
+              <div className="mt-6 p-4 border border-amber-200 bg-amber-50/40">
+                <p className="text-xs text-amber-800">
+                  <strong>Branch intelligence available.</strong> Historical question bank and practice mode
+                  for {paperShortName} will be released progressively. Subject-level priority, weightage,
+                  and trend analysis are based on curated analysis of recent sessions.
+                </p>
+              </div>
+            )}
           </div>
         </section>
 
@@ -208,12 +278,14 @@ export default function GateDashboardClient({
                     The relative distribution of marks across subjects shifts moderately between sessions. No single year is representative of all years.
                   </p>
                 </div>
-                <div>
-                  <h3 className="text-sm font-medium text-foreground mb-1">Question type mix</h3>
-                  <p className="text-xs text-muted">
-                    {totals.mcq} MCQs, {totals.msq} MSQs, {totals.nat} NAT — all three types appear every year.
-                  </p>
-                </div>
+                {hasRealQuestions && (
+                  <div>
+                    <h3 className="text-sm font-medium text-foreground mb-1">Question type mix</h3>
+                    <p className="text-xs text-muted">
+                      {totals.mcq} MCQs, {totals.msq} MSQs, {totals.nat} NAT — all three types appear every year.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -238,11 +310,13 @@ export default function GateDashboardClient({
                   <tr className="border-b border-border/50">
                     <td className="px-4 py-2.5 text-xs font-mono text-foreground">{yearStart}–{yearEnd}</td>
                     <td className="px-4 py-2.5 text-xs text-muted">{paperShortName}</td>
-                    <td className="px-4 py-2.5 text-xs text-muted text-right">{totals.mcq + totals.msq + totals.nat}</td>
+                    <td className="px-4 py-2.5 text-xs text-muted text-right">
+                      {hasRealQuestions ? totals.mcq + totals.msq + totals.nat : subjects.reduce((s, x) => s + (x?.totalQuestions || 0), 0)}
+                    </td>
                     <td className="px-4 py-2.5 text-xs text-muted text-right">{subjects.reduce((s, x) => s + (x?.totalMarks || 0), 0)}</td>
                     <td className="px-4 py-2.5 text-center">
                       <span className="text-xs text-green-600 bg-green-50 px-1.5 py-0.5 border border-green-200">
-                        {paper.processingStatus === "available" ? "Complete" : "Partial"}
+                        {hasRealQuestions ? "Complete" : "Branch Analysis"}
                       </span>
                     </td>
                   </tr>
@@ -250,7 +324,10 @@ export default function GateDashboardClient({
               </table>
             </div>
             <p className="text-xs text-muted-light mt-3">
-              {availableYears.length} years of GATE {paperShortName} data analyzed. More sessions are being added progressively.
+              {availableYears.length} years of GATE {paperShortName} data analyzed.{" "}
+              {hasRealQuestions
+                ? "More sessions are being added progressively."
+                : "Question banks and practice mode coming soon — intelligence data is fully available."}
             </p>
           </div>
         </section>

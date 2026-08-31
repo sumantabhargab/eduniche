@@ -193,16 +193,54 @@ export async function POST(request: Request) {
       );
     }
 
-    // --- 3. Premium check ---
-    const isPremium = await validatePremium(supabase, session.user.id);
-    if (!isPremium) {
-      devLog("Premium: user not premium", { userId: session.user.id });
-      return NextResponse.json(
-        { error: "Premium required.", upgradeRequired: true },
-        { status: 403 }
-      );
+    // --- 3. Free tier or Premium check ---
+    let isPremium = false;
+    const doubtUsageLimit = parseInt(process.env.NEXT_PUBLIC_FREE_DOUBT_LIMIT || "5");
+    let usage = 0;
+
+    try {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("plan")
+        .eq("id", session.user.id)
+        .maybeSingle();
+
+      const plan = (profile as any)?.plan;
+      isPremium = plan === "monthly_premium" || plan === "weekly_premium";
+    } catch {
+      // Fallback below
     }
-    devLog("Premium: user has active subscription");
+
+    if (!isPremium) {
+      const { data: usageDataVal } = await supabase.rpc("get_doubt_usage_today", {
+        p_user_id: session.user.id,
+      });
+
+      usage = (usageDataVal as number) ?? 0;
+      if (usage >= doubtUsageLimit) {
+        devLog("Free doubt limit reached", { usage, limit: doubtUsageLimit, userId: session.user.id });
+        return NextResponse.json(
+          {
+            error: `Free tier limit reached (${doubtUsageLimit} messages/day). Upgrade to Premium for unlimited access.`,
+            upgradeRequired: true,
+            usage,
+            limit: doubtUsageLimit,
+          },
+          { status: 429 }
+        );
+      }
+
+      // Atomically increment usage
+      await supabase.rpc("increment_doubt_usage", {
+        p_user_id: session.user.id,
+      });
+    }
+    devLog(isPremium ? "Premium: user has active subscription" : "Free: user within doubt limit");
+
+    let remainingMessages = -1;
+    if (!isPremium) {
+      remainingMessages = Math.max(0, doubtUsageLimit - usage - 1);
+    }
 
     // --- 4. Parse request ---
     const body = await request.json().catch(() => ({}));
@@ -319,6 +357,8 @@ export async function POST(request: Request) {
       confidence,
       references: [],
       conversationId: finalConversationId,
+      isPremium,
+      remainingMessages: remainingMessages,
     });
   } catch (e: any) {
     devLog("FATAL: unhandled error", {

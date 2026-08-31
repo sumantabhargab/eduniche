@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";
 import { getPaperById, type GATEPaper } from "@/lib/gate/config";
-import { getPaperQuestions, type Question } from "@/lib/gate/paper-data";
+import { fetchPaperData, type Question } from "@/lib/gate/paper-data-client";
 
 type Message = {
   id: string;
@@ -41,7 +41,19 @@ export default function DoubtEnginePage({
 
   const paper = getPaperById(resolvedParams.paperId);
   const paperName = paper?.shortName || resolvedParams.paperId.toUpperCase();
-  const allQuestions = getPaperQuestions(resolvedParams.paperId);
+  const [questions, setQuestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchPaperData(resolvedParams.paperId)
+      .then((data) => {
+        if (!cancelled) setQuestions(data.questions || []);
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [resolvedParams.paperId, paper]);
+
+  const allQuestions = questions;
 
   const selectedQuestion = questionId
     ? allQuestions.find((q) => q.id === questionId) || null
@@ -52,7 +64,7 @@ export default function DoubtEnginePage({
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to the latest message
+  // Auto-scroll
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -178,7 +190,7 @@ export default function DoubtEnginePage({
       return selectedQuestion.explanation;
     }
 
-    // Default response
+    // Default
     return `Here's what I can tell you about this question:\n\n**Question:** ${selectedQuestion.question.split("\n")[0]}\n\n**Answer:** ${selectedQuestion.answer}\n\n**Explanation:** ${selectedQuestion.explanation}\n\nWould you like me to explain a specific aspect in more detail? You can ask about:\n- Step-by-step solution\n- The core concepts involved\n- Common mistakes to avoid\n- Similar practice questions`;
   };
 
@@ -338,7 +350,7 @@ export default function DoubtEnginePage({
                           : "bg-background-alt border border-border"
                       }`}
                     >
-                      <div className={`text-sm leading-relaxed ${msg.role === "user" ? "" : ""}`}>
+                      <div className={`text-sm leading-relaxed`}>
                         {msg.role === "assistant" ? formatContent(msg.content) : msg.content}
                       </div>
                       <p className={`text-[10px] mt-2 ${msg.role === "user" ? "text-background/50" : "text-muted-light"}`}>

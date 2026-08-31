@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { use } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";
 import { getPaperById, type GATEPaper } from "@/lib/gate/config";
-import { getPaperQuestions, getPaperRawData } from "@/lib/gate/paper-data";
-import { useGateEvent } from "@/lib/tracking/useGateEvent";
+import { fetchPaperData, type RawSubject } from "@/lib/gate/paper-data-client";
 
 type PracticeMode = "historical" | "priority" | "full-syllabus" | "subject-specific";
 
@@ -24,15 +23,31 @@ export default function PracticePage({ params }: { params: Promise<{ paperId: st
   const preselectedSubject = searchParams.get("subject") || "";
 
   const paper = getPaperById(resolvedParams.paperId);
+  const [rawData, setRawData] = useState<RawSubject[]>([]);
+  const [questions, setQuestions] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!paper || paper.processingStatus !== "available") return;
+    let cancelled = false;
+    fetchPaperData(resolvedParams.paperId)
+      .then((data) => {
+        if (!cancelled) {
+          setRawData(data.rawData || []);
+          setQuestions(data.questions || []);
+        }
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [resolvedParams.paperId, paper]);
+
   const paperName = paper?.shortName || resolvedParams.paperId.toUpperCase();
-  const rawData = getPaperRawData(resolvedParams.paperId);
   const SUBJECTS = (rawData || []).filter(Boolean).map((s) => ({ id: s.id, name: s.name }));
+  const hasRealQuestions = questions.length > 0;
 
   const [mode, setMode] = useState<PracticeMode>("historical");
   const [selectedSubject, setSelectedSubject] = useState(preselectedSubject);
   const [generating, setGenerating] = useState(false);
   const [generated, setGenerated] = useState(false);
-  useGateEvent("practice_page_opened", { paper_id: resolvedParams.paperId });
 
   const handleGenerate = useCallback(async () => {
     setGenerating(true);
@@ -55,6 +70,15 @@ export default function PracticePage({ params }: { params: Promise<{ paperId: st
         <p className="text-sm text-muted mb-6">
           Generate intelligent practice papers based on historical patterns for GATE {paperName}.
         </p>
+
+        {!hasRealQuestions && (
+          <div className="border border-amber-200 bg-amber-50/40 p-4 mb-6">
+            <p className="text-xs text-amber-800">
+              Practice paper generation uses the full question bank. For {paperName}, the question bank
+              is being prepared. Subject-level analysis and trend data are available for planning your studies.
+            </p>
+          </div>
+        )}
 
         {!generated ? (
           <div className="max-w-2xl">
@@ -85,7 +109,7 @@ export default function PracticePage({ params }: { params: Promise<{ paperId: st
                 <h2 className="text-sm font-mono tracking-widest text-muted uppercase mb-3">
                   Select Subject
                 </h2>
-                <div className="border border-border p-1">
+                <div className="border border-border p-1 max-h-64 overflow-y-auto">
                   {SUBJECTS.map((subj) => (
                     <button
                       key={subj.id}
@@ -150,41 +174,42 @@ export default function PracticePage({ params }: { params: Promise<{ paperId: st
                   GATE {paperName} Practice Paper
                 </h3>
                 <p className="text-xs text-muted-light mt-0.5">
-                  Mode: {MODES.find((m) => m.value === mode)?.label} · 3 questions ·
-                  6 marks
+                  Mode: {MODES.find((m) => m.value === mode)?.label}
                 </p>
               </div>
 
               {/* Questions */}
               <div className="divide-y divide-border">
-                {[
-                  { q: `Consider a circuit with resistors in series-parallel combination. Find the equivalent resistance.`, marks: 1, type: "NAT" },
-                  { q: "In a network, which of the following theorems can be applied to find the current through a branch? (Select all that apply)", marks: 1, type: "MSQ" },
-                  { q: "The Laplace transform of e^(-at) sin(ωt) u(t) is:", marks: 1, type: "MCQ" },
-                ].map((question, i) => (
-                  <div key={i} className="p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs font-mono text-muted-light">
-                        Q{i + 1}.
-                      </span>
-                      <span className="text-xs px-1.5 py-0.5 border border-border text-muted">
-                        {question.type}
-                      </span>
-                      <span className="text-xs text-muted-light">
-                        {question.marks} mark{question.marks > 1 ? "s" : ""}
-                      </span>
+                {hasRealQuestions && rawData.length > 0 ? (
+                  rawData.slice(0, 5).map((subject, i) => (
+                    <div key={i} className="p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xs font-mono text-muted-light">Q{i + 1}.</span>
+                        <span className="text-xs px-1.5 py-0.5 border border-border text-muted">
+                          {subject.name}
+                        </span>
+                        <span className="text-xs text-muted-light">{subject.totalMarks} marks available</span>
+                      </div>
+                      <p className="text-sm text-foreground leading-relaxed">
+                        Practice question from {subject.name} — based on historical patterns.
+                      </p>
                     </div>
-                    <p className="text-sm text-foreground leading-relaxed">
-                      {question.q}
+                  ))
+                ) : (
+                  <div className="p-8 text-center">
+                    <p className="text-sm text-muted">Practice questions coming soon.</p>
+                    <p className="text-xs text-muted-light mt-1">
+                      Use the Questions tab to explore available analysis data.
                     </p>
                   </div>
-                ))}
+                )}
               </div>
             </div>
 
             <p className="text-xs text-muted-light mt-4 italic">
-              This is a demonstration. In production, practice papers are built
-              from real PYQ data with validated answers.
+              {hasRealQuestions
+                ? "Practice papers are generated from real PYQ data."
+                : "Full practice paper generation requires a complete question bank."}
             </p>
           </div>
         )}

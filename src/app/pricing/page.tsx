@@ -1,13 +1,39 @@
 /**
  * Pricing page at /pricing
  * Shows subscription plans and upgrade flow.
+ *
+ * Uses a module-level flag to deduplicate Razorpay checkout script loads
+ * across multiple upgrade attempts.
  */
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
+
+let razorpayScriptLoaded = false;
+let razorpayLoadPromise: Promise<void> | null = null;
+
+function loadRazorpayScript(): Promise<void> {
+  if (typeof window === "undefined") return Promise.resolve();
+  if (razorpayScriptLoaded) return Promise.resolve();
+  if (razorpayLoadPromise) return razorpayLoadPromise;
+
+  razorpayLoadPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => {
+      razorpayScriptLoaded = true;
+      resolve();
+    };
+    script.onerror = () => reject(new Error("Failed to load Razorpay checkout script."));
+    document.body.appendChild(script);
+  });
+
+  return razorpayLoadPromise;
+}
 
 export default function PricingPage() {
   const { user } = useAuth();
@@ -16,6 +42,17 @@ export default function PricingPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<"weekly" | "monthly">("monthly");
+  const rzpRef = useRef<{ close(): void; open(): void } | null>(null);
+
+  // Cleanup Razorpay instance on unmount
+  useEffect(() => {
+    return () => {
+      if (rzpRef.current) {
+        rzpRef.current.close();
+        rzpRef.current = null;
+      }
+    };
+  }, []);
 
   const handleUpgrade = async (plan: "weekly" | "monthly") => {
     if (!user) {
@@ -26,11 +63,18 @@ export default function PricingPage() {
     setLoading(true);
     setError(null);
 
+    // Close any previously open checkout
+    if (rzpRef.current) {
+      rzpRef.current.close();
+      rzpRef.current = null;
+    }
+
     try {
       const res = await fetch("/api/subscriptions/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ plan }),
+        credentials: "include",
       });
 
       const data = await res.json();
@@ -41,61 +85,79 @@ export default function PricingPage() {
         return;
       }
 
-      // Load Razorpay script
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.async = true;
-      document.body.appendChild(script);
+      // Load Razorpay checkout script (deduped)
+      try {
+        await loadRazorpayScript();
+      } catch {
+        setError("Failed to load payment gateway. Please refresh and try again.");
+        setLoading(false);
+        return;
+      }
 
-      script.onload = () => {
-        const rzp = new (window as any).Razorpay({
-          key: data.keyId,
-          amount: data.amount,
-          currency: data.currency,
-          order_id: data.orderId,
-          handler: async (response: any) => {
-            try {
-              const verifyRes = await fetch("/api/subscriptions/verify", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  razorpay_order_id: response.razorpay_order_id,
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  razorpay_signature: response.razorpay_signature,
-                  plan,
-                }),
-              });
+      // Populate customer info from the authenticated EduNeuro user.
+      // Never fabricate information.
+      const prefill: Record<string, string> = {};
+      if (user.email) prefill.email = user.email;
+      if (user.display_name || user.username) {
+        prefill.name = user.display_name || user.username || "";
+      }
+      // Phone is not stored in profiles — only set if available
+      // from user metadata (e.g., Google OAuth)
+      const userMetadata = (user as { user_metadata?: { phone?: string } }).user_metadata;
+      const phone = userMetadata?.phone;
+      if (phone) prefill.contact = phone;
 
-              const verifyData = await verifyRes.json();
+      // Razorpay is loaded dynamically by loadRazorpayScript above.
+      // The global constructor is exposed by checkout.js.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const RazorpayCtor = (window as any).Razorpay as new (
+        options: Record<string, unknown>
+      ) => { close(): void; open(): void };
+      const rzp = new RazorpayCtor({
+        key: data.keyId,
+        amount: data.amount,
+        currency: data.currency,
+        order_id: data.orderId,
+        prefill,
+        notes: {
+          plan,
+        },
+        handler: async (response: Record<string, unknown>) => {
+          try {
+            const verifyRes = await fetch("/api/subscriptions/verify", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+              credentials: "include",
+            });
 
-              if (verifyRes.ok && verifyData.success) {
-                router.push("/success?type=subscription");
-              } else {
-                setError(verifyData.error || "Payment verification failed.");
-                setLoading(false);
-              }
-            } catch (e) {
-              setError("Payment verification failed.");
+            const verifyData = await verifyRes.json();
+
+            if (verifyRes.ok && verifyData.success) {
+              // Server confirmed payment — redirect to success
+              router.push("/success?type=subscription");
+            } else {
+              setError(verifyData.error || "Payment verification failed.");
               setLoading(false);
             }
-          },
-          prefill: {
-            email: user.email || "",
-          },
-          theme: {
-            color: "#000000",
-          },
-        });
+          } catch {
+            setError("Payment verification failed. Please contact support if your payment was debited.");
+            setLoading(false);
+          }
+        },
+        theme: {
+          color: "#000000",
+        },
+      });
 
-        rzp.open();
-        setLoading(false);
-      };
-
-      script.onerror = () => {
-        setError("Failed to load payment gateway.");
-        setLoading(false);
-      };
-    } catch (e) {
+      rzpRef.current = rzp;
+      rzp.open();
+      setLoading(false);
+    } catch {
       setError("Something went wrong. Please try again.");
       setLoading(false);
     }
@@ -141,7 +203,6 @@ export default function PricingPage() {
             "Cosmetic badges",
             "Predicted mock papers",
           ]}
-          plan="weekly"
           isSelected={selectedPlan === "weekly"}
           onSelect={() => setSelectedPlan("weekly")}
           onUpgrade={() => handleUpgrade("weekly")}
@@ -165,7 +226,6 @@ export default function PricingPage() {
             "Cosmetic badges",
             "Predicted mock papers",
           ]}
-          plan="monthly"
           isSelected={selectedPlan === "monthly"}
           onSelect={() => setSelectedPlan("monthly")}
           onUpgrade={() => handleUpgrade("monthly")}
@@ -194,7 +254,6 @@ function PricingCard({
   price,
   period,
   features,
-  plan,
   isSelected,
   onSelect,
   onUpgrade,
@@ -206,7 +265,6 @@ function PricingCard({
   price: string;
   period: string;
   features: string[];
-  plan: "weekly" | "monthly";
   isSelected: boolean;
   onSelect: () => void;
   onUpgrade: () => void;
