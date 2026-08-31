@@ -8,9 +8,8 @@
 
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import VirtualLibraryWorld from "@/modules/virtual-library/world/VirtualLibraryWorld";
 

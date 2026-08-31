@@ -134,7 +134,7 @@ function formatTime(totalSeconds: number): string {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
-export default function VirtualLibraryWorld() {
+export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } = {}) {
   const [loading, setLoading] = useState(true);
   const [connectionState, setConnectionState] = useState<ConnectionState>("connecting");
   const [localPlayer, setLocalPlayer] = useState<WorldPlayer | null>(null);
@@ -193,7 +193,29 @@ export default function VirtualLibraryWorld() {
         }
 
         const { data: { user } } = await supabase.auth.getUser();
-        if (cancelled || !user) return;
+        if (cancelled) return;
+        if (!user) {
+          if (devMode) {
+            if (!cancelled) {
+              const demoId = "demo-user-" + Math.random().toString(36).slice(2, 10);
+              const spawn = collisionRef.current?.getSpawnPosition() || { x: 300, y: 300 };
+              const player: WorldPlayer = {
+                id: demoId, label: "You", x: spawn.x, y: spawn.y,
+                targetX: spawn.x, targetY: spawn.y, dx: 0, dy: 0,
+                isLocal: true, colorIndex: 0, roomId: "entrance",
+                lastUpdate: Date.now(), isMuted: true, isVideoOn: false, isMoving: false,
+              };
+              setUserId(demoId);
+              setUserLabel("You");
+              setLocalPlayer(player);
+              setConnectionState("connected");
+              setLoading(false);
+            }
+          } else {
+            setLoading(false);
+          }
+          return;
+        }
 
         const { data: profile } = await supabase
           .from("profiles")
