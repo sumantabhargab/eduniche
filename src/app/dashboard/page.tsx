@@ -6,6 +6,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
 
@@ -83,6 +84,67 @@ export default function DashboardPage() {
 
   const [stats, setStats] = useState<Stats | null>(null);
   const [period, setPeriod] = useState<Period>("today");
+  const [gateData, setGateData] = useState<{
+    activePlan: { id: string; paperId: string; paperShortName: string; progress: number; completedItems: number; totalItems: number; title: string } | null;
+    hasDiagnostic: boolean;
+    doubtUsage: { used: number; limit: number; remaining: number } | null;
+  }>({ activePlan: null, hasDiagnostic: false, doubtUsage: null });
+
+  // Fetch GATE-specific data (active plan, diagnostic status, doubt usage)
+  useEffect(() => {
+    if (!user) return;
+    let cancelled = false;
+
+    async function loadGateData() {
+      try {
+        // Fetch active plans
+        const plansRes = await fetch("/api/gate/plans?status=active");
+        let activePlan: typeof gateData.activePlan = null;
+        if (plansRes.ok) {
+          const plansData = await plansRes.json();
+          const plan = plansData.plans?.[0];
+          if (plan) {
+            activePlan = {
+              id: plan.id,
+              paperId: plan.paper_id,
+              paperShortName: plan.paper_short_name || plan.paper_id?.toUpperCase() || "GATE",
+              progress: plan.progress || 0,
+              completedItems: plan.completedItems || 0,
+              totalItems: plan.totalItems || 0,
+              title: plan.title || "Active Plan",
+            };
+          }
+        }
+
+        // Fetch doubt usage
+        const doubtRes = await fetch("/api/ai/doubt/free");
+        let doubtUsage: typeof gateData.doubtUsage = null;
+        if (doubtRes.ok) {
+          const doubtData = await doubtRes.json();
+          if (doubtData.limit !== undefined) {
+            doubtUsage = {
+              used: doubtData.used || 0,
+              limit: doubtData.limit,
+              remaining: doubtData.remaining ?? doubtData.limit - (doubtData.used || 0),
+            };
+          }
+        }
+
+        if (!cancelled) {
+          setGateData({
+            activePlan,
+            hasDiagnostic: activePlan !== null,
+            doubtUsage,
+          });
+        }
+      } catch {
+        // silently fail
+      }
+    }
+
+    loadGateData();
+    return () => { cancelled = true; };
+  }, [user]);
 
   // Redirect unauthenticated users.
   useEffect(() => {
@@ -282,6 +344,87 @@ export default function DashboardPage() {
         />
       </div>
 
+      {/* GATE Preparation Hub */}
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold">
+          GATE Preparation
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Active Plan Card */}
+          {gateData.activePlan ? (
+            <Link href={`/gate/${gateData.activePlan.paperId}/plan`} className="block bg-card border border-border rounded-2xl p-5 hover:border-foreground/30 transition-colors">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-lg">📋</span>
+                <h3 className="text-sm font-medium">Study Plan</h3>
+              </div>
+              <p className="text-xs text-muted mb-2">{gateData.activePlan.paperShortName}</p>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-accent rounded-full"
+                    style={{ width: `${gateData.activePlan.progress}%` }}
+                  />
+                </div>
+                <span className="text-xs text-muted">{gateData.activePlan.progress}%</span>
+              </div>
+              <p className="text-xs text-muted-light">
+                {gateData.activePlan.completedItems}/{gateData.activePlan.totalItems} tasks done
+              </p>
+            </Link>
+          ) : (
+            <Link href="/gate" className="block bg-card border border-border rounded-2xl p-5 hover:border-foreground/30 transition-colors group">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-lg">🎯</span>
+                <h3 className="text-sm font-medium">Take Diagnostic</h3>
+              </div>
+              <p className="text-xs text-muted mb-3">
+                Take a free 10-question diagnostic test to understand your strengths and weaknesses.
+              </p>
+              <span className="text-xs text-accent group-hover:underline">Start now →</span>
+            </Link>
+          )}
+
+          {/* Doubt Engine Card */}
+          <Link href="/chat" className="block bg-card border border-border rounded-2xl p-5 hover:border-foreground/30 transition-colors group">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-lg">💬</span>
+              <h3 className="text-sm font-medium">AI Doubt Engine</h3>
+            </div>
+            {gateData.doubtUsage ? (
+              <>
+                <p className="text-xs text-muted mb-2">
+                  {gateData.doubtUsage.remaining > 0
+                    ? `${gateData.doubtUsage.remaining} free doubts remaining today`
+                    : "Daily limit reached"}
+                </p>
+                <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-accent rounded-full transition-all"
+                    style={{ width: `${(gateData.doubtUsage.used / gateData.doubtUsage.limit) * 100}%` }}
+                  />
+                </div>
+              </>
+            ) : (
+              <p className="text-xs text-muted mb-2">Get instant AI-powered help with your GATE doubts.</p>
+            )}
+            <span className="text-xs text-accent group-hover:underline">Ask a doubt →</span>
+          </Link>
+
+          {/* Practice Card */}
+          <Link href="/gate" className="block bg-card border border-border rounded-2xl p-5 hover:border-foreground/30 transition-colors group">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-lg">✏️</span>
+              <h3 className="text-sm font-medium">Practice Papers</h3>
+            </div>
+            <p className="text-xs text-muted mb-3">
+              Generate practice papers from real GATE PYQs across 20 branches.
+            </p>
+            <span className="text-xs text-accent group-hover:underline">Choose branch →</span>
+          </Link>
+        </div>
+      </section>
+
       {/* Quote of the day */}
       <div className="bg-card border border-border rounded-2xl p-6 md:p-8">
         <div className="text-sm text-muted uppercase tracking-wider font-medium mb-4">
@@ -300,6 +443,12 @@ export default function DashboardPage() {
       {/* Quick actions */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <QuickAction
+          href="/gate"
+          label="GATE Prep"
+          emoji="🎯"
+        />
+
+        <QuickAction
           href="/library"
           label="Library"
           emoji="📚"
@@ -309,12 +458,6 @@ export default function DashboardPage() {
           href="/leaderboard"
           label="Leaderboard"
           emoji="🏆"
-        />
-
-        <QuickAction
-          href="/pricing"
-          label="Upgrade"
-          emoji="⭐"
         />
 
         <QuickAction

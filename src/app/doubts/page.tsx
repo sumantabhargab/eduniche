@@ -66,7 +66,8 @@ export default function DoubtsPage() {
     setMessages(prev => [...prev, userMsg]);
 
     try {
-      const res = await fetch("/api/ai/doubt", {
+      const apiUrl = isPremium ? "/api/ai/doubt" : "/api/ai/doubt/free";
+      const res = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -81,14 +82,17 @@ export default function DoubtsPage() {
 
       const data = await res.json();
 
-      if (res.status === 403) {
-        // Premium required - this shouldn't happen on this page
+      if (res.status === 403 && data?.upgradeUrl) {
+        // Free tier daily limit hit
         setMessages(prev => [...prev, {
           role: "assistant",
-          content: "Premium access required to use the AI Doubt Engine. Please upgrade at /pricing.",
+          content: data.error || "Daily limit reached. Upgrade to Premium for unlimited access!",
           timestamp: new Date(),
         }]);
-      } else if (res.ok) {
+        return;
+      }
+
+      if (res.ok) {
         // Update conversation ID if new
         if (data.conversationId && !conversationId) {
           setConversationId(data.conversationId);

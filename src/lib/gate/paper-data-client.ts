@@ -8,6 +8,7 @@
  */
 
 import { getPaperDataSource } from "./paper-data";
+import { PAPERS } from "./config";
 
 export interface Question {
   id: string;
@@ -65,12 +66,12 @@ export async function fetchPaperData(paperId: string): Promise<PaperData> {
 
   // Try API first (for all 20 branches)
   try {
-    const res = await fetch(`/api/gate/papers/${paperId}`);
+    const res = await fetch(`/api/gate/papers/${paperId}/data`);
     if (res.ok) {
       const apiData = await res.json();
       data = {
         paper: apiData.paper,
-        rawData: apiData.subjects || [],
+        rawData: apiData.rawData || [],
         allYears: apiData.allYears || [],
         questions: apiData.questions || [],
       };
@@ -115,6 +116,55 @@ function fetchStaticPaperData(paperId: string): PaperData {
       questions: src.questions,
     };
   }
+
+  // Unknown branch — use config data with synthetic subjects
+  const paper = PAPERS.find((p: any) => p.id === paperId);
+  if (paper) {
+    const syntheticSubjects: RawSubject[] = [
+      {
+        id: `${paperId}-core`,
+        name: paper.shortName,
+        topic: "Core Subject",
+        totalQuestions: 48,
+        totalMarks: 70,
+        yearlyData: [],
+        questionTypes: { mcq: 25, msq: 5, nat: 18 },
+      },
+      {
+        id: `${paperId}-eng-math`,
+        name: "Engineering Mathematics",
+        topic: "Engineering Mathematics",
+        totalQuestions: 7,
+        totalMarks: 13,
+        yearlyData: [],
+        questionTypes: { mcq: 5, msq: 1, nat: 1 },
+      },
+      {
+        id: `${paperId}-aptitude`,
+        name: "General Aptitude",
+        topic: "General Aptitude",
+        totalQuestions: 10,
+        totalMarks: 15,
+        yearlyData: [],
+        questionTypes: { mcq: 5, msq: 1, nat: 4 },
+      },
+    ];
+    return {
+      paper: {
+        id: paperId,
+        code: paper.code,
+        name: paper.name,
+        shortName: paper.shortName,
+        availableYears: paper.availableYears,
+        questionCount: paper.questionCount,
+        subjectCount: paper.subjectCount,
+      },
+      rawData: syntheticSubjects,
+      allYears: paper.availableYears,
+      questions: [],
+    };
+  }
+
   // Unknown branch — empty fallback
   return {
     paper: {

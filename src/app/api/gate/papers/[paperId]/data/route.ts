@@ -14,6 +14,16 @@ import { parseBranchMarkdown } from "@/lib/gate/markdown-parser";
 
 const MARKDOWN_DIR = join(process.cwd(), "..", "gate-pyq-analysis");
 
+const PAPER_FILE_MAP: Record<string, string> = {
+  cse: "01-GATE-CS.md", ece: "02-GATE-ECE.md", me: "03-GATE-ME.md",
+  ee: "04-GATE-EE.md", civil: "05-GATE-CE.md", in: "06-GATE-IN.md",
+  ch: "07-GATE-CH.md", bt: "08-GATE-BT.md", mt: "09-GATE-MT.md",
+  pi: "10-GATE-PI.md", xe: "11-GATE-XE.md", xl: "12-GATE-XL.md",
+  tf: "13-GATE-TF.md", pe: "14-GATE-PE.md", ey: "15-GATE-EY.md",
+  ma: "16-GATE-MA.md", ar: "17-GATE-AR.md", ag: "18-GATE-AG.md",
+  gg: "19-GATE-GG.md", ph: "20-GATE-PH.md",
+};
+
 // Import real data sources (server-side only)
 import { TOC_QUESTIONS as CSE_QUESTIONS } from "@/data/questions-cse-toc";
 import { TOC_RAW_DATA as CSE_RAW_DATA, ALL_AVAILABLE_YEARS as CSE_YEARS } from "@/data/gate-cse-analysis";
@@ -82,8 +92,27 @@ export async function GET(
 
       default: {
         // Synthesize from markdown
-        const mdPath = join(MARKDOWN_DIR, `GATE-${paper.code}.md`);
+        const mdFileName = PAPER_FILE_MAP[paperId];
+        if (!mdFileName) {
+          return NextResponse.json({
+            paper: {
+              id: paper.id,
+              code: paper.code,
+              name: paper.name,
+              shortName: paper.shortName,
+              availableYears: paper.availableYears,
+              questionCount: paper.questionCount,
+              subjectCount: paper.subjectCount,
+            },
+            rawData: [],
+            allYears: paper.availableYears,
+            questions: [],
+          });
+        }
+
+        const mdPath = join(MARKDOWN_DIR, mdFileName);
         if (!existsSync(mdPath)) {
+          console.warn(`Markdown file not found: ${mdPath}`);
           return NextResponse.json({
             paper: {
               id: paper.id,

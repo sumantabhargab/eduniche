@@ -1,12 +1,19 @@
 /**
  * POST /api/gate/diagnostic/start
  * Creates a diagnostic session and returns questions.
+ *
+ * Questions are sourced from:
+ * - Real question bank for CSE/ECE
+ * - Generated questions from branch intelligence for all other branches
  */
 
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
+import { generateQuestionsForBranch } from "@/lib/gate/question-generator.server";
 
 export const dynamic = "force-dynamic";
+
+const DIAGNOSTIC_SIZE = 10;
 
 export async function POST(request: Request) {
   try {
@@ -43,29 +50,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Failed to start diagnostic." }, { status: 500 });
     }
 
-    // Get branch intelligence subjects for this paper
-    const { data: branchIntel } = await supabase
-      .from("gate_branch_intelligence")
-      .select("id")
-      .eq("paper_id", paperId)
-      .maybeSingle();
-
-    let subjects: string[] = [];
-    if (branchIntel) {
-      const { data: subjectData } = await supabase
-        .from("gate_subject_intelligence")
-        .select("subject_name")
-        .eq("branch_id", branchIntel.id)
-        .order("avg_weightage", { ascending: false });
-
-      subjects = subjectData?.map((s) => s.subject_name) || [];
-    }
-
-    // Generate questions from existing question bank for this paper
-    // Import paper-data to get actual questions
-    const { getPaperDataSource } = await import("@/lib/gate/paper-data");
-    const src = getPaperDataSource(paperId);
-
     const questions: Array<{
       id: string;
       subject: string;
@@ -78,29 +62,29 @@ export async function POST(request: Request) {
       difficulty: "easy" | "medium" | "hard";
     }> = [];
 
-    if (src && src.questions.length > 0) {
-      // Use real questions, selecting 15-20 diverse questions
-      const allQuestions = src.questions;
-      const count = Math.min(20, allQuestions.length);
+    // Try real question bank first (CSE/ECE)
+    const { getPaperDataSource } = await import("@/lib/gate/paper-data");
+    const src = getPaperDataSource(paperId);
 
-      // Pick questions distributed across subjects and difficulties
-      const bySubject: Record<string, typeof allQuestions> = {};
-      for (const q of allQuestions) {
+    if (src && src.questions.length > 0) {
+      // Use real questions, distributing across subjects
+      const bySubject: Record<string, typeof src.questions> = {};
+      for (const q of src.questions) {
         const key = q.subject;
         if (!bySubject[key]) bySubject[key] = [];
         bySubject[key].push(q);
       }
 
-      // Take up to 3 per subject
-      const selected: typeof allQuestions = [];
-      for (const [subj, qs] of Object.entries(bySubject)) {
+      // Take up to 2 per subject to balance coverage
+      const selected: typeof src.questions = [];
+      for (const [, qs] of Object.entries(bySubject)) {
         const shuffled = [...qs].sort(() => Math.random() - 0.5);
-        selected.push(...shuffled.slice(0, 3));
+        selected.push(...shuffled.slice(0, 2));
       }
 
-      // Shuffle and take top count
+      // Shuffle and take DIAGNOSTIC_SIZE
       selected.sort(() => Math.random() - 0.5);
-      const finalQuestions = selected.slice(0, count);
+      const finalQuestions = selected.slice(0, DIAGNOSTIC_SIZE);
 
       questions.push(...finalQuestions.map((q) => ({
         id: q.id,
@@ -114,15 +98,31 @@ export async function POST(request: Request) {
         difficulty: q.difficulty as "easy" | "medium" | "hard",
       })));
     } else {
-      // No question bank — return 0 questions (page will show "No questions available")
-      // The plan will still be created based on branch intelligence
+      // Use question generator for all other branches
+      const generated = generateQuestionsForBranch(paperId, DIAGNOSTIC_SIZE, "full-syllabus");
+
+      questions.push(...generated.map((q: any, idx: number) => ({
+        id: q.id || `${paperId}-diagnostic-q-${idx + 1}`,
+        subject: q.subject,
+        topic: q.topic,
+        weightage: q.weightage,
+        question: q.question,
+        options: q.options,
+        // Answer index → letter (0=A, 1=B, ...)
+        answer: String.fromCharCode(65 + q.answer),
+        explanation: q.explanation,
+        difficulty: q.difficulty,
+      })));
     }
+
+    // If we have fewer questions than DIAGNOSTIC_SIZE, that's OK for sparse branches
 
     return NextResponse.json({
       diagnosticId: diagnostic.id,
       questions,
     });
   } catch (e) {
+    console.error("Diagnostic start error:", e);
     return NextResponse.json({ error: "Server error." }, { status: 500 });
   }
 }

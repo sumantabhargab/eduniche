@@ -12,6 +12,16 @@ import { parseBranchMarkdown, cacheParsedBranch, getParsedBranch } from "@/lib/g
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 
+const PAPER_FILE_MAP: Record<string, string> = {
+  cse: "01-GATE-CS.md", ece: "02-GATE-ECE.md", me: "03-GATE-ME.md",
+  ee: "04-GATE-EE.md", ce: "05-GATE-CE.md", in: "06-GATE-IN.md",
+  ch: "07-GATE-CH.md", bt: "08-GATE-BT.md", mt: "09-GATE-MT.md",
+  pi: "10-GATE-PI.md", xe: "11-GATE-XE.md", xl: "12-GATE-XL.md",
+  tf: "13-GATE-TF.md", pe: "14-GATE-PE.md", ey: "15-GATE-EY.md",
+  ma: "16-GATE-MA.md", ar: "17-GATE-AR.md", ag: "18-GATE-AG.md",
+  gg: "19-GATE-GG.md", ph: "20-GATE-PH.md",
+};
+
 const MARKDOWN_DIR = join(process.cwd(), "..", "gate-pyq-analysis");
 
 export const dynamic = "force-dynamic";
@@ -43,31 +53,34 @@ export async function GET(
 
     // 2. If no DB entry, try parsing markdown
     if (!branchData) {
-      const mdPath = join(MARKDOWN_DIR, `GATE-${paper.code}.md`);
-      if (existsSync(mdPath)) {
-        const markdown = readFileSync(mdPath, "utf-8");
-        const parsed = parseBranchMarkdown(paperId, markdown);
-        if (parsed) {
-          cacheParsedBranch(parsed);
-          return NextResponse.json({
-            source: "markdown",
-            paper: {
-              id: paper.id,
-              code: paper.code,
-              name: paper.name,
-              shortName: paper.shortName,
-              description: paper.description,
-              dataCoverage: paper.dataCoverage,
-              subjectCount: paper.subjectCount,
-              questionCount: paper.questionCount,
-              availableYears: paper.availableYears,
-              totalSessions: paper.totalSessions,
-              difficultyLevel: paper.difficultyLevel,
-              estimatedQuestionHours: paper.estimatedQuestionHours,
-              monthlyActiveLearners: paper.monthlyActiveLearners,
-            },
-            intelligence: parsed,
-          });
+      const mdFileName = PAPER_FILE_MAP[paperId];
+      if (mdFileName) {
+        const mdPath = join(MARKDOWN_DIR, mdFileName);
+        if (existsSync(mdPath)) {
+          const markdown = readFileSync(mdPath, "utf-8");
+          const parsed = parseBranchMarkdown(paperId, markdown);
+          if (parsed) {
+            cacheParsedBranch(parsed);
+            return NextResponse.json({
+              source: "markdown",
+              paper: {
+                id: paper.id,
+                code: paper.code,
+                name: paper.name,
+                shortName: paper.shortName,
+                description: paper.description,
+                dataCoverage: paper.dataCoverage,
+                subjectCount: paper.subjectCount,
+                questionCount: paper.questionCount,
+                availableYears: paper.availableYears,
+                totalSessions: paper.totalSessions,
+                difficultyLevel: paper.difficultyLevel,
+                estimatedQuestionHours: paper.estimatedQuestionHours,
+                monthlyActiveLearners: paper.monthlyActiveLearners,
+              },
+              intelligence: parsed,
+            });
+          }
         }
       }
     }

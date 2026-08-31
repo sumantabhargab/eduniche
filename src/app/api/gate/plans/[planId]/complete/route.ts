@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export async function POST(
   request: Request,
-  { params }: { params: Promise<{ planId: string }> }
+  context: { params: Promise<{ planId: string }> }
 ) {
   try {
     const supabase = await createServerClient();
@@ -23,7 +23,7 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
 
-    const resolvedParams = await params;
+    const resolvedParams = await context.params;
     const planId = resolvedParams.planId;
     const body = await request.json().catch(() => ({}));
     const dayNumber = typeof body.dayNumber === "number" ? body.dayNumber : null;

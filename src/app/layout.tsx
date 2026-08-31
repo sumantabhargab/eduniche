@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import ScrollReveal from "@/components/ScrollReveal";
 import { ChatWidgetClient } from "@/modules/chat/components/ChatWidgetClient";
 import "./globals.css";
 
@@ -43,6 +44,7 @@ export default function RootLayout({
            <ThemeProvider>
                <Nav />
                <ChatWidgetClient />
+               <ScrollReveal />
                <main className="min-h-[calc(100vh-4rem)]">
                    {children}
                </main>

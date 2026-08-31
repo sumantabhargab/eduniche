@@ -171,14 +171,17 @@ function extractSubjectTable(markdown: string, paperId: string): ParsedSubject[]
     // Parse table rows
     if (inTable && line.startsWith("|")) {
       const cells = line.split("|").filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
-      if (cells.length >= 4) {
-        const name = cells[0].trim();
-        if (!name || name.match(/^\d+$/)) continue; // Skip row numbers
+      // Markdown tables have a # column as the first data column; skip it
+      const dataStart = cells.length > 0 && cells[0].trim().match(/^\d+$/) ? 1 : 0;
+      if (cells.length - dataStart >= 4) {
+        // Strip markdown emphasis markers like **, *, _, ~~
+        const name = cells[dataStart].trim().replace(/\*\*?|_|~~|`/g, "");
+        if (!name) continue;
 
-        const marks2024 = parseFloat(cells[1].trim()) || 0;
-        const marks2023 = parseFloat(cells[2].trim()) || 0;
-        const marks2022 = parseFloat(cells[3].trim()) || 0;
-        const avgWeightage = parseFloat(cells[4]?.trim().replace("%", "")) || 0;
+        const marks2024 = parseFloat(cells[dataStart + 1].trim()) || 0;
+        const marks2023 = parseFloat(cells[dataStart + 2].trim()) || 0;
+        const marks2022 = parseFloat(cells[dataStart + 3].trim()) || 0;
+        const avgWeightage = parseFloat(cells[dataStart + 4]?.trim().replace("%", "")) || 0;
 
         // Extract year data
         const yearData = [

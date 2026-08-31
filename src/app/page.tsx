@@ -1,25 +1,23 @@
 /**
  * Homepage — GATE-focused product entry point.
  *
- * What EduNeuro currently provides:
- * - Organized GATE study Library
- * - Free/Premium content
- * - Study timer and verified sessions
- * - Study history, goals, streaks
- * - Global leaderboard
- * - Premium: AI Doubt Engine + Global Chat
+ * Redesigned for a modern, premium AI education feel.
  */
 
+import Link from "next/link";
 import GATEIntroSection from "@/components/GATEIntroSection";
+import DoubtEngineMockup from "@/components/landing/DoubtEngineMockup";
+import GateIntelligenceMockup from "@/components/landing/GateIntelligenceMockup";
+import PersonalizedLearningMockup from "@/components/landing/PersonalizedLearningMockup";
 
 export const metadata = {
-  title: "EduNeuro — GATE Exam Preparation Platform",
+  title: "EduNeuro — AI-Powered GATE Preparation",
   description:
-    "Organized GATE study Library, study tracker with streaks, global leaderboard, AI-powered doubt engine, and live study chat. Start preparing smarter.",
+    "AI doubt engine, GATE intelligence, personalized learning paths, study tracking, and a global leaderboard. Start preparing smarter for GATE.",
   openGraph: {
-    title: "EduNeuro — GATE Exam Preparation Platform",
+    title: "EduNeuro — AI-Powered GATE Preparation",
     description:
-      "Organized Library, study tracker, leaderboard, AI Doubt Engine, and live chat for GATE aspirants.",
+      "AI doubt engine, GATE intelligence, personalized study paths, and more for GATE aspirants.",
     type: "website",
   },
 };
@@ -27,34 +25,39 @@ export const metadata = {
 export default function Home() {
   return (
     <main>
-      {/* HERO */}
+      {/* ============ HERO ============ */}
       <section className="min-h-screen flex items-center pt-16">
-        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+        <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
           <div className="max-w-3xl">
-            <div className="font-mono text-xs tracking-widest text-muted uppercase mb-8">
-              GATE Exam Preparation
+            {/* Eyebrow */}
+            <div className="font-mono text-xs tracking-[0.2em] text-accent uppercase mb-8">
+              AI-Powered GATE Preparation
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight mb-8">
-              Study smarter for GATE.
+            {/* Headline */}
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.08] tracking-tight mb-8">
+              Prepare for GATE
               <br />
-              Track, practice, rank.
+              with an AI that{" "}
+              <span className="text-accent">understands</span> the exam.
             </h1>
 
-            <p className="text-lg md:text-xl text-muted leading-relaxed max-w-2xl mb-10">
-              EduNeuro gives GATE aspirants an organized study Library, verified study
-              sessions with streaks, a global leaderboard, AI-powered doubt solving,
-              and a live study community.
+            {/* Subheadline */}
+            <p className="text-base sm:text-lg md:text-xl text-muted leading-relaxed max-w-2xl mb-10">
+              EduNeuro gives you an AI doubt engine grounded in the GATE library,
+              intelligent paper analysis across 18 years of questions, and a
+              personalized study path — all in one place.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 items-start">
-              <a
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start">
+              <Link
                 href="/library"
-                className="inline-flex items-center px-8 py-4 bg-foreground text-background font-medium text-base transition-all duration-200 hover:opacity-90"
+                className="inline-flex items-center px-7 py-3.5 bg-foreground text-background font-medium text-sm rounded-xl transition-all duration-200 hover:opacity-90 group"
               >
-                <span>Browse Library</span>
+                <span>Start Learning Free</span>
                 <svg
-                  className="w-4 h-4 ml-2"
+                  className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -66,78 +69,204 @@ export default function Home() {
                     d="M17 8l4 4m0 0l-4 4m4-4H3"
                   />
                 </svg>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/pricing"
-                className="inline-flex items-center px-8 py-4 border border-border hover:border-foreground text-foreground font-medium text-base transition-all duration-200"
+                className="inline-flex items-center px-7 py-3.5 border border-border hover:border-foreground/40 text-foreground font-medium text-sm rounded-xl transition-all duration-200"
               >
-                <span>Get Premium</span>
-              </a>
+                View Premium Plans
+              </Link>
+            </div>
+
+            {/* Social proof row */}
+            <div className="flex flex-wrap items-center gap-6 mt-12 pt-8 border-t border-border/60">
+              <div>
+                <div className="font-mono text-lg text-foreground">1,247+</div>
+                <div className="text-xs text-muted">GATE questions analyzed</div>
+              </div>
+              <div className="w-px h-8 bg-border hidden sm:block" />
+              <div>
+                <div className="font-mono text-lg text-foreground">6 papers</div>
+                <div className="text-xs text-muted">CS · ECE · ME · CE · EE · IN</div>
+              </div>
+              <div className="w-px h-8 bg-border hidden sm:block" />
+              <div>
+                <div className="font-mono text-lg text-foreground">5/day free</div>
+                <div className="text-xs text-muted">AI doubts, no card needed</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FEATURES OVERVIEW */}
+      {/* ============ PRODUCT DEMOS ============ */}
       <section className="border-t border-border">
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
-          <div className="text-center mb-16">
-            <div className="font-mono text-xs tracking-widest text-muted uppercase mb-6">
-              What you get
+          {/* Section header */}
+          <div className="max-w-2xl mb-16 md:mb-20">
+            <div className="font-mono text-xs tracking-[0.2em] text-muted uppercase mb-6 reveal">
+              The product
             </div>
-            <h2 className="font-serif text-3xl md:text-5xl leading-snug">
-              Everything you need for GATE prep
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight mb-6 reveal">
+              Built around how you actually prepare.
+            </h2>
+            <p className="text-base md:text-lg text-muted leading-relaxed reveal">
+              Every feature in EduNeuro is designed for the GATE preparation workflow —
+              from understanding concepts to analyzing patterns to tracking progress.
+            </p>
+          </div>
+
+          {/* Demo 1: AI Doubt Engine */}
+          <div className="mb-20 md:mb-28">
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+              <div className="lg:w-5/12 lg:sticky lg:top-24">
+                <div className="font-mono text-xs tracking-[0.15em] text-accent uppercase mb-4 reveal">
+                  AI Doubt Engine
+                </div>
+                <h3 className="font-serif text-2xl md:text-3xl leading-snug mb-4 reveal">
+                  Ask any GATE question. Get a conceptual explanation.
+                </h3>
+                <p className="text-sm md:text-base text-muted leading-relaxed mb-6 reveal">
+                  Powered by Groq and grounded in EduNeuro&apos;s library content.
+                  Free users get 5 questions per day. Premium users get unlimited access.
+                  The AI doesn&apos;t just answer — it breaks down the reasoning step by step.
+                </p>
+                <Link
+                  href="/doubts"
+                  className="inline-flex items-center text-sm font-medium text-accent hover:text-accent-hover transition-colors reveal"
+                >
+                  Try AI Doubt Engine
+                  <svg className="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+              <div className="lg:w-7/12 reveal">
+                <DoubtEngineMockup />
+              </div>
+            </div>
+          </div>
+
+          {/* Demo 2: GATE Intelligence */}
+          <div className="mb-20 md:mb-28">
+            <div className="flex flex-col lg:flex-row-reverse gap-8 lg:gap-12 items-start">
+              <div className="lg:w-5/12 lg:sticky lg:top-24">
+                <div className="font-mono text-xs tracking-[0.15em] text-accent uppercase mb-4 reveal">
+                  GATE Intelligence
+                </div>
+                <h3 className="font-serif text-2xl md:text-3xl leading-snug mb-4 reveal">
+                  18 years of GATE questions, analyzed for you.
+                </h3>
+                <p className="text-sm md:text-base text-muted leading-relaxed mb-6 reveal">
+                  Stop randomly solving PYQs. Understand topic weightage, difficulty
+                  trends, and recurring patterns across papers. EduNeuro processes
+                  historical data so you can focus on what actually matters.
+                </p>
+                <Link
+                  href="/gate"
+                  className="inline-flex items-center text-sm font-medium text-accent hover:text-accent-hover transition-colors reveal"
+                >
+                  Explore GATE Intelligence
+                  <svg className="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+              <div className="lg:w-7/12 reveal">
+                <GateIntelligenceMockup />
+              </div>
+            </div>
+          </div>
+
+          {/* Demo 3: Personalized Learning */}
+          <div>
+            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+              <div className="lg:w-5/12 lg:sticky lg:top-24">
+                <div className="font-mono text-xs tracking-[0.15em] text-accent uppercase mb-4 reveal">
+                  Personalized Learning
+                </div>
+                <h3 className="font-serif text-2xl md:text-3xl leading-snug mb-4 reveal">
+                  Your study plan, adapted to your performance.
+                </h3>
+                <p className="text-sm md:text-base text-muted leading-relaxed mb-6 reveal">
+                  EduNeuro tracks your weak areas and builds a study path around them.
+                  Practice problems are selected based on your accuracy. Progress is
+                  tracked with topic-level mastery — not just a timer.
+                </p>
+                <Link
+                  href="/dashboard"
+                  className="inline-flex items-center text-sm font-medium text-accent hover:text-accent-hover transition-colors reveal"
+                >
+                  Go to Dashboard
+                  <svg className="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+              <div className="lg:w-7/12 reveal">
+                <PersonalizedLearningMockup />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FEATURES ============ */}
+      <section className="border-t border-border">
+        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+          <div className="text-center mb-16 md:mb-20">
+            <div className="font-mono text-xs tracking-[0.2em] text-muted uppercase mb-6 reveal">
+              Platform
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight reveal">
+              Everything you need for GATE prep.
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {[
               {
-                emoji: "📚",
-                title: "Organized Library",
-                desc: "PYQ analysis, predicted papers, subject-wise notes, and resources — structured by exam and branch.",
-                free: true,
+                title: "AI Doubt Engine",
+                desc: "Ask any GATE question and get a grounded, step-by-step explanation from the EduNeuro library. Powered by Groq.",
+                tier: "premium",
+                large: true,
               },
               {
-                emoji: "⏱️",
+                title: "GATE Intelligence",
+                desc: "18 years of GATE data — subject weightage, difficulty trends, topic analysis across 6 branches.",
+                tier: "free",
+              },
+              {
+                title: "Study Library",
+                desc: "Organized PYQ analysis, predicted papers, subject-wise notes, and resources structured by branch.",
+                tier: "free",
+              },
+              {
                 title: "Study Tracker",
                 desc: "Timer with page-visibility detection, verified sessions, daily goals, and streak tracking.",
-                free: true,
+                tier: "free",
               },
               {
-                emoji: "🏆",
-                title: "Leaderboard",
-                desc: "Ranked by verified study time across the community. Compete fairly.",
-                free: true,
+                title: "Global Leaderboard",
+                desc: "Ranked by verified study time. Compete fairly with fellow GATE aspirants.",
+                tier: "free",
               },
               {
-                emoji: "🤖",
-                title: "AI Doubt Engine",
-                desc: "Ask any GATE question and get grounded answers from the EduNeuro library. Powered by Groq.",
-                premium: true,
-              },
-              {
-                emoji: "💬",
                 title: "Global Study Chat",
-                desc: "Real-time chat with fellow GATE aspirants. Stay motivated, share insights.",
-                premium: true,
-              },
-              {
-                emoji: "⭐",
-                title: "Premium Content",
-                desc: "Unlock predicted mock papers, in-depth notes, and premium library resources.",
-                premium: true,
+                desc: "Real-time chat with fellow aspirants. Stay motivated, share insights, discuss problems.",
+                tier: "premium",
               },
             ].map((feature) => (
               <div
                 key={feature.title}
-                className="bg-card border border-border rounded-2xl p-6 md:p-8"
+                className={`group bg-card border border-border rounded-2xl p-6 md:p-8 hover:border-foreground/20 transition-all duration-300 reveal ${
+                  feature.large ? "sm:col-span-2 lg:col-span-1" : ""
+                }`}
               >
-                <div className="text-3xl mb-4">{feature.emoji}</div>
-                <div className="flex items-center gap-2 mb-2">
-                  <h3 className="font-semibold text-lg">{feature.title}</h3>
-                  {feature.premium && (
-                    <span className="text-xs px-2 py-0.5 bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-400 rounded-full font-medium">
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="font-semibold text-base md:text-lg leading-snug">{feature.title}</h3>
+                  {feature.tier === "premium" && (
+                    <span className="text-[10px] px-2 py-0.5 bg-accent/10 text-accent rounded-full font-medium tracking-wider uppercase shrink-0 ml-2">
                       Premium
                     </span>
                   )}
@@ -149,29 +278,173 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* ============ GATE SECTION ============ */}
       <section className="border-t border-border">
-        <div className="max-w-4xl mx-auto px-6 py-24 md:py-32 text-center">
-          <h2 className="font-serif text-3xl md:text-5xl leading-snug mb-6">
-            Start preparing today.
+        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+          <div className="max-w-2xl mb-12 md:mb-16">
+            <div className="font-mono text-xs tracking-[0.2em] text-muted uppercase mb-6 reveal">
+              GATE Preparation
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight mb-6 reveal">
+              Stop guessing. Start analyzing.
+            </h2>
+            <p className="text-base md:text-lg text-muted leading-relaxed reveal">
+              GATE isn&apos;t about memorizing everything. It&apos;s about knowing
+              what to study, how deeply, and where to focus. EduNeuro&apos;s GATE
+              Intelligence gives you that clarity.
+            </p>
+          </div>
+
+          {/* Paper grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-12">
+            {[
+              { code: "CS", name: "Computer Science", id: "cse" },
+              { code: "EC", name: "Electronics & Comm", id: "ece" },
+              { code: "ME", name: "Mechanical Engg", id: "me" },
+              { code: "CE", name: "Civil Engg", id: "ce" },
+              { code: "EE", name: "Electrical Engg", id: "ee" },
+              { code: "IN", name: "Instrumentation", id: "in" },
+            ].map((paper, i) => (
+              <Link
+                key={paper.id}
+                href={`/gate/${paper.id}`}
+                className="group bg-card border border-border rounded-xl p-4 hover:border-foreground/30 transition-all duration-200 reveal"
+                style={{ animationDelay: `${i * 0.05}s` }}
+              >
+                <div className="font-mono text-lg text-foreground mb-1 group-hover:text-accent transition-colors">
+                  {paper.code}
+                </div>
+                <div className="text-xs text-muted leading-snug">{paper.name}</div>
+                <div className="flex items-center gap-1 mt-3 text-accent opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="text-[10px] font-medium">Explore</span>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <GATEIntroSection />
+        </div>
+      </section>
+
+      {/* ============ PRICING PREVIEW ============ */}
+      <section className="border-t border-border" id="pricing">
+        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+          <div className="max-w-2xl mb-12 md:mb-16">
+            <div className="font-mono text-xs tracking-[0.2em] text-muted uppercase mb-6 reveal">
+              Pricing
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight mb-6 reveal">
+              Free to start. Premium when you need it.
+            </h2>
+            <p className="text-base md:text-lg text-muted leading-relaxed reveal">
+              Use EduNeuro for free with the full GATE library, study tracker, and leaderboard.
+              Upgrade to Premium for the AI Doubt Engine, live chat, and all premium content.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 max-w-3xl">
+            {/* Free */}
+            <div className="bg-card border border-border rounded-2xl p-6 md:p-8 reveal">
+              <div className="font-mono text-xs tracking-[0.15em] text-muted uppercase mb-4">
+                Free
+              </div>
+              <div className="text-3xl font-bold mb-1">₹0</div>
+              <div className="text-sm text-muted mb-6">forever</div>
+
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Full GATE Library access",
+                  "Study timer with verification",
+                  "Daily goals and streaks",
+                  "Global leaderboard",
+                  "Browse all free resources",
+                  "5 AI doubts per day",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm">
+                    <svg className="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-foreground/80">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/library"
+                className="block w-full py-3 text-center border border-border rounded-xl text-sm font-medium hover:border-foreground/40 transition-colors"
+              >
+                Start Learning Free
+              </Link>
+            </div>
+
+            {/* Premium */}
+            <div className="relative bg-card border border-foreground/20 rounded-2xl p-6 md:p-8 reveal">
+              <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-foreground text-background px-4 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase">
+                Recommended
+              </div>
+              <div className="font-mono text-xs tracking-[0.15em] text-accent uppercase mb-4">
+                EduPremium
+              </div>
+              <div className="text-3xl font-bold mb-1">₹49<span className="text-base font-normal text-muted">/mo</span></div>
+              <div className="text-sm text-muted mb-6">or ₹20/week</div>
+
+              <ul className="space-y-3 mb-8">
+                {[
+                  "Unlimited AI Doubt Engine",
+                  "Live global study chat",
+                  "All premium library content",
+                  "Predicted mock papers",
+                  "All Free features included",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm">
+                    <svg className="w-4 h-4 text-accent mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-foreground/80">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/pricing"
+                className="block w-full py-3 text-center bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
+              >
+                Get Premium
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FINAL CTA ============ */}
+      <section className="border-t border-border">
+        <div className="max-w-3xl mx-auto px-6 py-24 md:py-32 text-center">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight mb-6 reveal">
+            Start preparing smarter.
           </h2>
-          <p className="text-lg text-muted mb-10 max-w-2xl mx-auto">
-            Browse the free Library or upgrade to Premium for AI-powered doubt
-            solving, live chat, and all premium resources.
+          <p className="text-base md:text-lg text-muted leading-relaxed max-w-xl mx-auto mb-10 reveal">
+            Join GATE aspirants who use EduNeuro&apos;s AI-powered tools to prepare
+            more effectively. Free to start — no card required.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center reveal">
+            <Link
               href="/library"
-              className="inline-flex items-center px-8 py-4 bg-foreground text-background font-medium text-base transition-all hover:opacity-90"
+              className="inline-flex items-center px-7 py-3.5 bg-foreground text-background font-medium text-sm rounded-xl transition-all hover:opacity-90"
             >
               Browse Library
-            </a>
-            <a
+              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+            <Link
               href="/pricing"
-              className="inline-flex items-center px-8 py-4 border border-border hover:border-foreground text-foreground font-medium text-base transition-all"
+              className="inline-flex items-center px-7 py-3.5 border border-border hover:border-foreground/40 text-foreground font-medium text-sm rounded-xl transition-all"
             >
-              View Plans — from ₹20/week
-            </a>
+              View Premium Plans
+            </Link>
           </div>
         </div>
       </section>

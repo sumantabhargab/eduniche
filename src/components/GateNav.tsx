@@ -3,13 +3,36 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const BREADCRUMB_COLORS: Record<string, string> = {
-  "gate-cse": "CS",
+// Paper code to display label mapping for breadcrumbs
+const BREADCRUMB_LABELS: Record<string, string> = {
+  "gate-cse": "CSE",
   "gate-ee": "EE",
   "gate-me": "ME",
   "gate-ce": "CE",
   "gate-ece": "ECE",
   "gate-in": "IN",
+  "gate-ch": "CH",
+  "gate-bt": "BT",
+  "gate-mt": "MT",
+  "gate-pi": "PI",
+  "gate-xe": "XE",
+  "gate-xl": "XL",
+  "gate-tf": "TF",
+  "gate-pe": "PE",
+  "gate-ey": "EY",
+  "gate-ma": "MA",
+  "gate-ar": "AR",
+  "gate-ag": "AG",
+  "gate-gg": "GG",
+  "gate-ph": "PH",
+};
+
+const PAGE_LABELS: Record<string, string> = {
+  diagnostic: "Diagnostic",
+  plan: "Study Plan",
+  practice: "Practice",
+  doubt: "Doubt Engine",
+  questions: "Questions",
 };
 
 export default function GateNav() {
@@ -23,15 +46,29 @@ export default function GateNav() {
 
   // Parse the path segments
   let currentPath = "";
-  for (const seg of segments) {
+  for (let i = 0; i < segments.length; i++) {
+    const seg = segments[i];
     if (seg === "gate") continue;
     currentPath += `/${seg}`;
     const fullHref = `/gate${currentPath}`;
-    const label = BREADCRUMB_COLORS[seg] || decodeURIComponent(seg).replace(/-/g, " ");
-    crumbs.push({
-      label: label.charAt(0).toUpperCase() + label.slice(1),
-      href: fullHref,
-    });
+
+    // Check if it's a paper ID
+    const paperKey = `gate-${seg}`;
+    if (BREADCRUMB_LABELS[paperKey]) {
+      crumbs.push({
+        label: BREADCRUMB_LABELS[paperKey],
+        href: fullHref,
+      });
+    } else if (PAGE_LABELS[seg]) {
+      // It's a page name like diagnostic, plan, practice
+      crumbs.push({
+        label: PAGE_LABELS[seg] || seg.charAt(0).toUpperCase() + seg.slice(1),
+        href: fullHref,
+      });
+    } else if (!isNaN(Number(seg))) {
+      // Skip numeric IDs (like questionId)
+      continue;
+    }
   }
 
   return (
@@ -46,13 +83,13 @@ export default function GateNav() {
             >
               GATE
             </Link>
-            {crumbs.slice(1).map((crumb, i) => (
+            {crumbs.slice(1).map((crumb) => (
               <div key={crumb.href} className="flex items-center gap-1 min-w-0">
                 <span className="text-muted-light shrink-0">/</span>
                 <Link
                   href={crumb.href}
                   className={`text-xs truncate transition-colors ${
-                    i === crumbs.length - 2
+                    crumb === crumbs[crumbs.length - 1]
                       ? "text-foreground font-medium"
                       : "text-muted hover:text-foreground"
                   }`}

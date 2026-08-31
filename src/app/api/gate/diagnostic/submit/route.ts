@@ -5,6 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
+import { generateQuestionsForBranch } from "@/lib/gate/question-generator.server";
 
 export const dynamic = "force-dynamic";
 
@@ -41,13 +42,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Diagnostic not found." }, { status: 404 });
     }
 
-    // Get questions from the diagnostic session (stored in diagnostic_questions or fetch from API)
-    // For now, re-fetch the questions using the same logic as the start endpoint
+    // Try real question bank (CSE/ECE), then fall back to generated questions
     const { getPaperDataSource } = await import("@/lib/gate/paper-data");
     const src = getPaperDataSource(paperId);
+    let questions: any[] = [];
 
-    const questions = src ? src.questions.slice(0, 20) : [];
-    const totalQuestions = questions.length;
+    if (src && src.questions.length > 0) {
+      questions = src.questions.slice(0, 20);
+    } else {
+      // Use generated questions — map back to letter answers
+      const generated = generateQuestionsForBranch(paperId, 10, "full-syllabus");
+      questions = generated.map((q: any, idx: number) => ({
+        id: q.id || `${paperId}-diagnostic-q-${idx + 1}`,
+        subject: q.subject,
+        topic: q.topic,
+        answer: String.fromCharCode(65 + q.answer), // index → letter
+      }));
+    }
 
     // Calculate scores by topic
     const topicScores: Record<string, { correct: number; total: number; accuracy: number }> = {};
@@ -73,6 +84,7 @@ export async function POST(request: Request) {
       t.accuracy = t.total > 0 ? Math.round((t.correct / t.total) * 100) : 0;
     }
 
+    const totalQuestions = questions.length;
     const overallScore = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
     // Update diagnostic with results
@@ -88,12 +100,11 @@ export async function POST(request: Request) {
       })
       .eq("id", diagnosticId);
 
-    // Generate 7-day study plan based on weak areas
+    // Identify weak topics for study plan
     const weakTopics = Object.entries(topicScores)
       .filter(([, scores]) => scores.accuracy < 70)
       .sort((a, b) => a[1].accuracy - b[1].accuracy);
 
-    // If all topics strong, include medium-accuracy topics
     const mediumTopics = Object.entries(topicScores)
       .filter(([, scores]) => scores.accuracy >= 70 && scores.accuracy < 90);
 
@@ -113,10 +124,8 @@ export async function POST(request: Request) {
 
     for (let day = 1; day <= days; day++) {
       const dayTopics = priorityTopics.slice((day - 1) * topicsPerDay, day * topicsPerDay);
-      const hasWeak = dayTopics.some(([, s]) => s.accuracy < 50);
 
       if (dayTopics.length === 0) {
-        // Empty day — review day
         planItems.push({
           dayNumber: day,
           subject: "General",
@@ -129,13 +138,13 @@ export async function POST(request: Request) {
 
       for (const [subject, scores] of dayTopics) {
         // Get actual topics from branch intelligence
+        let topicName = subject;
         const { data: branchIntel } = await supabase
           .from("gate_branch_intelligence")
           .select("id")
           .eq("paper_id", paperId)
           .maybeSingle();
 
-        let topicName = subject;
         if (branchIntel) {
           const { data: subjectIntel } = await supabase
             .from("gate_subject_intelligence")
@@ -145,15 +154,14 @@ export async function POST(request: Request) {
             .maybeSingle();
 
           if (subjectIntel && Array.isArray(subjectIntel.topics) && subjectIntel.topics.length > 0) {
-            // Pick a topic that needs work
             const weakTopic = subjectIntel.topics.find((_, idx) => idx < Math.ceil(subjectIntel.topics.length / 3));
             topicName = weakTopic || subjectIntel.topics[0];
           }
         }
 
         const taskType = scores.accuracy < 40 ? "study" : scores.accuracy < 70 ? "practice" : "review";
-
         const mins = taskType === "study" ? 45 : taskType === "practice" ? 30 : 30;
+
         planItems.push({
           dayNumber: day,
           subject,
@@ -177,30 +185,25 @@ export async function POST(request: Request) {
       .select("id")
       .single();
 
+    let planId: string | null = null;
     if (planError || !plan) {
       console.error("Plan creation error:", planError);
-      return NextResponse.json({
-        totalScore: overallScore,
-        correctAnswers: correctCount,
-        totalQuestions,
-        topicScores,
-        planId: null,
-        planItems,
-      });
-    }
+    } else {
+      planId = plan.id;
 
-    // Insert plan items
-    if (planItems.length > 0) {
-      const items = planItems.map((item) => ({
-        plan_id: plan.id,
-        day_number: item.dayNumber,
-        subject: item.subject,
-        topic: item.topic,
-        task_type: item.taskType,
-        estimated_minutes: item.estimatedMinutes,
-      }));
+      // Insert plan items
+      if (planItems.length > 0) {
+        const items = planItems.map((item) => ({
+          plan_id: plan.id,
+          day_number: item.dayNumber,
+          subject: item.subject,
+          topic: item.topic,
+          task_type: item.taskType,
+          estimated_minutes: item.estimatedMinutes,
+        }));
 
-      await supabase.from("user_study_plan_items").insert(items);
+        await supabase.from("user_study_plan_items").insert(items);
+      }
     }
 
     return NextResponse.json({
@@ -208,10 +211,11 @@ export async function POST(request: Request) {
       correctAnswers: correctCount,
       totalQuestions,
       topicScores,
-      planId: plan.id,
+      planId,
       planItems,
     });
   } catch (e: any) {
+    console.error("Diagnostic submit error:", e);
     return NextResponse.json(
       { error: "Server error.", detail: e?.message },
       { status: 500 }
