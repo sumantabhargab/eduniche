@@ -12,7 +12,7 @@ import { Groq } from "groq-sdk";
 import { createServerClient } from "@/lib/supabase/server";
 import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
 
-const GROQ_MODEL = "llama-3.1-70b-versatile";
+const GROQ_MODEL = "openai/gpt-oss-120b";
 const MAX_QUESTION_LENGTH = 2000;
 const RATE_LIMIT_WINDOW = 60000;
 const RATE_LIMIT_MAX = 10; // 10 requests per minute for free
