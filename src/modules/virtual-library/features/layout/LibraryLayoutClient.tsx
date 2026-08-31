@@ -1,10 +1,8 @@
 /**
- * Route layout for /library/* routes.
+ * LibraryLayoutClient — client wrapper for /library/* routes.
  *
- * Wraps all library pages with the VirtualLibraryProvider.
- * For /library/world, the full-screen interactive canvas is rendered
- * directly (no sub-navigation chrome).
- * For every other /library route, LibraryLayout provides the sidebar.
+ * Decides whether to render with LibraryLayout (sidebar)
+ * or bare VirtualLibraryProvider (for /library/world).
  */
 
 "use client";
@@ -16,6 +14,8 @@ import { usePathname } from "next/navigation";
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
+  // /library/world is the full-screen interactive experience —
+  // render it without the sub-navigation chrome.
   if (pathname === "/library/world") {
     return <VirtualLibraryProvider>{children}</VirtualLibraryProvider>;
   }
@@ -27,10 +27,4 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function LibraryLayoutRoute({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <LayoutContent>{children}</LayoutContent>;
-}
+export { LayoutContent };

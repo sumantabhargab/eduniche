@@ -1,21 +1,20 @@
 /**
- * Virtual Library World — /library/world
+ * /library/world — Virtual Library World
  *
- * The main 2D explorable multiplayer library experience.
- * "Enter the library" → full-screen canvas with WASD movement,
- * real-time multiplayer presence, room chat, and study timer.
+ * Renders the full-screen interactive 2D multiplayer library.
+ * Uses the same VirtualLibraryWorld component as /library-world.
  */
 
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import VirtualLibraryWorld from "@/modules/virtual-library/world/VirtualLibraryWorld";
 
 function LoadingFallback() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background">
       <div className="text-center">
         <div className="w-16 h-16 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
         <p className="text-sm text-muted">Entering the library...</p>
@@ -28,8 +27,9 @@ function LibraryWorldGate() {
   const { user, loading } = useAuth();
   const router = useRouter();
 
-  // Dev bypass: ?dev=1 skips auth (local testing only)
-  const [devMode] = useState(() => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("dev"));
+  const [devMode] = useState(() =>
+    typeof window !== "undefined" && new URLSearchParams(window.location.search).has("dev")
+  );
 
   useEffect(() => {
     if (!loading && !user && !devMode) {

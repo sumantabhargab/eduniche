@@ -15,6 +15,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { COLORS } from "./colors";
 import { multiplayerManager } from "./multiplayer";
 import { WorldRenderer } from "./WorldRenderer";
 import { CollisionSystem } from "./collision";
@@ -110,10 +111,14 @@ function RoomInfoOverlay({ roomId, onClose }: { roomId: string; onClose: () => v
         </div>
         <button
           onClick={onClose}
-          className="text-muted-light hover:text-foreground-light text-xs"
+          className="p-1 rounded-md transition-colors"
+          style={{ color: COLORS.hudMuted }}
           aria-label="Close room info"
         >
-          ✕
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
         </button>
       </div>
     </motion.div>
