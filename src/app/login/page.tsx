@@ -6,7 +6,7 @@
 
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense, useCallback } from "react";
 import Link from "next/link";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -39,6 +39,8 @@ function LoginInner() {
   }
 
   const redirectTo = searchParams.get("redirect") || "/dashboard";
+  // Guard against double redirects from multiple auth event sources
+  const authHandledRef = useRef(false);
 
   const resetForm = () => {
     setError(null);
@@ -51,10 +53,35 @@ function LoginInner() {
     resetForm();
   };
 
+  const handlePostAuthRedirect = useCallback(async (userId: string) => {
+    if (authHandledRef.current) return;
+    authHandledRef.current = true;
+
+    try {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("username")
+        .eq("id", userId)
+        .maybeSingle();
+
+      if (!profile || !profile.username) {
+        setShowUsernameForm(true);
+      } else {
+        router.push(redirectTo);
+      }
+    } catch {
+      router.push(redirectTo);
+    } finally {
+      setChecking(false);
+    }
+  }, [supabase, router, redirectTo]);
+
   useEffect(() => {
     let unsub: (() => void) | undefined;
 
     const handler = async (event: string, session: { user?: { id: string } } | null) => {
+      if (authHandledRef.current) return;
+
       if (!session?.user) {
         if (event === "INITIAL_SESSION") {
           setChecking(false);
@@ -62,39 +89,34 @@ function LoginInner() {
         return;
       }
 
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("username")
-        .eq("id", session.user.id)
-        .maybeSingle();
-
-      if (!profile) {
-        setShowUsernameForm(true);
-        setChecking(false);
-        return;
-      }
-
-      if (!profile.username) {
-        setShowUsernameForm(true);
-      } else {
-        router.push(redirectTo);
-      }
-      setChecking(false);
+      await handlePostAuthRedirect(session.user.id);
     };
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(handler);
 
-    const timeout = setTimeout(() => {
-      setChecking(false);
-    }, 1500);
+    // Also check for an existing session on mount (handles refresh after login)
+    (async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user && !authHandledRef.current) {
+        await handlePostAuthRedirect(session.user.id);
+      } else if (!session && !authHandledRef.current) {
+        setChecking(false);
+      }
+    })();
 
-    unsub = () => {
+    // Safety timeout — never leave the page stuck in "loading"
+    const timeout = setTimeout(() => {
+      if (!authHandledRef.current) {
+        authHandledRef.current = true;
+        setChecking(false);
+      }
+    }, 3000);
+
+    return () => {
       subscription.unsubscribe();
       clearTimeout(timeout);
     };
-
-    return unsub;
-  }, [supabase, router, redirectTo]);
+  }, [supabase, handlePostAuthRedirect]);
 
   const handleGoogleLogin = async () => {
     setLoading(true);
@@ -120,6 +142,9 @@ function LoginInner() {
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (loading) return;
+
     setError(null);
 
     if (!email || !password) {
@@ -154,6 +179,7 @@ function LoginInner() {
           setError(error.message);
           setLoading(false);
         }
+        // If no error, Supabase sent a confirmation email — keep loading state until user clicks link
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -161,9 +187,21 @@ function LoginInner() {
         });
 
         if (error) {
-          setError(error.message);
+          const msg = (error.message || "").toLowerCase();
+          if (msg.includes("invalid login credentials") || msg.includes("invalid credentials")) {
+            setError("Incorrect email or password. Please try again.");
+          } else if (msg.includes("email not confirmed")) {
+            setError("Please verify your email before signing in.");
+          } else if (msg.includes("too many requests")) {
+            setError("Too many attempts. Please wait a moment and try again.");
+          } else {
+            setError("Authentication failed. Please try again.");
+          }
           setLoading(false);
+          return;
         }
+        // Success — the auth state change listener will handle the redirect
+        router.refresh();
       }
     } catch {
       setError("Authentication failed. Please try again.");
@@ -173,6 +211,7 @@ function LoginInner() {
 
   const handleUsernameSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (usernameLoading) return;
     setUsernameLoading(true);
     setError(null);
 
@@ -335,7 +374,7 @@ function LoginInner() {
             disabled={loading}
             className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-card border border-border rounded-xl hover:border-foreground/30 transition-colors disabled:opacity-50"
           >
-            <svg viewBox="0 0 24 24" className="w-5 h-5">
+            <svg viewBox="0 0 24 24" className="w-5 h-5" aria-hidden="true">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -347,8 +386,8 @@ function LoginInner() {
 
         <p className="text-sm text-muted mt-6">
           {mode === "signup"
-            ? <>Already have an account? <button onClick={() => switchMode("signin")} className="underline hover:text-foreground">Sign in</button></>
-            : <>Don't have an account? <button onClick={() => switchMode("signup")} className="underline hover:text-foreground">Sign up</button></>
+            ? <>Already have an account? <button type="button" onClick={() => switchMode("signin")} className="underline hover:text-foreground">Sign in</button></>
+            : <>Don&apos;t have an account? <button type="button" onClick={() => switchMode("signup")} className="underline hover:text-foreground">Sign up</button></>
           }
         </p>
 

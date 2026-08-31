@@ -4,6 +4,7 @@ import { useState, use, useEffect, useCallback } from "react";
 import Link from "next/link";
 import GateNav from "@/components/GateNav";
 import { getPaperById, type GATEPaper } from "@/lib/gate/config";
+import { EduNeuroLoader } from "@/components/loading";
 
 type Question = {
   id: string;
@@ -18,6 +19,35 @@ type Question = {
 };
 
 type DiagnosticState = "loading" | "active" | "submitting" | "complete";
+
+function IconChart({ className = "w-16 h-16" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="12" width="4" height="9" rx="1" />
+      <rect x="10" y="7" width="4" height="14" rx="1" />
+      <rect x="17" y="3" width="4" height="18" rx="1" />
+    </svg>
+  );
+}
+
+function IconClipboard({ className = "w-10 h-10" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+      <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+    </svg>
+  );
+}
+
+function IconAlert({ className = "w-10 h-10" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+  );
+}
 
 export default function DiagnosticPage({
   params,
@@ -149,8 +179,7 @@ export default function DiagnosticPage({
         {/* Loading */}
         {state === "loading" && (
           <div className="text-center py-16">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-foreground border-t-transparent mb-4" />
-            <p className="text-sm text-muted">Preparing your diagnostic test...</p>
+            <EduNeuroLoader size="md" variant="page" label="Preparing your diagnostic test" />
           </div>
         )}
 
@@ -223,7 +252,7 @@ export default function DiagnosticPage({
                 disabled={currentIndex === 0}
                 className="px-5 py-2.5 text-sm border border-border rounded-xl hover:bg-muted/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                ← Previous
+                &larr; Previous
               </button>
 
               <span className="text-xs text-muted">
@@ -235,7 +264,7 @@ export default function DiagnosticPage({
                   onClick={() => setCurrentIndex((i) => i + 1)}
                   className="px-5 py-2.5 text-sm bg-foreground text-background rounded-xl hover:bg-foreground/90 transition-colors"
                 >
-                  Next →
+                  Next &rarr;
                 </button>
               ) : (
                 <button
@@ -253,8 +282,7 @@ export default function DiagnosticPage({
         {/* Submitting */}
         {state === "submitting" && (
           <div className="text-center py-16">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-foreground border-t-transparent mb-4" />
-            <p className="text-sm text-muted">Analyzing your performance...</p>
+            <EduNeuroLoader size="md" variant="page" label="Analyzing your performance" />
           </div>
         )}
 
@@ -263,7 +291,9 @@ export default function DiagnosticPage({
           <div>
             {/* Score card */}
             <div className="bg-card border border-border rounded-2xl p-8 text-center mb-8">
-              <div className="text-5xl mb-4">📊</div>
+              <div className="text-muted mb-4 inline-block">
+                <IconChart className="w-16 h-16" />
+              </div>
               <h2 className="text-2xl font-bold mb-2">Diagnostic Complete</h2>
               <p className="text-muted text-sm mb-4">
                 GATE {paperName} — {results.totalQuestions} questions
@@ -322,16 +352,18 @@ export default function DiagnosticPage({
             {/* Plan created */}
             {results.planId && (
               <div className="bg-accent/5 border border-accent/20 rounded-2xl p-6 text-center mb-8">
-                <div className="text-3xl mb-2">📋</div>
+                <div className="text-muted mb-2 inline-block">
+                  <IconClipboard className="w-12 h-12" />
+                </div>
                 <h3 className="text-lg font-medium mb-1">Your 7-Day Study Plan is Ready</h3>
                 <p className="text-sm text-muted mb-4">
-                  We've created a personalized plan based on your diagnostic results.
+                  We&apos;ve created a personalized plan based on your diagnostic results.
                 </p>
                 <Link
                   href={`/gate/${paperId}/plan?id=${results.planId}`}
                   className="inline-flex items-center px-6 py-3 bg-foreground text-background text-sm font-medium rounded-xl hover:opacity-90 transition-all"
                 >
-                  View Study Plan →
+                  View Study Plan &rarr;
                 </Link>
               </div>
             )}
@@ -342,7 +374,7 @@ export default function DiagnosticPage({
                   href={`/gate/${paperId}/plan`}
                   className="inline-flex items-center px-6 py-3 bg-foreground text-background text-sm font-medium rounded-xl hover:opacity-90 transition-all"
                 >
-                  View Study Plan →
+                  View Study Plan &rarr;
                 </Link>
               </div>
             )}
@@ -374,7 +406,9 @@ export default function DiagnosticPage({
         {/* Fallback for no results (no data) */}
         {state === "complete" && !results && (
           <div className="text-center py-16">
-            <div className="text-5xl mb-4">😔</div>
+            <div className="text-muted mb-4 inline-block">
+              <IconAlert className="w-16 h-16" />
+            </div>
             <h2 className="text-xl font-medium mb-2">Not Enough Data</h2>
             <p className="text-sm text-muted mb-6">
               We couldn&apos;t generate enough questions for this branch yet. Try another branch or check back later.

@@ -1,14 +1,21 @@
 /**
  * Document viewer page at /library/document/[id]
  * Protected document viewer with Markdown/PDF rendering.
+ *
+ * PDFs are rendered via react-pdf (PDF.js) using a same-origin proxy
+ * endpoint (/api/library/document/[id]/pdf) that re-verifies access
+ * and streams the bytes with Content-Type: application/pdf.
+ *
+ * Markdown and plain-text documents are rendered with react-markdown.
  */
 
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useState, useMemo, useEffect } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import PDFViewer from "@/app/library/components/PDFViewer";
 
 type DocumentType = {
   id: string;
@@ -24,15 +31,23 @@ type DocumentType = {
 
 export default function DocumentViewerPage() {
   const params = useParams();
-  const router = useRouter();
   const [document, setDocument] = useState<DocumentType | null>(null);
   const [content, setContent] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [accessDenied, setAccessDenied] = useState(false);
 
+  const docId = params.id as string;
+  const pdfProxyUrl = useMemo(() => {
+    if (!docId || !document?.signed_url) return null;
+    const base =
+      typeof window !== "undefined"
+        ? window.location.origin
+        : "";
+    return `${base}/api/library/document/${encodeURIComponent(docId)}/pdf?url=${encodeURIComponent(document.signed_url)}`;
+  }, [docId, document?.signed_url]);
+
   useEffect(() => {
-    const docId = params.id as string;
     if (!docId) return;
 
     const fetchDocument = async () => {
@@ -60,36 +75,166 @@ export default function DocumentViewerPage() {
           return;
         }
 
-        const data = await res.json();
+        const data = (await res.json()) as { document: DocumentType };
         setDocument(data.document);
 
-        // Fetch content
-        if (data.document.mime_type.includes('text') || data.document.mime_type.includes('markdown')) {
+        // Fetch content for text/markdown types
+        if (
+          data.document.mime_type.includes("text") ||
+          data.document.mime_type.includes("markdown")
+        ) {
           try {
             const contentRes = await fetch(data.document.signed_url);
             if (contentRes.ok) {
-              const text = await contentRes.text();
-              setContent(text);
+              setContent(await contentRes.text());
             }
-          } catch (e) {
-            // Content fetch failed
+          } catch {
+            // Content fetch failed — will show empty
           }
         }
 
         setLoading(false);
-      } catch (e) {
+      } catch {
         setError("Failed to load document.");
         setLoading(false);
       }
     };
 
     fetchDocument();
-  }, [params.id]);
+  }, [docId]);
 
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-6 py-16 text-center">
-        <div className="animate-pulse text-muted">Loading document...</div>
+        <div className="flex flex-col items-center gap-3">
+          <div
+            className="rounded-xl bg-background-dark overflow-hidden"
+            style={{
+              width: "160px",
+              height: "90px",
+              boxShadow: "inset 0 0 0 1px rgba(184, 113, 14, 0.18)",
+            }}
+          >
+            <svg
+              viewBox="0 0 100 60"
+              width="160"
+              height="90"
+              className="block"
+              aria-hidden="true"
+            >
+              <defs>
+                <radialGradient id="en-bg" cx="50%" cy="50%" r="60%">
+                  <stop offset="0%" stopColor="#1f1f1f" />
+                  <stop offset="100%" stopColor="#0e0e0e" />
+                </radialGradient>
+              </defs>
+              <rect x="0" y="0" width="100" height="60" fill="url(#en-bg)" />
+              {[
+                { from: "12,30", to: "36,12", d: "0.4" },
+                { from: "12,30", to: "36,48", d: "0.8" },
+                { from: "36,12", to: "64,30", d: "1.2" },
+                { from: "36,48", to: "64,30", d: "1.6" },
+                { from: "64,30", to: "88,18", d: "2.0" },
+                { from: "64,30", to: "88,42", d: "2.4" },
+              ].map((p, i) => (
+                <g key={i}>
+                  <line
+                    x1={p.from.split(",")[0]}
+                    y1={p.from.split(",")[1]}
+                    x2={p.to.split(",")[0]}
+                    y2={p.to.split(",")[1]}
+                    stroke="#B8710E"
+                    strokeOpacity="0.22"
+                    strokeWidth="0.4"
+                  />
+                  <circle
+                    r="0.9"
+                    fill="#F5B041"
+                  >
+                    <animate
+                      attributeName="cx"
+                      from={p.from.split(",")[0]}
+                      to={p.to.split(",")[0]}
+                      dur="1.4s"
+                      begin={`${p.d}s`}
+                      repeatCount="indefinite"
+                    />
+                    <animate
+                      attributeName="cy"
+                      from={p.from.split(",")[1]}
+                      to={p.to.split(",")[1]}
+                      dur="1.4s"
+                      begin={`${p.d}s`}
+                      repeatCount="indefinite"
+                    />
+                    <animate
+                      attributeName="opacity"
+                      values="0;1;1;0"
+                      keyTimes="0;0.15;0.85;1"
+                      dur="1.4s"
+                      begin={`${p.d}s`}
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+              ))}
+              {[
+                { cx: 12, cy: 30, order: 0 },
+                { cx: 36, cy: 12, order: 1 },
+                { cx: 36, cy: 48, order: 2 },
+                { cx: 64, cy: 30, order: 3 },
+                { cx: 88, cy: 18, order: 4 },
+                { cx: 88, cy: 42, order: 5 },
+              ].map((node) => (
+                <g key={node.cx}>
+                  <circle
+                    cx={node.cx}
+                    cy={node.cy}
+                    r="3.2"
+                    fill="#B8710E"
+                    fillOpacity="0"
+                  >
+                    <animate
+                      attributeName="fill-opacity"
+                      values="0;0.18;0"
+                      keyTimes="0;0.5;1"
+                      dur="2.4s"
+                      begin={`${node.order * 0.25}s`}
+                      repeatCount="indefinite"
+                    />
+                    <animate
+                      attributeName="r"
+                      values="3.2;5.7;3.2"
+                      keyTimes="0;0.5;1"
+                      dur="2.4s"
+                      begin={`${node.order * 0.25}s`}
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                  <circle
+                    cx={node.cx}
+                    cy={node.cy}
+                    r="2.6"
+                    fill="#B8710E"
+                    fillOpacity="0.85"
+                  >
+                    <animate
+                      attributeName="fill-opacity"
+                      values="0.35;1;0.35"
+                      keyTimes="0;0.5;1"
+                      dur="2.4s"
+                      begin={`${node.order * 0.25}s`}
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                </g>
+              ))}
+            </svg>
+          </div>
+          <p className="text-xs tracking-[0.18em] uppercase text-muted">
+            Loading document
+          </p>
+        </div>
       </div>
     );
   }
@@ -98,14 +243,23 @@ export default function DocumentViewerPage() {
     return (
       <div className="max-w-2xl mx-auto px-6 py-16 text-center">
         <div className="bg-card border border-border rounded-2xl p-8 md:p-12">
-          <div className="text-4xl mb-4">🔒</div>
+          <div className="text-muted mb-4 inline-block">
+            <svg viewBox="0 0 24 24" className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+          </div>
           <h2 className="text-2xl font-bold mb-3">Premium Required</h2>
           <p className="text-muted mb-6">
             This document is available for Premium subscribers only.
           </p>
           <div className="bg-accent/30 rounded-xl p-6 mb-6">
-            <div className="text-lg font-bold mb-1">₹49 <span className="text-sm font-normal text-muted">/ month</span></div>
-            <p className="text-sm text-muted">Unlock all premium content and features.</p>
+            <div className="text-lg font-bold mb-1">
+              ₹49 <span className="text-sm font-normal text-muted">/ month</span>
+            </div>
+            <p className="text-sm text-muted">
+              Unlock all premium content and features.
+            </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
@@ -131,7 +285,10 @@ export default function DocumentViewerPage() {
       <div className="max-w-4xl mx-auto px-6 py-16 text-center">
         <div className="bg-card border border-border rounded-2xl p-8">
           <p className="text-muted">{error || "Document not found."}</p>
-          <Link href="/library" className="inline-block mt-4 text-accent hover:underline">
+          <Link
+            href="/library"
+            className="inline-block mt-4 text-accent hover:underline"
+          >
             Back to Library
           </Link>
         </div>
@@ -139,8 +296,9 @@ export default function DocumentViewerPage() {
     );
   }
 
-  const isPDF = document.mime_type.includes('pdf');
-  const isText = document.mime_type.includes('text') || document.mime_type.includes('markdown');
+  const isPDF = document.mime_type.includes("pdf");
+  const isText =
+    document.mime_type.includes("text") || document.mime_type.includes("markdown");
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-8">
@@ -172,12 +330,14 @@ export default function DocumentViewerPage() {
       <div className="mb-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold mb-2">{document.name}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold mb-2">
+              {document.name}
+            </h1>
             {document.description && (
               <p className="text-muted">{document.description}</p>
             )}
             <div className="flex items-center gap-3 mt-3 text-sm text-muted">
-              {document.access_tier === 'premium' && (
+              {document.access_tier === "premium" && (
                 <span className="px-2 py-0.5 bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-400 rounded-full text-xs font-medium">
                   Premium
                 </span>
@@ -190,12 +350,11 @@ export default function DocumentViewerPage() {
 
       {/* Content */}
       <div className="bg-card border border-border rounded-2xl overflow-hidden">
-        {isPDF && (
-          <iframe
-            src={document.signed_url}
-            className="w-full h-[70vh] border-0"
+        {isPDF && pdfProxyUrl && (
+          <PDFViewer
+            url={pdfProxyUrl}
             title={document.name}
-            sandbox=""
+            filename={document.original_filename}
           />
         )}
 
@@ -208,7 +367,9 @@ export default function DocumentViewerPage() {
         {!isPDF && !isText && (
           <div className="p-8 text-center text-muted">
             <p>This file type cannot be previewed in the browser.</p>
-            <p className="text-sm mt-2">Please contact support if you need this content.</p>
+            <p className="text-sm mt-2">
+              Please contact support if you need this content.
+            </p>
           </div>
         )}
       </div>
@@ -218,7 +379,7 @@ export default function DocumentViewerPage() {
           href="/library"
           className="text-muted hover:text-foreground text-sm transition-colors"
         >
-          ← Back to Library
+          Back to Library
         </Link>
       </div>
     </div>

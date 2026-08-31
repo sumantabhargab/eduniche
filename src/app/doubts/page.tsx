@@ -8,6 +8,37 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { EduNeuroLoader, ChatSkeleton } from "@/components/loading";
+
+// Icon components replacing emojis
+function IconSparkles({ className = "w-8 h-8" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+    </svg>
+  );
+}
+
+function IconUserSmall({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
+
+function IconBot({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="10" rx="2" />
+      <circle cx="12" cy="5" r="2" />
+      <path d="M12 7v4" />
+      <line x1="8" y1="16" x2="8" y2="16" />
+      <line x1="16" y1="16" x2="16" y2="16" />
+    </svg>
+  );
+}
 
 interface Message {
   role: "user" | "assistant";
@@ -123,10 +154,11 @@ export default function DoubtsPage() {
     }
   };
 
+  // Loading state
   if (loading || checkingPremium) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="animate-pulse text-muted">Loading...</div>
+        <EduNeuroLoader size="md" variant="page" />
       </div>
     );
   }
@@ -147,7 +179,9 @@ export default function DoubtsPage() {
     return (
       <div className="max-w-2xl mx-auto px-6 py-16 text-center">
         <div className="bg-card border border-border rounded-2xl p-8">
-          <div className="text-4xl mb-4">💡</div>
+          <div className="text-muted mb-4 inline-block">
+            <IconSparkles />
+          </div>
           <h2 className="text-2xl font-bold mb-3">Premium Required</h2>
           <p className="text-muted mb-6">
             The AI Doubt Engine is available for Premium subscribers.
@@ -181,7 +215,9 @@ export default function DoubtsPage() {
         <div className="h-[60vh] overflow-y-auto p-4 space-y-4">
           {messages.length === 0 && (
             <div className="text-center py-12 text-muted">
-              <div className="text-4xl mb-3">💡</div>
+              <div className="text-muted mb-3 inline-block">
+                <IconSparkles className="w-10 h-10" />
+              </div>
               <p className="text-sm">Ask a question about any GATE subject!</p>
               <p className="text-xs mt-2">Example: &ldquo;Explain the concept of normal forms in DBMS&rdquo;</p>
             </div>
@@ -192,7 +228,7 @@ export default function DoubtsPage() {
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0 ${
                 msg.role === "user" ? "bg-accent" : "bg-foreground text-background"
               }`}>
-                {msg.role === "user" ? "👤" : "🤖"}
+                {msg.role === "user" ? <IconUserSmall /> : <IconBot />}
               </div>
               <div className={`max-w-[80%] ${msg.role === "user" ? "text-right" : ""}`}>
                 <div className={`inline-block px-4 py-3 rounded-xl text-sm text-left ${
@@ -210,11 +246,11 @@ export default function DoubtsPage() {
           ))}
           {sending && (
             <div className="flex gap-3">
-              <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-medium">
-                🤖
+              <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center">
+                <IconBot className="w-4 h-4" />
               </div>
               <div className="inline-block px-4 py-3 rounded-xl text-sm bg-accent text-muted">
-                Thinking...
+                <EduNeuroLoader size="xs" variant="thinking" label="EduNeuro is thinking" />
               </div>
             </div>
           )}
@@ -241,9 +277,16 @@ export default function DoubtsPage() {
             <button
               onClick={handleSend}
               disabled={!input.trim() || sending}
-              className="px-6 py-3 bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+              className="px-6 py-3 bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center gap-2"
             >
-              {sending ? "..." : "Ask"}
+              {sending ? (
+                <>
+                  <EduNeuroLoader size="xs" variant="thinking" />
+                  <span>Sending</span>
+                </>
+              ) : (
+                "Ask"
+              )}
             </button>
           </div>
         </div>

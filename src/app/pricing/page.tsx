@@ -184,7 +184,7 @@ export default function PricingPage() {
       {isPremium && (
         <div className="max-w-md mx-auto mb-12 p-6 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-2xl text-center">
           <p className="text-lg font-semibold text-green-700 dark:text-green-400">
-            You have Premium access! ✨
+            You have Premium access!
           </p>
         </div>
       )}

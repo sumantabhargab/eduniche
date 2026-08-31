@@ -9,6 +9,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
+import { EduNeuroLoader, StatCardSkeleton } from "@/components/loading";
 
 type Period = "today" | "week" | "month" | "all";
 
@@ -78,6 +79,81 @@ function getDailyQuote() {
   return QUOTES[dayOfYear % QUOTES.length];
 }
 
+// Inline SVG icons — replaces emoji system with consistent visual language.
+function IconFire({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22c-4.97 0-9-3.03-9-7 0-2.9 1.73-5.43 4.25-6.62.38-.17.57-.6.44-.99-.25-.75.35-1.5 1.12-1.34C10.57 6.5 11.5 8.5 11.5 10.5c0 .5.05 1 .14 1.48.09.5.54.85 1.05.85h.04c1.1 0 2-.9 2-2 0-.5-.15-1-.4-1.4-.1-.2-.1-.4 0-.6.2-.4.7-.5 1.1-.3.3.2.7.3 1.1.3C17.5 8 19 9.5 19 11.5c0 3.97-4.03 7-9 7z" fill="currentColor" fillOpacity="0.15" />
+    </svg>
+  );
+}
+
+function IconClipboard({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+      <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+    </svg>
+  );
+}
+
+function IconTarget({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="6" />
+      <circle cx="12" cy="12" r="2" />
+    </svg>
+  );
+}
+
+function IconChat({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+
+function IconPencil({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 4 21l.5-3.5L17 3z" />
+    </svg>
+  );
+}
+
+function IconBook({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+    </svg>
+  );
+}
+
+function IconTrophy({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+      <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+      <path d="M4 22h16" />
+      <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
+      <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
+      <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
+    </svg>
+  );
+}
+
+function IconUser({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
+
 export default function DashboardPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -97,7 +173,6 @@ export default function DashboardPage() {
 
     async function loadGateData() {
       try {
-        // Fetch active plans
         const plansRes = await fetch("/api/gate/plans?status=active");
         let activePlan: typeof gateData.activePlan = null;
         if (plansRes.ok) {
@@ -116,7 +191,6 @@ export default function DashboardPage() {
           }
         }
 
-        // Fetch doubt usage
         const doubtRes = await fetch("/api/ai/doubt/free");
         let doubtUsage: typeof gateData.doubtUsage = null;
         if (doubtRes.ok) {
@@ -175,9 +249,6 @@ export default function DashboardPage() {
     fetchStats();
   }, [user, period]);
 
-  // IMPORTANT:
-  // This hook must be called on every render, before any
-  // conditional return.
   const handleSessionEnd = useCallback(() => {
     fetch(`/api/study/stats?period=${period}`)
       .then((res) => (res.ok ? res.json() : null))
@@ -189,13 +260,11 @@ export default function DashboardPage() {
       .catch(() => {});
   }, [period]);
 
-  // Loading state.
+  // Loading state — use EduNeuroLoader instead of generic spinner.
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="animate-pulse text-muted">
-          Loading...
-        </div>
+        <EduNeuroLoader size="md" variant="page" />
       </div>
     );
   }
@@ -294,7 +363,7 @@ export default function DashboardPage() {
           value={
             stats ? `${stats.streak.current} days` : "—"
           }
-          accent="🔥"
+          icon={<IconFire className="w-4 h-4 text-amber-500" />}
         />
 
         <StatCard
@@ -355,7 +424,7 @@ export default function DashboardPage() {
           {gateData.activePlan ? (
             <Link href={`/gate/${gateData.activePlan.paperId}/plan`} className="block bg-card border border-border rounded-2xl p-5 hover:border-foreground/30 transition-colors">
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-lg">📋</span>
+                <span className="text-muted"><IconClipboard /></span>
                 <h3 className="text-sm font-medium">Study Plan</h3>
               </div>
               <p className="text-xs text-muted mb-2">{gateData.activePlan.paperShortName}</p>
@@ -375,20 +444,20 @@ export default function DashboardPage() {
           ) : (
             <Link href="/gate" className="block bg-card border border-border rounded-2xl p-5 hover:border-foreground/30 transition-colors group">
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-lg">🎯</span>
+                <span className="text-muted"><IconTarget /></span>
                 <h3 className="text-sm font-medium">Take Diagnostic</h3>
               </div>
               <p className="text-xs text-muted mb-3">
                 Take a free 10-question diagnostic test to understand your strengths and weaknesses.
               </p>
-              <span className="text-xs text-accent group-hover:underline">Start now →</span>
+              <span className="text-xs text-accent group-hover:underline">Start now &rarr;</span>
             </Link>
           )}
 
           {/* Doubt Engine Card */}
           <Link href="/chat" className="block bg-card border border-border rounded-2xl p-5 hover:border-foreground/30 transition-colors group">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-lg">💬</span>
+              <span className="text-muted"><IconChat /></span>
               <h3 className="text-sm font-medium">AI Doubt Engine</h3>
             </div>
             {gateData.doubtUsage ? (
@@ -408,19 +477,19 @@ export default function DashboardPage() {
             ) : (
               <p className="text-xs text-muted mb-2">Get instant AI-powered help with your GATE doubts.</p>
             )}
-            <span className="text-xs text-accent group-hover:underline">Ask a doubt →</span>
+            <span className="text-xs text-accent group-hover:underline">Ask a doubt &rarr;</span>
           </Link>
 
           {/* Practice Card */}
           <Link href="/gate" className="block bg-card border border-border rounded-2xl p-5 hover:border-foreground/30 transition-colors group">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-lg">✏️</span>
+              <span className="text-muted"><IconPencil /></span>
               <h3 className="text-sm font-medium">Practice Papers</h3>
             </div>
             <p className="text-xs text-muted mb-3">
               Generate practice papers from real GATE PYQs across 20 branches.
             </p>
-            <span className="text-xs text-accent group-hover:underline">Choose branch →</span>
+            <span className="text-xs text-accent group-hover:underline">Choose branch &rarr;</span>
           </Link>
         </div>
       </section>
@@ -445,25 +514,25 @@ export default function DashboardPage() {
         <QuickAction
           href="/gate"
           label="GATE Prep"
-          emoji="🎯"
+          icon={<IconTarget className="w-6 h-6" />}
         />
 
         <QuickAction
           href="/library"
           label="Library"
-          emoji="📚"
+          icon={<IconBook className="w-6 h-6" />}
         />
 
         <QuickAction
           href="/leaderboard"
           label="Leaderboard"
-          emoji="🏆"
+          icon={<IconTrophy className="w-6 h-6" />}
         />
 
         <QuickAction
           href="/profile"
           label="Profile"
-          emoji="👤"
+          icon={<IconUser className="w-6 h-6" />}
         />
       </div>
     </div>
@@ -473,11 +542,11 @@ export default function DashboardPage() {
 function StatCard({
   label,
   value,
-  accent,
+  icon,
 }: {
   label: string;
   value: string;
-  accent?: string;
+  icon?: React.ReactNode;
 }) {
   return (
     <div className="bg-card border border-border rounded-2xl p-4 md:p-6">
@@ -485,11 +554,8 @@ function StatCard({
         {label}
       </div>
 
-      <div className="text-2xl md:text-3xl font-bold font-mono">
-        {accent && (
-          <span className="mr-1">{accent}</span>
-        )}
-
+      <div className="text-2xl md:text-3xl font-bold font-mono flex items-center gap-1.5">
+        {icon}
         {value}
       </div>
     </div>
@@ -499,19 +565,19 @@ function StatCard({
 function QuickAction({
   href,
   label,
-  emoji,
+  icon,
 }: {
   href: string;
   label: string;
-  emoji: string;
+  icon: React.ReactNode;
 }) {
   return (
     <a
       href={href}
       className="bg-card border border-border rounded-2xl p-6 text-center hover:border-foreground/30 transition-colors group"
     >
-      <div className="text-3xl mb-2 group-hover:scale-110 transition-transform">
-        {emoji}
+      <div className="flex justify-center mb-3 text-muted group-hover:text-foreground transition-colors group-hover:scale-110 transition-transform">
+        {icon}
       </div>
 
       <div className="text-sm font-medium">
@@ -727,9 +793,12 @@ function StudyTimerDisplay({
   return (
     <div className="bg-card border border-border rounded-2xl p-6 sm:p-8 text-center space-y-6">
       {!pageVisible && status === "running" && (
-        <div className="text-sm text-amber-600 dark:text-amber-400">
-          ⏸️ Timer paused — switch back to EduNeuro
-          to resume
+        <div className="text-sm text-amber-600 dark:text-amber-400 flex items-center justify-center gap-2">
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="6" y="4" width="4" height="16" rx="1" />
+            <rect x="14" y="4" width="4" height="16" rx="1" />
+          </svg>
+          Timer paused — switch back to EduNeuro to resume
         </div>
       )}
 

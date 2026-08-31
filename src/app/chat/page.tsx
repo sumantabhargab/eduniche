@@ -8,6 +8,26 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { EduNeuroLoader } from "@/components/loading";
+
+// Icon components replacing emojis
+function IconBan({ className = "w-10 h-10" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
+    </svg>
+  );
+}
+
+function IconLock({ className = "w-10 h-10" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </svg>
+  );
+}
 
 interface ChatMessage {
   id: string;
@@ -120,7 +140,7 @@ export default function ChatPage() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages.length]);
 
-  const handleSend = async () => {
+  const handleSend = useCallback(async () => {
     if (!input.trim() || sending || isMuted || isBanned) return;
 
     const text = input.trim();
@@ -143,12 +163,13 @@ export default function ChatPage() {
     } finally {
       setSending(false);
     }
-  };
+  }, [input, sending, isMuted, isBanned]);
 
+  // Loading state
   if (loading || checkingPremium) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="animate-pulse text-muted">Loading...</div>
+        <EduNeuroLoader size="md" variant="page" />
       </div>
     );
   }
@@ -169,7 +190,9 @@ export default function ChatPage() {
     return (
       <div className="max-w-2xl mx-auto px-6 py-16 text-center">
         <div className="bg-card border border-red-200 dark:border-red-800 rounded-2xl p-8">
-          <div className="text-4xl mb-4">🚫</div>
+          <div className="text-red-500 mb-4 inline-block">
+            <IconBan />
+          </div>
           <h2 className="text-2xl font-bold mb-3 text-red-600">Banned from Chat</h2>
           <p className="text-muted">You have been banned from the global chat.</p>
         </div>
@@ -181,7 +204,9 @@ export default function ChatPage() {
     return (
       <div className="max-w-2xl mx-auto px-6 py-16 text-center">
         <div className="bg-card border border-border rounded-2xl p-8 md:p-12">
-          <div className="text-4xl mb-4">🔒</div>
+          <div className="text-muted mb-4 inline-block">
+            <IconLock />
+          </div>
           <h2 className="text-2xl font-bold mb-3">Premium Required</h2>
           <p className="text-muted mb-6">
             Global chat is available for Premium subscribers.
@@ -253,7 +278,8 @@ export default function ChatPage() {
         {/* Input */}
         <div className="px-4 py-3 border-t border-border">
           {isMuted && (
-            <div className="text-sm text-red-600 dark:text-red-400 mb-2">
+            <div className="text-sm text-red-600 dark:text-red-400 mb-2 flex items-center gap-1.5">
+              <IconBan className="w-4 h-4" />
               You are muted and cannot send messages.
             </div>
           )}
@@ -269,15 +295,22 @@ export default function ChatPage() {
                 }
               }}
               placeholder={isMuted ? "You are muted..." : "Type a message..."}
-              disabled={isMuted || isBanned}
+              disabled={isMuted || isBanned || sending}
               className="flex-1 px-4 py-2.5 bg-accent border border-border rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-foreground/30 disabled:opacity-50"
             />
             <button
               onClick={handleSend}
               disabled={!input.trim() || sending || isMuted || isBanned}
-              className="px-5 py-2.5 bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+              className="px-5 py-2.5 bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center gap-2"
             >
-              {sending ? "..." : "Send"}
+              {sending ? (
+                <>
+                  <EduNeuroLoader size="xs" variant="thinking" />
+                  <span>Sending</span>
+                </>
+              ) : (
+                "Send"
+              )}
             </button>
           </div>
         </div>

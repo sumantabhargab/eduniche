@@ -8,6 +8,14 @@ import GateNav from "@/components/GateNav";
 import { getPaperById, type GATEPaper } from "@/lib/gate/config";
 import { fetchPaperData, type Question } from "@/lib/gate/paper-data-client";
 
+function IconSparkles({ className = "w-10 h-10" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+    </svg>
+  );
+}
+
 type Message = {
   id: string;
   role: "user" | "assistant";
@@ -302,7 +310,9 @@ export default function DoubtEnginePage({
           <div className="max-w-3xl mx-auto space-y-6">
             {!selectedQuestion && messages.length === 0 ? (
               <div className="text-center py-16">
-                <div className="text-4xl mb-4">💬</div>
+                <div className="text-muted mb-4 inline-block">
+                  <IconSparkles className="w-10 h-10" />
+                </div>
                 <h2 className="text-lg font-medium text-foreground mb-2">
                   Select a question to start
                 </h2>

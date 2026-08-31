@@ -4,6 +4,7 @@ import { useState, useEffect, use } from "react";
 import Link from "next/link";
 import GateNav from "@/components/GateNav";
 import { getPaperById, type GATEPaper } from "@/lib/gate/config";
+import { EduNeuroLoader } from "@/components/loading";
 
 type PlanItem = {
   id: string;
@@ -27,6 +28,48 @@ type Plan = {
   items: PlanItem[];
 };
 
+function TaskTypeIcon({ type, className = "w-5 h-5" }: { type: string; className?: string }) {
+  switch (type) {
+    case "study":
+      return (
+        <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+        </svg>
+      );
+    case "practice":
+      return (
+        <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 4 21l.5-3.5L17 3z" />
+        </svg>
+      );
+    case "test":
+      return (
+        <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="9" y1="13" x2="15" y2="13" />
+          <line x1="9" y1="17" x2="15" y2="17" />
+        </svg>
+      );
+    case "review":
+      return (
+        <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="1 4 1 10 7 10" />
+          <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+        </svg>
+      );
+    default:
+      return (
+        <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="1" />
+          <circle cx="19" cy="12" r="1" />
+          <circle cx="5" cy="12" r="1" />
+        </svg>
+      );
+  }
+}
+
 export default function PlanPage({
   params,
 }: {
@@ -41,7 +84,6 @@ export default function PlanPage({
   const [loading, setLoading] = useState(true);
   const [completing, setCompleting] = useState<string | null>(null);
 
-  // Check for planId in URL search params
   const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
   const planIdFromUrl = urlParams?.get("id");
 
@@ -50,10 +92,8 @@ export default function PlanPage({
 
     async function loadPlan() {
       try {
-        // If a planId was passed from diagnostic, fetch that specific plan
         let planId = planIdFromUrl;
 
-        // Otherwise fetch active plan for this paper
         if (!planId) {
           const res = await fetch(`/api/gate/plans?status=active`);
           if (res.ok) {
@@ -98,7 +138,6 @@ export default function PlanPage({
 
       if (res.ok) {
         const data = await res.json();
-        // Update local state
         setPlan((prev) => {
           if (!prev) return prev;
           const updatedItems = prev.items.map((item) =>
@@ -119,16 +158,6 @@ export default function PlanPage({
       // silently fail
     } finally {
       setCompleting(null);
-    }
-  };
-
-  const taskTypeEmoji = (type: string) => {
-    switch (type) {
-      case "study": return "📖";
-      case "practice": return "✏️";
-      case "test": return "📝";
-      case "review": return "🔄";
-      default: return "📌";
     }
   };
 
@@ -172,14 +201,19 @@ export default function PlanPage({
 
         {loading && (
           <div className="text-center py-16">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-foreground border-t-transparent mb-4" />
-            <p className="text-sm text-muted">Loading your study plan...</p>
+            <EduNeuroLoader size="md" variant="page" />
           </div>
         )}
 
         {!loading && !plan && (
           <div className="text-center py-16">
-            <div className="text-5xl mb-4">📋</div>
+            <div className="text-muted mb-4 inline-block">
+              <svg viewBox="0 0 24 24" className="w-16 h-16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="3" />
+                <line x1="3" y1="9" x2="21" y2="9" />
+                <line x1="9" y1="21" x2="9" y2="9" />
+              </svg>
+            </div>
             <h2 className="text-xl font-medium mb-2">No Active Study Plan</h2>
             <p className="text-sm text-muted mb-6 max-w-md mx-auto">
               Take the diagnostic test to get a personalized 7-day study plan based on your performance.
@@ -189,7 +223,7 @@ export default function PlanPage({
                 href={`/gate/${paperId}/diagnostic`}
                 className="inline-flex items-center justify-center px-6 py-3 bg-foreground text-background text-sm font-medium rounded-xl hover:opacity-90 transition-all"
               >
-                Take Diagnostic Test →
+                Take Diagnostic Test &rarr;
               </Link>
               <Link
                 href={`/gate/${paperId}`}
@@ -219,7 +253,7 @@ export default function PlanPage({
               </div>
               <p className="text-xs text-muted">
                 {plan.status === "completed"
-                  ? "🎉 Plan completed! Great work."
+                  ? "Plan completed — great work."
                   : `${plan.progress}% complete — keep going!`}
               </p>
             </div>
@@ -249,7 +283,7 @@ export default function PlanPage({
                           </span>
                           {dayComplete && (
                             <span className="text-xs text-green-600 bg-green-100 px-2 py-0.5 rounded-full">
-                              Complete ✓
+                              Complete
                             </span>
                           )}
                         </div>
@@ -269,7 +303,9 @@ export default function PlanPage({
                                 item.completed ? "bg-green-50/30 dark:bg-green-900/5" : ""
                               }`}
                             >
-                              <span className="text-lg mt-0.5">{taskTypeEmoji(item.task_type)}</span>
+                              <span className="text-muted mt-0.5">
+                                <TaskTypeIcon type={item.task_type} />
+                              </span>
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 mb-1">
                                   <span className="text-sm font-medium">{item.topic}</span>
@@ -291,12 +327,15 @@ export default function PlanPage({
                                   disabled={isCompleting}
                                   className="shrink-0 px-4 py-1.5 text-xs border border-border rounded-lg hover:border-accent hover:text-accent transition-colors disabled:opacity-50"
                                 >
-                                  {isCompleting ? "..." : "Mark Done"}
+                                  {isCompleting ? "Saving..." : "Mark Done"}
                                 </button>
                               )}
                               {item.completed && (
-                                <span className="shrink-0 text-xs text-green-600 bg-green-100 px-3 py-1.5 rounded-lg">
-                                  ✓ Done
+                                <span className="shrink-0 text-xs text-green-600 bg-green-100 px-3 py-1.5 rounded-lg flex items-center gap-1">
+                                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                  </svg>
+                                  Done
                                 </span>
                               )}
                             </div>
@@ -315,7 +354,7 @@ export default function PlanPage({
                 href={`/gate/${paperId}/practice`}
                 className="inline-flex items-center justify-center px-6 py-3 bg-foreground text-background text-sm font-medium rounded-xl hover:opacity-90 transition-all"
               >
-                Start Practice →
+                Start Practice &rarr;
               </Link>
               <Link
                 href={`/gate/${paperId}`}

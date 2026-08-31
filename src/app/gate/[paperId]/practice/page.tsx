@@ -217,7 +217,13 @@ export default function PracticePage({ params }: { params: Promise<{ paperId: st
           /* Submitted - show score */
           <div className="max-w-2xl">
             <div className="bg-card border border-border rounded-2xl p-8 text-center">
-              <div className="text-5xl mb-4">📊</div>
+              <div className="text-muted mb-4 inline-block">
+                <svg viewBox="0 0 24 24" className="w-16 h-16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="12" width="4" height="9" rx="1" />
+                  <rect x="10" y="7" width="4" height="14" rx="1" />
+                  <rect x="17" y="3" width="4" height="18" rx="1" />
+                </svg>
+              </div>
               <h2 className="text-2xl font-bold mb-2">Practice Complete</h2>
               <p className="text-muted mb-4">GATE {paperName} — {mode === "priority" ? "High Priority" : mode === "subject-specific" ? "Subject Specific" : mode === "full-syllabus" ? "Full Syllabus" : "Historical Distribution"}</p>
               <div className="text-4xl font-mono font-bold mb-1">

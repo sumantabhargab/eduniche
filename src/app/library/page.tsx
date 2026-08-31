@@ -9,6 +9,7 @@
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { createBrowserClient } from "@/lib/supabase/client";
+import { EduNeuroLoader } from "@/components/loading";
 import Link from "next/link";
 
 interface Folder {
@@ -35,6 +36,46 @@ interface Resource {
   created_at: string;
 }
 
+// Inline SVG icons for file types
+function IconFolder({ className = "w-6 h-6" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+
+function IconFile({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+    </svg>
+  );
+}
+
+function IconFileText({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+      <polyline points="10 9 9 9 8 9" />
+    </svg>
+  );
+}
+
+function LibraryLoading() {
+  return (
+    <div className="max-w-5xl mx-auto px-6 py-8">
+      <div className="text-center py-12">
+        <EduNeuroLoader size="sm" variant="page" label="Loading library" />
+      </div>
+    </div>
+  );
+}
+
 function LibraryInner() {
   const searchParams = useSearchParams();
   const [folders, setFolders] = useState<Folder[]>([]);
@@ -55,7 +96,6 @@ function LibraryInner() {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user) {
-          // Check plan first (faster)
           const { data: profile } = await supabase
             .from("profiles")
             .select("plan")
@@ -68,7 +108,6 @@ function LibraryInner() {
             return;
           }
 
-          // Fallback: check active subscription
           const { data: sub } = await supabase
             .from("user_subscriptions")
             .select("status, expires_at")
@@ -90,7 +129,6 @@ function LibraryInner() {
 
     setLoading(true);
     try {
-      // Load child folders
       let folderQuery = supabase
         .from("content_folders")
         .select("*")
@@ -102,14 +140,12 @@ function LibraryInner() {
         folderQuery = folderQuery.is("parent_id", null);
       }
 
-      // Filter premium folders if user is not premium
       if (!isPremium) {
         folderQuery = folderQuery.eq("premium", false);
       }
 
       const { data: folderData } = await folderQuery;
 
-      // Load resources for this folder
       let resQuery = supabase
         .from("content_resources")
         .select("id, name, description, mime_type, branch, subject, resource_type, access_tier, file_size, created_at")
@@ -122,7 +158,6 @@ function LibraryInner() {
         resQuery = resQuery.is("folder_id", null);
       }
 
-      // Free users only see free resources
       if (!isPremium) {
         resQuery = resQuery.eq("access_tier", "free");
       }
@@ -132,7 +167,6 @@ function LibraryInner() {
       setFolders(folderData || []);
       setResources(resData || []);
 
-      // Load breadcrumbs
       if (fid) {
         try {
           const { data: breadcrumbData } = await supabase.rpc("get_folder_breadcrumbs", {
@@ -199,7 +233,7 @@ function LibraryInner() {
         <p className="text-muted">Browse GATE study resources and content.</p>
         {!isPremium && (
           <Link href="/pricing" className="text-sm text-accent hover:underline mt-2 inline-block">
-            Upgrade to Premium for full access →
+            Upgrade to Premium for full access &rarr;
           </Link>
         )}
       </div>
@@ -232,7 +266,7 @@ function LibraryInner() {
 
       {loading ? (
         <div className="text-center py-12">
-          <div className="animate-pulse text-muted">Loading library...</div>
+          <EduNeuroLoader size="sm" variant="page" label="Loading library" />
         </div>
       ) : (
         <>
@@ -250,14 +284,14 @@ function LibraryInner() {
                     className="bg-card border border-border rounded-xl p-4 hover:border-foreground/30 transition-colors group"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl">📁</span>
+                      <span className="text-muted"><IconFolder className="w-6 h-6" /></span>
                       <div className="flex-1 min-w-0">
                         <div className="font-medium truncate">{folder.name}</div>
                         <div className="text-xs text-muted">
                           {folder.subject || folder.branch || "Folder"}
                         </div>
                       </div>
-                      <span className="text-muted group-hover:text-foreground">→</span>
+                      <span className="text-muted group-hover:text-foreground">&rarr;</span>
                     </div>
                   </Link>
                 ))}
@@ -299,11 +333,11 @@ function LibraryInner() {
 function ResourceCard({ resource, isPremium }: { resource: Resource; isPremium: boolean }) {
   const isLocked = resource.access_tier === "premium" && !isPremium;
 
-  const icon = resource.mime_type.includes("pdf")
-    ? "📄"
+  const fileIcon = resource.mime_type.includes("pdf")
+    ? <IconFile className="w-5 h-5" />
     : resource.mime_type.includes("markdown") || resource.mime_type.includes("text")
-      ? "📝"
-      : "📃";
+      ? <IconFileText className="w-5 h-5" />
+      : <IconFile className="w-5 h-5" />;
 
   const fileSizeMB = resource.file_size ? (resource.file_size / (1024 * 1024)).toFixed(1) : "0";
 
@@ -313,7 +347,7 @@ function ResourceCard({ resource, isPremium }: { resource: Resource; isPremium: 
       className="block bg-card border border-border rounded-xl p-4 hover:border-foreground/30 transition-colors"
     >
       <div className="flex items-start gap-3">
-        <span className="text-2xl">{icon}</span>
+        <span className="text-muted mt-0.5">{fileIcon}</span>
         <div className="flex-1 min-w-0">
           <div className="flex items-start gap-2">
             <h3 className="font-medium flex-1">{resource.name}</h3>
@@ -325,7 +359,7 @@ function ResourceCard({ resource, isPremium }: { resource: Resource; isPremium: 
                     : "bg-green-100 text-green-700"
                 }`}
               >
-                {isLocked ? "Premium" : "Premium"}
+                Premium
               </span>
             )}
           </div>
@@ -340,16 +374,6 @@ function ResourceCard({ resource, isPremium }: { resource: Resource; isPremium: 
         </div>
       </div>
     </Link>
-  );
-}
-
-function LibraryLoading() {
-  return (
-    <div className="max-w-5xl mx-auto px-6 py-8">
-      <div className="text-center py-12">
-        <div className="animate-pulse text-muted">Loading library...</div>
-      </div>
-    </div>
   );
 }
 
