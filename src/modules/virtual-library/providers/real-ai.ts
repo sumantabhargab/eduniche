@@ -38,7 +38,7 @@ export class GroqAIProvider implements AIProvider {
     const apiKey = config.apiKey ?? process.env.GROQ_API_KEY ?? "";
     this.config = {
       apiKey,
-      model: config.model ?? process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile",
+      model: config.model ?? process.env.GROQ_MODEL ?? "llama-3.1-70b-versatile",
       systemPrompt: config.systemPrompt ?? DEFAULT_SYSTEM_PROMPT,
     };
     this.available = apiKey.length > 0;
