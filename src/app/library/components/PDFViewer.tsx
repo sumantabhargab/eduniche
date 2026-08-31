@@ -171,6 +171,18 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
     setLoading(false);
   }, []);
 
+  // Loading timeout — prevent infinite loading
+  useEffect(() => {
+    if (!loading) return;
+    const timer = setTimeout(() => {
+      if (loading) {
+        setError("Document is taking too long to load. The file may be unavailable or your browser does not support PDF viewing. Try opening the document directly.");
+        setLoading(false);
+      }
+    }, 15000);
+    return () => clearTimeout(timer);
+  }, [loading]);
+
   // Page rendered — track which page is visible
   const onPageRenderSuccess = useCallback(
     (pageNum: number) => () => {
@@ -443,7 +455,7 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
           onLoadError={onDocumentLoadError}
           loading=""
           options={{
-            cMapUrl: "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/cmaps/",
+            cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/cmaps/`,
             cMapPacked: true,
           }}
           className="w-full"
@@ -474,6 +486,51 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
           ))}
         </Document>
       </div>
+      {error && (
+        <div className="max-w-4xl mx-auto px-6 py-16 text-center">
+          <div className="bg-card border border-border rounded-2xl p-8 md:p-12 max-w-xl mx-auto">
+            <div className="text-muted mb-4 inline-block">
+              <svg viewBox="0 0 24 24" className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <h2 className="text-lg font-semibold mb-2">Unable to Load Document</h2>
+            <p className="text-sm text-muted mb-6">{error}</p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button
+                onClick={() => {
+                  setLoading(true);
+                  setError(null);
+                }}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition-colors"
+              >
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="23 4 23 10 17 10" />
+                  <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" />
+                </svg>
+                Retry
+              </button>
+              {url && (
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm hover:bg-background transition-colors"
+                >
+                  Open Directly
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
