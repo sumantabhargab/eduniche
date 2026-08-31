@@ -158,14 +158,17 @@ export async function POST(request: Request) {
   try {
     // --- 0. Server / env check ---
     const groqApiKey = process.env.GROQ_API_KEY;
+    const groqKeyPresent = Boolean(groqApiKey);
+    devLog("[DOUBT-DEBUG] env_check", { groqKeyPresent, nodeEnv: process.env.NODE_ENV });
+
     if (!groqApiKey) {
-      devLog("ERROR: GROQ_API_KEY not configured");
+      devLog("[DOUBT-DEBUG] ERROR: GROQ_API_KEY is undefined/empty");
       return NextResponse.json(
         { error: "AI engine not configured.", detail: "Missing GROQ_API_KEY" },
         { status: 500 }
       );
     }
-    devLog("GROQ_API_KEY configured: true");
+    devLog("[DOUBT-DEBUG] GROQ_API_KEY present: true");
 
     // --- 1. Auth ---
     const supabase = await createServerClient();
@@ -297,7 +300,21 @@ export async function POST(request: Request) {
     let confidence: "high" | "medium" | "low" = "medium";
 
     try {
+      devLog("[DOUBT-DEBUG] constructing Groq client", { groqKeyPresent: Boolean(groqApiKey) });
       const groq = new Groq({ apiKey: groqApiKey });
+
+      const payload = {
+        model: GROQ_MODEL,
+        messages: messages.map(m => ({ role: m.role, content: m.content.slice(0, 100) })),
+        max_tokens: 2048,
+        temperature: 0.7,
+        top_p: 0.9,
+      };
+      devLog("[DOUBT-DEBUG] calling groq.chat.completions.create", {
+        model: payload.model,
+        messageCount: payload.messages.length,
+        lastMessage: payload.messages[payload.messages.length - 1],
+      });
 
       const completion = await groq.chat.completions.create({
         model: GROQ_MODEL,
@@ -305,6 +322,12 @@ export async function POST(request: Request) {
         max_tokens: 2048,
         temperature: 0.7,
         top_p: 0.9,
+      });
+
+      devLog("[DOUBT-DEBUG] Groq response received", {
+        hasChoices: Array.isArray(completion.choices),
+        choicesLength: completion.choices?.length,
+        hasContent: Boolean(completion.choices?.[0]?.message?.content),
       });
 
       answer = completion.choices?.[0]?.message?.content || "";
@@ -319,11 +342,13 @@ export async function POST(request: Request) {
         confidence = "high";
       }
     } catch (groqError: any) {
-      devLog("Groq: API call failed", {
+      devLog("[DOUBT-DEBUG] GROQ CALL FAILED", {
         message: groqError?.message,
         status: groqError?.status,
         code: groqError?.code,
         type: groqError?.type,
+        name: groqError?.name,
+        stack: groqError?.stack?.split("\n").slice(0, 5).join("\n"),
       });
 
       if (groqError?.status === 429) {
