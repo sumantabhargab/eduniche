@@ -105,6 +105,19 @@ function AdminInner({ admin, children }: AdminLayoutClientProps) {
             {!collapsed && <span>Files</span>}
           </a>
           <a
+            href="/admin/game/questions"
+            className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+              isActive("/admin/game")
+                ? "bg-accent-subtle text-accent"
+                : "text-muted hover:text-foreground hover:bg-background-alt"
+            }`}
+          >
+            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992h4.992m-4.992 0h4.013m12.993 0h4.012m-12.993 0v4.992m0-4.992h4.992m0 0v4.992m0-4.992h4.992m0 0v4.992" />
+            </svg>
+            {!collapsed && <span>Game Questions</span>}
+          </a>
+          <a
             href="/"
             className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
               isActive("/")
