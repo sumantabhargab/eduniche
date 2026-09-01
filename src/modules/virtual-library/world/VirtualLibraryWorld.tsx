@@ -818,6 +818,9 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
         <div className="bg-gradient-to-b from-background/90 to-transparent pt-3 pb-8 px-4">
           <div className="flex items-center justify-between max-w-6xl mx-auto">
             <div className="flex items-center gap-3 pointer-events-auto">
+              <Link href="/library" className="text-xs font-medium text-foreground-light hover:text-accent transition-colors bg-foreground-dark/70 backdrop-blur-sm border border-border-light rounded-full px-3 py-1">
+                Library
+              </Link>
               <Link href="/">
                 <span className="font-serif text-lg text-foreground-light hover:text-accent transition-colors">
                   Eduneuro
