@@ -23,8 +23,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { EduNeuroLoader } from "@/components/loading";
 
-// Use the same CDN version as react-pdf (matching the bundled pdfjs version)
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
+// Use the bundled pdfjs-dist worker, served from /public/ as a static asset.
+// This avoids CDN 404s and ensures the worker version matches the bundled library.
+pdfjs.GlobalWorkerOptions.workerSrc = `/pdf.worker.min.mjs`;
 
 // ---------------------------------------------------------------------------
 // Types

@@ -495,6 +495,8 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       const supabase = getChatSupabase();
       if (!supabase) return;
       try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return; // skip in dev mode
         await supabase
           .from("study_room_presence")
           .upsert(
@@ -592,52 +594,64 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     const supabase = getChatSupabase();
     if (!supabase) return;
 
-    const channel = supabase
-      .channel("eduneuro:world:chat")
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "chat_messages",
-        },
-        async (payload) => {
-          const record = payload.new as any;
-          if (record.user_id === userId) return;
+    let unsub: (() => void) | null = null;
 
-          const { data: profile } = await supabase
-            .from("profiles")
-            .select("display_name")
-            .eq("id", record.user_id)
-            .maybeSingle();
+    // Skip realtime subscriptions when there's no authenticated user.
+    // Without an auth session, Realtime will reject the connection.
+    supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) return;
 
-          const label =
-            profile?.display_name ||
-            record.user_id?.slice(0, 8) ||
-            "Student";
+      const channel = supabase
+        .channel("eduneuro:world:chat")
+        .on(
+          "postgres_changes",
+          {
+            event: "INSERT",
+            schema: "public",
+            table: "chat_messages",
+          },
+          async (payload) => {
+            const record = payload.new as any;
+            if (record.user_id === userId) return;
 
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: record.id,
-              authorId: record.user_id,
-              authorLabel: label,
-              content: record.content,
-              timestamp: record.created_at,
-              type: "text",
-              roomId: (currentRoom as RoomId) || "main-reading",
-            },
-          ]);
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("display_name")
+              .eq("id", record.user_id)
+              .maybeSingle();
+
+            const label =
+              profile?.display_name ||
+              record.user_id?.slice(0, 8) ||
+              "Student";
+
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: record.id,
+                authorId: record.user_id,
+                authorLabel: label,
+                content: record.content,
+                timestamp: record.created_at,
+                type: "text",
+                roomId: (currentRoom as RoomId) || "main-reading",
+              },
+            ]);
+          }
+        )
+        .subscribe();
+
+      unsub = () => {
+        try {
+          supabase.removeChannel(channel);
+        } catch {
+          // ignore
         }
-      )
-      .subscribe();
+      };
+    });
 
     return () => {
-      try {
-        supabase.removeChannel(channel);
-      } catch {
-        // ignore
-      }
+      if (unsub) unsub();
     };
   }, [userId, currentRoom]);
 

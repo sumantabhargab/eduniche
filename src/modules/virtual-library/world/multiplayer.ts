@@ -70,6 +70,21 @@ export class MultiplayerManager {
       return;
     }
 
+    // Verify we have an authenticated session before creating realtime channels
+    supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) {
+        console.warn("[multiplayer] No authenticated user — running in local-only mode.");
+        return;
+      }
+      this.initChannel(supabase);
+    }).catch(() => {
+      console.warn("[multiplayer] Auth check failed — running in local-only mode.");
+    });
+  }
+
+  private initChannel(supabase: any): void {
+    if (!this.localPlayer || !this.connected) return;
+
     try {
       this.channel = supabase.channel(BROADCAST_CHANNEL, {
         config: { broadcast: { self: false } },
@@ -121,7 +136,7 @@ export class MultiplayerManager {
           if (this.localPlayer) {
             try {
               this.channel.track({
-                user_id: localPlayer.id,
+                user_id: this.localPlayer.id,
                 player_data: this.localPlayer,
               });
             } catch {
