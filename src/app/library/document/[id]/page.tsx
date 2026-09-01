@@ -11,11 +11,14 @@
 
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
-import PDFViewer from "@/app/library/components/PDFViewer";
+
+// Lazy-load PDFViewer to avoid SSR crash: pdfjs-dist references DOMMatrix
+// which is unavailable in the Node.js server environment.
+const PDFViewer = lazy(() => import("@/app/library/components/PDFViewer"));
 
 type DocumentType = {
   id: string;
@@ -359,11 +362,17 @@ export default function DocumentViewerPage() {
       {/* Content */}
       <div className="bg-card border border-border rounded-2xl overflow-hidden">
         {isPDF && pdfProxyUrl && (
-          <PDFViewer
-            url={pdfProxyUrl}
-            title={document.name}
-            filename={document.original_filename}
-          />
+          <Suspense fallback={
+            <div className="flex items-center justify-center p-16">
+              <div className="w-12 h-12 rounded-full border-2 border-accent border-t-transparent animate-spin" />
+            </div>
+          }>
+            <PDFViewer
+              url={pdfProxyUrl}
+              title={document.name}
+              filename={document.original_filename}
+            />
+          </Suspense>
         )}
 
         {isText && content && (

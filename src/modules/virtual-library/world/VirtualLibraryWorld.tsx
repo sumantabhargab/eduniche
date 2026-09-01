@@ -30,6 +30,7 @@ import { getChatSupabase } from "@/modules/chat/services/supabase";
 import { EduNeuroLoader } from "@/components/loading";
 import { useAmbientMusic } from "./ambient-music";
 import { useProximityVoice } from "./proximity-voice";
+import { MobileControls } from "./MobileControls";
 
 // ─── Constants ──────────────────────────────────────────────────────────────────
 
@@ -305,11 +306,17 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [musicVolume, setMusicVolumeState] = useState(0.3);
   const [musicHintShown, setMusicHintShown] = useState(false);
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(typeof navigator !== "undefined" ? navigator.userAgent : "");
 
   const collisionRef = useRef<CollisionSystem | null>(null);
   const roomInfoTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const localPlayerRef = useRef<WorldPlayer | null>(null);
   const worldRef = useRef<HTMLDivElement>(null);
+  const movementInputRef = useRef<{
+    press: (key: string) => void;
+    release: (key: string) => void;
+    setClickTarget: (t: { x: number; y: number } | null) => void;
+  } | null>(null);
 
   const music = useAmbientMusic();
   const voice = useProximityVoice(localPlayer, remotePlayers, currentRoom);
@@ -677,15 +684,26 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     },
   });
 
-  // Movement via WASD/arrows
+  // Movement via WASD/arrows + virtual D-pad + click-to-move
   // Runs once on mount. Reads position from localPlayerRef each frame.
-  // The tick function handles the case where player/collision aren't ready yet.
+  // Exposes the keys set and click-target on a ref so the on-screen D-pad and
+  // the canvas can drive the same movement pipeline as the keyboard.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const collision = collisionRef.current;
     const keys = new Set<string>();
+    const touchInputRef = { active: false };
+    let clickTarget: { x: number; y: number } | null = null;
     let lastBroadcast = 0;
     let currentRoomId: string | null = null;
+
+    // Expose for D-pad / click-to-move components
+    movementInputRef.current = {
+      press: (key: string) => keys.add(key.toLowerCase()),
+      release: (key: string) => keys.delete(key.toLowerCase()),
+      setClickTarget: (t: { x: number; y: number } | null) => {
+        clickTarget = t;
+      },
+    };
 
     const handleKeyDown = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement | null;
@@ -710,6 +728,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       lastTime = time;
 
       const current = localPlayerRef.current;
+      const collision = collisionRef.current;
       if (!current || !collision) {
         raf = requestAnimationFrame(tick);
         return;
@@ -720,6 +739,19 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       if (keys.has("s") || keys.has("arrowdown")) dy += 1;
       if (keys.has("a") || keys.has("arrowleft")) dx -= 1;
       if (keys.has("d") || keys.has("arrowright")) dx += 1;
+
+      // Click-to-move: if no keyboard input, walk toward the last click target
+      if ((dx === 0 && dy === 0) && clickTarget) {
+        const dxC = clickTarget.x - current.x;
+        const dyC = clickTarget.y - current.y;
+        const dist = Math.sqrt(dxC * dxC + dyC * dyC);
+        if (dist > 4) {
+          dx = dxC / dist;
+          dy = dyC / dist;
+        } else {
+          clickTarget = null;
+        }
+      }
 
       if (dx !== 0 && dy !== 0) {
         const inv = 1 / Math.sqrt(2);
@@ -938,6 +970,15 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
           </div>
         </div>
       </div>
+
+      {/* Mobile touch controls */}
+      {isMobile && (
+        <MobileControls
+          movementInputRef={movementInputRef}
+          worldRef={worldRef}
+          worldPixelSize={WORLD_CONFIG.mapWidth * WORLD_CONFIG.tileSize}
+        />
+      )}
     </div>
   );
 }
