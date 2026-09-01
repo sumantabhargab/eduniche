@@ -45,4 +45,3 @@ next-env.d.ts
 supabase/.temp/
 
 .vercel
-public/pdf.worker.min.mjs
