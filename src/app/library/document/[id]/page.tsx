@@ -53,6 +53,7 @@ export default function DocumentViewerPage() {
     const fetchDocument = async () => {
       setLoading(true);
       setError(null);
+      setAccessDenied(false);
 
       try {
         const res = await fetch(`/api/library/document/${docId}`);
@@ -70,7 +71,8 @@ export default function DocumentViewerPage() {
         }
 
         if (!res.ok) {
-          setError("Document not found.");
+          const data = await res.json().catch(() => ({}));
+          setError(data.error || "Document not found.");
           setLoading(false);
           return;
         }
@@ -78,7 +80,6 @@ export default function DocumentViewerPage() {
         const data = (await res.json()) as { document: DocumentType };
         setDocument(data.document);
 
-        // Fetch content for text/markdown types
         if (
           data.document.mime_type.includes("text") ||
           data.document.mime_type.includes("markdown")
@@ -95,13 +96,20 @@ export default function DocumentViewerPage() {
 
         setLoading(false);
       } catch {
-        setError("Failed to load document.");
+        setError("Failed to load document. Please check your connection and try again.");
         setLoading(false);
       }
     };
 
     fetchDocument();
   }, [docId]);
+
+  // Safety timeout: force loading=false after 20s so UI never gets stuck
+  useEffect(() => {
+    if (!loading) return;
+    const timer = setTimeout(() => setLoading(false), 20000);
+    return () => clearTimeout(timer);
+  }, [loading]);
 
   if (loading) {
     return (

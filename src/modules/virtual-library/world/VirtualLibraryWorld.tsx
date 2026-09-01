@@ -8,6 +8,9 @@
  *   - Room chat (Supabase messages)
  *   - Study timer
  *   - Connection state UI
+ *   - Ambient music (Web Audio API)
+ *   - Proximity-based voice
+ *   - Fullscreen mode
  */
 
 "use client";
@@ -25,6 +28,8 @@ import type { WorldPlayer, WorldChatMessage, ConnectionState, RoomId } from "./t
 import { useStudySession } from "../hooks/use-study-session";
 import { getChatSupabase } from "@/modules/chat/services/supabase";
 import { EduNeuroLoader } from "@/components/loading";
+import { useAmbientMusic } from "./ambient-music";
+import { useProximityVoice } from "./proximity-voice";
 
 // ─── Constants ──────────────────────────────────────────────────────────────────
 
@@ -137,6 +142,152 @@ function formatTime(totalSeconds: number): string {
   return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 }
 
+// ─── Music Control ────────────────────────────────────────────────────────────
+
+function MusicControl({
+  isPlaying,
+  onToggle,
+  onVolumeChange,
+  volume,
+}: {
+  isPlaying: boolean;
+  onToggle: () => void;
+  onVolumeChange: (v: number) => void;
+  volume: number;
+}) {
+  const [showSlider, setShowSlider] = useState(false);
+
+  return (
+    <div
+      className="flex items-center gap-2 bg-foreground-dark/80 backdrop-blur-sm border border-border-light rounded-full pl-3 pr-1 py-1"
+      onMouseEnter={() => setShowSlider(true)}
+      onMouseLeave={() => setShowSlider(false)}
+    >
+      <button
+        onClick={onToggle}
+        className="flex items-center gap-1.5 text-xs text-foreground-light hover:text-accent transition-colors"
+        aria-label={isPlaying ? "Mute music" : "Play music"}
+      >
+        {isPlaying ? (
+          <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5}>
+            <path d="M19 9l-6 6-6-6M19 15l-6-6-6 6M21 12a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5}>
+            <path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        )}
+        <span>Music</span>
+      </button>
+      <AnimatePresence>
+        {showSlider && (
+          <motion.input
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: 60, opacity: 1 }}
+            exit={{ width: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            type="range"
+            min={0}
+            max={1}
+            step={0.05}
+            value={volume}
+            onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
+            className="h-1 accent-accent cursor-pointer"
+            aria-label="Music volume"
+          />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// ─── Fullscreen Control ───────────────────────────────────────────────────────
+
+function FullscreenControl({ isFullscreen, onToggle }: { isFullscreen: boolean; onToggle: () => void }) {
+  return (
+    <button
+      onClick={onToggle}
+      className="flex items-center justify-center w-9 h-9 bg-foreground-dark/80 backdrop-blur-sm border border-border-light rounded-full text-foreground-light hover:text-accent transition-colors"
+      aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+      title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+    >
+      {isFullscreen ? (
+        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={1.5}>
+          <path d="M9 9V5a2 2 0 00-2-2H4m0 6h6M15 9V5a2 2 0 012-2h3m0 6h-6m0 0v6a2 2 0 002 2h3m0-6v6m-9 0v-6a2 2 0 00-2-2H4m0 6h6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={1.5}>
+          <path d="M3 8V5a2 2 0 012-2h3M3 16v3a2 2 0 002 2h3m8-16h3a2 2 0 012 2v3m0 8v3a2 2 0 01-2 2h-3" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
+// ─── Mic Control ──────────────────────────────────────────────────────────────
+
+function MicControl({
+  isMicOn,
+  nearbyCount,
+  roomVoiceEnabled,
+  onToggle,
+  error,
+}: {
+  isMicOn: boolean;
+  nearbyCount: number;
+  roomVoiceEnabled: boolean;
+  onToggle: () => void;
+  error: string | null;
+}) {
+  return (
+    <div className="relative">
+      <button
+        onClick={onToggle}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+          isMicOn
+            ? "bg-green-500/20 border border-green-500/40 text-green-300"
+            : "bg-foreground-dark/80 border border-border-light text-foreground-light hover:bg-foreground-dark"
+        }`}
+        aria-label={isMicOn ? "Mute microphone" : "Enable microphone"}
+        title={
+          roomVoiceEnabled
+            ? isMicOn ? `${nearbyCount} can hear you (room voice)` : "Room supports voice"
+            : isMicOn ? `${nearbyCount} nearby` : "Click to talk near others"
+        }
+      >
+        {isMicOn ? (
+          <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5}>
+            <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5}>
+            <path d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14a5 5 0 01-2 3.97M17 8a5 5 0 00-3-4.472" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        )}
+        {isMicOn && <span>{nearbyCount}</span>}
+      </button>
+      {error && (
+        <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-1.5 whitespace-nowrap z-50">
+          <p className="text-[10px] text-red-300">{error}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Proximity Indicator ──────────────────────────────────────────────────────
+
+function ProximityIndicator({ visible, range }: { visible: boolean; range: number }) {
+  if (!visible) return null;
+  return (
+    <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 bg-foreground-dark/60 backdrop-blur-sm border border-border-light/40 rounded-full px-3 py-1.5 pointer-events-none">
+      <p className="text-[10px] text-muted-light">
+        <span className="text-foreground-light/70">{Math.round(range)}px</span> voice range
+      </p>
+    </div>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } = {}) {
@@ -149,15 +300,76 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
   const [showRoomInfo, setShowRoomInfo] = useState(false);
   const [userLabel, setUserLabel] = useState("there");
   const [userId, setUserId] = useState<string | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [voiceError, setVoiceError] = useState<string | null>(null);
+  const [musicPlaying, setMusicPlaying] = useState(false);
+  const [musicVolume, setMusicVolumeState] = useState(0.3);
+  const [musicHintShown, setMusicHintShown] = useState(false);
 
   const collisionRef = useRef<CollisionSystem | null>(null);
   const roomInfoTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const localPlayerRef = useRef<WorldPlayer | null>(null);
+  const worldRef = useRef<HTMLDivElement>(null);
+
+  const music = useAmbientMusic();
+  const voice = useProximityVoice(localPlayer, remotePlayers, currentRoom);
+
+  // ─── Feature Handlers ─────────────────────────────────────────────────────────
+
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen?.().catch(() => {});
+    } else {
+      document.exitFullscreen?.().catch(() => {});
+    }
+  }, []);
+
+  const handleMusicToggle = useCallback(() => {
+    music.toggle();
+    if (musicHintShown) {
+      setMusicHintShown(false);
+      localStorage.setItem("eduneuro:library:musicHint", "1");
+    }
+  }, [music, musicHintShown]);
+
+  const handleVolumeChange = useCallback((v: number) => {
+    music.setVolume(v);
+  }, [music]);
+
+  const handleMicToggle = useCallback(async () => {
+    await voice.toggleMic();
+    setVoiceError(voice.error);
+  }, [voice]);
+
+  // ─── Side Effects ────────────────────────────────────────────────────────────
 
   // Keep ref in sync
   useEffect(() => {
     localPlayerRef.current = localPlayer;
   }, [localPlayer]);
+
+  // Sync music state from hook
+  useEffect(() => {
+    if (music.state === "playing") setMusicPlaying(true);
+    else if (music.state === "idle") setMusicPlaying(false);
+    setMusicVolumeState(music.volume);
+  }, [music.state, music.volume]);
+
+  // Show music hint on first visit
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const seen = localStorage.getItem("eduneuro:library:musicHint");
+    if (!seen) {
+      setMusicHintShown(true);
+    }
+  }, []);
+
+  // Track fullscreen state
+  useEffect(() => {
+    const onChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
 
   // Resolve user identity
   useEffect(() => {
@@ -167,10 +379,9 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       try {
         const supabase = getChatSupabase();
         if (!supabase) {
-          // No Supabase — enter demo mode with a local-only player
           if (!cancelled) {
             const demoId = "demo-user-" + Math.random().toString(36).slice(2, 10);
-            const spawn = collisionRef.current?.getSpawnPosition() || { x: 300, y: 300 };
+            const spawn = { x: 300, y: 300 };
             const player: WorldPlayer = {
               id: demoId,
               label: "You",
@@ -203,7 +414,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
           if (devMode) {
             if (!cancelled) {
               const demoId = "demo-user-" + Math.random().toString(36).slice(2, 10);
-              const spawn = collisionRef.current?.getSpawnPosition() || { x: 300, y: 300 };
+              const spawn = { x: 300, y: 300 };
               const player: WorldPlayer = {
                 id: demoId, label: "You", x: spawn.x, y: spawn.y,
                 targetX: spawn.x, targetY: spawn.y, dx: 0, dy: 0,
@@ -244,7 +455,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     })();
 
     return () => { cancelled = true; };
-  }, []);
+  }, [devMode]);
 
   // Initialize player once user is resolved
   useEffect(() => {
@@ -283,17 +494,21 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     (async () => {
       const supabase = getChatSupabase();
       if (!supabase) return;
-      await supabase
-        .from("study_room_presence")
-        .upsert(
-          {
-            room_id: "main-library",
-            user_id: userId,
-            participant_label: userLabel,
-            last_seen_at: new Date().toISOString(),
-          },
-          { onConflict: "room_id,user_id" }
-        );
+      try {
+        await supabase
+          .from("study_room_presence")
+          .upsert(
+            {
+              room_id: "main-library",
+              user_id: userId,
+              participant_label: userLabel,
+              last_seen_at: new Date().toISOString(),
+            },
+            { onConflict: "room_id,user_id" }
+          );
+      } catch {
+        // ignore
+      }
     })();
 
     setLoading(false);
@@ -323,14 +538,6 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       unsubPos();
       unsubLeave();
     };
-  }, []);
-
-  // Handle local player updates from world (called by WorldRenderer indirectly via broadcast)
-  const handlePlayerUpdate = useCallback((updates: Partial<WorldPlayer>) => {
-    setLocalPlayer((prev) => (prev ? { ...prev, ...updates } : prev));
-
-    // Broadcast to other players
-    multiplayerManager.updateLocalPlayer(updates);
   }, []);
 
   // Handle room changes
@@ -364,7 +571,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     };
     setMessages((prev) => [...prev, newMsg]);
 
-    // Persist via Supabase global chat_messages table
+    // Persist via Supabase
     (async () => {
       const supabase = getChatSupabase();
       if (!supabase || !userId) return;
@@ -396,9 +603,8 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
         },
         async (payload) => {
           const record = payload.new as any;
-          if (record.user_id === userId) return; // skip own messages
+          if (record.user_id === userId) return;
 
-          // Fetch sender name from profiles
           const { data: profile } = await supabase
             .from("profiles")
             .select("display_name")
@@ -468,6 +674,8 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     let currentRoomId: string | null = null;
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target?.closest?.("input, textarea")) return;
       const k = e.key.toLowerCase();
       if (["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(k)) {
         e.preventDefault();
@@ -487,7 +695,6 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       const dt = Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
 
-      // Skip if player or collision not ready
       const current = localPlayerRef.current;
       if (!current || !collision) {
         raf = requestAnimationFrame(tick);
@@ -562,8 +769,11 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
   useEffect(() => {
     return () => {
       multiplayerManager.disconnect();
+      music.stop();
+      voice.stopMic();
       if (roomInfoTimeoutRef.current) clearTimeout(roomInfoTimeoutRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading || !localPlayer) {
@@ -571,7 +781,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
   }
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-background-dark">
+    <div ref={worldRef} className="relative w-full h-screen overflow-hidden bg-background-dark">
       <WorldRenderer
         localPlayer={localPlayer}
         remotePlayers={remotePlayers}
@@ -591,7 +801,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
 
       {/* Top bar */}
       <div className="absolute top-0 left-0 right-0 z-20 pointer-events-none">
-        <div className="bg-gradient-to-b from-background/90 to-transparent pt-3 pb-8 px-4 pointer-events-none">
+        <div className="bg-gradient-to-b from-background/90 to-transparent pt-3 pb-8 px-4">
           <div className="flex items-center justify-between max-w-6xl mx-auto">
             <div className="flex items-center gap-3 pointer-events-auto">
               <Link href="/">
@@ -602,7 +812,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
               <span className="text-muted-light text-xs">/</span>
               <span className="text-xs text-foreground-light/70">Virtual Library</span>
             </div>
-            <div className="flex items-center gap-3 pointer-events-auto">
+            <div className="flex items-center gap-2">
               <div className="flex items-center gap-2 bg-foreground-dark/70 backdrop-blur-sm border border-border-light rounded-full px-3 py-1">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
@@ -612,15 +822,35 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
                   {remotePlayers.length + 1} studying
                 </span>
               </div>
+              <FullscreenControl isFullscreen={isFullscreen} onToggle={toggleFullscreen} />
             </div>
           </div>
         </div>
       </div>
 
+      {/* Proximity indicator when mic is on */}
+      <ProximityIndicator visible={voice.isMicOn} range={voice.proximityRange} />
+
+      {/* First-time music hint */}
+      <AnimatePresence>
+        {musicHintShown && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute top-20 left-1/2 -translate-x-1/2 z-30 bg-foreground-dark/80 backdrop-blur-sm border border-border-light rounded-full px-4 py-2 pointer-events-none"
+          >
+            <p className="text-xs text-foreground-light">
+              <span className="text-accent">Tip</span> — enable ambient music below to set the mood
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Bottom controls */}
       <div className="absolute bottom-0 left-0 right-0 z-20 pointer-events-none">
         <div className="bg-gradient-to-t from-background/90 to-transparent pt-8 pb-4 px-4">
-          <div className="flex items-center justify-center gap-3 max-w-6xl mx-auto pointer-events-auto">
+          <div className="flex items-center justify-center gap-3 max-w-6xl mx-auto pointer-events-auto flex-wrap">
             {sessionStatus === "running" && (
               <div className="flex items-center gap-2 bg-foreground-dark/80 backdrop-blur-sm border border-border-light rounded-full px-4 py-2">
                 <span className="relative flex h-2 w-2">
@@ -663,13 +893,31 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
             )}
 
             {(sessionStatus === "running" || sessionStatus === "paused") && (
-              <button
-                onClick={end}
-                className="flex items-center gap-2 bg-foreground-dark/80 backdrop-blur-sm border border-border-light text-foreground-light px-4 py-2 rounded-xl text-sm hover:bg-red-500/20 hover:text-red-400 transition-colors"
-              >
-                End
-              </button>
+              <>
+                <button
+                  onClick={end}
+                  className="flex items-center gap-2 bg-foreground-dark/80 backdrop-blur-sm border border-border-light text-foreground-light px-4 py-2 rounded-xl text-sm hover:bg-red-500/20 hover:text-red-400 transition-colors"
+                >
+                  End
+                </button>
+                <div className="w-px h-6 bg-border-light/50" />
+              </>
             )}
+
+            <MicControl
+              isMicOn={voice.isMicOn}
+              nearbyCount={voice.nearbyPlayers.length}
+              roomVoiceEnabled={voice.roomVoiceEnabled}
+              onToggle={handleMicToggle}
+              error={voiceError}
+            />
+
+            <MusicControl
+              isPlaying={musicPlaying}
+              onToggle={handleMusicToggle}
+              onVolumeChange={handleVolumeChange}
+              volume={musicVolume}
+            />
           </div>
         </div>
       </div>

@@ -90,9 +90,21 @@ export function WorldRenderer({
   const animationRef = useRef<number>(0);
   const currentRoomRef = useRef<string | null>(null);
   const scaleRef = useRef(1);
+  const localPlayerRef = useRef(localPlayer);
+  const remotePlayersRef = useRef(remotePlayers);
   const [showChat, setShowChat] = useState(false);
   const [chatInput, setChatInput] = useState("");
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  // Keep refs in sync with latest props so the render loop always reads
+  // current player positions without needing to re-subscribe the effect.
+  useEffect(() => {
+    localPlayerRef.current = localPlayer;
+  }, [localPlayer]);
+
+  useEffect(() => {
+    remotePlayersRef.current = remotePlayers;
+  }, [remotePlayers]);
 
   const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;
@@ -491,9 +503,11 @@ export function WorldRenderer({
       ctx.fillStyle = "#1A1A1A";
       ctx.fillRect(0, 0, w, h);
 
-      // Camera
-      const targetCamX = localPlayer.x * scale - w / 2;
-      const targetCamY = localPlayer.y * scale - h / 2;
+      // Camera — use refs for live-updated player positions
+      const currentLocal = localPlayerRef.current;
+      const currentRemote = remotePlayersRef.current;
+      const targetCamX = currentLocal.x * scale - w / 2;
+      const targetCamY = currentLocal.y * scale - h / 2;
       cameraRef.current.x += (targetCamX - cameraRef.current.x) * 0.1;
       cameraRef.current.y += (targetCamY - cameraRef.current.y) * 0.1;
       const camX = cameraRef.current.x;
@@ -539,10 +553,10 @@ export function WorldRenderer({
       // Players
       ctx.save();
       ctx.translate(-camX, -camY);
-      for (const p of remotePlayers) {
+      for (const p of currentRemote) {
         drawPlayer(ctx, p, scale, false);
       }
-      drawPlayer(ctx, localPlayer, scale, true);
+      drawPlayer(ctx, currentLocal, scale, true);
       ctx.restore();
 
       // Connection status
@@ -607,7 +621,16 @@ export function WorldRenderer({
   useEffect(() => {
     const handleResize = () => resizeCanvas();
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    // Use ResizeObserver to catch layout settling after mount
+    const observer = new ResizeObserver(() => resizeCanvas());
+    const container = containerRef.current;
+    if (container) observer.observe(container);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      observer.disconnect();
+    };
   }, [resizeCanvas]);
 
   // ─── Room Change Detection ──────────────────────────────────────────────────
