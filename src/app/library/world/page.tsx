@@ -33,12 +33,12 @@ function LibraryWorldGate() {
 
   useEffect(() => {
     if (!loading && !user && !devMode) {
-      router.push("/login?redirect=/library/world");
+      // World is accessible without login — allow guest entry
+      // VirtualLibraryWorld handles demo mode internally
     }
   }, [loading, user, router, devMode]);
 
   if (loading) return <LoadingFallback />;
-  if (!user && !devMode) return null;
 
   return <VirtualLibraryWorld devMode={devMode} />;
 }

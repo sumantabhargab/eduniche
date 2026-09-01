@@ -4,9 +4,12 @@
     {
       "name": "eduniche",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["next", "dev"],
-      "port": 3030,
-      "autoPort": true
+      "runtimeArgs": ["next", "dev", "-p", "3030"],
+      "port": 3030
+    },
+    {
+      "name": "eduniche-attach",
+      "url": "http://localhost:3030"
     }
   ]
 }
