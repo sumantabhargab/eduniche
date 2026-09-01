@@ -12,7 +12,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { getChatSupabase } from "@/modules/chat/services/supabase";
 
 export interface ChatMessage {
   id: string;
@@ -56,7 +56,7 @@ export function useChat({ scope, roomId, userId, userName }: UseChatOptions) {
   const [input, setInput] = useState("");
   const [isConnected, setIsConnected] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
+  const channelRef = useRef<any>(null);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -72,13 +72,18 @@ export function useChat({ scope, roomId, userId, userName }: UseChatOptions) {
     const channelName =
       scope === "library" ? "chat:library" : `chat:room:${roomId}`;
 
-    const channel = supabase
+    const client = getChatSupabase();
+    if (!client) {
+      return;
+    }
+
+    const channel = client
       .channel(channelName)
       .on(
         "broadcast",
         { event: "message" },
-        (payload) => {
-          const msg = payload.payload as ChatMessage;
+        (payload: { payload: ChatMessage }) => {
+          const msg = payload.payload;
           if (msg.scope !== scope) return;
           if (scope === "room" && msg.roomId !== roomId) return;
 
@@ -90,14 +95,14 @@ export function useChat({ scope, roomId, userId, userName }: UseChatOptions) {
           });
         }
       )
-      .subscribe((status) => {
+      .subscribe((status: string) => {
         setIsConnected(status === "SUBSCRIBED");
       });
 
     channelRef.current = channel;
 
     return () => {
-      supabase.removeChannel(channel);
+      client.removeChannel(channel);
       channelRef.current = null;
     };
   }, [scope, roomId]);
@@ -126,7 +131,8 @@ export function useChat({ scope, roomId, userId, userName }: UseChatOptions) {
 
       // Broadcast via Supabase
       try {
-        if (channelRef.current) {
+        const c = getChatSupabase();
+        if (channelRef.current && c) {
           await channelRef.current.send({
             type: "broadcast",
             event: "message",

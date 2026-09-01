@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 
+const rootDir = process.cwd();
+
 const nextConfig: NextConfig = {
   turbopack: {
-    root: __dirname,
+    root: rootDir,
   },
-  outputFileTracingRoot: __dirname,
+  outputFileTracingRoot: rootDir,
   async headers() {
     return [
       {
