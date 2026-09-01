@@ -4,8 +4,9 @@
     {
       "name": "eduniche",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["next", "dev", "-p", "3030"],
-      "port": 3030
+      "runtimeArgs": ["next", "dev"],
+      "port": 3030,
+      "autoPort": true
     }
   ]
 }
