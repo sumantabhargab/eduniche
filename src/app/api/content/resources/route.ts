@@ -2,8 +2,11 @@
  * GET /api/content/resources — list published content resources for the library.
  *
  * Query params:
- *  visibility: "published" (default), "draft", "all", or specific value
- *  limit: max results (default 50)
+ *   visibility: "published" (default), "draft", "all"
+ *   folder_id: filter by folder (subject level)
+ *   branch: filter by branch code
+ *   subject: filter by subject
+ *   limit: max results (default 50, max 100)
  */
 
 import { NextResponse } from "next/server";
@@ -15,6 +18,9 @@ export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
     const visibility = url.searchParams.get("visibility") || "published";
+    const folderId = url.searchParams.get("folder_id");
+    const branch = url.searchParams.get("branch");
+    const subject = url.searchParams.get("subject");
     const limit = Math.min(parseInt(url.searchParams.get("limit") || "50", 10) || 50, 100);
 
     const serviceClient = createServiceClient();
@@ -24,12 +30,24 @@ export async function GET(request: Request) {
 
     let query = serviceClient
       .from("content_resources")
-      .select("id, name, original_filename, mime_type, description, visibility, created_at")
+      .select("id, name, original_filename, mime_type, file_size, storage_path, folder_id, branch, subject, resource_type, visibility, access_tier, tags, description, created_at, updated_at")
       .order("created_at", { ascending: false })
       .limit(limit);
 
     if (visibility !== "all") {
       query = query.eq("visibility", visibility);
+    }
+
+    if (folderId) {
+      query = query.eq("folder_id", folderId);
+    }
+
+    if (branch) {
+      query = query.eq("branch", branch);
+    }
+
+    if (subject) {
+      query = query.eq("subject", subject);
     }
 
     const { data: resources, error } = await query;
@@ -42,8 +60,7 @@ export async function GET(request: Request) {
     return NextResponse.json({
       resources: resources ?? [],
     });
-  } catch (e) {
-    console.error("[api/content/resources] error:", e);
+  } catch {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 }
