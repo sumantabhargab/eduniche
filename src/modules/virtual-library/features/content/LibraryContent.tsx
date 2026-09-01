@@ -569,7 +569,7 @@ export function LibraryContent() {
           setAllFolders(folderData);
 
           // Auto-select the first non-premium gate (Free) as default
-          const freeGate = folderData.find((f) => f.depth === 1 && !f.premium);
+          const freeGate = folderData.find((f) => f.depth === 0 && !f.premium);
           if (freeGate) setSelectedGate(freeGate.id);
 
           setLoadingState("loaded");
@@ -586,36 +586,44 @@ export function LibraryContent() {
     return () => { cancelled = true; };
   }, []);
 
-  // ─── Derived: gates (depth 1) ────────────────────────────────────────────────
+  // ─── Derived: gates (depth 0 — Free / Premium root folders) ─────────────────
   const gates = useMemo(() => {
     return allFolders
-      .filter((f) => f.depth === 1)
+      .filter((f) => f.depth === 0)
       .map((g) => {
-        const childrenOfGate = allFolders.filter((f) => f.parent_id === g.id);
+        // Walk down to count branches (depth-2 children)
+        const examCatsUnderGate = allFolders.filter((f) => f.parent_id === g.id);
+        const branchCount = examCatsUnderGate.reduce(
+          (sum, exam) => sum + allFolders.filter((f) => f.parent_id === exam.id).length,
+          0
+        );
         return {
           id: g.id,
           name: g.name,
           premium: g.premium,
-          branchCount: childrenOfGate.length,
+          branchCount,
         };
       });
   }, [allFolders]);
 
-  // ─── Derived: branches for selected gate (depth 2 under that gate) ──────────
+  // ─── Derived: branches for selected gate (depth-2 under exam categories) ───
   const branches = useMemo(() => {
     if (!selectedGate) return [];
-    return allFolders
-      .filter((f) => f.parent_id === selectedGate)
-      .map((b) => {
-        const subjectsUnderBranch = allFolders.filter((f) => f.parent_id === b.id);
-        return {
-          id: b.id,
-          name: b.name,
-          shortName: b.branch?.toUpperCase() || b.name.slice(0, 8),
-          code: b.branch || "other",
-          subjectCount: subjectsUnderBranch.length,
-        };
-      });
+    // Walk: Gate → Exam categories → Branches
+    const examCategories = allFolders.filter((f) => f.parent_id === selectedGate);
+    const branchFolders = examCategories.flatMap((exam) =>
+      allFolders.filter((f) => f.parent_id === exam.id)
+    );
+    return branchFolders.map((b) => {
+      const subjectsUnderBranch = allFolders.filter((f) => f.parent_id === b.id);
+      return {
+        id: b.id,
+        name: b.name,
+        shortName: b.branch?.toUpperCase() || b.name.slice(0, 8),
+        code: b.branch || "other",
+        subjectCount: subjectsUnderBranch.length,
+      };
+    });
   }, [allFolders, selectedGate]);
 
   // ─── Derived: subjects for selected branch (depth 3) ─────────────────────────
@@ -630,9 +638,9 @@ export function LibraryContent() {
       }));
   }, [allFolders, selectedBranch]);
 
-  // ─── Load resources for selected subject ────────────────────────────────────
+  // ─── Load resources — either for a subject, or directly for a branch ────────
   useEffect(() => {
-    if (!selectedSubject) {
+    if (!selectedSubject && !selectedBranch) {
       setResources([]);
       return;
     }
@@ -642,8 +650,16 @@ export function LibraryContent() {
     async function loadResources() {
       setResourcesLoading(true);
       try {
+        // If a subject is selected, fetch by folder_id
+        // If only a branch is selected (no subject subfolders), fetch by folder_id of the branch
+        const targetFolderId = selectedSubject || selectedBranch;
+        if (!targetFolderId) {
+          if (!cancelled) setResources([]);
+          return;
+        }
+
         const res = await fetch(
-          `/api/content/resources?folder_id=${encodeURIComponent(selectedSubject ?? "")}&visibility=published&limit=100`
+          `/api/content/resources?folder_id=${encodeURIComponent(targetFolderId)}&visibility=published&limit=100`
         );
         if (!res.ok) throw new Error(`Server error (${res.status})`);
         const data = (await res.json()) as { resources: ContentResource[] };
@@ -657,7 +673,7 @@ export function LibraryContent() {
 
     loadResources();
     return () => { cancelled = true; };
-  }, [selectedSubject]);
+  }, [selectedSubject, selectedBranch]);
 
   // ─── Handlers ────────────────────────────────────────────────────────────────
 
@@ -744,27 +760,29 @@ export function LibraryContent() {
           {/* Two-column: subjects + resources */}
           {selectedBranchFolder && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              {/* Subjects column */}
-              <div className="lg:col-span-4 xl:col-span-4">
-                <h2 className="text-xs font-medium text-muted uppercase tracking-wider mb-3">
-                  Step 3 · Subject
-                </h2>
-                <SubjectGrid
-                  subjects={subjects}
-                  selectedSubject={selectedSubject}
-                  onSelect={handleSubjectChange}
-                  loading={loadingState === "loading"}
-                />
-              </div>
+              {/* Subjects column — only show if there are subjects */}
+              {subjects.length > 0 && (
+                <div className="lg:col-span-4 xl:col-span-4">
+                  <h2 className="text-xs font-medium text-muted uppercase tracking-wider mb-3">
+                    Step 3 · Subject
+                  </h2>
+                  <SubjectGrid
+                    subjects={subjects}
+                    selectedSubject={selectedSubject}
+                    onSelect={handleSubjectChange}
+                    loading={loadingState === "loading"}
+                  />
+                </div>
+              )}
 
               {/* Resources column */}
-              <div className="lg:col-span-8 xl:col-span-8">
+              <div className={subjects.length > 0 ? "lg:col-span-8 xl:col-span-8" : "lg:col-span-12"}>
                 <h2 className="text-xs font-medium text-muted uppercase tracking-wider mb-3">
-                  {selectedSubject
+                  {selectedSubjectFolder
                     ? `Resources · ${selectedSubjectFolder?.name}`
-                    : "Step 4 · Resources"}
+                    : `Resources · ${selectedBranchFolder?.name}`}
                 </h2>
-                {selectedSubject ? (
+                {selectedBranch || selectedSubject ? (
                   <ResourceList
                     resources={resources}
                     onOpen={handleOpenResource}
