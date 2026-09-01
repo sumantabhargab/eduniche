@@ -306,6 +306,11 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [musicVolume, setMusicVolumeState] = useState(0.3);
   const [musicHintShown, setMusicHintShown] = useState(false);
+  const [showResourcePanel, setShowResourcePanel] = useState(false);
+  const [resources, setResources] = useState<Array<{ id: string; title: string; type: string; description?: string }>>([]);
+  const [resourcesLoading, setResourcesLoading] = useState(false);
+  const [resourcesError, setResourcesError] = useState<string | null>(null);
+  const [selectedResource, setSelectedResource] = useState<{ id: string; title: string; type: string } | null>(null);
   const isMobile = /Mobi|Android|iPhone|iPad/i.test(typeof navigator !== "undefined" ? navigator.userAgent : "");
 
   const collisionRef = useRef<CollisionSystem | null>(null);
@@ -371,6 +376,47 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     }
   }, []);
 
+  // Fetch published resources for the library
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchResources = async () => {
+      setResourcesLoading(true);
+      setResourcesError(null);
+
+      try {
+        const res = await fetch("/api/content/resources?visibility=published&limit=50");
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch resources (${res.status})`);
+        }
+
+        const data = await res.json();
+        if (!cancelled) {
+          const items = (data.resources || []).map((r: { id: string; name: string; mime_type: string; description?: string }) => ({
+            id: r.id,
+            title: r.name,
+            type: r.mime_type.includes("pdf") ? "PDF" : r.mime_type.includes("text") ? "Text" : "Document",
+            description: r.description || undefined,
+          }));
+          setResources(items);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setResourcesError(err instanceof Error ? err.message : "Failed to load resources");
+        }
+      } finally {
+        if (!cancelled) {
+          setResourcesLoading(false);
+        }
+      }
+    };
+
+    fetchResources();
+
+    return () => { cancelled = true; };
+  }, []);
+
   // Track fullscreen state
   useEffect(() => {
     const onChange = () => setIsFullscreen(!!document.fullscreenElement);
@@ -418,23 +464,19 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
         const { data: { user } } = await supabase.auth.getUser();
         if (cancelled) return;
         if (!user) {
-          if (devMode) {
-            if (!cancelled) {
-              const demoId = "demo-user-" + Math.random().toString(36).slice(2, 10);
-              const spawn = { x: 300, y: 300 };
-              const player: WorldPlayer = {
-                id: demoId, label: "You", x: spawn.x, y: spawn.y,
-                targetX: spawn.x, targetY: spawn.y, dx: 0, dy: 0,
-                isLocal: true, colorIndex: 0, roomId: "entrance",
-                lastUpdate: Date.now(), isMuted: true, isVideoOn: false, isMoving: false,
-              };
-              setUserId(demoId);
-              setUserLabel("You");
-              setLocalPlayer(player);
-              setConnectionState("connected");
-              setLoading(false);
-            }
-          } else {
+          if (!cancelled) {
+            const demoId = "demo-user-" + Math.random().toString(36).slice(2, 10);
+            const spawn = { x: 300, y: 300 };
+            const player: WorldPlayer = {
+              id: demoId, label: "You", x: spawn.x, y: spawn.y,
+              targetX: spawn.x, targetY: spawn.y, dx: 0, dy: 0,
+              isLocal: true, colorIndex: 0, roomId: "entrance",
+              lastUpdate: Date.now(), isMuted: true, isVideoOn: false, isMoving: false,
+            };
+            setUserId(demoId);
+            setUserLabel("You");
+            setLocalPlayer(player);
+            setConnectionState("connected");
             setLoading(false);
           }
           return;
@@ -526,17 +568,15 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
   // Listen for multiplayer updates
   useEffect(() => {
     const unsubPos = multiplayerManager.onPositionUpdate((player) => {
-      if (!player.isLocal) {
-        setRemotePlayers((prev) => {
-          const idx = prev.findIndex((p) => p.id === player.id);
-          if (idx >= 0) {
-            const next = [...prev];
-            next[idx] = { ...next[idx], ...player, isLocal: false };
-            return next;
-          }
-          return [...prev, { ...player, isLocal: false }];
-        });
-      }
+      setRemotePlayers((prev) => {
+        const idx = prev.findIndex((p) => p.id === player.id);
+        if (idx >= 0) {
+          const next = [...prev];
+          next[idx] = { ...next[idx], ...player, isLocal: false };
+          return next;
+        }
+        return [...prev, { ...player, isLocal: false }];
+      });
     });
 
     const unsubLeave = multiplayerManager.onPlayerLeave((playerId) => {
@@ -837,6 +877,22 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
         onMessageSend={handleChatMessage}
       />
 
+      {/* Click-to-move overlay for desktop (and as fallback everywhere) */}
+      <div
+        className="absolute inset-0 z-10 cursor-crosshair hidden md:block"
+        onClick={(e) => {
+          const canvas = worldRef.current?.querySelector("canvas");
+          if (!canvas) return;
+          const rect = canvas.getBoundingClientRect();
+          // Convert click from screen → world tile coords
+          const worldPixelSize = WORLD_CONFIG.mapWidth * WORLD_CONFIG.tileSize;
+          const wx = ((e.clientX - rect.left) / rect.width) * worldPixelSize;
+          const wy = ((e.clientY - rect.top) / rect.height) * worldPixelSize;
+          movementInputRef.current?.setClickTarget({ x: wx, y: wy });
+        }}
+        onContextMenu={(e) => e.preventDefault()}
+      />
+
       <ConnectionOverlay state={connectionState} />
 
       <AnimatePresence>
@@ -967,9 +1023,112 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
               onVolumeChange={handleVolumeChange}
               volume={musicVolume}
             />
+
+            <button
+              onClick={() => setShowResourcePanel((v) => !v)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-foreground-dark/80 border border-border-light text-foreground-light hover:bg-foreground-dark transition-colors"
+              title="Library resources"
+            >
+              <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                <path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 014 17V5a2 2 0 012-2h14v2H6.5A2.5 2.5 0 004 7.5v12z" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span>Resources {resources.length > 0 && `(${resources.length})`}</span>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Resource panel overlay */}
+      <AnimatePresence>
+        {showResourcePanel && (
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.2 }}
+            className="absolute right-4 top-20 z-30 w-80 max-h-[60vh] bg-background-dark/90 backdrop-blur-sm border border-border-light rounded-xl shadow-2xl overflow-hidden flex flex-col"
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border-light/50">
+              <h3 className="text-sm font-semibold text-foreground-light">Library Resources</h3>
+              <button
+                onClick={() => setShowResourcePanel(false)}
+                className="p-1 rounded-md text-muted-light hover:text-foreground-light transition-colors"
+                aria-label="Close resources"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+            <div className="overflow-y-auto flex-1 p-2">
+              {resourcesLoading && (
+                <div className="flex items-center justify-center py-8">
+                  <div className="w-6 h-6 rounded-full border-2 border-accent border-t-transparent animate-spin" />
+                </div>
+              )}
+              {resourcesError && (
+                <div className="text-center py-6">
+                  <p className="text-xs text-red-400 mb-2">{resourcesError}</p>
+                  <button
+                    onClick={() => {
+                      setResourcesError(null);
+                      setResourcesLoading(true);
+                      fetch("/api/content/resources?visibility=published&limit=50")
+                        .then((r) => r.json())
+                        .then((data) => {
+                          const items = (data.resources || []).map((r: { id: string; name: string; mime_type: string; description?: string }) => ({
+                            id: r.id,
+                            title: r.name,
+                            type: r.mime_type.includes("pdf") ? "PDF" : "Document",
+                            description: r.description || undefined,
+                          }));
+                          setResources(items);
+                        })
+                        .catch(() => setResourcesError("Failed to load resources"))
+                        .finally(() => setResourcesLoading(false));
+                    }}
+                    className="text-xs text-accent hover:underline"
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+              {!resourcesLoading && !resourcesError && resources.length === 0 && (
+                <div className="text-center py-8">
+                  <p className="text-xs text-muted-light">No published resources yet.</p>
+                </div>
+              )}
+              {!resourcesLoading && !resourcesError && resources.map((resource) => (
+                <button
+                  key={resource.id}
+                  onClick={() => {
+                    setSelectedResource(resource);
+                    window.open(`/library/document/${resource.id}`, "_blank");
+                  }}
+                  className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-foreground-dark/60 transition-colors mb-1 group"
+                >
+                  <div className="flex items-start gap-2">
+                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-accent/20 text-accent font-medium shrink-0 mt-0.5">
+                      {resource.type}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-xs text-foreground-light font-medium truncate group-hover:text-accent transition-colors">
+                        {resource.title}
+                      </p>
+                      {resource.description && (
+                        <p className="text-[10px] text-muted-light mt-0.5 line-clamp-2">
+                          {resource.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Mobile touch controls */}
       {isMobile && (

@@ -40,15 +40,19 @@ export default function DocumentViewerPage() {
   const [error, setError] = useState<string | null>(null);
   const [accessDenied, setAccessDenied] = useState(false);
 
+  const [docDebug, setDocDebug] = useState<string | null>(null);
+
   const docId = params.id as string;
   const pdfProxyUrl = useMemo(() => {
-    if (!docId || !document?.signed_url) return null;
+    if (!docId) return null;
+    // The PDF proxy now accepts the document id directly and generates
+    // its own signed URL server-side. No signed URL is exposed to the client.
     const base =
       typeof window !== "undefined"
         ? window.location.origin
         : "";
-    return `${base}/api/library/document/${encodeURIComponent(docId)}/pdf?url=${encodeURIComponent(document.signed_url)}`;
-  }, [docId, document?.signed_url]);
+    return `${base}/api/library/document/${encodeURIComponent(docId)}/pdf`;
+  }, [docId]);
 
   useEffect(() => {
     if (!docId) return;
@@ -148,7 +152,7 @@ export default function DocumentViewerPage() {
                 { from: "64,30", to: "88,18", d: "2.0" },
                 { from: "64,30", to: "88,42", d: "2.4" },
               ].map((p, i) => (
-                <g key={i}>
+                <g key={p.d}>
                   <line
                     x1={p.from.split(",")[0]}
                     y1={p.from.split(",")[1]}
@@ -197,7 +201,7 @@ export default function DocumentViewerPage() {
                 { cx: 88, cy: 18, order: 4 },
                 { cx: 88, cy: 42, order: 5 },
               ].map((node) => (
-                <g key={node.cx}>
+                <g key={node.order}>
                   <circle
                     cx={node.cx}
                     cy={node.cy}
@@ -312,7 +316,7 @@ export default function DocumentViewerPage() {
     document.mime_type.includes("text") || document.mime_type.includes("markdown");
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-8">
+    <div className="max-w-5xl mx-auto px-4 py-6">
       {/* Breadcrumbs */}
       {document.breadcrumbs.length > 0 && (
         <nav className="flex items-center gap-1.5 text-sm text-muted mb-4 flex-wrap">
@@ -338,25 +342,44 @@ export default function DocumentViewerPage() {
       )}
 
       {/* Header */}
-      <div className="mb-6">
+      <div className="mb-4">
         <div className="flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold mb-2">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-xl md:text-2xl font-bold mb-1 truncate">
               {document.name}
             </h1>
             {document.description && (
-              <p className="text-muted">{document.description}</p>
+              <p className="text-muted text-sm">{document.description}</p>
             )}
-            <div className="flex items-center gap-3 mt-3 text-sm text-muted">
+            <div className="flex items-center gap-3 mt-2 text-xs text-muted">
               {document.access_tier === "premium" && (
                 <span className="px-2 py-0.5 bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-400 rounded-full text-xs font-medium">
                   Premium
                 </span>
               )}
-              <span>{document.original_filename}</span>
+              <span className="truncate">{document.original_filename}</span>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Toolbar */}
+      <div className="flex items-center justify-between gap-3 mb-3">
+        <Link
+          href="/library/world"
+          className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors px-3 py-2 border border-border rounded-lg hover:bg-foreground/5"
+        >
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+          Back to World
+        </Link>
+        <Link
+          href="/library"
+          className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-foreground transition-colors px-3 py-2 border border-border rounded-lg hover:bg-foreground/5"
+        >
+          Library Home
+        </Link>
       </div>
 
       {/* Content */}
@@ -364,7 +387,7 @@ export default function DocumentViewerPage() {
         {isPDF && pdfProxyUrl && (
           <Suspense fallback={
             <div className="flex items-center justify-center p-16">
-              <div className="w-12 h-12 rounded-full border-2 border-accent border-t-transparent animate-spin" />
+              <div className="w-10 h-10 rounded-full border-2 border-accent border-t-transparent animate-spin" />
             </div>
           }>
             <PDFViewer
@@ -391,12 +414,12 @@ export default function DocumentViewerPage() {
         )}
       </div>
 
-      <div className="mt-6">
+      <div className="mt-4">
         <Link
-          href="/library"
-          className="text-muted hover:text-foreground text-sm transition-colors"
+          href="/library/world"
+          className="text-sm text-muted hover:text-foreground transition-colors"
         >
-          Back to Library
+          Return to Virtual Library
         </Link>
       </div>
     </div>

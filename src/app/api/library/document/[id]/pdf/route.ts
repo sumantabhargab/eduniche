@@ -2,19 +2,17 @@
  * PDF proxy — streams a document PDF from Supabase Storage through this
  * server-side route.
  *
- * Security model:
- *   1. The client sends only the document ID — no storage paths, no tokens.
- *   2. This route re-verifies the resource exists and is published (and
- *      for premium documents, the user's session is re-checked against
- *      the same premium rules as the document API).
- *   3. A fresh signed URL is generated server-side using the service role
- *      key (never exposed to the client).
- *   4. The PDF bytes are streamed through with Content-Type: application/pdf,
- *      eliminating any cross-origin / CORS issues.
+ * Accepts a document `id` query parameter, re-verifies the resource exists
+ * and is published (and re-checks premium access), generates a fresh signed
+ * URL server-side, fetches the PDF bytes, and streams them to the client
+ * with Content-Type: application/pdf.
  *
- * This makes the response same-origin to the Next.js app, so both
- * react-pdf (fetch with credentials: "omit") and native browser downloads
- * work without CORS headaches.
+ * Security:
+ *   1. Client sends only the document ID — no storage paths, no tokens.
+ *   2. Server re-verifies resource exists and is published.
+ *   3. Premium access is re-checked server-side.
+ *   4. Signed URL is generated server-side with service-role key.
+ *   5. PDF bytes are streamed same-origin — no CORS issues.
  */
 
 import { NextResponse } from "next/server";
@@ -39,7 +37,7 @@ export async function GET(
     // 1) Look up the resource
     const { data: resource, error: resourceError } = await supabase
       .from("content_resources")
-      .select("id, name, storage_path, mime_type, access_tier, visibility, description, folder_id")
+      .select("id, name, storage_path, mime_type, access_tier, visibility, folder_id")
       .eq("id", id)
       .eq("visibility", "published")
       .maybeSingle();
@@ -79,21 +77,19 @@ export async function GET(
       }
     }
 
-    // 3) Generate a fresh signed URL (server-side, using service-role key)
+    // 3) Generate a fresh signed URL server-side
     const urlResult = await getSignedUrl(resource.storage_path, SIGNED_URL_TTL);
     if (!urlResult.success || !urlResult.url) {
-      return NextResponse.json({ error: "Failed to load document." }, { status: 500 });
+      return NextResponse.json({ error: "Failed to generate access link." }, { status: 500 });
     }
 
     // 4) Fetch the PDF bytes from Supabase Storage
     const pdfRes = await fetch(urlResult.url, {
-      // Don't forward the browser's cookies — Supabase signed URLs are
-      // self-contained tokens and don't need session cookies.
       credentials: "omit",
     });
 
     if (!pdfRes.ok || !pdfRes.body) {
-      console.error(`PDF proxy: upstream fetch failed — ${pdfRes.status} ${pdfRes.statusText}`);
+      console.error(`[PDF proxy] upstream fetch failed — ${pdfRes.status} ${pdfRes.statusText}`);
       return NextResponse.json(
         { error: "Failed to retrieve PDF from storage." },
         { status: pdfRes.status || 502 }
@@ -108,7 +104,6 @@ export async function GET(
       "Cache-Control",
       "private, no-store, no-cache, must-revalidate"
     );
-    // Remove Content-Disposition to avoid forcing a download dialog
     responseHeaders.delete("Content-Disposition");
 
     return new NextResponse(pdfRes.body, {
@@ -116,7 +111,7 @@ export async function GET(
       headers: responseHeaders,
     });
   } catch (e) {
-    console.error("PDF proxy error:", e);
+    console.error("[PDF proxy] error:", e);
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 }

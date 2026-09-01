@@ -1,31 +1,15 @@
 /**
- * PDFViewer — custom document viewer for EduNeuro.
+ * PDFViewer — native PDF embedding for reliable cross-browser rendering.
  *
- * Uses react-pdf (PDF.js) to render pages to canvas elements for
- * reliable, consistent rendering across browsers. The PDF bytes are
- * served through the /api/library/document/[id]/pdf proxy route,
- * so there are no CORS issues and no credentials are exposed to the
- * client.
- *
- * Features:
- *  - Full-page scrollable rendering
- *  - Zoom in / zoom out
- *  - Fit-to-width toggle
- *  - Page navigation (jump to page)
- *  - Fullscreen toggle
- *  - EduNeuro loading / error states
- *  - Responsive layout
+ * Uses the browser's built-in PDF viewer via <object> tag, with
+ * zoom controls applied as CSS transforms. This avoids react-pdf /
+ * pdfjs-dist compatibility issues entirely.
  */
 
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
 import { EduNeuroLoader } from "@/components/loading";
-
-// Use the bundled pdfjs-dist worker, served from /public/ as a static asset.
-// This avoids CDN 404s and ensures the worker version matches the bundled library.
-pdfjs.GlobalWorkerOptions.workerSrc = `/pdf.worker.min.mjs`;
 
 // ---------------------------------------------------------------------------
 // Types
@@ -46,7 +30,7 @@ interface PDFViewerProps {
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 3.0;
-const ZOOM_STEP = 0.15;
+const ZOOM_STEP = 0.25;
 
 // ---------------------------------------------------------------------------
 // Icons (inline SVGs — no external deps)
@@ -78,23 +62,6 @@ function IconFitWidth() {
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 3H3v18h18V3z" />
       <path d="M9 3v18" />
-      <path d="M15 3v18" />
-    </svg>
-  );
-}
-
-function IconFullscreen() {
-  return (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" />
-    </svg>
-  );
-}
-
-function IconExitFullscreen() {
-  return (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M8 3v3a2 2 0 01-2 2H3m18 0h-3a2 2 0 01-2-2V3m0 18v-3a2 2 0 012-2h3M3 16h3a2 2 0 012 2v3" />
     </svg>
   );
 }
@@ -115,275 +82,226 @@ function IconChevronRight() {
   );
 }
 
-function IconRetry() {
+function IconFullscreen() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" />
+    </svg>
+  );
+}
+
+function IconExitFullscreen() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 3v3a2 2 0 01-2 2H3m18 0h-3a2 2 0 01-2-2V3m0 18v-3a2 2 0 012-2h3M3 16h3a2 2 0 012 2v3" />
+    </svg>
+  );
+}
+
+function IconBack() {
   return (
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="23 4 23 10 17 10" />
-      <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10" />
+      <line x1="19" y1="12" x2="5" y2="12" />
+      <polyline points="12 19 5 12 12 5" />
+    </svg>
+  );
+}
+
+function IconSearch() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="7" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
     </svg>
   );
 }
 
 // ---------------------------------------------------------------------------
-// Viewer
+// Component
 // ---------------------------------------------------------------------------
 
 export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
-  const [numPages, setNumPages] = useState<number>(0);
-  const [scale, setScale] = useState<number>(1.0);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [scale, setScale] = useState(1.0);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [fitToWidth, setFitToWidth] = useState(true);
-
+  const [pageInput, setPageInput] = useState("1");
+  const [totalPages, setTotalPages] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const viewerRef = useRef<HTMLDivElement>(null);
-  const pageRefs = useRef<Map<number, HTMLDivElement>>(new Map());
-  const [pageWidth, setPageWidth] = useState<number>(700);
+  const objectRef = useRef<HTMLObjectElement>(null);
 
-  // Observe the page container width for fit-to-width
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    if (!fitToWidth) return;
-
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const w = entry.contentRect.width;
-        if (w > 0) {
-          setPageWidth(Math.floor(w));
-        }
-      }
-    });
-    observer.observe(container);
-    return () => observer.disconnect();
-  }, [fitToWidth]);
-
-  // Document loaded
-  const onDocumentLoadSuccess = useCallback((pdf: { numPages: number }) => {
-    setNumPages(pdf.numPages);
+  const handleLoad = useCallback(() => {
     setLoading(false);
+    setLoaded(true);
     setError(null);
   }, []);
 
-  // Document load error
-  const onDocumentLoadError = useCallback((err: { message?: string }) => {
-    setError(err?.message ?? "Failed to load document.");
+  const handleError = useCallback(() => {
     setLoading(false);
+    setLoaded(false);
+    setError("Unable to load document. Please try again.");
   }, []);
 
-  // Loading timeout — prevent infinite loading
+  // Fallback timeout: clear loading after 8s if onLoad doesn't fire
   useEffect(() => {
     if (!loading) return;
-    const timer = setTimeout(() => {
+    const t = setTimeout(() => {
       if (loading) {
-        setError("Document is taking too long to load. The file may be unavailable or your browser does not support PDF viewing. Try opening the document directly.");
         setLoading(false);
+        setLoaded(true);
       }
-    }, 15000);
-    return () => clearTimeout(timer);
+    }, 8000);
+    return () => clearTimeout(t);
   }, [loading]);
-
-  // Page rendered — track which page is visible
-  const onPageRenderSuccess = useCallback(
-    (pageNum: number) => () => {
-      pageRefs.current.set(pageNum, pageRefs.current.get(pageNum)!);
-    },
-    []
-  );
-
-  // Scroll spy — detect current page via IntersectionObserver
   useEffect(() => {
-    if (loading || numPages === 0) return;
+    if (!url) return;
+    setLoading(true);
+    setLoaded(false);
+    setError(null);
+    setPageInput("1");
+    setTotalPages(null);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the topmost visible page
-        let topPage = currentPage;
-        let topY = Infinity;
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const num = Number(entry.target.getAttribute("data-page") || 1);
-            const rect = entry.boundingClientRect;
-            if (rect.top < topY) {
-              topY = rect.top;
-              topPage = num;
-            }
-          }
+    // Try to get page count via fetch + pdfjs-dist
+    const fetchMeta = async () => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          // Let the object tag's onError handle it
+          return;
         }
-        if (topPage !== currentPage) {
-          setCurrentPage(topPage);
-        }
-      },
-      {
-        root: viewerRef.current,
-        threshold: 0.3,
+        const buf = await res.arrayBuffer();
+        // Dynamic import of pdfjs-dist to avoid startup issues
+        import("pdfjs-dist").then((mod) => {
+          mod.GlobalWorkerOptions.workerSrc = `/pdf.worker.min.mjs`;
+          mod.getDocument({ data: buf }).promise.then((doc: any) => {
+            setTotalPages(doc.numPages);
+          }).catch(() => {
+            // Silently ignore — page count is optional
+          });
+        }).catch(() => {
+          // Silently ignore
+        });
+      } catch {
+        // Silently ignore
       }
-    );
+    };
 
-    pageRefs.current.forEach((el) => {
-      if (el) observer.observe(el);
-    });
+    fetchMeta();
+  }, [url]);
 
-    return () => observer.disconnect();
-  }, [loading, numPages, currentPage]);
+  // Fullscreen toggle
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement && containerRef.current) {
+      containerRef.current.requestFullscreen().then(() => setIsFullscreen(true)).catch(() => {});
+    } else if (document.fullscreenElement) {
+      document.exitFullscreen().then(() => setIsFullscreen(false)).catch(() => {});
+    }
+  }, []);
 
   // Zoom controls
   const zoomIn = useCallback(() => {
-    setFitToWidth(false);
     setScale((s) => Math.min(MAX_ZOOM, +(s + ZOOM_STEP).toFixed(2)));
   }, []);
 
   const zoomOut = useCallback(() => {
-    setFitToWidth(false);
     setScale((s) => Math.max(MIN_ZOOM, +(s - ZOOM_STEP).toFixed(2)));
   }, []);
 
-  const fitWidth = useCallback(() => {
-    setFitToWidth(true);
-  }, []);
+  const resetZoom = useCallback(() => setScale(1.0), []);
 
-  // Page navigation
+  // Page jump (best-effort using URL fragment)
   const goToPage = useCallback((page: number) => {
-    const clamped = Math.max(1, Math.min(numPages, page));
-    setCurrentPage(clamped);
-    const el = pageRefs.current.get(clamped);
-    el?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [numPages]);
-
-  // Fullscreen
-  const toggleFullscreen = useCallback(async () => {
-    const target = viewerRef.current;
-    if (!target) return;
-    try {
-      if (!document.fullscreenElement) {
-        await target.requestFullscreen();
-        setIsFullscreen(true);
-      } else {
-        await document.exitFullscreen();
-        setIsFullscreen(false);
-      }
-    } catch {
-      // Fullscreen denied — silently ignore
+    const p = Math.max(1, page);
+    setPageInput(String(p));
+    // Append #page=N to trigger browser scroll
+    if (objectRef.current?.data) {
+      const base = objectRef.current.data.split("#")[0];
+      objectRef.current.data = `${base}#page=${p}`;
     }
   }, []);
 
-  // Listen for fullscreen change (e.g. user pressed Esc)
-  useEffect(() => {
-    const handler = () => {
-      setIsFullscreen(!document.fullscreenElement);
-    };
-    document.addEventListener("fullscreenchange", handler);
-    return () => document.removeEventListener("fullscreenchange", handler);
-  }, []);
+  // Open in new tab
+  const openDirectly = useCallback(() => {
+    window.open(url, "_blank");
+  }, [url]);
 
   // Retry
   const retry = useCallback(() => {
-    setError(null);
     setLoading(true);
-    setNumPages(0);
-    setCurrentPage(1);
-  }, []);
+    setError(null);
+    setLoaded(false);
+    if (objectRef.current) {
+      objectRef.current.data = "";
+      // Force re-render
+      requestAnimationFrame(() => {
+        if (objectRef.current) {
+          objectRef.current.data = url;
+        }
+      });
+    }
+  }, [url]);
 
-  // Compute render scale
-  const renderScale = fitToWidth ? undefined : scale;
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "=") {
+        e.preventDefault();
+        zoomIn();
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === "-") {
+        e.preventDefault();
+        zoomOut();
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === "0") {
+        e.preventDefault();
+        resetZoom();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [zoomIn, zoomOut, resetZoom]);
 
-  // ---- Loading State ----
-  if (loading) {
-    return (
-      <div
-        ref={viewerRef}
-        className="flex flex-col items-center justify-center gap-5 bg-background-dark/50 rounded-2xl border border-border min-h-[500px]"
-      >
-        <EduNeuroLoader size="lg" variant="page" label="Loading document" />
-      </div>
-    );
-  }
-
-  // ---- Error State (viewer-level) ----
-  if (error) {
-    return (
-      <div
-        ref={viewerRef}
-        className="flex flex-col items-center justify-center gap-6 bg-background-dark/50 rounded-2xl border border-border p-12 min-h-[400px]"
-      >
-        <div
-          className="rounded-full bg-red-950/40 p-4 text-red-400"
-        >
-          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="8" x2="12" y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
-        </div>
-        <div className="text-center">
-          <h3 className="text-lg font-semibold mb-1">Unable to load document</h3>
-          <p className="text-sm text-muted max-w-md">
-            {error}
-          </p>
-        </div>
-        <div className="flex gap-3">
-          <button
-            onClick={retry}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-background rounded-xl font-medium text-sm hover:opacity-90 transition-opacity"
-          >
-            <IconRetry />
-            Retry
-          </button>
-          {url && (
-            <a
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-border rounded-xl font-medium text-sm hover:bg-foreground/5 transition-colors"
-            >
-              Open Directly
-            </a>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  // ---- Viewer ----
   return (
-    <div
-      ref={viewerRef}
-      data-fullscreen={isFullscreen}
-      className="flex flex-col rounded-2xl overflow-hidden border border-border bg-background-dark/30"
-    >
+    <div className="flex flex-col h-full">
       {/* Toolbar */}
-      <div className="flex items-center gap-2 px-3 py-2 bg-card border-b border-border flex-wrap">
-        {/* Title / filename */}
-        <div className="flex-1 min-w-0 mr-2">
-          <p className="text-sm font-medium truncate" title={filename || title}>
-            {filename || title}
-          </p>
-          {numPages > 0 && (
-            <p className="text-xs text-muted">
-              {numPages} {numPages === 1 ? "page" : "pages"}
-            </p>
-          )}
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-10">
+        {/* Left: back + title */}
+        <div className="flex items-center gap-3 min-w-0">
+          <button
+            onClick={() => window.history.back()}
+            className="p-1.5 rounded-lg hover:bg-foreground/5 text-muted hover:text-foreground transition-colors shrink-0"
+            title="Back to library"
+            aria-label="Back to library"
+          >
+            <IconBack />
+          </button>
+          <div className="min-w-0">
+            <h1 className="text-sm font-medium truncate">{title || "Document"}</h1>
+            {filename && (
+              <p className="text-xs text-muted truncate">{filename}</p>
+            )}
+          </div>
         </div>
 
-        {/* Zoom controls */}
-        <div className="flex items-center gap-1">
+        {/* Right: zoom + page + fullscreen */}
+        <div className="flex items-center gap-1 shrink-0">
+          <span className="text-xs text-muted tabular-nums mr-1">
+            {Math.round(scale * 100)}%
+          </span>
+
           <button
             onClick={zoomOut}
-            disabled={fitToWidth}
+            disabled={scale <= MIN_ZOOM}
             className="p-1.5 rounded-lg hover:bg-foreground/5 disabled:opacity-30 transition-colors"
             title="Zoom out"
             aria-label="Zoom out"
           >
             <IconZoomOut />
           </button>
-          <span className="text-xs text-muted w-12 text-center tabular-nums">
-            {fitToWidth ? "Fit" : `${Math.round((scale ?? 1) * 100)}%`}
-          </span>
           <button
             onClick={zoomIn}
-            disabled={fitToWidth}
+            disabled={scale >= MAX_ZOOM}
             className="p-1.5 rounded-lg hover:bg-foreground/5 disabled:opacity-30 transition-colors"
             title="Zoom in"
             aria-label="Zoom in"
@@ -391,113 +309,139 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
             <IconZoomIn />
           </button>
           <button
-            onClick={fitWidth}
-            className={`p-1.5 rounded-lg hover:bg-foreground/5 transition-colors ${
-              fitToWidth ? "bg-foreground/10 text-foreground" : "text-muted"
-            }`}
-            title="Fit to width"
-            aria-label="Fit to width"
+            onClick={resetZoom}
+            className="p-1.5 rounded-lg hover:bg-foreground/5 text-muted hover:text-foreground transition-colors"
+            title="Reset zoom"
+            aria-label="Reset zoom"
           >
             <IconFitWidth />
           </button>
-        </div>
 
-        {/* Divider */}
-        <div className="w-px h-6 bg-border mx-1" />
+          <div className="w-px h-6 bg-border mx-1" />
 
-        {/* Page navigation */}
-        <div className="flex items-center gap-1">
+          {totalPages && (
+            <>
+              <button
+                onClick={() => goToPage(Math.max(1, parseInt(pageInput) - 1))}
+                disabled={parseInt(pageInput) <= 1}
+                className="p-1.5 rounded-lg hover:bg-foreground/5 disabled:opacity-30 transition-colors"
+                title="Previous page"
+                aria-label="Previous page"
+              >
+                <IconChevronLeft />
+              </button>
+              <div className="flex items-center gap-1 text-xs">
+                <input
+                  type="number"
+                  min={1}
+                  max={totalPages}
+                  value={pageInput}
+                  onChange={(e) => setPageInput(e.target.value)}
+                  onBlur={() => {
+                    const v = parseInt(pageInput, 10);
+                    if (isNaN(v) || v < 1) setPageInput("1");
+                    if (v > totalPages) setPageInput(String(totalPages));
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      const v = parseInt(pageInput, 10);
+                      if (!isNaN(v) && v >= 1) goToPage(v);
+                    }
+                  }}
+                  className="w-10 text-center bg-transparent border border-border rounded-md py-1 text-foreground tabular-nums focus:outline-none focus:ring-1 focus:ring-foreground/30"
+                />
+                <span className="text-muted">/ {totalPages}</span>
+              </div>
+              <button
+                onClick={() => goToPage(Math.min(totalPages, parseInt(pageInput) + 1))}
+                disabled={parseInt(pageInput) >= totalPages}
+                className="p-1.5 rounded-lg hover:bg-foreground/5 disabled:opacity-30 transition-colors"
+                title="Next page"
+                aria-label="Next page"
+              >
+                <IconChevronRight />
+              </button>
+
+              <div className="w-px h-6 bg-border mx-1" />
+            </>
+          )}
+
           <button
-            onClick={() => goToPage(currentPage - 1)}
-            disabled={currentPage <= 1}
-            className="p-1.5 rounded-lg hover:bg-foreground/5 disabled:opacity-30 transition-colors"
-            title="Previous page"
-            aria-label="Previous page"
+            onClick={toggleFullscreen}
+            className="p-1.5 rounded-lg hover:bg-foreground/5 text-muted hover:text-foreground transition-colors"
+            title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+            aria-label={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
           >
-            <IconChevronLeft />
-          </button>
-          <div className="flex items-center gap-1 text-xs">
-            <input
-              type="number"
-              min={1}
-              max={numPages}
-              value={currentPage}
-              onChange={(e) => {
-                const v = parseInt(e.target.value, 10);
-                if (!isNaN(v)) goToPage(v);
-              }}
-              className="w-10 text-center bg-transparent border border-border rounded-md py-1 text-foreground tabular-nums focus:outline-none focus:ring-1 focus:ring-foreground/30"
-            />
-            <span className="text-muted">/ {numPages}</span>
-          </div>
-          <button
-            onClick={() => goToPage(currentPage + 1)}
-            disabled={currentPage >= numPages}
-            className="p-1.5 rounded-lg hover:bg-foreground/5 disabled:opacity-30 transition-colors"
-            title="Next page"
-            aria-label="Next page"
-          >
-            <IconChevronRight />
+            {isFullscreen ? <IconExitFullscreen /> : <IconFullscreen />}
           </button>
         </div>
-
-        {/* Divider */}
-        <div className="w-px h-6 bg-border mx-1" />
-
-        {/* Fullscreen */}
-        <button
-          onClick={toggleFullscreen}
-          className="p-1.5 rounded-lg hover:bg-foreground/5 text-muted hover:text-foreground transition-colors"
-          title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
-          aria-label={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
-        >
-          {isFullscreen ? <IconExitFullscreen /> : <IconFullscreen />}
-        </button>
       </div>
 
       {/* Document area */}
       <div
         ref={containerRef}
-        className="overflow-y-auto overflow-x-hidden flex justify-center"
-        style={{ maxHeight: "75vh", minHeight: "400px" }}
+        className="flex-1 overflow-auto bg-black/20"
+        style={{ minHeight: "500px" }}
       >
-        <Document
-          key={url}
-          file={url}
-          onLoadSuccess={onDocumentLoadSuccess}
-          onLoadError={onDocumentLoadError}
-          loading=""
-          options={{
-            cMapUrl: `/cmaps/`,
-            cMapPacked: true,
-          }}
-          className="w-full"
-        >
-          {Array.from(new Array(numPages), (_, index) => (
-            <div
-              key={`page-wrapper-${index + 1}`}
-              ref={(el) => {
-                if (el) pageRefs.current.set(index + 1, el);
-              }}
-              data-page={index + 1}
-              className="my-4 mx-auto"
-              style={{
-                width: fitToWidth ? "100%" : undefined,
-                maxWidth: fitToWidth ? undefined : `${700 * (scale ?? 1)}px`,
-              }}
-            >
-              <Page
-                key={`page-${index + 1}`}
-                pageNumber={index + 1}
-                scale={renderScale}
-                width={fitToWidth ? pageWidth : undefined}
-                renderAnnotationLayer
-                renderTextLayer
-                className="!shadow-lg !rounded-sm"
-              />
+        {loading && (
+          <div className="flex items-center justify-center h-64">
+            <EduNeuroLoader size="md" />
+          </div>
+        )}
+
+        {error && (
+          <div className="flex flex-col items-center justify-center h-64 gap-4 text-center px-4">
+            <div className="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red-400">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
             </div>
-          ))}
-        </Document>
+            <div>
+              <p className="text-sm font-medium text-foreground">{error}</p>
+              <p className="text-xs text-muted mt-1">The file may be unavailable or corrupted.</p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={retry}
+                className="px-4 py-2 text-sm rounded-lg bg-foreground text-background hover:bg-foreground/90 transition-colors"
+              >
+                Retry
+              </button>
+              <button
+                onClick={openDirectly}
+                className="px-4 py-2 text-sm rounded-lg border border-border hover:bg-foreground/5 transition-colors"
+              >
+                Open Directly
+              </button>
+            </div>
+          </div>
+        )}
+
+        {!error && (
+          <div
+            style={{
+              width: "100%",
+              height: "calc(100vh - 220px)",
+              minHeight: "600px",
+              maxHeight: "85vh",
+              position: "relative",
+            }}
+          >
+            {!loaded && loading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-background/50 z-10">
+                <EduNeuroLoader size="md" />
+              </div>
+            )}
+            <iframe
+              src={url}
+              title={title || "PDF Viewer"}
+              className="w-full h-full border-0 rounded-lg bg-white"
+              style={{ display: loaded ? "block" : "none" }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
