@@ -2,14 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
-import type {
-  GameQuestion,
-  FallingTarget,
-  Projectile,
-  Bomb,
-  Player,
-  FeedbackState,
-} from "@/modules/game/types";
+import type { GameQuestion, FallingTarget, Projectile, Bomb } from "@/modules/game/types";
 import { getQuestionsForBranch, toAnswerMapping } from "@/modules/game/services/questions";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -17,8 +10,8 @@ import { getQuestionsForBranch, toAnswerMapping } from "@/modules/game/services/
 const TARGET_RADIUS = 18;
 const BOMB_RADIUS = 20;
 const PROJECTILE_RADIUS = 4;
-const PROJECTILE_SPEED = 8;
-const BASE_TARGET_SPEED = 1.2;
+const PROJECTILE_SPEED = 7;
+const BASE_TARGET_SPEED = 1.0;
 const MAX_SPEED = 5;
 const SPEED_INCREMENT = 0.04;
 const BOMB_CHANCE_BASE = 0.012;
@@ -29,6 +22,7 @@ const QUESTIONS_PER_SESSION = 15;
 const PLAYER_WIDTH = 50;
 const PLAYER_HEIGHT = 12;
 const ARENA_PADDING = 20;
+const SPAWN_INTERVAL_BASE = 1400;
 
 const COLORS = {
   bg: "#0a0e17",
@@ -44,44 +38,91 @@ const COLORS = {
   projectile: "#22d3ee",
   correct: "#22c55e",
   wrong: "#ef4444",
-  feedbackText: "#ffffff",
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function clamp(n: number, lo: number, hi: number) {
-  return Math.max(lo, Math.min(hi, n));
-}
+const rand = (lo: number, hi: number) => lo + Math.random() * (hi - lo);
+const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+let _uid = 0;
+const uid = () => `${Date.now()}-${++_uid}`;
 
-function rand(a: number, b: number) {
-  return a + Math.random() * (b - a);
-}
-
-function checkCollision(
-  a: { x: number; y: number; r?: number; radius?: number },
-  b: { x: number; y: number; r?: number; radius?: number }
+function drawCircle(
+  ctx: CanvasRenderingContext2D,
+  x: number, y: number, r: number,
+  fill: string, stroke: string, text: string, textColor: string
 ) {
-  const ar = a.r ?? a.radius ?? 0;
-  const br = b.r ?? b.radius ?? 0;
-  const dx = a.x - b.x;
-  const dy = a.y - b.y;
-  return Math.sqrt(dx * dx + dy * dy) < ar + br;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = fill;
+  ctx.fill();
+  ctx.strokeStyle = stroke;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = textColor;
+  ctx.font = `bold ${r * 0.9}px "Courier New", monospace`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(text, x, y);
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
+function drawBombIcon(ctx: CanvasRenderingContext2D, x: number, y: number, r: number) {
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = COLORS.bombFill;
+  ctx.fill();
+  ctx.strokeStyle = COLORS.bombStroke;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = COLORS.bombText;
+  ctx.font = `bold ${r}px sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("⚡", x, y);
+  ctx.restore();
+}
+
+function drawPlayer(ctx: CanvasRenderingContext2D, p: { x: number; y: number; width: number; height: number }) {
+  const cx = p.x + p.width / 2;
+  const by = p.y + p.height;
+  // Body
+  ctx.fillStyle = COLORS.playerFill;
+  ctx.fillRect(p.x + 2, p.y + 4, p.width - 4, p.height - 4);
+  ctx.strokeStyle = COLORS.playerStroke;
+  ctx.lineWidth = 1;
+  ctx.strokeRect(p.x + 2, p.y + 4, p.width - 4, p.height - 4);
+  // Barrel
+  ctx.fillStyle = COLORS.playerStroke;
+  ctx.fillRect(cx - 1.5, p.y - 8, 3, 12);
+  // Base circle
+  ctx.beginPath();
+  ctx.arc(cx, by, p.width * 0.4, Math.PI, 0);
+  ctx.fillStyle = COLORS.playerFill;
+  ctx.fill();
+  ctx.strokeStyle = COLORS.playerStroke;
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 export default function GamePlayClient() {
   const searchParams = useSearchParams();
   const branch = searchParams.get("branch") || "cse";
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animRef = useRef<number>(0);
-  const lastTimeRef = useRef<number>(0);
+  const animRef = useRef(0);
+  const lastTimeRef = useRef(0);
   const keysRef = useRef<Set<string>>(new Set());
+  const hitSetRef = useRef<Set<string>>(new Set());
+  const gRef = useRef<any>(null);
 
   const [phase, setPhase] = useState<"idle" | "loading" | "playing" | "paused" | "game_over">("idle");
   const [question, setQuestion] = useState<GameQuestion | null>(null);
-  const [answerMap, setAnswerMap] = useState<{ A: string; B: string; C: string; D: string }>({ A: "", B: "", C: "", D: "" });
+  const [answerMap, setAnswerMap] = useState<{ A: string; B: string; C: string; D: string }>({
+    A: "", B: "", C: "", D: "",
+  });
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
   const [bestCombo, setBestCombo] = useState(0);
@@ -99,88 +140,58 @@ export default function GamePlayClient() {
     time: string;
   } | null>(null);
 
-  const S = useRef({
-    phase: "idle" as "idle" | "loading" | "playing" | "paused" | "game_over",
-    score: 0,
-    combo: 0,
-    bestCombo: 0,
-    lives: BASE_LIVES,
-    speedMultiplier: 1,
-    questionsAnswered: 0,
-    correctAnswers: 0,
-    currentQuestion: null as GameQuestion | null,
-    targets: [] as FallingTarget[],
-    projectiles: [] as Projectile[],
-    bombs: [] as Bomb[],
-    particles: [] as { x: number; y: number; vx: number; vy: number; life: number; color: string; size: number }[],
-    player: { x: 0, y: 0, width: PLAYER_WIDTH, height: PLAYER_HEIGHT } as Player,
-    spawnTimer: 0,
-    targetSpawnInterval: 1800,
-    questions: [] as GameQuestion[],
-    usedIds: new Set<string>(),
-    sessionStart: 0,
-    arenaWidth: 0,
-    arenaHeight: 0,
-  });
+  // ─── Init game ref (once) ────────────────────────────────────────────────────
+
+  useEffect(() => {
+    gRef.current = {
+      phase: "idle",
+      score: 0,
+      combo: 0,
+      bestCombo: 0,
+      lives: BASE_LIVES,
+      speedMultiplier: 1,
+      questionsAnswered: 0,
+      correctAnswers: 0,
+      currentQuestion: null as GameQuestion | null,
+      targets: [] as FallingTarget[],
+      projectiles: [] as Projectile[],
+      bombs: [] as Bomb[],
+      particles: [] as any[],
+      player: { x: 200, y: 100, width: PLAYER_WIDTH, height: PLAYER_HEIGHT },
+      spawnTimer: 0,
+      targetSpawnInterval: SPAWN_INTERVAL_BASE,
+      questions: [] as GameQuestion[],
+      usedIds: new Set<string>(),
+      sessionStart: 0,
+    };
+  }, []);
 
   // ─── Load questions ─────────────────────────────────────────────────────────
 
   const loadQuestions = useCallback(async () => {
     try {
       const questions = await getQuestionsForBranch(branch as any, 30);
-      S.current.questions = questions;
+      gRef.current.questions = questions;
     } catch {
       console.error("Failed to load questions");
     }
   }, [branch]);
 
-  // ─── Spawn helpers ──────────────────────────────────────────────────────────
-
-  let idCounter = 0;
-  const uid = () => `${Date.now()}-${++idCounter}`;
-
-  const spawnTarget = (arenaW: number, arenaH: number, speedMul: number): FallingTarget => {
-    const letters: Array<"A" | "B" | "C" | "D"> = ["A", "B", "C", "D"];
-    const letter = letters[Math.floor(Math.random() * 4)];
-    return {
-      id: uid(),
-      letter,
-      x: rand(ARENA_PADDING + TARGET_RADIUS, arenaW - ARENA_PADDING - TARGET_RADIUS),
-      y: -TARGET_RADIUS * 2,
-      speed: BASE_TARGET_SPEED * speedMul * rand(0.85, 1.15),
-      drift: rand(-0.3, 0.3),
-      radius: TARGET_RADIUS,
-      opacity: 1,
-    };
-  };
-
-  const spawnBomb = (arenaW: number, arenaH: number, speedMul: number): Bomb => {
-    const x = rand(ARENA_PADDING + BOMB_RADIUS, arenaW - ARENA_PADDING - BOMB_RADIUS);
-    return {
-      id: uid(),
-      x,
-      y: -BOMB_RADIUS * 2,
-      speed: BASE_TARGET_SPEED * speedMul * rand(0.8, 1.0),
-      drift: rand(-0.2, 0.2),
-      radius: BOMB_RADIUS,
-      opacity: 1,
-    };
-  };
-
   // ─── Next question ──────────────────────────────────────────────────────────
 
   const nextQuestion = useCallback(() => {
-    const s = S.current;
-    const available = s.questions.filter((q) => !s.usedIds.has(q.id));
+    const g = gRef.current;
+    if (g.phase !== "playing") return;
+
+    const available = g.questions.filter((q: GameQuestion) => !g.usedIds.has(q.id));
     if (available.length === 0) {
-      s.questions = [];
-      s.usedIds = new Set();
+      g.usedIds = new Set();
       loadQuestions().then(() => {
-        const available2 = s.questions.filter((q) => !s.usedIds.has(q.id));
-        if (available2.length > 0) {
-          const q = available2[Math.floor(Math.random() * available2.length)];
-          s.usedIds.add(q.id);
-          s.currentQuestion = q;
+        const avail2 = g.questions.filter((q: GameQuestion) => !g.usedIds.has(q.id));
+        if (avail2.length > 0) {
+          const q = avail2[Math.floor(Math.random() * avail2.length)];
+          g.usedIds.add(q.id);
+          g.currentQuestion = q;
           setQuestion(q);
           setAnswerMap(toAnswerMapping(q));
           setQuestionNum((n) => n + 1);
@@ -189,315 +200,87 @@ export default function GamePlayClient() {
       return;
     }
     const q = available[Math.floor(Math.random() * available.length)];
-    s.usedIds.add(q.id);
-    s.currentQuestion = q;
+    g.usedIds.add(q.id);
+    g.currentQuestion = q;
     setQuestion(q);
     setAnswerMap(toAnswerMapping(q));
     setQuestionNum((n) => n + 1);
   }, [loadQuestions]);
 
-  // ─── Start game ─────────────────────────────────────────────────────────────
-
-  const startGame = useCallback(async () => {
-    await loadQuestions();
-    const s = S.current;
-    s.score = 0;
-    s.combo = 0;
-    s.bestCombo = 0;
-    s.lives = BASE_LIVES;
-    s.speedMultiplier = 1;
-    s.questionsAnswered = 0;
-    s.correctAnswers = 0;
-    s.targets = [];
-    s.projectiles = [];
-    s.bombs = [];
-    s.particles = [];
-    s.spawnTimer = 0;
-    s.targetSpawnInterval = 1800;
-    s.usedIds = new Set();
-    s.sessionStart = Date.now();
-    s.phase = "playing";
-    setScore(0);
-    setCombo(0);
-    setBestCombo(0);
-    setLives(BASE_LIVES);
-    setTotalAnswered(0);
-    setTotalCorrect(0);
-    setQuestionNum(1);
-    setPhase("playing");
-    setGameResult(null);
-    nextQuestion();
-  }, [loadQuestions, nextQuestion]);
-
   // ─── Handle hit ─────────────────────────────────────────────────────────────
 
   const handleHit = useCallback((target: FallingTarget) => {
-    const s = S.current;
-    if (!s.currentQuestion) return;
-    const correct = s.currentQuestion.correct_option;
-    s.questionsAnswered += 1;
+    const g = gRef.current;
+    if (!g.currentQuestion) return;
+    const correct = g.currentQuestion.correct_option;
+    g.questionsAnswered += 1;
     setTotalAnswered((n) => n + 1);
+
     if (target.letter === correct) {
       target.opacity = 0;
-      s.combo += 1;
-      s.correctAnswers += 1;
-      s.score += 100 * s.combo;
-      s.speedMultiplier = Math.min(MAX_SPEED, s.speedMultiplier + SPEED_INCREMENT);
-      setCombo(s.combo);
-      setBestCombo((prev) => Math.max(prev, s.combo));
-      setScore(s.score);
+      g.combo += 1;
+      g.correctAnswers += 1;
+      g.score += 100 * g.combo;
+      g.speedMultiplier = Math.min(MAX_SPEED, g.speedMultiplier + SPEED_INCREMENT);
+      setCombo(g.combo);
+      setBestCombo((prev) => Math.max(prev, g.combo));
+      setScore(g.score);
       setTotalCorrect((n) => n + 1);
-      setFeedback({ text: `CORRECT +${100 * s.combo}`, color: COLORS.correct, start: Date.now() });
+      setFeedback({ text: `CORRECT +${100 * g.combo}`, color: COLORS.correct, start: Date.now() });
       setTimeout(() => setFeedback(null), FEEDBACK_DURATION);
       nextQuestion();
     } else {
-      s.combo = 0;
-      s.score = Math.max(0, s.score - 50);
+      g.combo = 0;
+      g.score = Math.max(0, g.score - 50);
       setCombo(0);
-      setScore(s.score);
+      setScore(g.score);
       setFeedback({ text: `WRONG — Answer: ${correct}`, color: COLORS.wrong, start: Date.now() });
       setTimeout(() => setFeedback(null), FEEDBACK_DURATION);
       nextQuestion();
     }
   }, [nextQuestion]);
 
-  // ─── Game loop ──────────────────────────────────────────────────────────────
+  // ─── Start game ─────────────────────────────────────────────────────────────
 
-  const tick = useCallback((now: number) => {
-    const s = S.current;
-    const canvas = canvasRef.current;
-    if (!canvas || s.phase !== "playing") return;
+  const startGame = useCallback(async () => {
+    const g = gRef.current;
+    g.phase = "playing";
+    g.score = 0; g.combo = 0; g.bestCombo = 0;
+    g.lives = BASE_LIVES; g.speedMultiplier = 1;
+    g.questionsAnswered = 0; g.correctAnswers = 0;
+    g.targets = []; g.projectiles = []; g.bombs = []; g.particles = [];
+    g.spawnTimer = 0; g.targetSpawnInterval = SPAWN_INTERVAL_BASE;
+    g.usedIds = new Set(); g.sessionStart = Date.now();
 
-    if (!lastTimeRef.current) lastTimeRef.current = now;
-    const dt = Math.min(50, now - lastTimeRef.current);
-    lastTimeRef.current = now;
+    setScore(0); setCombo(0); setBestCombo(0);
+    setLives(BASE_LIVES); setTotalAnswered(0); setTotalCorrect(0);
+    setQuestionNum(1); setPhase("playing"); setGameResult(null);
+    hitSetRef.current = new Set();
+    lastTimeRef.current = 0;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    await loadQuestions();
+    nextQuestion();
+  }, [branch, loadQuestions, nextQuestion]);
 
-    const W = canvas.width;
-    const H = canvas.height;
-    const groundY = H - 40;
+  // ─── End game ───────────────────────────────────────────────────────────────
 
-    // Update targets
-    for (const t of s.targets) {
-      t.y += t.speed * dt * 0.06;
-      t.x += t.drift;
-      t.x = clamp(t.x, ARENA_PADDING + t.radius, W - ARENA_PADDING - t.radius);
-      if (t.y > groundY && t.opacity > 0) {
-        t.opacity = 0;
-        s.lives -= 1;
-        s.combo = 0;
-        setLives(s.lives);
-        setCombo(0);
-        setFeedback({ text: "MISSED!", color: COLORS.wrong, start: Date.now() });
-        setTimeout(() => setFeedback(null), FEEDBACK_DURATION);
-        if (s.lives <= 0) {
-          endGame(s);
-        }
-      }
-    }
-    s.targets = s.targets.filter((t) => t.opacity > 0 && t.y < H + 50);
-
-    // Update bombs
-    for (const b of s.bombs) {
-      b.y += b.speed * dt * 0.06;
-      b.x += b.drift;
-      b.x = clamp(b.x, ARENA_PADDING + b.radius, W - ARENA_PADDING - b.radius);
-      if (b.y > groundY && b.y < H && b.opacity > 0) {
-        if (checkCollision(b, s.player)) {
-          b.opacity = 0;
-          s.lives -= 1;
-          s.combo = 0;
-          setLives(s.lives);
-          setCombo(0);
-          setFeedback({ text: "BOMB IMPACT!", color: COLORS.wrong, start: Date.now() });
-          setTimeout(() => setFeedback(null), FEEDBACK_DURATION);
-          if (s.lives <= 0) endGame(s);
-        }
-      }
-    }
-    s.bombs = s.bombs.filter((b) => b.opacity > 0 && b.y < H + 100);
-
-    // Update projectiles
-    for (const p of s.projectiles) {
-      p.y -= p.speed * dt * 0.06;
-    }
-    s.projectiles = s.projectiles.filter((p) => p.y > -20);
-
-    // Collision: projectile → target
-    for (const p of s.projectiles) {
-      for (const t of s.targets) {
-        if (t.opacity <= 0) continue;
-        if (checkCollision(p, t)) {
-          t.opacity = 0;
-          p.y = -100;
-          handleHit(t);
-          break;
-        }
-      }
-    }
-    s.projectiles = s.projectiles.filter((p) => p.y > -20);
-
-    // Collision: projectile → bomb
-    for (const p of s.projectiles) {
-      for (const b of s.bombs) {
-        if (b.opacity <= 0 || b.y > H) continue;
-        if (checkCollision(p, b)) {
-          p.y = -100;
-          b.opacity = 0;
-          s.lives -= 1;
-          s.combo = 0;
-          setLives(s.lives);
-          setCombo(0);
-          setFeedback({ text: "BOMB! −1 LIFE", color: COLORS.wrong, start: Date.now() });
-          setTimeout(() => setFeedback(null), FEEDBACK_DURATION);
-          if (s.lives <= 0) endGame(s);
-        }
-      }
-    }
-
-    // Player movement
-    if (keysRef.current.has("ArrowLeft") || keysRef.current.has("a") || keysRef.current.has("A")) {
-      s.player.x -= 8;
-    }
-    if (keysRef.current.has("ArrowRight") || keysRef.current.has("d") || keysRef.current.has("D")) {
-      s.player.x += 8;
-    }
-    s.player.x = clamp(s.player.x, ARENA_PADDING, W - ARENA_PADDING - s.player.width);
-
-    // Spawn
-    s.spawnTimer += dt;
-    if (s.spawnTimer > s.targetSpawnInterval) {
-      s.spawnTimer = 0;
-      const bombChance = Math.min(BOMB_CHANCE_BASE + (s.speedMultiplier - 1) * 0.008, BOMB_CHANCE_MAX);
-      if (Math.random() < bombChance) {
-        s.bombs.push(spawnBomb(W, H, s.speedMultiplier));
-      } else {
-        s.targets.push(spawnTarget(W, H, s.speedMultiplier));
-      }
-    }
-
-    // Particles
-    for (const p of s.particles) {
-      p.x += p.vx;
-      p.y += p.vy;
-      p.life -= dt;
-    }
-    s.particles = s.particles.filter((p) => p.life > 0);
-
-    // ─── Draw ─────────────────────────────────────────────────────────────────
-
-    ctx.fillStyle = COLORS.bg;
-    ctx.fillRect(0, 0, W, H);
-
-    // Grid
-    ctx.strokeStyle = COLORS.grid;
-    ctx.lineWidth = 1;
-    for (let x = 0; x < W; x += 40) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, H);
-      ctx.stroke();
-    }
-    for (let y = 0; y < H; y += 40) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(W, y);
-      ctx.stroke();
-    }
-
-    // Targets
-    for (const t of s.targets) {
-      if (t.opacity <= 0) continue;
-      ctx.globalAlpha = t.opacity;
-      ctx.beginPath();
-      ctx.arc(t.x, t.y, TARGET_RADIUS, 0, Math.PI * 2);
-      ctx.fillStyle = COLORS.targetFill;
-      ctx.fill();
-      ctx.strokeStyle = COLORS.targetStroke;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.fillStyle = COLORS.targetText;
-      ctx.font = `bold ${TARGET_RADIUS}px 'Inter', monospace`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText(t.letter, t.x, t.y);
-    }
-    ctx.globalAlpha = 1;
-
-    // Bombs
-    for (const b of s.bombs) {
-      if (b.opacity <= 0 || b.y > H) continue;
-      ctx.beginPath();
-      ctx.arc(b.x, b.y, BOMB_RADIUS, 0, Math.PI * 2);
-      ctx.fillStyle = COLORS.bombFill;
-      ctx.fill();
-      ctx.strokeStyle = COLORS.bombStroke;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.fillStyle = COLORS.bombText;
-      ctx.font = `bold 16px 'Inter', monospace`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("✕", b.x, b.y);
-    }
-
-    // Projectiles
-    for (const p of s.projectiles) {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, PROJECTILE_RADIUS, 0, Math.PI * 2);
-      ctx.fillStyle = COLORS.projectile;
-      ctx.fill();
-    }
-
-    // Particles
-    for (const p of s.particles) {
-      ctx.globalAlpha = Math.max(0, p.life / 500);
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-
-    // Player
-    ctx.fillStyle = COLORS.playerFill;
-    ctx.beginPath();
-    ctx.moveTo(s.player.x + s.player.width / 2, s.player.y);
-    ctx.lineTo(s.player.x + s.player.width, s.player.y + s.player.height);
-    ctx.lineTo(s.player.x, s.player.y + s.player.height);
-    ctx.closePath();
-    ctx.fill();
-
-    // Ground line
-    ctx.strokeStyle = "rgba(34,211,238,0.2)";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(0, groundY);
-    ctx.lineTo(W, groundY);
-    ctx.stroke();
-
-    animRef.current = requestAnimationFrame(tick);
-  }, [handleHit]);
-
-  function endGame(s: typeof S.current) {
-    s.phase = "game_over";
-    const elapsed = Math.floor((Date.now() - s.sessionStart) / 1000);
+  const endGame = useCallback((g: any) => {
+    g.phase = "game_over";
+    const elapsed = Math.floor((Date.now() - g.sessionStart) / 1000);
     const mm = String(Math.floor(elapsed / 60)).padStart(2, "0");
     const ss = String(elapsed % 60).padStart(2, "0");
+    const accuracy = g.questionsAnswered > 0
+      ? Math.round((g.correctAnswers / g.questionsAnswered) * 100) + "%"
+      : "0%";
     setGameResult({
-      score: s.score,
-      questions: s.questionsAnswered,
-      correct: s.correctAnswers,
-      accuracy: s.questionsAnswered > 0 ? Math.round((s.correctAnswers / s.questionsAnswered) * 100) + "%" : "0%",
-      bestCombo: s.bestCombo,
+      score: g.score, questions: g.questionsAnswered,
+      correct: g.correctAnswers, accuracy, bestCombo: g.bestCombo,
       time: `${mm}:${ss}`,
     });
     setPhase("game_over");
-  }
+  }, []);
 
-  // ─── Effects ────────────────────────────────────────────────────────────────
+  // ─── Game loop (self-running RAF, no external deps) ──────────────────────────
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -508,41 +291,236 @@ export default function GamePlayClient() {
       if (!rect) return;
       canvas.width = rect.width;
       canvas.height = rect.height;
-      S.current.arenaWidth = rect.width;
-      S.current.arenaHeight = rect.height;
-      S.current.player.x = clamp(S.current.player.x, ARENA_PADDING, rect.width - ARENA_PADDING - PLAYER_WIDTH);
-      S.current.player.y = rect.height - PLAYER_HEIGHT - 10;
+      const g = gRef.current;
+      if (g.player) {
+        g.player.y = rect.height - PLAYER_HEIGHT - 10;
+        g.player.x = clamp(g.player.x, ARENA_PADDING, rect.width - ARENA_PADDING - PLAYER_WIDTH);
+      }
     };
     resize();
     window.addEventListener("resize", resize);
 
+    const checkAABB = (ax: number, ay: number, ar: number, bx: number, by: number, br: number) => {
+      const dx = ax - bx, dy = ay - by;
+      return Math.sqrt(dx * dx + dy * dy) < ar + br;
+    };
+
+    const tick = (now: number) => {
+      const c = canvasRef.current;
+      if (!c) return;
+      const ctx = c.getContext("2d");
+      if (!ctx) { animRef.current = requestAnimationFrame(tick); return; }
+
+      // Always schedule next frame
+      animRef.current = requestAnimationFrame(tick);
+
+      const g = gRef.current;
+      if (g.phase !== "playing") return;
+
+      if (!lastTimeRef.current) lastTimeRef.current = now;
+      const dt = Math.min(50, now - lastTimeRef.current);
+      lastTimeRef.current = now;
+
+      const W = c.width, H = c.height;
+      if (W === 0 || H === 0) return;
+
+      const groundY = H - 40;
+
+      // ─── Update targets ──────────────────────────────────────────────────────
+      for (const t of g.targets) {
+        if (t.opacity <= 0) continue;
+        t.y += t.speed * dt * 0.06;
+        t.x += t.drift;
+        t.x = clamp(t.x, ARENA_PADDING + t.radius, W - ARENA_PADDING - t.radius);
+        if (t.y > groundY) {
+          t.opacity = 0;
+          g.lives -= 1; g.combo = 0;
+          setLives(g.lives); setCombo(0);
+          setFeedback({ text: "MISSED!", color: COLORS.wrong, start: Date.now() });
+          setTimeout(() => setFeedback(null), FEEDBACK_DURATION);
+          if (g.lives <= 0) endGame(g);
+        }
+      }
+      g.targets = g.targets.filter((t: any) => t.opacity > 0 && t.y < H + 50);
+
+      // ─── Update projectiles ──────────────────────────────────────────────────
+      for (const p of g.projectiles) {
+        p.y -= PROJECTILE_SPEED;
+      }
+      g.projectiles = g.projectiles.filter((p: any) => p.y > -20);
+
+      // ─── Collision: projectile → target ─────────────────────────────────────
+      for (const p of g.projectiles) {
+        const pid = p.id;
+        if (hitSetRef.current.has(pid)) continue;
+        for (const t of g.targets) {
+          if (t.opacity <= 0) continue;
+          if (checkAABB(p.x, p.y, p.radius, t.x, t.y, t.radius)) {
+            hitSetRef.current.add(pid);
+            handleHit(t);
+            break;
+          }
+        }
+      }
+
+      // ─── Collision: projectile → bomb ───────────────────────────────────────
+      for (const p of g.projectiles) {
+        const pid = p.id;
+        if (hitSetRef.current.has(pid)) continue;
+        for (const b of g.bombs) {
+          if (b.opacity <= 0) continue;
+          if (checkAABB(p.x, p.y, p.radius, b.x, b.y, b.radius)) {
+            hitSetRef.current.add(pid);
+            b.opacity = 0;
+            g.lives -= 1; g.combo = 0;
+            setLives(g.lives); setCombo(0);
+            setFeedback({ text: "BOMB! −1 LIFE", color: COLORS.wrong, start: Date.now() });
+            setTimeout(() => setFeedback(null), FEEDBACK_DURATION);
+            if (g.lives <= 0) endGame(g);
+          }
+        }
+      }
+
+      // ─── Update bombs ────────────────────────────────────────────────────────
+      for (const b of g.bombs) {
+        b.y += b.speed * dt * 0.06;
+        b.x += b.drift;
+        b.x = clamp(b.x, ARENA_PADDING + b.radius, W - ARENA_PADDING - b.radius);
+        if (b.y > groundY && b.opacity > 0) {
+          if (checkAABB(b.x, b.y, b.radius, g.player.x + g.player.width / 2, g.player.y + g.player.height / 2, g.player.width * 0.5)) {
+            b.opacity = 0;
+            g.lives -= 1; g.combo = 0;
+            setLives(g.lives); setCombo(0);
+            setFeedback({ text: "BOMB IMPACT!", color: COLORS.wrong, start: Date.now() });
+            setTimeout(() => setFeedback(null), FEEDBACK_DURATION);
+            if (g.lives <= 0) endGame(g);
+          }
+        }
+      }
+      g.bombs = g.bombs.filter((b: any) => b.opacity > 0 && b.y < H + 50);
+
+      // ─── Player movement ────────────────────────────────────────────────────
+      const moveSpeed = 6;
+      if (keysRef.current.has("ArrowLeft") || keysRef.current.has("a")) {
+        g.player.x -= moveSpeed;
+      }
+      if (keysRef.current.has("ArrowRight") || keysRef.current.has("d")) {
+        g.player.x += moveSpeed;
+      }
+      g.player.x = clamp(g.player.x, ARENA_PADDING, W - ARENA_PADDING - PLAYER_WIDTH);
+
+      // ─── Spawn ──────────────────────────────────────────────────────────────
+      g.spawnTimer += dt;
+      if (g.spawnTimer > g.targetSpawnInterval) {
+        g.spawnTimer = 0;
+        const bombChance = Math.min(BOMB_CHANCE_BASE + (g.speedMultiplier - 1) * 0.008, BOMB_CHANCE_MAX);
+        if (Math.random() < bombChance) {
+          const bx = clamp(rand(ARENA_PADDING + BOMB_RADIUS, W - ARENA_PADDING - BOMB_RADIUS), ARENA_PADDING + BOMB_RADIUS, W - ARENA_PADDING - BOMB_RADIUS);
+          g.bombs.push({
+            id: uid(), x: bx, y: -BOMB_RADIUS * 2,
+            speed: BASE_TARGET_SPEED * g.speedMultiplier * rand(0.8, 1.0),
+            drift: rand(-0.2, 0.2), radius: BOMB_RADIUS, opacity: 1,
+          });
+        }
+        const tx = clamp(rand(ARENA_PADDING + TARGET_RADIUS, W - ARENA_PADDING - TARGET_RADIUS), ARENA_PADDING + TARGET_RADIUS, W - ARENA_PADDING - TARGET_RADIUS);
+        const letters: Array<"A" | "B" | "C" | "D"> = ["A", "B", "C", "D"];
+        g.targets.push({
+          id: uid(),
+          letter: letters[Math.floor(Math.random() * 4)],
+          x: tx, y: -TARGET_RADIUS * 2,
+          speed: BASE_TARGET_SPEED * g.speedMultiplier * rand(0.85, 1.15),
+          drift: rand(-0.3, 0.3),
+          radius: TARGET_RADIUS,
+          opacity: 1,
+        });
+      }
+
+      // ─── Draw ────────────────────────────────────────────────────────────────
+      ctx.fillStyle = COLORS.bg;
+      ctx.fillRect(0, 0, W, H);
+
+      // Subtle grid
+      ctx.strokeStyle = COLORS.grid;
+      ctx.lineWidth = 1;
+      for (let gx = 0; gx < W; gx += 40) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
+      }
+      for (let gy = 0; gy < H; gy += 40) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+      }
+
+      // Danger line
+      ctx.strokeStyle = "rgba(239, 68, 68, 0.25)";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 8]);
+      ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(W, groundY); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Targets
+      for (const t of g.targets) {
+        if (t.opacity <= 0) continue;
+        ctx.globalAlpha = t.opacity;
+        drawCircle(ctx, t.x, t.y, t.radius, COLORS.targetFill, COLORS.targetStroke, t.letter, COLORS.targetText);
+        ctx.globalAlpha = 1;
+      }
+
+      // Bombs
+      for (const b of g.bombs) {
+        if (b.opacity <= 0) continue;
+        ctx.globalAlpha = b.opacity;
+        drawBombIcon(ctx, b.x, b.y, b.radius);
+        ctx.globalAlpha = 1;
+      }
+
+      // Projectiles
+      for (const p of g.projectiles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, PROJECTILE_RADIUS, 0, Math.PI * 2);
+        ctx.fillStyle = COLORS.projectile;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = COLORS.projectile;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      // Player
+      drawPlayer(ctx, g.player);
+    };
+
+    animRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(animRef.current);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  // ─── Keyboard ────────────────────────────────────────────────────────────────
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       keysRef.current.add(e.key);
       if (e.key === " " || e.key === "Space") {
         e.preventDefault();
-        const s = S.current;
-        if (s.phase === "playing") {
+        const g = gRef.current;
+        if (g.phase === "playing") {
           const p: Projectile = {
             id: uid(),
-            x: s.player.x + s.player.width / 2,
-            y: s.player.y,
+            x: g.player.x + g.player.width / 2,
+            y: g.player.y,
             speed: PROJECTILE_SPEED,
             radius: PROJECTILE_RADIUS,
           };
-          s.projectiles.push(p);
+          g.projectiles.push(p);
         }
       }
       if (e.key === "p" || e.key === "P" || e.key === "Escape") {
-        const s = S.current;
-        if (s.phase === "playing") {
-          s.phase = "paused";
-          setPhase("paused");
-          cancelAnimationFrame(animRef.current);
-        } else if (s.phase === "paused") {
-          s.phase = "playing";
-          setPhase("playing");
+        const g = gRef.current;
+        if (g.phase === "playing") {
+          g.phase = "paused"; setPhase("paused");
+        } else if (g.phase === "paused") {
+          g.phase = "playing"; setPhase("playing");
           lastTimeRef.current = 0;
-          animRef.current = requestAnimationFrame(tick);
         }
       }
     };
@@ -550,98 +528,65 @@ export default function GamePlayClient() {
 
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
-
     return () => {
-      window.removeEventListener("resize", resize);
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
-      cancelAnimationFrame(animRef.current);
     };
-  }, [tick]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    S.current.player.y = canvas.height - PLAYER_HEIGHT - 10;
   }, []);
 
-  // Mouse / touch
+  // ─── Pointer (mouse + touch) ────────────────────────────────────────────────
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const handlePointerMove = (e: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left - PLAYER_WIDTH / 2;
-      S.current.player.x = clamp(x, ARENA_PADDING, rect.width - ARENA_PADDING - PLAYER_WIDTH);
+      const scaleX = canvas.width / rect.width;
+      const x = (e.clientX - rect.left) * scaleX - PLAYER_WIDTH / 2;
+      gRef.current.player.x = clamp(x, ARENA_PADDING, canvas.width - ARENA_PADDING - PLAYER_WIDTH);
     };
-    const handlePointerDown = (e: PointerEvent) => {
-      const s = S.current;
-      if (s.phase === "playing") {
-        const p: Projectile = {
-          id: uid(),
-          x: s.player.x + s.player.width / 2,
-          y: s.player.y,
-          speed: PROJECTILE_SPEED,
-          radius: PROJECTILE_RADIUS,
-        };
-        s.projectiles.push(p);
-      }
+    const handlePointerDown = () => {
+      const g = gRef.current;
+      if (g.phase !== "playing") return;
+      const p: Projectile = {
+        id: uid(),
+        x: g.player.x + g.player.width / 2,
+        y: g.player.y,
+        speed: PROJECTILE_SPEED,
+        radius: PROJECTILE_RADIUS,
+      };
+      g.projectiles.push(p);
     };
 
     canvas.addEventListener("pointermove", handlePointerMove);
     canvas.addEventListener("pointerdown", handlePointerDown);
-
     return () => {
       canvas.removeEventListener("pointermove", handlePointerMove);
       canvas.removeEventListener("pointerdown", handlePointerDown);
     };
   }, []);
 
-  // ─── Auto-start ─────────────────────────────────────────────────────────────
-
-  useEffect(() => {
-    startGame();
-  }, []);
-
-  // ─── Mute state ─────────────────────────────────────────────────────────────
-
-  const [muted, setMuted] = useState(true);
-
-  // ─── Render ─────────────────────────────────────────────────────────────────
-
-  const isIdle = phase === "idle" || phase === "loading";
+  // ─── UI render ──────────────────────────────────────────────────────────────
 
   return (
-    <div className="flex flex-col h-screen bg-[#0a0e17]">
-      {/* ── Header / Question Area ── */}
+    <div className="flex flex-col h-screen bg-[#0a0e17] select-none">
+      {/* Question header */}
       <div className="flex-none bg-[#0d1321] border-b border-cyan-900/30 px-4 py-3">
         <div className="max-w-5xl mx-auto flex items-center justify-between mb-2">
           <div className="flex items-center gap-3">
             <span className="text-[10px] text-gray-500 tracking-widest">QUESTION</span>
-            <span className="text-xs text-cyan-400 font-mono">{questionNum} / {QUESTIONS_PER_SESSION}</span>
+            <span className="text-xs text-cyan-400 font-mono">
+              {questionNum} / {QUESTIONS_PER_SESSION}
+            </span>
           </div>
-          <div className="flex items-center gap-4 text-xs">
-            <div>
-              <span className="text-gray-500">SCORE </span>
-              <span className="text-cyan-400 font-mono font-bold">{String(score).padStart(6, "0")}</span>
-            </div>
-            {combo > 1 && (
-              <div className="text-amber-400 font-mono font-bold animate-pulse">
-                COMBO ×{combo}
-              </div>
-            )}
+          <div>
+            <span className="text-gray-500 text-xs">SCORE </span>
+            <span className="text-cyan-400 font-mono font-bold text-xs">
+              {String(score).padStart(6, "0")}
+            </span>
           </div>
         </div>
-
-        {/* Question text */}
-        {question && (
-          <div className="max-w-5xl mx-auto mb-2">
-            <p className="text-sm text-gray-300 leading-relaxed">{question.question_text}</p>
-          </div>
-        )}
-
-        {/* Answer map */}
         <div className="max-w-5xl mx-auto grid grid-cols-2 gap-2">
           {(["A", "B", "C", "D"] as const).map((letter) => (
             <div
@@ -655,143 +600,142 @@ export default function GamePlayClient() {
         </div>
       </div>
 
-      {/* ── Lives + controls bar ── */}
+      {/* Lives + controls */}
       <div className="flex-none flex items-center justify-between px-4 py-1.5 bg-[#0a0e17]">
         <div className="flex items-center gap-1">
           {Array.from({ length: BASE_LIVES }).map((_, i) => (
-            <span key={i} className={i < lives ? "text-red-500 text-sm" : "text-gray-700 text-sm"}>♥</span>
+            <span
+              key={i}
+              className={`text-sm transition-colors ${i < lives ? "text-red-500" : "text-gray-700"}`}
+            >
+              ♥
+            </span>
           ))}
         </div>
         <div className="flex items-center gap-2">
-          <button
-            onClick={() => setMuted((m) => !m)}
-            className="text-gray-500 hover:text-gray-300 text-xs px-2 py-1"
-          >
-            {muted ? "🔇" : "🔊"}
-          </button>
+          {combo > 1 && (
+            <span className="text-xs text-yellow-400 font-mono font-bold">×{combo}</span>
+          )}
           <button
             onClick={() => {
-              const s = S.current;
-              if (s.phase === "playing") {
-                s.phase = "paused";
-                setPhase("paused");
-                cancelAnimationFrame(animRef.current);
-              } else if (s.phase === "paused") {
-                s.phase = "playing";
-                setPhase("playing");
+              const g = gRef.current;
+              if (g.phase === "playing") {
+                g.phase = "paused"; setPhase("paused");
+              } else if (g.phase === "paused") {
+                g.phase = "playing"; setPhase("playing");
                 lastTimeRef.current = 0;
-                animRef.current = requestAnimationFrame(tick);
               }
             }}
             className="text-gray-500 hover:text-gray-300 text-xs px-2 py-1 border border-gray-800 rounded"
           >
-            {phase === "paused" ? "▶ RESUME" : "⏸ PAUSE"}
+            {phase === "paused" ? "RESUME" : "⏸ PAUSE"}
           </button>
         </div>
       </div>
 
-      {/* ── Game Arena ── */}
+      {/* Canvas + overlays */}
       <div className="flex-1 min-h-0 relative">
-        <canvas
-          ref={canvasRef}
-          className={`w-full h-full block touch-none ${isIdle ? "hidden" : ""}`}
-        />
+        <canvas ref={canvasRef} className="w-full h-full block touch-none" />
 
-        {/* Loading overlay */}
-        {isIdle && (
+        {phase === "idle" && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-cyan-400 text-sm animate-pulse">Loading questions...</div>
+            <div className="text-center">
+              <h2 className="text-2xl font-bold text-white mb-1">GATE ARCADE</h2>
+              <p className="text-xs text-gray-500 mb-5">
+                Shoot the correct answer. Avoid the bombs.
+              </p>
+              <button
+                onClick={startGame}
+                className="px-8 py-3 bg-cyan-500 text-gray-900 font-bold text-sm rounded-lg hover:bg-cyan-400 transition-colors"
+              >
+                START GAME
+              </button>
+            </div>
           </div>
         )}
 
-        {/* Feedback */}
-        {feedback && Date.now() - feedback.start < FEEDBACK_DURATION && (
+        {phase === "paused" && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+            <div className="text-center">
+              <h2 className="text-xl font-bold text-white mb-4">PAUSED</h2>
+              <div className="flex gap-3 justify-center">
+                <button
+                  onClick={() => { gRef.current.phase = "playing"; setPhase("playing"); lastTimeRef.current = 0; }}
+                  className="px-6 py-2 bg-cyan-500 text-gray-900 font-bold text-sm rounded-lg"
+                >
+                  RESUME
+                </button>
+                <button
+                  onClick={() => {
+                    gRef.current.phase = "idle";
+                    setPhase("idle");
+                    cancelAnimationFrame(animRef.current);
+                  }}
+                  className="px-6 py-2 border border-gray-700 text-gray-300 text-sm rounded-lg"
+                >
+                  EXIT
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {phase === "game_over" && gameResult && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/80">
+            <div className="text-center max-w-xs">
+              <h2 className="text-2xl font-bold text-red-500 mb-1">GAME OVER</h2>
+              <p className="text-xs text-gray-500 mb-5">Your run has ended</p>
+              <div className="space-y-1.5 mb-6">
+                <StatRow label="SCORE" value={String(gameResult.score).padStart(6, "0")} />
+                <StatRow label="QUESTIONS" value={String(gameResult.questions)} />
+                <StatRow label="CORRECT" value={`${gameResult.correct} (${gameResult.accuracy})`} />
+                <StatRow label="BEST COMBO" value={`×${gameResult.bestCombo}`} />
+                <StatRow label="SURVIVED" value={gameResult.time} />
+              </div>
+              <div className="flex gap-3 justify-center">
+                <button
+                  onClick={startGame}
+                  className="px-6 py-2.5 bg-cyan-500 text-gray-900 font-bold text-sm rounded-lg"
+                >
+                  PLAY AGAIN
+                </button>
+                <button
+                  onClick={() => {
+                    gRef.current.phase = "idle";
+                    setPhase("idle"); setGameResult(null);
+                    cancelAnimationFrame(animRef.current);
+                  }}
+                  className="px-6 py-2.5 border border-gray-700 text-gray-300 text-sm rounded-lg"
+                >
+                  CHANGE BRANCH
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {feedback && (
           <div
-            className="absolute top-4 left-1/2 -translate-x-1/2 px-6 py-2 rounded-lg font-bold text-sm tracking-wider"
-            style={{ color: feedback.color, backgroundColor: "rgba(0,0,0,0.7)" }}
+            className="absolute top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-lg text-sm font-bold pointer-events-none transition-opacity"
+            style={{
+              color: feedback.color,
+              background: `${feedback.color}20`,
+              border: `1px solid ${feedback.color}40`,
+            }}
           >
             {feedback.text}
           </div>
         )}
-
-        {/* Pause overlay */}
-        {phase === "paused" && (
-          <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center gap-3">
-            <p className="text-cyan-400 text-lg font-bold tracking-widest">PAUSED</p>
-            <button
-              onClick={() => {
-                const s = S.current;
-                s.phase = "playing";
-                setPhase("playing");
-                lastTimeRef.current = 0;
-                animRef.current = requestAnimationFrame(tick);
-              }}
-              className="px-6 py-2 bg-cyan-500 text-gray-900 rounded font-bold text-sm"
-            >
-              RESUME
-            </button>
-            <button
-              onClick={startGame}
-              className="px-4 py-2 border border-gray-700 text-gray-400 rounded text-sm"
-            >
-              RESTART
-            </button>
-            <a
-              href="/game"
-              className="px-4 py-2 text-gray-500 text-sm hover:text-gray-300"
-            >
-              EXIT
-            </a>
-          </div>
-        )}
-
-        {/* Game over */}
-        {phase === "game_over" && gameResult && (
-          <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center gap-3">
-            <p className="text-red-500 text-2xl font-bold tracking-widest">GAME OVER</p>
-            <div className="text-center space-y-1">
-              <p className="text-gray-400 text-xs">SCORE</p>
-              <p className="text-white text-3xl font-bold font-mono">{gameResult.score.toLocaleString()}</p>
-              <div className="grid grid-cols-3 gap-4 mt-3 text-center">
-                <div>
-                  <p className="text-gray-500 text-[10px]">QUESTIONS</p>
-                  <p className="text-cyan-400 font-mono text-sm">{gameResult.questions}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 text-[10px]">CORRECT</p>
-                  <p className="text-green-400 font-mono text-sm">{gameResult.correct}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 text-[10px]">ACCURACY</p>
-                  <p className="text-white font-mono text-sm">{gameResult.accuracy}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 text-[10px]">BEST COMBO</p>
-                  <p className="text-amber-400 font-mono text-sm">×{gameResult.bestCombo}</p>
-                </div>
-                <div className="col-span-2">
-                  <p className="text-gray-500 text-[10px]">SURVIVED</p>
-                  <p className="text-white font-mono text-sm">{gameResult.time}</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-2 mt-4">
-              <button
-                onClick={startGame}
-                className="px-6 py-2 bg-cyan-500 text-gray-900 rounded font-bold text-sm"
-              >
-                PLAY AGAIN
-              </button>
-              <a
-                href="/game"
-                className="px-4 py-2 border border-gray-700 text-gray-400 rounded text-sm"
-              >
-                CHANGE BRANCH
-              </a>
-            </div>
-          </div>
-        )}
       </div>
+    </div>
+  );
+}
+
+function StatRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between items-center px-4 py-1.5 bg-gray-900/40 rounded">
+      <span className="text-xs text-gray-500">{label}</span>
+      <span className="text-sm text-white font-mono font-bold">{value}</span>
     </div>
   );
 }

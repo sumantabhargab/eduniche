@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BRANCHES } from "@/modules/game/branches";
 
@@ -18,7 +18,7 @@ type Question = {
   updated_at: string;
 };
 
-export default function AdminGameQuestionsPage() {
+function AdminGameQuestionsInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -274,5 +274,13 @@ export default function AdminGameQuestionsPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function AdminGameQuestionsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0a0e17] flex items-center justify-center text-gray-500 text-sm">Loading...</div>}>
+      <AdminGameQuestionsInner />
+    </Suspense>
   );
 }

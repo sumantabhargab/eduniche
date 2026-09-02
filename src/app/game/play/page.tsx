@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import GamePlayClient from "./GamePlayClient";
 
 export const dynamic = "force-dynamic";
@@ -27,5 +28,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function GamePlayPage() {
-  return <GamePlayClient />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0a0e17] flex items-center justify-center text-cyan-400 text-sm">Loading game...</div>}>
+      <GamePlayClient />
+    </Suspense>
+  );
 }
