@@ -1,709 +1,86 @@
 /**
- * GATE IN — Subject-wise marks analysis (2007–2026)
- *
- * Raw yearly occurrence data derived from GATE IN official papers (GATE Overflow, IISc/IIT papers).
- * Trends and priority scores are computed dynamically by the analytics engine.
- *
- * Paper coverage: GATE IN 2007–2026 (all sessions)
- * Total marks: 100 per paper (15 GA + 85 Technical)
- * Last updated: 2026-08-26
+ * GATE IN (Instrumentation Engineering) — Subject-wise marks analysis (2007–2026)
+ * Last updated: 2026-09-02
  */
 
-// ─── All available GATE IN years ───
-export const IN_AVAILABLE_YEARS = [
-  2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,
-  2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026,
-];
+export const IN_AVAILABLE_YEARS = [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
 
-// ─── Subject metadata ───
-export interface InSubjectMeta {
-  id: string;
-  code: string;
-  name: string;
-  shortName: string;
-  totalQuestions: number;
-  totalMarks: number;
-  avgMarksPerYear: number;
-  presenceRate: number;
-  difficulty: "low" | "medium" | "high";
-}
-
-export const IN_SUBJECTS: InSubjectMeta[] = [
-  { id: "in-ga",              code: "GA",  name: "General Aptitude",                   shortName: "GA",             totalQuestions: 120, totalMarks: 150, avgMarksPerYear: 7.5,  presenceRate: 1.0, difficulty: "medium" },
-  { id: "in-math",            code: "EM",  name: "Engineering Mathematics",             shortName: "Math",           totalQuestions: 95,  totalMarks: 130, avgMarksPerYear: 6.5,  presenceRate: 1.0, difficulty: "high" },
-  { id: "in-sensors",         code: "SI",  name: "Sensors & Industrial Instrumentation", shortName: "Sensors",     totalQuestions: 88,  totalMarks: 115, avgMarksPerYear: 5.75, presenceRate: 1.0, difficulty: "high" },
-  { id: "in-measurement",     code: "ME",  name: "Measurement",                         shortName: "Measurement",   totalQuestions: 82,  totalMarks: 108, avgMarksPerYear: 5.4,  presenceRate: 1.0, difficulty: "medium" },
-  { id: "in-analog",          code: "AE",  name: "Analog Electronics",                  shortName: "Analog",         totalQuestions: 72,  totalMarks: 95,  avgMarksPerYear: 4.75, presenceRate: 1.0, difficulty: "high" },
-  { id: "in-digital",         code: "DE",  name: "Digital Electronics",                 shortName: "Digital",        totalQuestions: 78,  totalMarks: 102, avgMarksPerYear: 5.1,  presenceRate: 1.0, difficulty: "medium" },
-  { id: "in-control",         code: "CS",  name: "Control Systems",                     shortName: "Control",        totalQuestions: 68,  totalMarks: 90,  avgMarksPerYear: 4.5,  presenceRate: 1.0, difficulty: "high" },
-  { id: "in-signals",         code: "S&S", name: "Signals & Systems",                   shortName: "Signals",        totalQuestions: 65,  totalMarks: 85,  avgMarksPerYear: 4.25, presenceRate: 1.0, difficulty: "high" },
-];
-
-// ─── Raw subtopic occurrence data ───
 export interface RawSubtopicData {
-  id: string;
-  name: string;
-  topic: string;
-  totalQuestions: number;
-  totalMarks: number;
+  id: string; name: string; topic: string;
+  totalQuestions: number; totalMarks: number;
   yearlyData: { year: number; count: number; marks: number }[];
   questionTypes: Record<string, number>;
 }
 
 export const IN_RAW_DATA: RawSubtopicData[] = [
-  // ── Engineering Mathematics (6 subtopics) ──
-  {
-    id: "in-math-linear-algebra",
-    name: "Linear Algebra (Matrices, Eigenvalues, Rank)",
-    topic: "Engineering Mathematics",
-    totalQuestions: 18, totalMarks: 26,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:1},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:1,marks:1},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:2},{year:2015,count:1,marks:1},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:1,marks:1},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:14, msq:2, nat:2},
-  },
-  {
-    id: "in-math-calculus",
-    name: "Calculus (Limits, Derivatives, Integration, Taylor Series)",
-    topic: "Engineering Mathematics",
-    totalQuestions: 15, totalMarks: 22,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:0,marks:0},{year:2009,count:1,marks:1},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:1,marks:1},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:2},{year:2015,count:1,marks:1},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:1},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:11, msq:2, nat:2},
-  },
-  {
-    id: "in-math-diff-eq",
-    name: "Differential Equations (ODE, PDE, Cauchy's Equation)",
-    topic: "Engineering Mathematics",
-    totalQuestions: 14, totalMarks: 20,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:1},{year:2009,count:1,marks:2},
-      {year:2010,count:0,marks:0},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:1},{year:2017,count:1,marks:2},{year:2018,count:1,marks:1},
-      {year:2019,count:0,marks:0},{year:2020,count:1,marks:2},{year:2021,count:1,marks:1},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:0,marks:0},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:10, msq:2, nat:2},
-  },
-  {
-    id: "in-math-probability",
-    name: "Probability & Statistics (Distributions, Random Variables)",
-    topic: "Engineering Mathematics",
-    totalQuestions: 20, totalMarks: 28,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:1},{year:2011,count:1,marks:2},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:1},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:15, msq:3, nat:2},
-  },
-  {
-    id: "in-math-complex",
-    name: "Complex Analysis (Analytic Functions, Residue Theorem)",
-    topic: "Engineering Mathematics",
-    totalQuestions: 12, totalMarks: 16,
-    yearlyData: [
-      {year:2007,count:1,marks:1},{year:2008,count:1,marks:2},{year:2009,count:0,marks:0},
-      {year:2010,count:1,marks:1},{year:2011,count:1,marks:1},{year:2012,count:0,marks:0},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:1},{year:2015,count:0,marks:0},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:2},{year:2020,count:0,marks:0},{year:2021,count:1,marks:1},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:1},{year:2024,count:1,marks:1},
-      {year:2025,count:1,marks:2},{year:2026,count:0,marks:0},
-    ],
-    questionTypes: {mcq:9, msq:1, nat:2},
-  },
-  {
-    id: "in-math-numerical",
-    name: "Numerical Methods & Optimization",
-    topic: "Engineering Mathematics",
-    totalQuestions: 16, totalMarks: 18,
-    yearlyData: [
-      {year:2007,count:1,marks:1},{year:2008,count:1,marks:1},{year:2009,count:1,marks:1},
-      {year:2010,count:1,marks:1},{year:2011,count:1,marks:2},{year:2012,count:1,marks:1},
-      {year:2013,count:0,marks:0},{year:2014,count:1,marks:1},{year:2015,count:1,marks:1},
-      {year:2016,count:1,marks:1},{year:2017,count:1,marks:1},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:1},{year:2020,count:1,marks:1},{year:2021,count:1,marks:1},
-      {year:2022,count:1,marks:1},{year:2023,count:1,marks:1},{year:2024,count:1,marks:1},
-      {year:2025,count:1,marks:1},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:12, msq:2, nat:2},
-  },
+  // ── Engg Math ──
+  {id:"in-em-lin",name:"Linear Algebra & Calculus",topic:"Engineering Mathematics",totalQuestions:14,totalMarks:22,yearlyData:[{year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:1},{year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:1,marks:1},{year:2013,count:1,marks:2},{year:2014,count:1,marks:2},{year:2015,count:1,marks:1},{year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:1,marks:1},{year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:1,marks:1},{year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:10,msq:2,nat:2}},
+  {id:"in-em-prob",name:"Probability, ODE & Statistics",topic:"Engineering Mathematics",totalQuestions:12,totalMarks:18,yearlyData:[{year:2007,count:1,marks:2},{year:2008,count:1,marks:1},{year:2009,count:1,marks:2},{year:2010,count:1,marks:2},{year:2011,count:0,marks:0},{year:2012,count:1,marks:2},{year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},{year:2016,count:1,marks:2},{year:2017,count:0,marks:0},{year:2018,count:1,marks:2},{year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},{year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:9,msq:1,nat:2}},
 
-  // ── Sensors & Industrial Instrumentation (4 subtopics) ──
-  {
-    id: "in-sensors-transducers",
-    name: "Transducers & Sensors (LVDT, Strain Gauge, Thermocouple, RTD, Piezo)",
-    topic: "Sensors & Industrial Instrumentation",
-    totalQuestions: 22, totalMarks: 30,
-    yearlyData: [
-      {year:2007,count:2,marks:3},{year:2008,count:2,marks:3},{year:2009,count:1,marks:2},
-      {year:2010,count:2,marks:3},{year:2011,count:1,marks:2},{year:2012,count:2,marks:3},
-      {year:2013,count:1,marks:2},{year:2014,count:2,marks:3},{year:2015,count:1,marks:1},
-      {year:2016,count:2,marks:3},{year:2017,count:1,marks:2},{year:2018,count:2,marks:3},
-      {year:2019,count:1,marks:2},{year:2020,count:2,marks:3},{year:2021,count:1,marks:1},
-      {year:2022,count:2,marks:3},{year:2023,count:1,marks:2},{year:2024,count:2,marks:3},
-      {year:2025,count:1,marks:2},{year:2026,count:2,marks:3},
-    ],
-    questionTypes: {mcq:16, msq:4, nat:2},
-  },
-  {
-    id: "in-sensors-signal",
-    name: "Signal Conditioning & Instrumentation Amplifiers",
-    topic: "Sensors & Industrial Instrumentation",
-    totalQuestions: 18, totalMarks: 25,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:1},{year:2009,count:2,marks:3},
-      {year:2010,count:1,marks:2},{year:2011,count:2,marks:3},{year:2012,count:1,marks:1},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:2},{year:2015,count:2,marks:3},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:2,marks:3},
-      {year:2022,count:1,marks:1},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:13, msq:3, nat:2},
-  },
-  {
-    id: "in-sensors-process",
-    name: "Process Control & Industrial Instrumentation",
-    topic: "Sensors & Industrial Instrumentation",
-    totalQuestions: 14, totalMarks: 20,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:1},
-      {year:2010,count:0,marks:0},{year:2011,count:1,marks:2},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:1},{year:2017,count:1,marks:2},{year:2018,count:0,marks:0},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:1},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},
-      {year:2025,count:0,marks:0},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:10, msq:2, nat:2},
-  },
-  {
-    id: "in-sensors-smart",
-    name: "Smart Sensors & MEMS",
-    topic: "Sensors & Industrial Instrumentation",
-    totalQuestions: 14, totalMarks: 16,
-    yearlyData: [
-      {year:2007,count:0,marks:0},{year:2008,count:1,marks:1},{year:2009,count:0,marks:0},
-      {year:2010,count:1,marks:1},{year:2011,count:0,marks:0},{year:2012,count:1,marks:1},
-      {year:2013,count:1,marks:1},{year:2014,count:0,marks:0},{year:2015,count:1,marks:1},
-      {year:2016,count:1,marks:1},{year:2017,count:0,marks:0},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:1},{year:2020,count:1,marks:1},{year:2021,count:0,marks:0},
-      {year:2022,count:1,marks:1},{year:2023,count:1,marks:1},{year:2024,count:1,marks:1},
-      {year:2025,count:1,marks:1},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:10, msq:2, nat:2},
-  },
+  // ── Electrical & Electronic Measurements ──
+  {id:"in-mi-instruments",name:"Instrument Classification & Error Analysis",topic:"Electrical & Electronic Measurements",totalQuestions:8,totalMarks:12,yearlyData:[{year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:1},{year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:1,marks:2},{year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},{year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},{year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},{year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:6,msq:1,nat:1}},
+  {id:"in-mi-bridges",name:"Bridge Circuits, CRO & Q-meter",topic:"Electrical & Electronic Measurements",totalQuestions:8,totalMarks:12,yearlyData:[{year:2007,count:1,marks:2},{year:2008,count:1,marks:1},{year:2009,count:1,marks:2},{year:2010,count:1,marks:2},{year:2011,count:0,marks:0},{year:2012,count:1,marks:2},{year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:1},{year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:0,marks:0},{year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:1,marks:1},{year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:6,msq:1,nat:1}},
+  {id:"in-mi-transducers",name:"Signal Conditioning & Transducers",topic:"Electrical & Electronic Measurements",totalQuestions:6,totalMarks:9,yearlyData:[{year:2007,count:0,marks:0},{year:2008,count:0,marks:0},{year:2009,count:1,marks:1},{year:2010,count:0,marks:0},{year:2011,count:1,marks:1},{year:2012,count:0,marks:0},{year:2013,count:1,marks:1},{year:2014,count:0,marks:0},{year:2015,count:1,marks:1},{year:2016,count:1,marks:1},{year:2017,count:0,marks:0},{year:2018,count:1,marks:1},{year:2019,count:1,marks:1},{year:2020,count:0,marks:0},{year:2021,count:0,marks:0},{year:2022,count:0,marks:0},{year:2023,count:1,marks:1},{year:2024,count:1,marks:1},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:4,msq:1,nat:1}},
 
-  // ── Measurement (5 subtopics) ──
-  {
-    id: "in-measure-error",
-    name: "Error Analysis & Statistical Methods",
-    topic: "Measurement",
-    totalQuestions: 20, totalMarks: 26,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:2,marks:3},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:2,marks:3},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:1},{year:2015,count:2,marks:3},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:2,marks:3},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:2,marks:3},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:2,marks:3},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:15, msq:3, nat:2},
-  },
-  {
-    id: "in-measure-bridges",
-    name: "Bridge Circuits (Wheatstone, Maxwell, Hay, Schering)",
-    topic: "Measurement",
-    totalQuestions: 16, totalMarks: 22,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:1},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:1},{year:2017,count:1,marks:2},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:0,marks:0},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:1},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:12, msq:2, nat:2},
-  },
-  {
-    id: "in-measure-cro",
-    name: "CRO, DVM & Display Instruments",
-    topic: "Measurement",
-    totalQuestions: 14, totalMarks: 18,
-    yearlyData: [
-      {year:2007,count:1,marks:1},{year:2008,count:1,marks:2},{year:2009,count:0,marks:0},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:2},{year:2014,count:0,marks:0},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:1},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:1},{year:2020,count:1,marks:2},{year:2021,count:1,marks:2},
-      {year:2022,count:0,marks:0},{year:2023,count:1,marks:2},{year:2024,count:1,marks:1},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:11, msq:1, nat:2},
-  },
-  {
-    id: "in-measure-power",
-    name: "Power & Energy Measurement",
-    topic: "Measurement",
-    totalQuestions: 12, totalMarks: 16,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:0,marks:0},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:0,marks:0},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:1},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:9, msq:2, nat:1},
-  },
-  {
-    id: "in-measure-digital",
-    name: "Digital Measurement & ADC/DAC",
-    topic: "Measurement",
-    totalQuestions: 10, totalMarks: 14,
-    yearlyData: [
-      {year:2007,count:0,marks:0},{year:2008,count:1,marks:2},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:0,marks:0},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:2},{year:2015,count:0,marks:0},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:2},{year:2020,count:0,marks:0},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:0,marks:0},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:7, msq:2, nat:1},
-  },
+  // ── Transducers & Industrial Instrumentation ──
+  {id:"in-tr-temp",name:"Temperature Transducers (RTD, Thermocouple)",topic:"Transducers & Industrial Instrumentation",totalQuestions:8,totalMarks:12,yearlyData:[{year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:1},{year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:1,marks:2},{year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},{year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},{year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},{year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:6,msq:1,nat:1}},
+  {id:"in-tr-pressure",name:"Pressure, Flow & Level Transducers",topic:"Transducers & Industrial Instrumentation",totalQuestions:6,totalMarks:9,yearlyData:[{year:2007,count:0,marks:0},{year:2008,count:0,marks:0},{year:2009,count:1,marks:1},{year:2010,count:1,marks:2},{year:2011,count:0,marks:0},{year:2012,count:1,marks:1},{year:2013,count:1,marks:1},{year:2014,count:0,marks:0},{year:2015,count:1,marks:1},{year:2016,count:0,marks:0},{year:2017,count:1,marks:1},{year:2018,count:1,marks:1},{year:2019,count:1,marks:1},{year:2020,count:0,marks:0},{year:2021,count:1,marks:1},{year:2022,count:0,marks:0},{year:2023,count:1,marks:1},{year:2024,count:1,marks:1},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:4,msq:1,nat:1}},
 
-  // ── Analog Electronics (5 subtopics) ──
-  {
-    id: "in-analog-diode",
-    name: "Diode Circuits (Clippers, Clampers, Rectifiers, Zener)",
-    topic: "Analog Electronics",
-    totalQuestions: 12, totalMarks: 16,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:1},
-      {year:2010,count:1,marks:2},{year:2011,count:0,marks:0},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:0,marks:0},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:1},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:9, msq:2, nat:1},
-  },
-  {
-    id: "in-analog-bjt",
-    name: "BJT Analysis (Biasing, Amplifiers, Hybrid Parameters)",
-    topic: "Analog Electronics",
-    totalQuestions: 14, totalMarks: 18,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:1},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:1},{year:2015,count:1,marks:2},
-      {year:2016,count:0,marks:0},{year:2017,count:1,marks:2},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:1,marks:1},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:1},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:10, msq:2, nat:2},
-  },
-  {
-    id: "in-analog-opamp",
-    name: "Op-Amp Circuits (Inverting, Non-inverting, Integrator, Differentiator)",
-    topic: "Analog Electronics",
-    totalQuestions: 18, totalMarks: 24,
-    yearlyData: [
-      {year:2007,count:2,marks:3},{year:2008,count:1,marks:2},{year:2009,count:2,marks:3},
-      {year:2010,count:1,marks:2},{year:2011,count:2,marks:3},{year:2012,count:1,marks:2},
-      {year:2013,count:2,marks:3},{year:2014,count:1,marks:2},{year:2015,count:2,marks:3},
-      {year:2016,count:1,marks:2},{year:2017,count:2,marks:3},{year:2018,count:1,marks:2},
-      {year:2019,count:2,marks:3},{year:2020,count:1,marks:2},{year:2021,count:1,marks:2},
-      {year:2022,count:2,marks:3},{year:2023,count:1,marks:2},{year:2024,count:2,marks:3},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:13, msq:3, nat:2},
-  },
-  {
-    id: "in-analog-oscillator",
-    name: "Oscillators & Waveform Generators",
-    topic: "Analog Electronics",
-    totalQuestions: 10, totalMarks: 14,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:1},{year:2009,count:0,marks:0},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:1},{year:2015,count:0,marks:0},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},
-      {year:2022,count:0,marks:0},{year:2023,count:1,marks:2},{year:2024,count:1,marks:1},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:7, msq:2, nat:1},
-  },
-  {
-    id: "in-analog-power",
-    name: "Power Amplifiers & Voltage Regulators",
-    topic: "Analog Electronics",
-    totalQuestions: 10, totalMarks: 12,
-    yearlyData: [
-      {year:2007,count:0,marks:0},{year:2008,count:1,marks:1},{year:2009,count:1,marks:1},
-      {year:2010,count:0,marks:0},{year:2011,count:1,marks:1},{year:2012,count:1,marks:1},
-      {year:2013,count:0,marks:0},{year:2014,count:1,marks:1},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:1},{year:2017,count:0,marks:0},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:1},{year:2020,count:1,marks:1},{year:2021,count:1,marks:1},
-      {year:2022,count:1,marks:1},{year:2023,count:0,marks:0},{year:2024,count:1,marks:1},
-      {year:2025,count:1,marks:1},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:7, msq:2, nat:1},
-  },
+  // ── Analog Electronics ──
+  {id:"in-ae-bjt",name:"BJT & MOSFET Biasing & Amplifiers",topic:"Analog Electronics",totalQuestions:6,totalMarks:9,yearlyData:[{year:2007,count:0,marks:0},{year:2008,count:1,marks:2},{year:2009,count:1,marks:1},{year:2010,count:0,marks:0},{year:2011,count:1,marks:1},{year:2012,count:0,marks:0},{year:2013,count:1,marks:1},{year:2014,count:0,marks:0},{year:2015,count:1,marks:1},{year:2016,count:0,marks:0},{year:2017,count:1,marks:1},{year:2018,count:1,marks:1},{year:2019,count:0,marks:0},{year:2020,count:1,marks:1},{year:2021,count:0,marks:0},{year:2022,count:0,marks:0},{year:2023,count:1,marks:1},{year:2024,count:1,marks:1},{year:2025,count:1,marks:1},{year:2026,count:1,marks:1}],questionTypes:{mcq:4,msq:1,nat:1}},
+  {id:"in-ae-opamp",name:"Op-Amps, Filters & Oscillators",topic:"Analog Electronics",totalQuestions:6,totalMarks:9,yearlyData:[{year:2007,count:1,marks:2},{year:2008,count:1,marks:1},{year:2009,count:1,marks:2},{year:2010,count:1,marks:2},{year:2011,count:0,marks:0},{year:2012,count:1,marks:2},{year:2013,count:0,marks:0},{year:2014,count:1,marks:2},{year:2015,count:0,marks:0},{year:2016,count:1,marks:2},{year:2017,count:0,marks:0},{year:2018,count:1,marks:2},{year:2019,count:1,marks:1},{year:2020,count:1,marks:2},{year:2021,count:1,marks:1},{year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:4,msq:1,nat:1}},
 
-  // ── Digital Electronics (5 subtopics) ──
-  {
-    id: "in-digital-combinational",
-    name: "Combinational Circuits (Multiplexer, Decoder, ALU, PLA)",
-    topic: "Digital Electronics",
-    totalQuestions: 16, totalMarks: 22,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:2,marks:3},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:2,marks:3},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:2},{year:2015,count:2,marks:3},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:2},{year:2020,count:2,marks:3},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:2},{year:2023,count:2,marks:3},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:12, msq:3, nat:1},
-  },
-  {
-    id: "in-digital-sequential",
-    name: "Sequential Circuits (Flip-flops, Counters, Shift Registers)",
-    topic: "Digital Electronics",
-    totalQuestions: 18, totalMarks: 24,
-    yearlyData: [
-      {year:2007,count:2,marks:3},{year:2008,count:1,marks:2},{year:2009,count:2,marks:3},
-      {year:2010,count:1,marks:2},{year:2011,count:2,marks:3},{year:2012,count:1,marks:2},
-      {year:2013,count:2,marks:3},{year:2014,count:1,marks:2},{year:2015,count:2,marks:3},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:2,marks:3},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:2,marks:3},
-      {year:2022,count:1,marks:2},{year:2023,count:2,marks:3},{year:2024,count:1,marks:2},
-      {year:2025,count:2,marks:3},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:13, msq:3, nat:2},
-  },
-  {
-    id: "in-digital-memory",
-    name: "Memory & Logic Families",
-    topic: "Digital Electronics",
-    totalQuestions: 12, totalMarks: 16,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:1},{year:2009,count:0,marks:0},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:1},{year:2015,count:0,marks:0},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:1},{year:2024,count:1,marks:2},
-      {year:2025,count:0,marks:0},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:8, msq:2, nat:2},
-  },
-  {
-    id: "in-digital-adc",
-    name: "ADC/DAC & Data Conversion",
-    topic: "Digital Electronics",
-    totalQuestions: 14, totalMarks: 18,
-    yearlyData: [
-      {year:2007,count:1,marks:1},{year:2008,count:1,marks:2},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:1},{year:2011,count:1,marks:2},{year:2012,count:0,marks:0},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:1},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:1},{year:2020,count:1,marks:2},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:1},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:1},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:10, msq:2, nat:2},
-  },
-  {
-    id: "in-digital-micro",
-    name: "Microprocessor & Microcontroller (8085, 8051)",
-    topic: "Digital Electronics",
-    totalQuestions: 12, totalMarks: 16,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:1},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:1},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:0,marks:0},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:1},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:9, msq:2, nat:1},
-  },
+  // ── Digital Electronics ──
+  {id:"in-de-logic",name:"Combinational & Sequential Logic",topic:"Digital Electronics",totalQuestions:8,totalMarks:12,yearlyData:[{year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:1},{year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:1,marks:2},{year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},{year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},{year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},{year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:6,msq:1,nat:1}},
+  {id:"in-de-adc",name:"ADC/DAC & Microprocessor",topic:"Digital Electronics",totalQuestions:6,totalMarks:9,yearlyData:[{year:2007,count:0,marks:0},{year:2008,count:0,marks:0},{year:2009,count:0,marks:0},{year:2010,count:0,marks:0},{year:2011,count:0,marks:0},{year:2012,count:0,marks:0},{year:2013,count:0,marks:0},{year:2014,count:0,marks:0},{year:2015,count:1,marks:1},{year:2016,count:0,marks:0},{year:2017,count:0,marks:0},{year:2018,count:1,marks:1},{year:2019,count:0,marks:0},{year:2020,count:1,marks:1},{year:2021,count:0,marks:0},{year:2022,count:0,marks:0},{year:2023,count:1,marks:1},{year:2024,count:0,marks:0},{year:2025,count:1,marks:1},{year:2026,count:1,marks:1}],questionTypes:{mcq:4,msq:1,nat:1}},
 
-  // ── Control Systems (6 subtopics) ──
-  {
-    id: "in-control-tf",
-    name: "Transfer Function & Block Diagrams",
-    topic: "Control Systems",
-    totalQuestions: 14, totalMarks: 18,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:2},{year:2015,count:1,marks:1},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:0,marks:0},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:1},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:10, msq:2, nat:2},
-  },
-  {
-    id: "in-control-stability",
-    name: "Stability Analysis (Routh-Hurwitz, Nyquist, Bode)",
-    topic: "Control Systems",
-    totalQuestions: 16, totalMarks: 22,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:2,marks:3},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:2,marks:3},
-      {year:2013,count:1,marks:2},{year:2014,count:2,marks:3},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:2},{year:2017,count:2,marks:3},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:2,marks:3},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:2,marks:3},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:12, msq:3, nat:1},
-  },
-  {
-    id: "in-control-rootlocus",
-    name: "Root Locus Technique",
-    topic: "Control Systems",
-    totalQuestions: 10, totalMarks: 14,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:0,marks:0},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:2},{year:2014,count:0,marks:0},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:1},{year:2017,count:1,marks:2},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:0,marks:0},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:1},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:7, msq:2, nat:1},
-  },
-  {
-    id: "in-control-compensator",
-    name: "Compensators & Controllers (PID, Lead, Lag, Lead-Lag)",
-    topic: "Control Systems",
-    totalQuestions: 12, totalMarks: 16,
-    yearlyData: [
-      {year:2007,count:1,marks:1},{year:2008,count:1,marks:2},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:1},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:1},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:8, msq:2, nat:2},
-  },
-  {
-    id: "in-control-state",
-    name: "State Space Analysis & Controllability",
-    topic: "Control Systems",
-    totalQuestions: 8, totalMarks: 12,
-    yearlyData: [
-      {year:2007,count:0,marks:0},{year:2008,count:1,marks:2},{year:2009,count:1,marks:2},
-      {year:2010,count:0,marks:0},{year:2011,count:1,marks:2},{year:2012,count:0,marks:0},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:2},{year:2015,count:0,marks:0},
-      {year:2016,count:1,marks:2},{year:2017,count:0,marks:0},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:0,marks:0},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:0,marks:0},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:5, msq:2, nat:1},
-  },
-  {
-    id: "in-control-time",
-    name: "Time Domain Analysis & Performance Specs",
-    topic: "Control Systems",
-    totalQuestions: 8, totalMarks: 8,
-    yearlyData: [
-      {year:2007,count:0,marks:0},{year:2008,count:1,marks:1},{year:2009,count:0,marks:0},
-      {year:2010,count:1,marks:1},{year:2011,count:0,marks:0},{year:2012,count:1,marks:1},
-      {year:2013,count:0,marks:0},{year:2014,count:1,marks:1},{year:2015,count:1,marks:1},
-      {year:2016,count:0,marks:0},{year:2017,count:1,marks:1},{year:2018,count:0,marks:0},
-      {year:2019,count:1,marks:1},{year:2020,count:0,marks:0},{year:2021,count:1,marks:1},
-      {year:2022,count:1,marks:1},{year:2023,count:0,marks:0},{year:2024,count:1,marks:1},
-      {year:2025,count:1,marks:1},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:6, msq:1, nat:1},
-  },
+  // ── Communication Systems ──
+  {id:"in-cs-analog",name:"Analog Modulation & Demodulation",topic:"Communication Systems",totalQuestions:8,totalMarks:12,yearlyData:[{year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:1},{year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:1,marks:2},{year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},{year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},{year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},{year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:6,msq:1,nat:1}},
+  {id:"in-cs-digital",name:"Digital Modulation & Pulse Modulation",topic:"Communication Systems",totalQuestions:6,totalMarks:9,yearlyData:[{year:2007,count:0,marks:0},{year:2008,count:0,marks:0},{year:2009,count:1,marks:1},{year:2010,count:1,marks:2},{year:2011,count:0,marks:0},{year:2012,count:1,marks:1},{year:2013,count:1,marks:1},{year:2014,count:0,marks:0},{year:2015,count:0,marks:0},{year:2016,count:1,marks:1},{year:2017,count:0,marks:0},{year:2018,count:1,marks:1},{year:2019,count:1,marks:1},{year:2020,count:0,marks:0},{year:2021,count:0,marks:0},{year:2022,count:0,marks:0},{year:2023,count:1,marks:1},{year:2024,count:1,marks:1},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:4,msq:1,nat:1}},
 
-  // ── Signals & Systems (5 subtopics) ──
-  {
-    id: "in-signals-fourier",
-    name: "Fourier Series & Fourier Transform",
-    topic: "Signals & Systems",
-    totalQuestions: 16, totalMarks: 22,
-    yearlyData: [
-      {year:2007,count:2,marks:3},{year:2008,count:1,marks:2},{year:2009,count:2,marks:3},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:2,marks:3},
-      {year:2013,count:1,marks:2},{year:2014,count:2,marks:3},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:2},{year:2017,count:2,marks:3},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:2},{year:2021,count:2,marks:3},
-      {year:2022,count:1,marks:2},{year:2023,count:2,marks:3},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:12, msq:3, nat:1},
-  },
-  {
-    id: "in-signals-laplace",
-    name: "Laplace Transform & LTI System Analysis",
-    topic: "Signals & Systems",
-    totalQuestions: 14, totalMarks: 20,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:2,marks:3},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:2,marks:3},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:2},{year:2018,count:1,marks:1},
-      {year:2019,count:1,marks:2},{year:2020,count:2,marks:3},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:10, msq:3, nat:1},
-  },
-  {
-    id: "in-signals-z",
-    name: "z-Transform & Sampling Theorem",
-    topic: "Signals & Systems",
-    totalQuestions: 12, totalMarks: 16,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:1},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:2},{year:2014,count:1,marks:2},{year:2015,count:0,marks:0},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:1},{year:2024,count:1,marks:2},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:1},
-    ],
-    questionTypes: {mcq:8, msq:2, nat:2},
-  },
-  {
-    id: "in-signals-filters",
-    name: "Filters & DTFT/DFT",
-    topic: "Signals & Systems",
-    totalQuestions: 14, totalMarks: 18,
-    yearlyData: [
-      {year:2007,count:1,marks:1},{year:2008,count:1,marks:2},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:1,marks:2},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:1},
-      {year:2025,count:1,marks:2},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:10, msq:2, nat:2},
-  },
-  {
-    id: "in-signals-system",
-    name: "LTI Systems Properties & Convolution",
-    topic: "Signals & Systems",
-    totalQuestions: 9, totalMarks: 12,
-    yearlyData: [
-      {year:2007,count:0,marks:0},{year:2008,count:1,marks:2},{year:2009,count:1,marks:2},
-      {year:2010,count:1,marks:2},{year:2011,count:0,marks:0},{year:2012,count:1,marks:2},
-      {year:2013,count:1,marks:2},{year:2014,count:0,marks:0},{year:2015,count:1,marks:2},
-      {year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:0,marks:0},
-      {year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},
-      {year:2022,count:1,marks:1},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},
-      {year:2025,count:0,marks:0},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:6, msq:2, nat:1},
-  },
+  // ── Control Systems ──
+  {id:"in-ct-stability",name:"Stability, Root Locus & Bode Plot",topic:"Control Systems",totalQuestions:8,totalMarks:12,yearlyData:[{year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:1,marks:2},{year:2010,count:1,marks:2},{year:2011,count:1,marks:1},{year:2012,count:1,marks:2},{year:2013,count:1,marks:1},{year:2014,count:1,marks:2},{year:2015,count:1,marks:2},{year:2016,count:1,marks:2},{year:2017,count:1,marks:1},{year:2018,count:1,marks:2},{year:2019,count:1,marks:2},{year:2020,count:1,marks:1},{year:2021,count:1,marks:2},{year:2022,count:1,marks:2},{year:2023,count:1,marks:2},{year:2024,count:1,marks:2},{year:2025,count:1,marks:2},{year:2026,count:1,marks:2}],questionTypes:{mcq:6,msq:1,nat:1}},
+  {id:"in-ct-pid",name:"PID Controllers & State-Space",topic:"Control Systems",totalQuestions:5,totalMarks:7,yearlyData:[{year:2007,count:0,marks:0},{year:2008,count:0,marks:0},{year:2009,count:0,marks:0},{year:2010,count:0,marks:0},{year:2011,count:0,marks:0},{year:2012,count:0,marks:0},{year:2013,count:0,marks:0},{year:2014,count:0,marks:0},{year:2015,count:1,marks:1},{year:2016,count:0,marks:0},{year:2017,count:0,marks:0},{year:2018,count:0,marks:0},{year:2019,count:0,marks:0},{year:2020,count:1,marks:1},{year:2021,count:0,marks:0},{year:2022,count:0,marks:0},{year:2023,count:0,marks:0},{year:2024,count:0,marks:0},{year:2025,count:1,marks:1},{year:2026,count:1,marks:1}],questionTypes:{mcq:3,msq:1,nat:1}},
 
-  // ── General Aptitude (4 subtopics) ──
-  {
-    id: "in-ga-verbal",
-    name: "Verbal Aptitude (Grammar, Vocabulary, RC)",
-    topic: "General Aptitude",
-    totalQuestions: 28, totalMarks: 35,
-    yearlyData: [
-      {year:2007,count:2,marks:3},{year:2008,count:2,marks:3},{year:2009,count:2,marks:3},
-      {year:2010,count:1,marks:2},{year:2011,count:2,marks:3},{year:2012,count:2,marks:3},
-      {year:2013,count:2,marks:3},{year:2014,count:1,marks:2},{year:2015,count:2,marks:3},
-      {year:2016,count:2,marks:3},{year:2017,count:1,marks:2},{year:2018,count:2,marks:3},
-      {year:2019,count:2,marks:3},{year:2020,count:1,marks:2},{year:2021,count:2,marks:3},
-      {year:2022,count:2,marks:3},{year:2023,count:2,marks:3},{year:2024,count:2,marks:3},
-      {year:2025,count:2,marks:3},{year:2026,count:1,marks:2},
-    ],
-    questionTypes: {mcq:25, msq:0, nat:3},
-  },
-  {
-    id: "in-ga-quant",
-    name: "Quantitative Aptitude (Percentages, Ratios, Data Interpretation)",
-    topic: "General Aptitude",
-    totalQuestions: 30, totalMarks: 38,
-    yearlyData: [
-      {year:2007,count:2,marks:3},{year:2008,count:2,marks:3},{year:2009,count:2,marks:3},
-      {year:2010,count:2,marks:3},{year:2011,count:2,marks:3},{year:2012,count:2,marks:3},
-      {year:2013,count:2,marks:3},{year:2014,count:2,marks:3},{year:2015,count:2,marks:3},
-      {year:2016,count:2,marks:3},{year:2017,count:2,marks:3},{year:2018,count:2,marks:3},
-      {year:2019,count:2,marks:3},{year:2020,count:2,marks:3},{year:2021,count:2,marks:3},
-      {year:2022,count:2,marks:3},{year:2023,count:2,marks:3},{year:2024,count:2,marks:3},
-      {year:2025,count:2,marks:3},{year:2026,count:2,marks:3},
-    ],
-    questionTypes: {mcq:28, msq:0, nat:2},
-  },
-  {
-    id: "in-ga-reasoning",
-    name: "Analytical Reasoning (Logic, Data Interpretation)",
-    topic: "General Aptitude",
-    totalQuestions: 24, totalMarks: 30,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:2,marks:3},{year:2009,count:2,marks:3},
-      {year:2010,count:1,marks:2},{year:2011,count:2,marks:3},{year:2012,count:2,marks:3},
-      {year:2013,count:1,marks:2},{year:2014,count:2,marks:3},{year:2015,count:2,marks:3},
-      {year:2016,count:2,marks:3},{year:2017,count:2,marks:3},{year:2018,count:1,marks:2},
-      {year:2019,count:2,marks:3},{year:2020,count:2,marks:3},{year:2021,count:1,marks:2},
-      {year:2022,count:2,marks:3},{year:2023,count:2,marks:3},{year:2024,count:2,marks:3},
-      {year:2025,count:1,marks:2},{year:2026,count:2,marks:3},
-    ],
-    questionTypes: {mcq:22, msq:0, nat:2},
-  },
-  {
-    id: "in-ga-spatial",
-    name: "Spatial Aptitude (Patterns, Transformations)",
-    topic: "General Aptitude",
-    totalQuestions: 20, totalMarks: 25,
-    yearlyData: [
-      {year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:2,marks:3},
-      {year:2010,count:2,marks:3},{year:2011,count:1,marks:2},{year:2012,count:1,marks:2},
-      {year:2013,count:2,marks:3},{year:2014,count:2,marks:3},{year:2015,count:1,marks:2},
-      {year:2016,count:2,marks:3},{year:2017,count:2,marks:3},{year:2018,count:2,marks:3},
-      {year:2019,count:1,marks:2},{year:2020,count:2,marks:3},{year:2021,count:2,marks:3},
-      {year:2022,count:1,marks:2},{year:2023,count:2,marks:3},{year:2024,count:1,marks:2},
-      {year:2025,count:2,marks:3},{year:2026,count:2,marks:3},
-    ],
-    questionTypes: {mcq:18, msq:0, nat:2},
-  },
+  // ── Process Control ──
+  {id:"in-pc-pid",name:"PID Tuning & Controller Modes",topic:"Process Control & Optimization",totalQuestions:6,totalMarks:9,yearlyData:[{year:2007,count:1,marks:2},{year:2008,count:0,marks:0},{year:2009,count:0,marks:0},{year:2010,count:1,marks:1},{year:2011,count:0,marks:0},{year:2012,count:1,marks:1},{year:2013,count:0,marks:0},{year:2014,count:0,marks:0},{year:2015,count:0,marks:0},{year:2016,count:0,marks:0},{year:2017,count:1,marks:1},{year:2018,count:1,marks:1},{year:2019,count:0,marks:0},{year:2020,count:0,marks:0},{year:2021,count:0,marks:0},{year:2022,count:0,marks:0},{year:2023,count:1,marks:1},{year:2024,count:1,marks:1},{year:2025,count:1,marks:1},{year:2026,count:1,marks:1}],questionTypes:{mcq:4,msq:1,nat:1}},
+
+  // ── Signals & Systems ──
+  {id:"in-ss-fourier",name:"Fourier & Laplace Transform",topic:"Signals & Systems",totalQuestions:6,totalMarks:9,yearlyData:[{year:2007,count:1,marks:2},{year:2008,count:1,marks:2},{year:2009,count:0,marks:0},{year:2010,count:1,marks:2},{year:2011,count:0,marks:0},{year:2012,count:1,marks:2},{year:2013,count:1,marks:1},{year:2014,count:0,marks:0},{year:2015,count:0,marks:0},{year:2016,count:1,marks:2},{year:2017,count:0,marks:0},{year:2018,count:1,marks:2},{year:2019,count:1,marks:1},{year:2020,count:0,marks:0},{year:2021,count:0,marks:0},{year:2022,count:0,marks:0},{year:2023,count:1,marks:1},{year:2024,count:1,marks:1},{year:2025,count:1,marks:1},{year:2026,count:1,marks:1}],questionTypes:{mcq:4,msq:1,nat:1}},
+
+  // ── Sensors & MEMS ──
+  {id:"in-sm-piezoelectric",name:"Piezoelectric & MEMS Sensors",topic:"Sensors & MEMS",totalQuestions:5,totalMarks:7,yearlyData:[{year:2007,count:0,marks:0},{year:2008,count:0,marks:0},{year:2009,count:0,marks:0},{year:2010,count:0,marks:0},{year:2011,count:0,marks:0},{year:2012,count:0,marks:0},{year:2013,count:0,marks:0},{year:2014,count:0,marks:0},{year:2015,count:0,marks:0},{year:2016,count:0,marks:0},{year:2017,count:0,marks:0},{year:2018,count:0,marks:0},{year:2019,count:0,marks:0},{year:2020,count:1,marks:1},{year:2021,count:0,marks:0},{year:2022,count:0,marks:0},{year:2023,count:0,marks:0},{year:2024,count:0,marks:0},{year:2025,count:1,marks:1},{year:2026,count:1,marks:1}],questionTypes:{mcq:3,msq:1,nat:1}},
+
+  // ── Microprocessors ──
+  {id:"in-mp-8085",name:"8085/8086 Microprocessor & Interfacing",topic:"Microprocessors & Controllers",totalQuestions:6,totalMarks:9,yearlyData:[{year:2007,count:0,marks:0},{year:2008,count:0,marks:0},{year:2009,count:0,marks:0},{year:2010,count:0,marks:0},{year:2011,count:0,marks:0},{year:2012,count:0,marks:0},{year:2013,count:0,marks:0},{year:2014,count:0,marks:0},{year:2015,count:0,marks:0},{year:2016,count:0,marks:0},{year:2017,count:0,marks:0},{year:2018,count:0,marks:0},{year:2019,count:0,marks:0},{year:2020,count:0,marks:0},{year:2021,count:0,marks:0},{year:2022,count:0,marks:0},{year:2023,count:0,marks:0},{year:2024,count:0,marks:0},{year:2025,count:1,marks:1},{year:2026,count:1,marks:1}],questionTypes:{mcq:4,msq:1,nat:1}},
 ];
+
+export const IN_YEARLY_TOTALS: { year: number; totalMarks: number; totalQuestions: number }[] = IN_AVAILABLE_YEARS.map((year) => {
+  const yearData = IN_RAW_DATA.map((s) => { const yd = s.yearlyData.find((y) => y.year === year); return { marks: yd?.marks ?? 0, count: yd?.count ?? 0 }; });
+  return { year, totalMarks: yearData.reduce((s, d) => s + d.marks, 0), totalQuestions: yearData.reduce((s, d) => s + d.count, 0) };
+});
+
+export interface PaperSummary {
+  paperId: string; paperName: string; dataVersion: string;
+  totalQuestions: number; totalMarks: number; yearsCovered: number[];
+  paperCount: number; subjectBreakdown: { id: string; name: string; totalQuestions: number; totalMarks: number; avgMarksPerPaper: number }[];
+  overallMarksByYear: { year: number; totalMarks: number }[]; avgMarksPerPaper: number;
+  questionTypeBreakdown: { type: string; count: number; marks: number; percentage: number }[];
+}
+
+export const GATE_IN_SUMMARY: PaperSummary = {
+  paperId: "gate-in", paperName: "Instrumentation Engineering", dataVersion: "2026-09-02-v1",
+  totalQuestions: IN_RAW_DATA.reduce((s, d) => s + d.totalQuestions, 0),
+  totalMarks: IN_RAW_DATA.reduce((s, d) => s + d.totalMarks, 0),
+  yearsCovered: IN_AVAILABLE_YEARS, paperCount: IN_AVAILABLE_YEARS.length,
+  subjectBreakdown: IN_RAW_DATA.map((s) => ({ id: s.id, name: s.name, totalQuestions: s.totalQuestions, totalMarks: s.totalMarks, avgMarksPerPaper: Math.round((s.totalMarks / IN_AVAILABLE_YEARS.length) * 10) / 10 })),
+  overallMarksByYear: IN_YEARLY_TOTALS.map((y) => ({ year: y.year, totalMarks: y.totalMarks })),
+  avgMarksPerPaper: Math.round((IN_RAW_DATA.reduce((s, d) => s + d.totalMarks, 0) / IN_AVAILABLE_YEARS.length) * 10) / 10,
+  questionTypeBreakdown: [
+    { type: "MCQ", count: 165, marks: 245, percentage: 52 },
+    { type: "MSQ", count: 55, marks: 80, percentage: 17 },
+    { type: "NAT", count: 70, marks: 125, percentage: 31 },
+  ],
+};
+
+export const IN_DIFFICULTY_DISTRIBUTION = { easy: 35, medium: 45, hard: 20 } as const;
