@@ -343,7 +343,11 @@ function PdfViewerModal({
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [zoom, setZoom] = useState(100);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState<number | null>(null);
+  const iframeSrc = useRef<string>("");
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const hasAttemptedPageCountRef = useRef(false);
 
   useEffect(() => {
     let mounted = true;
@@ -390,6 +394,48 @@ function PdfViewerModal({
     };
   }, [resource]);
 
+  // Attempt to count pages via pdfjs-dist once the URL is set
+  useEffect(() => {
+    if (!pdfUrl || hasAttemptedPageCountRef.current) return;
+    hasAttemptedPageCountRef.current = true;
+
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(pdfUrl);
+        if (!res.ok) return;
+        const buf = await res.arrayBuffer();
+        const pdfjs = await import("pdfjs-dist");
+        // @ts-ignore
+        pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+        const doc = await pdfjs.getDocument({ data: buf }).promise;
+        if (!cancelled) {
+          setTotalPages(doc.numPages);
+          setCurrentPage(1);
+        }
+      } catch {
+        // Silently ignore — page count is optional
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [pdfUrl]);
+
+  // Update iframe page when currentPage changes
+  useEffect(() => {
+    if (!pdfUrl) return;
+    const base = pdfUrl.split("#")[0];
+    const newSrc = `${base}#page=${currentPage}&toolbar=1&navpanes=1&scrollbar=1`;
+    iframeSrc.current = newSrc;
+    // Force iframe remount by updating its src key
+    setLoadingState("loading");
+    setTimeout(() => {
+      if (iframeRef.current) {
+        iframeRef.current.src = newSrc;
+        setLoadingState("loaded");
+      }
+    }, 50);
+  }, [currentPage, pdfUrl]);
+
   useEffect(() => {
     return () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -399,10 +445,30 @@ function PdfViewerModal({
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();
+      if (totalPages) {
+        if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+          e.preventDefault();
+          setCurrentPage((p) => Math.max(1, p - 1));
+        }
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+          e.preventDefault();
+          setCurrentPage((p) => Math.min(totalPages, p + 1));
+        }
+      }
     }
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
-  }, [onClose]);
+  }, [onClose, totalPages]);
+
+  const goToPrevPage = () => {
+    if (!totalPages) return;
+    setCurrentPage((p) => Math.max(1, p - 1));
+  };
+
+  const goToNextPage = () => {
+    if (!totalPages) return;
+    setCurrentPage((p) => Math.min(totalPages, p + 1));
+  };
 
   const zoomIn = () => setZoom((z) => Math.min(z + 25, 200));
   const zoomOut = () => setZoom((z) => Math.max(z - 25, 50));
@@ -519,7 +585,7 @@ function PdfViewerModal({
           <iframe
             id="pdf-viewer-frame"
             ref={iframeRef}
-            src={`${pdfUrl}#toolbar=1&navpanes=1&scrollbar=1&page=1`}
+            src={`${pdfUrl}#page=1&toolbar=1&navpanes=1&scrollbar=1`}
             className="w-full h-full border-0 bg-white"
             style={{ zoom: `${zoom}%` }}
             title={resource.name}
@@ -528,11 +594,63 @@ function PdfViewerModal({
       </div>
 
       {loadingState === "loaded" && (
-        <div className="flex items-center justify-center px-4 py-1.5 border-t border-white/10 flex-shrink-0">
-          <p className="text-xs text-white/40">
-            Use toolbar above, Ctrl+scroll to zoom, or the buttons. Esc closes.
-          </p>
-        </div>
+        <>
+          {/* Desktop: hint bar */}
+          <div className="hidden md:flex items-center justify-center px-4 py-1.5 border-t border-white/10 flex-shrink-0">
+            <p className="text-xs text-white/40">
+              Use toolbar above, Ctrl+scroll to zoom, or the buttons. Esc closes.
+            </p>
+          </div>
+
+          {/* Mobile: arrow navigation bar */}
+          {totalPages && (
+            <div className="md:hidden flex items-center justify-between px-4 py-2 border-t border-white/10 flex-shrink-0">
+              <button
+                onClick={goToPrevPage}
+                disabled={currentPage <= 1}
+                className={`
+                  flex items-center justify-center
+                  w-12 h-12 rounded-xl
+                  transition-colors
+                  ${currentPage <= 1
+                    ? "bg-white/5 text-white/20 cursor-not-allowed"
+                    : "bg-white/10 text-white active:bg-white/20"
+                  }
+                `}
+                aria-label="Previous page"
+                title="Previous page"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+
+              <span className="text-xs text-white/50 tabular-nums select-none">
+                {currentPage} / {totalPages}
+              </span>
+
+              <button
+                onClick={goToNextPage}
+                disabled={currentPage >= totalPages}
+                className={`
+                  flex items-center justify-center
+                  w-12 h-12 rounded-xl
+                  transition-colors
+                  ${currentPage >= totalPages
+                    ? "bg-white/5 text-white/20 cursor-not-allowed"
+                    : "bg-white/10 text-white active:bg-white/20"
+                  }
+                `}
+                aria-label="Next page"
+                title="Next page"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduNeuro — Pitch Deck</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: #f5f5f5;
+      overflow: hidden;
+    }
+
+    .slides-container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 80px;
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: all;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      bottom: 24px;
+      right: 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 8px 16px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav button {
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #f5f5f5;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .nav button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .nav .dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .nav .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .nav .dot.active {
+      background: #8b5cf6;
+      width: 20px;
+      border-radius: 3px;
+    }
+
+    .slide-counter {
+      position: fixed;
+      top: 24px;
+      right: 32px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.3);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      z-index: 100;
+    }
+
+    .logo-mark {
+      position: fixed;
+      top: 24px;
+      left: 32px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      z-index: 100;
+    }
+
+    /* Typography */
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #8b5cf6;
+      margin-bottom: 24px;
+    }
+
+    .h1 {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .h2 {
+      font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+    }
+
+    .h3 {
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .body-text {
+      font-size: clamp(14px, 1.3vw, 18px);
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 640px;
+    }
+
+    .accent { color: #8b5cf6; }
+    .highlight {
+      background: linear-gradient(120deg, rgba(139, 92, 246, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* ============ SLIDE 1: COVER ============ */
+    .slide-cover {
+      background: linear-gradient(135deg, #0a0a0a 0%, #111118 50%, #0a0a0a 100%);
+    }
+
+    .slide-cover::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cover-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-tagline {
+      font-size: clamp(14px, 1.2vw, 16px);
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 20px;
+      font-weight: 400;
+    }
+
+    .cover-stat-row {
+      display: flex;
+      gap: 48px;
+      margin-top: 56px;
+      justify-content: center;
+    }
+
+    .cover-stat {
+      text-align: center;
+    }
+
+    .cover-stat .number {
+      font-size: 28px;
+      font-weight: 800;
+      color: #f5f5f5;
+    }
+
+    .cover-stat .label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-top: 6px;
+    }
+
+    /* ============ SLIDE 2: PROBLEM ============ */
+    .slide-problem {
+      background: #0a0a0a;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .problem-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .problem-stat {
+      border-left: 2px solid #8b5cf6;
+      padding-left: 24px;
+    }
+
+    .problem-stat .big-number {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .problem-stat .desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* ============ SLIDE 3: AHA MOMENT ============ */
+    .slide-aha {
+      background: linear-gradient(135deg, #0f0a1a 0%, #0a0a0a 100%);
+    }
+
+    .aha-quote {
+      font-size: clamp(24px, 3vw, 40px);
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+      max-width: 900px;
+    }
+
+    .aha-quote .word-rails { color: #8b5cf6; }
+    .aha-quote .word-gap { color: #f97316; }
+
+    .aha-context {
+      margin-top: 40px;
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.45);
+      text-align: center;
+      max-width: 600px;
+    }
+
+    /* ============ SLIDE 4: SOLUTION ============ */
+    .slide-solution {
+      background: #0a0a0a;
+    }
+
+    .solution-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .solution-row {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .solution-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .solution-text .feature-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .solution-text .feature-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.45);
+      line-height: 1.5;
+    }
+
+    /* ============ SLIDE 5: PRODUCT ============ */
+    .slide-product {
+      background: linear-gradient(180deg, #0a0a0a 0%, #0f0f14 100%);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .product-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: all 0.3s;
+    }
+
+    .product-card:hover {
+      border-color: rgba(139, 92, 246, 0.3);
+      background: rgba(139, 92, 246, 0.03);
+    }
+
+    .product-card .card-emoji {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+
+    .product-card .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .product-card .card-desc {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      line-height: 1.55;
+    }
+
+    .product-card .card-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin-top: 12px;
+    }
+
+    .tag-free {
+      background: rgba(34, 197, 94, 0.1);
+      color: #22c55e;
+    }
+
+    .tag-premium {
+      background: rgba(139, 92, 246, 0.1);
+      color: #8b5cf6;
+    }
+
+    /* ============ SLIDE 6: MARKET ============ */
+    .slide-market {
+      background: #0a0a0a;
+    }
+
+    .market-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .market-number {
+      font-size: clamp(56px, 7vw, 96px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .market-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .market-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .market-bar-wrap {
+      flex: 1;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .market-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+      border-radius: 4px;
+    }
+
+    .market-label {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      min-width: 100px;
+    }
+
+    .market-value {
+      font-size: 14px;
+      font-weight: 600;
+      min-width: 60px;
+      text-align: right;
+    }
+
+    /* ============ SLIDE 7: BUSINESS MODEL ============ */
+    .slide-model {
+      background: linear-gradient(135deg, #0a0a0a 0%, #111118 100%);
+    }
+
+    .model-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .model-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 40px 32px;
+    }
+
+    .model-card.featured {
+      border-color: rgba(139, 92, 246, 0.3);
+      background: rgba(139, 92, 246, 0.04);
+    }
+
+    .model-tier {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: rgba(255, 255, 255, 0.35);
+      margin-bottom: 12px;
+    }
+
+    .model-price {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+
+    .model-period {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.3);
+      margin-bottom: 28px;
+    }
+
+    .model-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .model-features li {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .model-features li::before {
+      content: '✓';
+      color: #8b5cf6;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .model-card:first-child .model-features li::before {
+      color: #22c55e;
+    }
+
+    /* ============ SLIDE 8: TEAM ============ */
+    .slide-team {
+      background: #0a0a0a;
+    }
+
+    .team-grid {
+      display: flex;
+      gap: 48px;
+      justify-content: center;
+      margin-top: 48px;
+    }
+
+    .team-member {
+      text-align: center;
+    }
+
+    .team-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 auto 16px;
+      border: 2px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .team-name {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .team-role {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 4px;
+    }
+
+    .team-context {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.3);
+      margin-top: 32px;
+      max-width: 500px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ============ SLIDE 9: ASK ============ */
+    .slide-ask {
+      background: linear-gradient(135deg, #0f0a1a 0%, #0a0a0a 100%);
+    }
+
+    .ask-amount {
+      font-size: clamp(48px, 6vw, 80px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, #8b5cf6, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .ask-label {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .ask-use {
+      display: flex;
+      gap: 48px;
+      margin-top: 48px;
+    }
+
+    .ask-use-item {
+      text-align: center;
+    }
+
+    .ask-use-item .use-pct {
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .ask-use-item .use-label {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.35);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ============ SLIDE 10: CLOSING ============ */
+    .slide-closing {
+      background: linear-gradient(135deg, #0a0a0a 0%, #111118 100%);
+    }
+
+    .closing-email {
+      font-size: clamp(20px, 2.5vw, 32px);
+      font-weight: 600;
+      color: #8b5cf6;
+      margin-top: 32px;
+    }
+
+    .closing-url {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.3);
+      margin-top: 12px;
+    }
+
+    /* Keyboard hint */
+    .keyboard-hint {
+      position: fixed;
+      bottom: 24px;
+      left: 32px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.2);
+      z-index: 100;
+    }
+
+    .keyboard-hint kbd {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-family: inherit;
+      font-size: 11px;
+    }
+
+    /* Slide number watermark */
+    .slide-number {
+      position: absolute;
+      bottom: 40px;
+      left: 80px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.15);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-mark">EduNeuro</div>
+  <div class="slide-counter" id="counter">01 / 10</div>
+
+  <div class="slides-container">
+
+    <!-- SLIDE 1: COVER -->
+    <div class="slide slide-cover active">
+      <div class="cover-content">
+        <div class="eyebrow">AI-Powered GATE Preparation</div>
+        <h1 class="h1">
+          The first AI that<br>
+          <span class="accent">understands</span> the exam.
+        </h1>
+        <div class="cover-tagline">EduNeuro — GATE preparation, reimagined.</div>
+        <div class="cover-stat-row">
+          <div class="cover-stat">
+            <div class="number">1,247+</div>
+            <div class="label">GATE Questions</div>
+          </div>
+          <div class="cover-stat">
+            <div class="number">18 yrs</div>
+            <div class="label">Question Data</div>
+          </div>
+          <div class="cover-stat">
+            <div class="number">6</div>
+            <div class="label">Branches Covered</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">01</div>
+    </div>
+
+    <!-- SLIDE 2: PROBLEM -->
+    <div class="slide slide-problem">
+      <div class="problem-grid">
+        <div>
+          <div class="eyebrow">The Problem</div>
+          <h2 class="h2">
+            GATE aspirants study<br>
+            <span class="accent">blind</span>.
+          </h2>
+          <p class="body-text" style="margin-top: 24px;">
+            Every year, millions of students prepare for GATE — one of India's most competitive exams. But they lack the tools to study intelligently.
+          </p>
+        </div>
+        <div class="problem-stats">
+          <div class="problem-stat">
+            <div class="big-number">1M+</div>
+            <div class="desc">Students appear for GATE annually across 6 branches — most without structured guidance</div>
+          </div>
+          <div class="problem-stat">
+            <div class="big-number">2-3 yrs</div>
+            <div class="desc">Average preparation time wasted on low-yield topics that don't appear in the exam</div>
+          </div>
+          <div class="problem-stat">
+            <div class="big-number">18 yrs</div>
+            <div class="desc">Of historical question data exists — but students still solve PYQs randomly, without pattern analysis</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">02</div>
+    </div>
+
+    <!-- SLIDE 3: AHA MOMENT -->
+    <div class="slide slide-aha">
+      <div class="eyebrow" style="text-align: center;">Our Insight</div>
+      <div class="aha-quote">
+        Bank transfers and <span class="word-rails">payment rails</span> exist.<br>
+        <span class="word-gap">Debt repayment rails</span> do not.<br><br>
+        <span style="font-size: 0.65em; color: rgba(255,255,255,0.4);">
+          Every GATE aspirant studies the same 18 years of questions.<br>
+        </span>
+        <span class="accent">But no one has analyzed them</span> to build a learning system.
+      </div>
+      <div class="aha-context">
+        The market has plenty of question banks and coaching classes.<br>
+        What's missing: an AI that understands the exam deeply enough to personalize your prep.
+      </div>
+      <div class="slide-number">03</div>
+    </div>
+
+    <!-- SLIDE 4: SOLUTION -->
+    <div class="slide slide-solution">
+      <div class="eyebrow">The Solution</div>
+      <h2 class="h2" style="margin-bottom: 40px;">
+        EduNeuro: an AI-native<br>
+        <span class="accent">GATE co-pilot</span>.
+      </h2>
+      <div class="solution-layout">
+        <div class="solution-row">
+          <div class="solution-icon">🧠</div>
+          <div class="solution-text">
+            <div class="feature-name">AI Doubt Engine</div>
+            <div class="feature-desc">Ask any GATE question — get a step-by-step conceptual explanation grounded in the EduNeuro library. Powered by Groq.</div>
+          </div>
+        </div>
+        <div class="solution-row">
+          <div class="solution-icon">📊</div>
+          <div class="solution-text">
+            <div class="feature-name">GATE Intelligence</div>
+            <div class="feature-desc">18 years of questions analyzed — topic weightage, difficulty trends, recurring patterns across 6 branches.</div>
+          </div>
+        </div>
+        <div class="solution-row">
+          <div class="solution-icon">📚</div>
+          <div class="solution-text">
+            <div class="feature-name">Study Library</div>
+            <div class="feature-desc">Organized PYQ analysis, predicted papers, subject-wise notes — structured by branch and topic.</div>
+          </div>
+        </div>
+        <div class="solution-row">
+          <div class="solution-icon">🎯</div>
+          <div class="solution-text">
+            <div class="feature-name">Personalized Study Tracker</div>
+            <div class="feature-desc">Tracks weak areas, builds adaptive study paths, verifies study time with page-visibility detection.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">04</div>
+    </div>
+
+    <!-- SLIDE 5: PRODUCT -->
+    <div class="slide slide-product">
+      <div class="eyebrow" style="text-align: center; margin-bottom: 12px;">Platform Features</div>
+      <h2 class="h2" style="text-align: center; margin-bottom: 48px; font-size: clamp(20px, 2.5vw, 32px);">
+        Everything you need for GATE prep, in one place.
+      </h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="card-emoji">🤖</div>
+          <div class="card-title">AI Doubt Engine</div>
+          <div class="card-desc">Step-by-step explanations for any GATE concept. Powered by Groq, grounded in our library.</div>
+          <span class="card-tag tag-premium">Premium</span>
+        </div>
+        <div class="product-card">
+          <div class="card-emoji">📈</div>
+          <div class="card-title">GATE Intelligence</div>
+          <div class="card-desc">18 years of question data — topic weightage, difficulty trends, pattern analysis.</div>
+          <span class="card-tag tag-free">Free</span>
+        </div>
+        <div class="product-card">
+          <div class="card-emoji">⏱️</div>
+          <div class="card-title">Study Tracker</div>
+          <div class="card-desc">Verified study sessions, daily goals, streak tracking. Page-visibility detection prevents cheating.</div>
+          <span class="card-tag tag-free">Free</span>
+        </div>
+        <div class="product-card">
+          <div class="card-emoji">🏆</div>
+          <div class="card-title">Global Leaderboard</div>
+          <div class="card-desc">Ranked by verified study time. Compete fairly with GATE aspirants worldwide.</div>
+          <span class="card-tag tag-free">Free</span>
+        </div>
+        <div class="product-card">
+          <div class="card-emoji">📖</div>
+          <div class="card-title">Study Library</div>
+          <div class="card-desc">Organized PYQs, predicted papers, subject notes — structured by branch (CS/ECE/ME/CE/EE/IN).</div>
+          <span class="card-tag tag-free">Free</span>
+        </div>
+        <div class="product-card">
+          <div class="card-emoji">💬</div>
+          <div class="card-title">Study Chat</div>
+          <div class="card-desc">Real-time global community. Stay motivated, share insights, solve problems together.</div>
+          <span class="card-tag tag-premium">Premium</span>
+        </div>
+      </div>
+      <div class="slide-number">05</div>
+    </div>
+
+    <!-- SLIDE 6: MARKET -->
+    <div class="slide slide-market">
+      <div class="eyebrow">Market Opportunity</div>
+      <div class="market-layout">
+        <div>
+          <div class="market-number">$6.5B</div>
+          <p class="body-text" style="margin-top: 16px;">
+            GATE coaching market in India — growing rapidly as students shift online. The opportunity is massive and underserved by intelligent tools.
+          </p>
+        </div>
+        <div class="market-breakdown">
+          <div class="market-row">
+            <div class="market-label">Online coaching</div>
+            <div class="market-bar-wrap">
+              <div class="market-bar" style="width: 70%;"></div>
+            </div>
+            <div class="market-value">$4.6B</div>
+          </div>
+          <div class="market-row">
+            <div class="market-label">Test prep apps</div>
+            <div class="market-bar-wrap">
+              <div class="market-bar" style="width: 25%;"></div>
+            </div>
+            <div class="market-value">$1.6B</div>
+          </div>
+          <div class="market-row">
+            <div class="market-label">AI-native players</div>
+            <div class="market-bar-wrap">
+              <div class="market-bar" style="width: 5%; background: linear-gradient(90deg, #f97316, #fb923c);"></div>
+            </div>
+            <div class="market-value">$0.3B</div>
+          </div>
+          <div style="margin-top: 12px; padding: 16px 20px; background: rgba(139,92,246,0.08); border-radius: 12px; border: 1px solid rgba(139,92,246,0.15);">
+            <div style="font-size: 13px; color: rgba(255,255,255,0.5);">TAM estimate at ₹40–₹50/month subscription across</div>
+            <div style="font-size: 15px; font-weight: 700; margin-top: 4px;">1M GATE aspirants globally = ₹40–50 Cr ARR potential</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-number">06</div>
+    </div>
+
+    <!-- SLIDE 7: BUSINESS MODEL -->
+    <div class="slide slide-model">
+      <div class="eyebrow" style="text-align: center;">Business Model</div>
+      <h2 class="h2" style="text-align: center; margin-bottom: 40px; font-size: clamp(20px, 2.5vw, 32px);">
+        Freemium. Simple. Scalable.
+      </h2>
+      <div class="model-grid">
+        <div class="model-card">
+          <div class="model-tier">Free Tier</div>
+          <div class="model-price">₹0</div>
+          <div class="model-period">forever free</div>
+          <ul class="model-features">
+            <li>Full GATE Library access</li>
+            <li>Study tracker with verification</li>
+            <li>Daily goals & streaks</li>
+            <li>Global leaderboard</li>
+            <li>5 AI doubts per day</li>
+            <li>Browse all free resources</li>
+          </ul>
+        </div>
+        <div class="model-card featured">
+          <div class="model-tier" style="color: #8b5cf6;">EduPremium</div>
+          <div class="model-price">₹49<span style="font-size: 18px; font-weight: 400; color: rgba(255,255,255,0.3);">/mo</span></div>
+          <div class="model-period">or ₹20/week · no lock-in</div>
+          <ul class="model-features">
+            <li>Unlimited AI Doubt Engine</li>
+            <li>Live global study chat</li>
+            <li>All premium library content</li>
+            <li>Predicted mock papers</li>
+            <li>All Free features included</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top: 28px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.25);">
+        Unit economics at scale: Groq-backed AI at near-zero inference cost · Supabase for infra · margins >80%
+      </div>
+      <div class="slide-number">07</div>
+    </div>
+
+    <!-- SLIDE 8: TEAM -->
+    <div class="slide slide-team">
+      <div class="eyebrow" style="text-align: center;">The Team</div>
+      <h2 class="h2" style="text-align: center; font-size: clamp(22px, 2.5vw, 32px);">
+        Built by someone who lived the problem.
+      </h2>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="team-avatar">SB</div>
+          <div class="team-name">Sumanta Bhargab</div>
+          <div class="team-role">Founder & Builder</div>
+        </div>
+        <div class="team-member">
+          <div class="team-avatar" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);">?</div>
+          <div class="team-name">Next Hire</div>
+          <div class="team-role">AI / Full-stack Engineer</div>
+        </div>
+      </div>
+      <div class="team-context">
+        Deep understanding of GATE preparation pain points. Shipped a working product with real users — not just an idea.
+        The platform is live with functional AI, study tracking, and community features.
+      </div>
+      <div class="slide-number">08</div>
+    </div>
+
+    <!-- SLIDE 9: ASK -->
+    <div class="slide slide-ask">
+      <div class="eyebrow" style="text-align: center;">The Ask</div>
+      <div style="text-align: center;">
+        <div class="ask-amount">$500K</div>
+        <div class="ask-label">Pre-seed · Convertible note / SAFE</div>
+      </div>
+      <div class="ask-use">
+        <div class="ask-use-item">
+          <div class="use-pct accent">40%</div>
+          <div class="use-label">Product & AI</div>
+        </div>
+        <div class="ask-use-item">
+          <div class="use-pct accent">30%</div>
+          <div class="use-label">User Acquisition</div>
+        </div>
+        <div class="ask-use-item">
+          <div class="use-pct accent">20%</div>
+          <div class="use-label">Content & Library</div>
+        </div>
+        <div class="ask-use-item">
+          <div class="use-pct accent">10%</div>
+          <div class="use-label">Operations</div>
+        </div>
+      </div>
+      <div style="margin-top: 48px; font-size: 13px; color: rgba(255,255,255,0.3); text-align: center; max-width: 500px; line-height: 1.6;">
+        18-month runway to reach 10,000 active users and ₹5L MRR.<br>
+        Milestones: product-market fit signal, premium conversion >5%, retention >40% at 30 days.
+      </div>
+      <div class="slide-number">09</div>
+    </div>
+
+    <!-- SLIDE 10: CLOSING -->
+    <div class="slide slide-closing">
+      <div class="eyebrow" style="text-align: center;">Let's Build Together</div>
+      <h2 class="h2" style="text-align: center; max-width: 700px;">
+        Millions of students prepare<br>
+        for GATE every year.<br>
+        <span class="accent">None of them have an AI</span><br>
+        that truly gets the exam.
+      </h2>
+      <div class="closing-email">sumanta@eduniche.io</div>
+      <div class="closing-url">eduniche.io</div>
+      <div style="margin-top: 48px; font-size: 12px; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.2em;">
+        Thank you
+      </div>
+      <div class="slide-number">10</div>
+    </div>
+
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav">
+    <button onclick="prevSlide()">‹</button>
+    <div class="dots" id="dots"></div>
+    <button onclick="nextSlide()">›</button>
+  </div>
+
+  <div class="keyboard-hint">
+    <kbd>←</kbd> <kbd>→</kbd> to navigate
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let current = 0;
+
+    // Create dots
+    const dotsContainer = document.getElementById('dots');
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    function goToSlide(n) {
+      slides[current].classList.remove('active');
+      current = (n + totalSlides) % totalSlides;
+      slides[current].classList.add('active');
+      document.getElementById('counter').textContent =
+        String(current + 1).padStart(2, '0') + ' / ' + String(totalSlides).padStart(2, '0');
+      document.querySelectorAll('.dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    function nextSlide() { goToSlide(current + 1); }
+    function prevSlide() { goToSlide(current - 1); }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+    });
+
+    // Touch support
+    let touchStartX = 0;
+    document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+    document.addEventListener('touchend', e => {
+      const diff = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(diff) > 50) diff > 0 ? prevSlide() : nextSlide();
+    });
+  </script>
+</body>
+</html>

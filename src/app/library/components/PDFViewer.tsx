@@ -129,7 +129,7 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
   const [pageInput, setPageInput] = useState("1");
   const [totalPages, setTotalPages] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const objectRef = useRef<HTMLObjectElement>(null);
+  const objectRef = useRef<HTMLIFrameElement>(null);
 
   const handleLoad = useCallback(() => {
     setLoading(false);
@@ -214,10 +214,10 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
   const goToPage = useCallback((page: number) => {
     const p = Math.max(1, page);
     setPageInput(String(p));
-    // Append #page=N to trigger browser scroll
-    if (objectRef.current?.data) {
-      const base = objectRef.current.data.split("#")[0];
-      objectRef.current.data = `${base}#page=${p}`;
+    // Append #page=N to trigger browser scroll in iframe
+    if (objectRef.current?.src) {
+      const base = objectRef.current.src.split("#")[0];
+      objectRef.current.src = `${base}#page=${p}`;
     }
   }, []);
 
@@ -232,11 +232,11 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
     setError(null);
     setLoaded(false);
     if (objectRef.current) {
-      objectRef.current.data = "";
+      objectRef.current.src = "";
       // Force re-render
       requestAnimationFrame(() => {
         if (objectRef.current) {
-          objectRef.current.data = url;
+          objectRef.current.src = url;
         }
       });
     }
@@ -245,6 +245,10 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
   // Keyboard shortcuts
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      // Don't intercept when typing in an input
+      if (target?.closest?.("input, textarea, select")) return;
+
       if ((e.metaKey || e.ctrlKey) && e.key === "=") {
         e.preventDefault();
         zoomIn();
@@ -257,10 +261,18 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
         e.preventDefault();
         resetZoom();
       }
+      if (totalPages && e.key === "ArrowLeft") {
+        e.preventDefault();
+        goToPage(Math.max(1, parseInt(pageInput, 10) - 1));
+      }
+      if (totalPages && e.key === "ArrowRight") {
+        e.preventDefault();
+        goToPage(Math.min(totalPages, parseInt(pageInput, 10) + 1));
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [zoomIn, zoomOut, resetZoom]);
+  }, [zoomIn, zoomOut, resetZoom, goToPage, totalPages, pageInput]);
 
   return (
     <div className="flex flex-col h-full">
@@ -380,7 +392,7 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
       {/* Document area */}
       <div
         ref={containerRef}
-        className="flex-1 overflow-auto bg-black/20"
+        className="flex-1 overflow-auto bg-black/20 relative"
         style={{ minHeight: "500px" }}
       >
         {loading && (
@@ -421,12 +433,12 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
 
         {!error && (
           <div
+            className="relative"
             style={{
               width: "100%",
               height: "calc(100vh - 220px)",
               minHeight: "600px",
               maxHeight: "85vh",
-              position: "relative",
             }}
           >
             {!loaded && loading && (
@@ -435,11 +447,61 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
               </div>
             )}
             <iframe
+              ref={objectRef}
               src={url}
               title={title || "PDF Viewer"}
               className="w-full h-full border-0 rounded-lg bg-white"
               style={{ display: loaded ? "block" : "none" }}
+              onLoad={handleLoad}
             />
+          </div>
+        )}
+
+        {/* Mobile arrow navigation — shown only on small screens when page count is known */}
+        {totalPages && totalPages > 1 && (
+          <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-background/90 backdrop-blur-md border border-border rounded-2xl px-3 py-2 shadow-lg">
+            <button
+              onClick={() => goToPage(Math.max(1, parseInt(pageInput, 10) - 1))}
+              disabled={parseInt(pageInput, 10) <= 1}
+              className="w-12 h-12 flex items-center justify-center rounded-xl bg-foreground/5 active:bg-foreground/10 disabled:opacity-30 transition-colors"
+              aria-label="Previous page"
+            >
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <div className="flex items-center gap-1 text-sm font-mono tabular-nums min-w-[60px] justify-center">
+              <input
+                type="number"
+                min={1}
+                max={totalPages}
+                value={pageInput}
+                onChange={(e) => setPageInput(e.target.value)}
+                onBlur={() => {
+                  const v = parseInt(pageInput, 10);
+                  if (isNaN(v) || v < 1) setPageInput("1");
+                  if (v > totalPages) setPageInput(String(totalPages));
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    const v = parseInt(pageInput, 10);
+                    if (!isNaN(v) && v >= 1) goToPage(v);
+                  }
+                }}
+                className="w-10 text-center bg-transparent border border-border rounded-md py-1 text-foreground tabular-nums focus:outline-none focus:ring-1 focus:ring-foreground/30"
+              />
+              <span className="text-muted">/ {totalPages}</span>
+            </div>
+            <button
+              onClick={() => goToPage(Math.min(totalPages, parseInt(pageInput, 10) + 1))}
+              disabled={parseInt(pageInput, 10) >= totalPages}
+              className="w-12 h-12 flex items-center justify-center rounded-xl bg-foreground/5 active:bg-foreground/10 disabled:opacity-30 transition-colors"
+              aria-label="Next page"
+            >
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
           </div>
         )}
       </div>
