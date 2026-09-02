@@ -9,6 +9,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { EduNeuroLoader, ChatSkeleton } from "@/components/loading";
+import MarkdownRenderer from "@/modules/virtual-library/features/ai-doubt-engine/components/MarkdownRenderer";
 
 // Icon components replacing emojis
 function IconSparkles({ className = "w-8 h-8" }: { className?: string }) {
@@ -231,12 +232,18 @@ export default function DoubtsPage() {
                 {msg.role === "user" ? <IconUserSmall /> : <IconBot />}
               </div>
               <div className={`max-w-[80%] ${msg.role === "user" ? "text-right" : ""}`}>
-                <div className={`inline-block px-4 py-3 rounded-xl text-sm text-left ${
+                <div className={`inline-block px-4 py-3 rounded-xl text-left ${
                   msg.role === "user"
                     ? "bg-foreground text-background"
-                    : "bg-accent"
+                    : "bg-accent/15"
                 }`}>
-                  <p className="whitespace-pre-wrap">{msg.content}</p>
+                  {msg.role === "assistant" ? (
+                    <div className="markdown-body">
+                      <MarkdownRenderer content={msg.content} />
+                    </div>
+                  ) : (
+                    <p className="whitespace-pre-wrap">{msg.content}</p>
+                  )}
                 </div>
                 <div className="text-xs text-muted mt-1">
                   {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

@@ -797,6 +797,14 @@ export const ME_YEARLY_TOTALS: { year: number; totalMarks: number; totalQuestion
 });
 
 // ─── Paper-level summary ───
+export interface PaperSummary {
+  paperId: string; paperName: string; dataVersion: string;
+  totalQuestions: number; totalMarks: number; yearsCovered: number[];
+  paperCount: number; subjectBreakdown: { id: string; name: string; totalQuestions: number; totalMarks: number; avgMarksPerPaper: number }[];
+  overallMarksByYear: { year: number; totalMarks: number }[]; avgMarksPerPaper: number;
+  questionTypeBreakdown: { type: string; count: number; marks: number; percentage: number }[];
+}
+
 export const GATE_ME_SUMMARY: PaperSummary = {
   paperId: "gate-me",
   paperName: "Mechanical Engineering",

@@ -170,3 +170,181 @@ body {
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ─── Markdown Body (Doubt Engine + Library documents) ─────────────────── */
+
+.markdown-body {
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--foreground);
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* Paragraphs */
+.markdown-body .md-paragraph {
+  margin: 0 0 1em;
+  line-height: 1.75;
+}
+
+/* Headings */
+.markdown-body .md-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 1.6em 0 0.5em;
+  line-height: 1.3;
+  color: var(--foreground);
+}
+.markdown-body .md-heading:first-child {
+  margin-top: 0;
+}
+.markdown-body .md-subheading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1.4em 0 0.4em;
+  line-height: 1.35;
+}
+.markdown-body .md-subheading-sm {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.2em 0 0.35em;
+}
+
+/* Bold / italic */
+.markdown-body .md-bold {
+  font-weight: 700;
+}
+.markdown-body .md-italic {
+  font-style: italic;
+}
+
+/* Lists */
+.markdown-body .md-list {
+  margin: 0 0 1em;
+  padding-left: 1.5em;
+  list-style: disc;
+}
+.markdown-body .md-list-ordered {
+  list-style: decimal;
+}
+.markdown-body .md-list-item {
+  margin-bottom: 0.3em;
+  line-height: 1.65;
+}
+
+/* Blockquote */
+.markdown-body .md-blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 0.4em 1em;
+  margin: 0 0 1em;
+  background: var(--accent-subtle);
+  border-radius: 0 0.5em 0.5em 0;
+  color: var(--foreground);
+}
+.markdown-body .md-blockquote p {
+  margin: 0;
+}
+
+/* Inline code */
+.markdown-body .inline-code {
+  background: rgba(0, 0, 0, 0.06);
+  padding: 0.15em 0.4em;
+  border-radius: 0.35em;
+  font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.875em;
+  color: var(--accent-hover);
+}
+html.dark .markdown-body .inline-code {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--accent);
+}
+
+/* Code block */
+.code-block-wrapper {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin: 1em 0;
+}
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4em 1em;
+  background: rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid var(--border);
+}
+.code-block-lang {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.code-block-wrapper pre {
+  margin: 0;
+  padding: 1em;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  background: rgba(0, 0, 0, 0.03);
+}
+html.dark .code-block-wrapper pre {
+  background: rgba(0, 0, 0, 0.25);
+}
+.code-block-wrapper code {
+  font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: inherit;
+  background: none;
+  padding: 0;
+}
+
+/* Table */
+.md-table-wrapper {
+  overflow-x: auto;
+  margin: 0 0 1em;
+  border-radius: 0.5em;
+  border: 1px solid var(--border);
+}
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+.md-table th,
+.md-table td {
+  padding: 0.55em 0.9em;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+.md-table th {
+  background: rgba(0, 0, 0, 0.03);
+  font-weight: 600;
+}
+html.dark .md-table th {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ---------- Math overrides ---------- */
+.markdown-body .inline-math .katex,
+.markdown-body .display-math .katex {
+  max-width: 100%;
+  overflow-x: auto;
+  display: inline-block;
+}
+.markdown-body .inline-math .katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 0.5em 0;
+}
+
+/* ---------- Answer-card tweaks ---------- */
+.answer-card .markdown-body {
+  font-size: 0.95rem;
+}
+.answer-card .markdown-body p:last-child {
+  margin-bottom: 0;
+}
+.answer-card .code-block-wrapper pre {
+  max-height: 28rem;
+}

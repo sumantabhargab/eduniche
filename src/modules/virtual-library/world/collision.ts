@@ -139,7 +139,7 @@ export class CollisionSystem {
   /** Get spawn position (center of entrance). */
   getSpawnPosition(): { x: number; y: number } {
     return {
-      x: 20 * this.tileSize,
+      x: 21 * this.tileSize,
       y: 2 * this.tileSize + this.tileSize / 2,
     };
   }

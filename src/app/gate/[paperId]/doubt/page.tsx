@@ -5,6 +5,7 @@ import { use } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import GateNav from "@/components/GateNav";
+import MarkdownRenderer from "@/modules/virtual-library/features/ai-doubt-engine/components/MarkdownRenderer";
 import { getPaperById, type GATEPaper } from "@/lib/gate/config";
 import { fetchPaperData, type Question } from "@/lib/gate/paper-data-client";
 
@@ -234,45 +235,6 @@ export default function DoubtEnginePage({
     setTimeout(() => handleSend(), 50);
   };
 
-  const formatContent = (content: string) => {
-    return content.split("\n").map((line, i) => {
-      if (line.startsWith("## ")) {
-        return (
-          <h3 key={i} className="text-sm font-medium text-foreground mt-4 mb-2">
-            {line.replace("## ", "")}
-          </h3>
-        );
-      }
-      if (line.startsWith("**") && line.endsWith("**")) {
-        return (
-          <p key={i} className="text-sm font-medium text-foreground mt-2">
-            {line.replace(/\*\*/g, "")}
-          </p>
-        );
-      }
-      if (line.startsWith("- **")) {
-        return (
-          <li key={i} className="text-sm text-foreground ml-4">
-            {line.replace("- ", "").replace(/\*\*/g, "")}
-          </li>
-        );
-      }
-      if (line.startsWith("> ")) {
-        return (
-          <blockquote key={i} className="border-l-2 border-accent/30 pl-3 my-2">
-            <p className="text-sm text-muted italic">{line.replace("> ", "")}</p>
-          </blockquote>
-        );
-      }
-      if (line.trim() === "") return <br key={i} />;
-      return (
-        <p key={i} className="text-sm text-foreground leading-relaxed">
-          {line.replace(/\*\*/g, "")}
-        </p>
-      );
-    });
-  };
-
   return (
     <>
       <GateNav />
@@ -361,7 +323,7 @@ export default function DoubtEnginePage({
                       }`}
                     >
                       <div className={`text-sm leading-relaxed`}>
-                        {msg.role === "assistant" ? formatContent(msg.content) : msg.content}
+                        {msg.role === "assistant" ? <MarkdownRenderer content={msg.content} /> : msg.content}
                       </div>
                       <p className={`text-[10px] mt-2 ${msg.role === "user" ? "text-background/50" : "text-muted-light"}`}>
                         {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
