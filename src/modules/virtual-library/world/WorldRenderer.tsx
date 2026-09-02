@@ -614,7 +614,7 @@ export function WorldRenderer({
     return () => {
       cancelAnimationFrame(frameId);
     };
-  }, [localPlayer, remotePlayers, connectionState, tileSize, drawTile, drawPlayer, drawRoomLabel, drawMinimap, resizeCanvas]);
+  }, [tileSize, drawTile, drawPlayer, drawRoomLabel, drawMinimap, resizeCanvas]);
 
   // ─── Resize Handler ─────────────────────────────────────────────────────────
 
