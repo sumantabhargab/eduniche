@@ -587,6 +587,12 @@ export default function GamePlayClient() {
             </span>
           </div>
         </div>
+        {/* Question text — must always be visible */}
+        {question && (
+          <div className="max-w-5xl mx-auto mb-2">
+            <p className="text-sm text-gray-200 leading-relaxed">{question.question_text}</p>
+          </div>
+        )}
         <div className="max-w-5xl mx-auto grid grid-cols-2 gap-2">
           {(["A", "B", "C", "D"] as const).map((letter) => (
             <div
