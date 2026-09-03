@@ -3,20 +3,25 @@
  *
  * Uses Supabase Realtime broadcast for position updates (lightweight,
  * no database writes per frame).
- * Uses the study_room_presence table for room membership.
+ * Uses presence channels for join/leave awareness and room membership.
+ * Supports emoji reactions broadcast.
  */
 
 "use client";
 
 import { getChatSupabase } from "@/modules/chat/services/supabase";
-import type { WorldPlayer, RoomId } from "./types";
+import type { WorldPlayer, RoomId, EmojiReaction, SystemNotice } from "./types";
 
 const BROADCAST_CHANNEL = "eduneuro:world:positions";
 const UPDATE_INTERVAL = 100; // ms — broadcast 10x/sec
 const CLEANUP_INTERVAL = 2000; // ms — check for stale players
+const INTERPOLATION_FACTOR = 0.18; // lerp factor per frame toward network position
+const EMOJI_TTL = 4000; // ms before emoji reaction expires
+const NOTICE_TTL = 5000; // ms before system notice expires
 
 type PositionUpdateHandler = (player: WorldPlayer) => void;
 type PlayerLeaveHandler = (playerId: string) => void;
+type PlayerJoinHandler = (player: WorldPlayer) => void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RealtimeChannel = any;
@@ -29,6 +34,7 @@ export class MultiplayerManager {
   private players: Map<string, WorldPlayer> = new Map();
   private positionHandlers: Set<PositionUpdateHandler> = new Set();
   private leaveHandlers: Set<PlayerLeaveHandler> = new Set();
+  private joinHandlers: Set<PlayerJoinHandler> = new Set();
   private connected = false;
   private lastBroadcast = 0;
 
@@ -40,6 +46,16 @@ export class MultiplayerManager {
   /** Get all remote players. */
   getRemotePlayers(): WorldPlayer[] {
     return Array.from(this.players.values()).filter((p) => !p.isLocal);
+  }
+
+  /** Get all players (including local). */
+  getAllPlayers(): WorldPlayer[] {
+    return Array.from(this.players.values());
+  }
+
+  /** Get a specific player by ID. */
+  getPlayer(id: string): WorldPlayer | undefined {
+    return this.players.get(id);
   }
 
   /** Subscribe to position updates. */
@@ -54,15 +70,51 @@ export class MultiplayerManager {
     return () => this.leaveHandlers.delete(handler);
   }
 
+  /** Subscribe to player join events. */
+  onPlayerJoin(handler: PlayerJoinHandler): () => void {
+    this.joinHandlers.add(handler);
+    return () => this.joinHandlers.delete(handler);
+  }
+
+  /** Broadcast an emoji reaction. */
+  broadcastEmoji(emoji: string): void {
+    if (!this.connected || !this.localPlayer || !this.channel) return;
+    try {
+      this.channel.send({
+        type: "broadcast",
+        event: "emoji",
+        payload: {
+          id: `emoji-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          emoji,
+          playerId: this.localPlayer.id,
+          playerLabel: this.localPlayer.label,
+          x: this.localPlayer.x,
+          y: this.localPlayer.y,
+          timestamp: Date.now(),
+          ttl: EMOJI_TTL,
+        } as EmojiReaction,
+      });
+    } catch {
+      // ignore
+    }
+  }
+
   /** Connect to the multiplayer system. */
   connect(localPlayer: WorldPlayer): void {
     if (this.connected) {
       this.disconnect();
     }
 
-    this.localPlayer = { ...localPlayer };
+    // Initialize display positions for smooth interpolation
+    const player: WorldPlayer = {
+      ...localPlayer,
+      displayX: localPlayer.x,
+      displayY: localPlayer.y,
+    };
+
+    this.localPlayer = { ...player };
     this.connected = true;
-    this.players.set(localPlayer.id, localPlayer);
+    this.players.set(player.id, player);
 
     const supabase = getChatSupabase();
     if (!supabase) {
@@ -90,7 +142,7 @@ export class MultiplayerManager {
         config: { broadcast: { self: false } },
       });
 
-      // Listen for broadcast messages from other players
+      // Listen for broadcast position messages from other players
       this.channel.on(
         "broadcast",
         { event: "position" },
@@ -99,6 +151,39 @@ export class MultiplayerManager {
         }
       );
 
+      // Listen for emoji reactions
+      this.channel.on(
+        "broadcast",
+        { event: "emoji" },
+        (payload: { emoji: EmojiReaction }) => {
+          // Emoji reactions are handled by the parent component via a separate mechanism
+          // We store them so the renderer can pick them up
+          if (payload.emoji && payload.emoji.playerId !== this.localPlayer?.id) {
+            this.emitEmoji(payload.emoji);
+          }
+        }
+      );
+
+      // Listen for player join announcements
+      this.channel.on(
+        "broadcast",
+        { event: "join" },
+        (payload: { player: WorldPlayer }) => {
+          if (payload.player.id === this.localPlayer?.id) return;
+          this.players.set(payload.player.id, {
+            ...payload.player,
+            targetX: payload.player.x,
+            targetY: payload.player.y,
+            displayX: payload.player.x,
+            displayY: payload.player.y,
+            lastUpdate: Date.now(),
+          });
+          this.joinHandlers.forEach((h) => h(this.players.get(payload.player.id)!));
+          this.positionHandlers.forEach((h) => h(this.players.get(payload.player.id)!));
+        }
+      );
+
+      // Listen for player leave announcements
       this.channel.on(
         "broadcast",
         { event: "leave" },
@@ -118,16 +203,36 @@ export class MultiplayerManager {
             const presenceList = Array.isArray(presences) ? presences : [presences];
             for (const p of presenceList) {
               const presence = p as Record<string, unknown>;
-              if (presence.player_data && !this.players.has(key)) {
+              if (presence.player_data) {
                 const playerData = presence.player_data as WorldPlayer;
-                this.players.set(key, playerData);
-                this.positionHandlers.forEach((h) => h(playerData));
+                const isNew = !this.players.has(key);
+                this.players.set(key, {
+                  ...playerData,
+                  targetX: playerData.x,
+                  targetY: playerData.y,
+                  displayX: playerData.x,
+                  displayY: playerData.y,
+                  lastUpdate: Date.now(),
+                });
+                if (isNew && key !== this.localPlayer?.id) {
+                  this.joinHandlers.forEach((h) => h(this.players.get(key)!));
+                }
+                this.positionHandlers.forEach((h) => h(this.players.get(key)!));
               }
             }
           }
         } catch {
           // ignore presence state errors
         }
+      });
+
+      // Track presence changes — detect join/leave
+      this.channel.on("presence", { event: "join" }, () => {
+        // Presence join is handled by the sync event above
+      });
+
+      this.channel.on("presence", { event: "leave" }, () => {
+        // Presence leave is handled by cleanup
       });
 
       this.channel.subscribe((status: string) => {
@@ -139,6 +244,16 @@ export class MultiplayerManager {
                 user_id: this.localPlayer.id,
                 player_data: this.localPlayer,
               });
+              // Announce join
+              try {
+                this.channel.send({
+                  type: "broadcast",
+                  event: "join",
+                  payload: { player: this.localPlayer },
+                });
+              } catch {
+                // ignore
+              }
             } catch {
               // ignore track errors
             }
@@ -160,8 +275,56 @@ export class MultiplayerManager {
     }
   }
 
+  /** Interpolate all remote player positions toward their targets. Call each frame. */
+  interpolatePlayers(): void {
+    for (const [id, player] of this.players) {
+      if (player.isLocal) continue;
+      const dx = player.x - player.displayX;
+      const dy = player.y - player.displayY;
+      if (Math.abs(dx) > 0.01 || Math.abs(dy) > 0.01) {
+        this.players.set(id, {
+          ...player,
+          displayX: player.displayX + dx * INTERPOLATION_FACTOR,
+          displayY: player.displayY + dy * INTERPOLATION_FACTOR,
+        });
+      } else if (Math.abs(dx) > 0 || Math.abs(dy) > 0) {
+        // Snap when close enough
+        this.players.set(id, {
+          ...player,
+          displayX: player.x,
+          displayY: player.y,
+        });
+      }
+    }
+  }
+
+  /** Emit an emoji reaction (for internal callback). */
+  private emojiHandlers: Set<(emoji: EmojiReaction) => void> = new Set();
+
+  onEmoji(handler: (emoji: EmojiReaction) => void): () => void {
+    this.emojiHandlers.add(handler);
+    return () => this.emojiHandlers.delete(handler);
+  }
+
+  private emitEmoji(emoji: EmojiReaction): void {
+    this.emojiHandlers.forEach((h) => h(emoji));
+  }
+
   /** Disconnect from multiplayer. */
   disconnect(): void {
+    // Announce leave
+    if (this.connected && this.localPlayer && this.channel) {
+      try {
+        this.channel.send({
+          type: "broadcast",
+          event: "leave",
+          payload: { playerId: this.localPlayer.id },
+        });
+      } catch {
+        // ignore
+      }
+    }
+
     if (this.updateInterval) {
       clearInterval(this.updateInterval);
       this.updateInterval = null;
@@ -216,19 +379,22 @@ export class MultiplayerManager {
 
     const existing = this.players.get(player.id);
     if (existing) {
-      // Update with interpolation targets
+      // Update with interpolation targets — keep current display position
       this.players.set(player.id, {
         ...player,
         targetX: player.x,
         targetY: player.y,
+        // Keep existing display position for smooth interpolation
+        displayX: existing.displayX,
+        displayY: existing.displayY,
         lastUpdate: Date.now(),
       });
     } else {
-      // New player
+      // New player — set display = actual so they don't slide in from origin
       this.players.set(player.id, {
         ...player,
-        targetX: player.x,
-        targetY: player.y,
+        displayX: player.x,
+        displayY: player.y,
         lastUpdate: Date.now(),
       });
     }

@@ -24,7 +24,7 @@ import { WorldRenderer } from "./WorldRenderer";
 import { CollisionSystem } from "./collision";
 import { ROOM_ZONES } from "./map";
 import { WORLD_CONFIG } from "./types";
-import type { WorldPlayer, WorldChatMessage, ConnectionState, RoomId } from "./types";
+import type { WorldPlayer, WorldChatMessage, ConnectionState, RoomId, EmojiReaction, SystemNotice } from "./types";
 import { useStudySession } from "../hooks/use-study-session";
 import { getChatSupabase } from "@/modules/chat/services/supabase";
 import { EduNeuroLoader } from "@/components/loading";
@@ -311,6 +311,12 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
   const [resourcesLoading, setResourcesLoading] = useState(false);
   const [resourcesError, setResourcesError] = useState<string | null>(null);
   const [selectedResource, setSelectedResource] = useState<{ id: string; title: string; type: string } | null>(null);
+  // Multiplayer social features
+  const [emojiReactions, setEmojiReactions] = useState<EmojiReaction[]>([]);
+  const [systemNotices, setSystemNotices] = useState<SystemNotice[]>([]);
+  const [roomPopulations, setRoomPopulations] = useState<Record<string, number>>({});
+  const [showEmojiBar, setShowEmojiBar] = useState(false);
+  const showEmojiBarRef = useRef(false);
   const isMobile = /Mobi|Android|iPhone|iPad/i.test(typeof navigator !== "undefined" ? navigator.userAgent : "");
 
   const collisionRef = useRef<CollisionSystem | null>(null);
@@ -353,12 +359,51 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     setVoiceError(voice.error);
   }, [voice]);
 
+  // ─── System Notice Helper ──────────────────────────────────────────────────────
+
+  const addSystemNotice = useCallback((text: string) => {
+    const id = `notice-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+    const ttl = 5000;
+    setSystemNotices((prev) => [...prev, { id, text, timestamp: Date.now(), ttl }]);
+    setTimeout(() => {
+      setSystemNotices((prev) => prev.filter((n) => n.id !== id));
+    }, ttl);
+  }, []);
+
+  // ─── Emoji Handlers ───────────────────────────────────────────────────────────
+
+  const handleEmoji = useCallback((emoji: string) => {
+    multiplayerManager.broadcastEmoji(emoji);
+    setShowEmojiBar(false);
+  }, []);
+
+  // ─── Room Population ──────────────────────────────────────────────────────────
+
+  useEffect(() => {
+    const allPlayers = [localPlayer, ...remotePlayers].filter(Boolean) as WorldPlayer[];
+    const counts: Record<string, number> = {};
+    for (const p of allPlayers) {
+      const room = p.roomId || "entrance";
+      counts[room] = (counts[room] || 0) + 1;
+    }
+    setRoomPopulations(counts);
+  }, [localPlayer, remotePlayers]);
+
   // ─── Side Effects ────────────────────────────────────────────────────────────
 
   // Keep ref in sync
   useEffect(() => {
     localPlayerRef.current = localPlayer;
   }, [localPlayer]);
+
+  // Keep emoji bar ref in sync for keyboard handler
+  useEffect(() => {
+    showEmojiBarRef.current = showEmojiBar;
+  }, [showEmojiBar]);
+
+  // Stable ref for handleEmoji
+  const handleEmojiRef = useRef(handleEmoji);
+  handleEmojiRef.current = handleEmoji;
 
   // Sync music state from hook
   useEffect(() => {
@@ -444,6 +489,8 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
               targetY: spawn.y,
               dx: 0,
               dy: 0,
+              displayX: spawn.x,
+              displayY: spawn.y,
               isLocal: true,
               colorIndex: 0,
               roomId: "entrance",
@@ -468,10 +515,23 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
             const demoId = "demo-user-" + Math.random().toString(36).slice(2, 10);
             const spawn = { x: 300, y: 300 };
             const player: WorldPlayer = {
-              id: demoId, label: "You", x: spawn.x, y: spawn.y,
-              targetX: spawn.x, targetY: spawn.y, dx: 0, dy: 0,
-              isLocal: true, colorIndex: 0, roomId: "entrance",
-              lastUpdate: Date.now(), isMuted: true, isVideoOn: false, isMoving: false,
+              id: demoId,
+              label: "You",
+              x: spawn.x,
+              y: spawn.y,
+              targetX: spawn.x,
+              targetY: spawn.y,
+              dx: 0,
+              dy: 0,
+              displayX: spawn.x,
+              displayY: spawn.y,
+              isLocal: true,
+              colorIndex: 0,
+              roomId: "entrance",
+              lastUpdate: Date.now(),
+              isMuted: true,
+              isVideoOn: false,
+              isMoving: false,
             };
             setUserId(demoId);
             setUserLabel("You");
@@ -525,6 +585,8 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       targetY: spawn.y,
       dx: 0,
       dy: 0,
+      displayX: spawn.x,
+      displayY: spawn.y,
       isLocal: true,
       colorIndex: hash,
       roomId: "entrance",
@@ -536,7 +598,35 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
 
     setLocalPlayer(player);
     setConnectionState("connecting");
-    multiplayerManager.connect(player);
+
+    // Pre-warm: broadcast a wave to already-present players
+    multiplayerManager.connect({
+      ...player,
+      displayX: spawn.x,
+      displayY: spawn.y,
+    });
+
+    // Wave on join
+    setTimeout(() => {
+      multiplayerManager.broadcastEmoji("👋");
+      setEmojiReactions((prev) => [
+        ...prev,
+        {
+          id: `emoji-local-${Date.now()}`,
+          emoji: "👋",
+          playerId: userId,
+          playerLabel: userLabel,
+          x: spawn.x,
+          y: spawn.y,
+          timestamp: Date.now(),
+          ttl: 4000,
+        },
+      ]);
+      setTimeout(() => {
+        setEmojiReactions((prev) => prev.filter((e) => !e.id.startsWith("emoji-local-")));
+      }, 4000);
+    }, 1500);
+
     setConnectionState("connected");
 
     // Mark presence
@@ -580,12 +670,32 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     });
 
     const unsubLeave = multiplayerManager.onPlayerLeave((playerId) => {
+      const leftPlayer = multiplayerManager.getPlayer(playerId);
       setRemotePlayers((prev) => prev.filter((p) => p.id !== playerId));
+      // Show leave notice
+      if (leftPlayer) {
+        addSystemNotice(`${leftPlayer.label} left the library`);
+      }
+    });
+
+    const unsubJoin = multiplayerManager.onPlayerJoin((player) => {
+      // Show join notice
+      addSystemNotice(`${player.label} joined the library`);
+    });
+
+    const unsubEmoji = multiplayerManager.onEmoji((emoji) => {
+      setEmojiReactions((prev) => [...prev, emoji]);
+      // Auto-remove after TTL
+      setTimeout(() => {
+        setEmojiReactions((prev) => prev.filter((e) => e.id !== emoji.id));
+      }, emoji.ttl);
     });
 
     return () => {
       unsubPos();
       unsubLeave();
+      unsubJoin();
+      unsubEmoji();
     };
   }, []);
 
@@ -753,6 +863,15 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
         e.preventDefault();
         keys.add(k);
       }
+      // Emoji shortcuts (1-5) when emoji bar is visible
+      if (["1", "2", "3", "4", "5"].includes(k) && showEmojiBarRef.current) {
+        const emojis = ["👋", "🔥", "💡", "📚", "🎯"];
+        const idx = parseInt(k) - 1;
+        handleEmojiRef.current(emojis[idx]);
+      }
+      if (k === "e" && !target?.closest?.("input, textarea")) {
+        setShowEmojiBar((v) => !v);
+      }
     };
     const handleKeyUp = (e: KeyboardEvent) => {
       keys.delete(e.key.toLowerCase());
@@ -838,6 +957,9 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
         });
       }
 
+      // Smoothly interpolate remote player positions
+      multiplayerManager.interpolatePlayers();
+
       raf = requestAnimationFrame(tick);
     };
 
@@ -875,6 +997,8 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
         connectionState={connectionState}
         onRoomChange={handleRoomChange}
         onMessageSend={handleChatMessage}
+        emojiReactions={emojiReactions}
+        roomPopulations={roomPopulations}
       />
 
       {/* Click-to-move overlay for desktop (and as fallback everywhere) */}
@@ -1034,6 +1158,14 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
               </svg>
               <span>Resources {resources.length > 0 && `(${resources.length})`}</span>
             </button>
+
+            <button
+              onClick={() => setShowEmojiBar((v) => !v)}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium bg-foreground-dark/80 border border-border-light text-foreground-light hover:bg-foreground-dark transition-colors"
+              title="React"
+            >
+              <span className="text-sm leading-none">+</span>
+            </button>
           </div>
         </div>
       </div>
@@ -1129,6 +1261,50 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Emoji bar */}
+      <AnimatePresence>
+        {showEmojiBar && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute bottom-24 right-4 z-30 bg-background-dark/90 backdrop-blur-md border border-border-light rounded-2xl p-2 shadow-2xl"
+          >
+            <div className="flex items-center gap-1">
+              {["👋", "🔥", "💡", "📚", "🎯"].map((emoji) => (
+                <button
+                  key={emoji}
+                  onClick={() => handleEmoji(emoji)}
+                  className="w-10 h-10 flex items-center justify-center text-lg rounded-xl hover:bg-foreground/10 transition-colors"
+                  title={emoji}
+                >
+                  {emoji}
+                </button>
+              ))}
+            </div>
+            <p className="text-[10px] text-muted-light text-center mt-1.5">or press 1-5</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* System notices (join/leave) */}
+      <div className="absolute top-20 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-1.5 pointer-events-none">
+        <AnimatePresence>
+          {systemNotices.map((notice) => (
+            <motion.div
+              key={notice.id}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3 }}
+              className="bg-background-dark/70 backdrop-blur-sm border border-border-light/60 rounded-full px-4 py-1.5"
+            >
+              <p className="text-[11px] text-foreground-light/80 whitespace-nowrap">{notice.text}</p>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
 
       {/* Mobile touch controls */}
       {isMobile && (

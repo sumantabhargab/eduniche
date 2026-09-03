@@ -56,12 +56,15 @@ export interface RoomZone {
 export interface WorldPlayer {
   id: string;
   label: string;
-  /** Position in pixels */
+  /** Position in pixels (networked / authoritative) */
   x: number;
   y: number;
   /** Target position for interpolation */
   targetX: number;
   targetY: number;
+  /** Display position — smoothly interpolated toward x/y each frame */
+  displayX: number;
+  displayY: number;
   /** Movement direction (-1, 0, 1) */
   dx: number;
   dy: number;
@@ -98,6 +101,26 @@ export type ConnectionState =
   | "connected"
   | "reconnecting"
   | "disconnected";
+
+export interface EmojiReaction {
+  id: string;
+  emoji: string;
+  playerId: string;
+  playerLabel: string;
+  x: number;
+  y: number;
+  timestamp: number;
+  /** Auto-expire after this ms (default 4000) */
+  ttl: number;
+}
+
+export interface SystemNotice {
+  id: string;
+  text: string;
+  timestamp: number;
+  /** Auto-expire after this ms (default 5000) */
+  ttl: number;
+}
 
 // ─── Map Configuration ────────────────────────────────────────────────────────
 

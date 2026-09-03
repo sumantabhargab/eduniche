@@ -16,7 +16,7 @@ import {
   ROOM_ZONES,
   getRoomAtPosition,
 } from "./map";
-import type { WorldPlayer, WorldChatMessage, ConnectionState, RoomId } from "./types";
+import type { WorldPlayer, WorldChatMessage, ConnectionState, RoomId, EmojiReaction } from "./types";
 import { CollisionSystem } from "./collision";
 import { WORLD_CONFIG } from "./types";
 
@@ -70,6 +70,10 @@ interface WorldRendererProps {
   className?: string;
   onRoomChange?: (roomId: string | null) => void;
   onMessageSend?: (content: string) => void;
+  /** Emoji reactions to render floating above players */
+  emojiReactions?: EmojiReaction[];
+  /** Room IDs for minimap population dots */
+  roomPopulations?: Record<string, number>;
 }
 
 export function WorldRenderer({
@@ -81,6 +85,8 @@ export function WorldRenderer({
   className = "",
   onRoomChange,
   onMessageSend,
+  emojiReactions = [],
+  roomPopulations = {},
 }: WorldRendererProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -333,34 +339,35 @@ export function WorldRenderer({
 
   const drawPlayer = useCallback(
     (ctx: CanvasRenderingContext2D, player: WorldPlayer, scale: number, isLocal: boolean) => {
-      const x = player.x * scale;
-      const y = player.y * scale;
+      // Use displayX/displayY for smooth interpolation
+      const px = (player.displayX ?? player.x) * scale;
+      const py = (player.displayY ?? player.y) * scale;
       const r = 10 * scale;
 
       // Shadow
       ctx.fillStyle = COLORS.playerShadow;
       ctx.beginPath();
-      ctx.ellipse(x, y + r * 0.7, r * 0.8, r * 0.3, 0, 0, Math.PI * 2);
+      ctx.ellipse(px, py + r * 0.7, r * 0.8, r * 0.3, 0, 0, Math.PI * 2);
       ctx.fill();
 
       // Body
       const color = AVATAR_COLORS[player.colorIndex % AVATAR_COLORS.length];
       ctx.fillStyle = color;
       ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.arc(px, py, r, 0, Math.PI * 2);
       ctx.fill();
 
       if (isLocal) {
         ctx.strokeStyle = "#F5E6C8";
         ctx.lineWidth = 2.5 * scale;
         ctx.beginPath();
-        ctx.arc(x, y, r + 2 * scale, 0, Math.PI * 2);
+        ctx.arc(px, py, r + 2 * scale, 0, Math.PI * 2);
         ctx.stroke();
       } else {
         ctx.strokeStyle = "rgba(0,0,0,0.15)";
         ctx.lineWidth = scale;
         ctx.beginPath();
-        ctx.arc(x, y, r + scale, 0, Math.PI * 2);
+        ctx.arc(px, py, r + scale, 0, Math.PI * 2);
         ctx.stroke();
       }
 
@@ -369,21 +376,37 @@ export function WorldRenderer({
       ctx.font = `bold ${Math.round(8 * scale)}px Inter, sans-serif`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText((player.label || "?").charAt(0).toUpperCase(), x, y);
+      ctx.fillText((player.label || "?").charAt(0).toUpperCase(), px, py);
 
       // Mute indicator
       if (player.isMuted) {
         ctx.fillStyle = "#C43E3E";
         ctx.beginPath();
-        ctx.arc(x + r * 0.7, y - r * 0.7, 4 * scale, 0, Math.PI * 2);
+        ctx.arc(px + r * 0.7, py - r * 0.7, 4 * scale, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // Label under avatar
-      ctx.fillStyle = "rgba(0,0,0,0.5)";
-      ctx.font = `${Math.round(8 * scale)}px Inter, sans-serif`;
+      // Floating name tag
+      const label = player.label || "Student";
+      ctx.font = `${Math.round(10 * scale)}px Inter, sans-serif`;
+      const textW = ctx.measureText(label).width;
+      const tagPadX = 6 * scale;
+      const tagPadY = 3 * scale;
+      const tagW = textW + tagPadX * 2;
+      const tagH = 14 * scale + tagPadY * 2;
+      const tagY = py + r + 8 * scale;
+
+      ctx.fillStyle = isLocal
+        ? "rgba(245, 230, 200, 0.18)"
+        : "rgba(0, 0, 0, 0.45)";
+      ctx.beginPath();
+      ctx.roundRect(px - tagW / 2, tagY, tagW, tagH, 4 * scale);
+      ctx.fill();
+
+      ctx.fillStyle = isLocal ? "#F5E6C8" : "rgba(255,255,255,0.9)";
       ctx.textAlign = "center";
-      ctx.fillText(player.label, x, y + r + 10 * scale);
+      ctx.textBaseline = "middle";
+      ctx.fillText(label, px, tagY + tagH / 2);
     },
     []
   );
@@ -412,15 +435,15 @@ export function WorldRenderer({
 
   // ─── Minimap Drawing ────────────────────────────────────────────────────────
 
-  const drawMinimap = useCallback(
-    (
-      ctx: CanvasRenderingContext2D,
-      localPlayer: WorldPlayer,
-      remotePlayers: WorldPlayer[],
-      w: number,
-      h: number,
-      scale: number
-    ) => {
+  const drawMinimap = useCallback((
+    ctx: CanvasRenderingContext2D,
+    localPlayer: WorldPlayer,
+    remotePlayers: WorldPlayer[],
+    w: number,
+    h: number,
+    scale: number,
+    roomPopulations: Record<string, number> = {}
+  ) => {
       const mmW = 120;
       const mmH = 90;
       const mmX = w - mmW - 16;
@@ -468,6 +491,39 @@ export function WorldRenderer({
       ctx.beginPath();
       ctx.arc(mmX + localPlayer.x * mmScale, mmY + localPlayer.y * mmScale, 3, 0, Math.PI * 2);
       ctx.fill();
+
+      // Room population dots — one dot per person in each room
+      const entries = Object.entries(roomPopulations).filter(([, count]) => count > 0);
+      for (const [roomId, count] of entries) {
+        const zone = ROOM_ZONES.find(z => z.id === roomId);
+        if (!zone) continue;
+        const [rx, ry, rw, rh] = zone.bounds;
+        const dotX = mmX + (rx + rw / 2) * tileSize * scale * mmScale;
+        const dotY = mmY + (ry + rh / 2) * tileSize * scale * mmScale;
+        const dotR = Math.min(5, 2 + count * 0.8);
+
+        // Pulsing glow — no 'now' param needed; use a fixed ambient pulse
+        const glowAlpha = 0.18;
+        ctx.fillStyle = `rgba(245, 230, 200, ${glowAlpha})`;
+        ctx.beginPath();
+        ctx.arc(dotX, dotY, dotR + 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Dot
+        ctx.fillStyle = "rgba(245, 230, 200, 0.85)";
+        ctx.beginPath();
+        ctx.arc(dotX, dotY, dotR, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Count label
+        if (count > 1) {
+          ctx.fillStyle = "rgba(0,0,0,0.8)";
+          ctx.font = `bold ${Math.round(7)}px Inter, sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(String(count), dotX, dotY + 0.5);
+        }
+      }
 
       ctx.fillStyle = "rgba(255,255,255,0.5)";
       ctx.font = "8px Inter, sans-serif";
@@ -557,6 +613,30 @@ export function WorldRenderer({
         drawPlayer(ctx, p, scale, false);
       }
       drawPlayer(ctx, currentLocal, scale, true);
+
+      // Emoji reactions (floating above heads)
+      const now = Date.now();
+      for (const emoji of emojiReactions) {
+        const elapsed = now - emoji.timestamp;
+        const progress = elapsed / emoji.ttl;
+        if (progress > 1) continue;
+
+        const player = [...currentRemote, currentLocal].find(p => p.id === emoji.playerId);
+        if (!player) continue;
+
+        const ex = (player.displayX ?? player.x) * scale;
+        const ey = (player.displayY ?? player.y) * scale;
+        const floatY = -30 * scale - progress * 25 * scale;
+        const alpha = 1 - progress;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.font = `${Math.round(16 * scale + (1 - progress) * 4 * scale)}px Inter, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(emoji.emoji, ex, ey + floatY);
+        ctx.restore();
+      }
       ctx.restore();
 
       // Connection status
@@ -603,7 +683,7 @@ export function WorldRenderer({
       }
 
       // Minimap
-      drawMinimap(ctx, localPlayer, remotePlayers, w, h, scale);
+      drawMinimap(ctx, localPlayer, remotePlayers, w, h, scale, roomPopulations);
 
       ctx.restore();
 
