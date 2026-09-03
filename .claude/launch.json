@@ -3,9 +3,7 @@
   "configurations": [
     {
       "name": "eduniche",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["next", "dev"],
-      "port": 3030
+      "url": "http://localhost:3030"
     }
   ]
 }

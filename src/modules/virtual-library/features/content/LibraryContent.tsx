@@ -340,69 +340,37 @@ function PdfViewerModal({
   onClose: () => void;
 }) {
   const [loadingState, setLoadingState] = useState<LoadingState>("loading");
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [zoom, setZoom] = useState(100);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState<number | null>(null);
-  const iframeSrc = useRef<string>("");
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const hasAttemptedPageCountRef = useRef(false);
 
+  const pdfProxyUrl = useMemo(() => {
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    return `${origin}/api/library/document/${resource.id}/pdf`;
+  }, [resource.id]);
+
+  const handleIframeLoad = useCallback(() => {
+    setLoadingState("loaded");
+    setError(null);
+  }, []);
+
+  const handleIframeError = useCallback(() => {
+    setLoadingState("error");
+    setError("Unable to load document. The file may be unavailable.");
+  }, []);
+
+  // Attempt to count pages via pdfjs-dist once the proxy URL is set
   useEffect(() => {
-    let mounted = true;
-
-    async function loadPdf() {
-      setLoadingState("loading");
-      setError(null);
-      setZoom(100);
-
-      try {
-        // Fetch through the library proxy — access control is enforced server-side
-        const origin = typeof window !== "undefined" ? window.location.origin : "";
-        const res = await fetch(`${origin}/api/library/document/${resource.id}/pdf`);
-
-        if (!res.ok) {
-          if (res.status === 401 || res.status === 403) {
-            throw new Error("Access denied. You may need to upgrade to Premium.");
-          }
-          if (res.status === 404) {
-            throw new Error("PDF not found. It may have been moved or deleted.");
-          }
-          throw new Error(`Server error (${res.status})`);
-        }
-
-        const blob = await res.blob();
-        const objectUrl = URL.createObjectURL(blob);
-
-        if (mounted) {
-          setPdfUrl(objectUrl);
-          setLoadingState("loaded");
-        }
-      } catch (err) {
-        if (mounted) {
-          setLoadingState("error");
-          setError(err instanceof Error ? err.message : "Failed to load PDF.");
-        }
-      }
-    }
-
-    loadPdf();
-    return () => {
-      mounted = false;
-      // Clean up any object URL on unmount
-    };
-  }, [resource]);
-
-  // Attempt to count pages via pdfjs-dist once the URL is set
-  useEffect(() => {
-    if (!pdfUrl || hasAttemptedPageCountRef.current) return;
+    if (!pdfProxyUrl || hasAttemptedPageCountRef.current) return;
     hasAttemptedPageCountRef.current = true;
 
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch(pdfUrl);
+        const res = await fetch(pdfProxyUrl);
         if (!res.ok) return;
         const buf = await res.arrayBuffer();
         const pdfjs = await import("pdfjs-dist");
@@ -418,29 +386,20 @@ function PdfViewerModal({
       }
     })();
     return () => { cancelled = true; };
-  }, [pdfUrl]);
+  }, [pdfProxyUrl]);
 
   // Update iframe page when currentPage changes
   useEffect(() => {
-    if (!pdfUrl) return;
-    const base = pdfUrl.split("#")[0];
-    const newSrc = `${base}#page=${currentPage}&toolbar=1&navpanes=1&scrollbar=1`;
-    iframeSrc.current = newSrc;
-    // Force iframe remount by updating its src key
-    setLoadingState("loading");
-    setTimeout(() => {
-      if (iframeRef.current) {
-        iframeRef.current.src = newSrc;
-        setLoadingState("loaded");
-      }
-    }, 50);
-  }, [currentPage, pdfUrl]);
-
-  useEffect(() => {
-    return () => {
-      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
-    };
-  }, [pdfUrl]);
+    if (!pdfProxyUrl) return;
+    const newSrc = `${pdfProxyUrl}#page=${currentPage}&toolbar=1&navpanes=1&scrollbar=1`;
+    if (iframeRef.current) {
+      iframeRef.current.src = newSrc;
+      setLoadingState("loading");
+      setTimeout(() => {
+        if (iframeRef.current) setLoadingState("loaded");
+      }, 300);
+    }
+  }, [currentPage, pdfProxyUrl]);
 
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
@@ -581,13 +540,15 @@ function PdfViewerModal({
           </div>
         )}
 
-        {loadingState === "loaded" && pdfUrl && (
+        {loadingState === "loaded" && pdfProxyUrl && (
           <iframe
             id="pdf-viewer-frame"
             ref={iframeRef}
-            src={`${pdfUrl}#page=1&toolbar=1&navpanes=1&scrollbar=1`}
+            src={`${pdfProxyUrl}#page=${currentPage}&toolbar=1&navpanes=1&scrollbar=1`}
             className="w-full h-full border-0 bg-white"
             style={{ zoom: `${zoom}%` }}
+            onLoad={handleIframeLoad}
+            onError={handleIframeError}
             title={resource.name}
           />
         )}

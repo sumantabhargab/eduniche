@@ -89,7 +89,7 @@ export function createWorldMap(): TileType[][] {
   const r2: TileType[] = [];
   for (let c = 0; c < MAP_WIDTH; c++) {
     if (c === 0 || c === MAP_WIDTH - 1) r2.push(TILE.WALL);
-    else if (c === 19) r2.push(TILE.WALL_BOOKSHELF);
+    else if (c === 19) r2.push(TILE.DOOR);
     else if (c >= 3 && c <= 5) r2.push(TILE.PLANT);
     else if (c >= 14 && c <= 16) r2.push(TILE.LAMP);
     else if (c >= 24 && c <= 26) r2.push(TILE.PLANT);
@@ -102,7 +102,7 @@ export function createWorldMap(): TileType[][] {
   const r3: TileType[] = [];
   for (let c = 0; c < MAP_WIDTH; c++) {
     if (c === 0 || c === MAP_WIDTH - 1) r3.push(TILE.WALL);
-    else if (c === 19) r3.push(TILE.WALL_BOOKSHELF);
+    else if (c === 19) r3.push(TILE.DOOR);
     else if (c >= 2 && c <= 6) r3.push(TILE.BOOKSHELF);
     else if (c >= 8 && c <= 10) r3.push(TILE.LAMP);
     else if (c >= 14 && c <= 18) r3.push(TILE.BOOKSHELF);
@@ -120,7 +120,7 @@ export function createWorldMap(): TileType[][] {
       if (c === 0 || c === MAP_WIDTH - 1) {
         row_.push(TILE.WALL);
       } else if (c === 19) {
-        row_.push(TILE.BOOKSHELF);
+        row_.push(TILE.DOOR);
       } else if (c >= 3 && c <= 5 && r % 2 === 0) {
         // Individual study booths - desks along left wall
         if (r % 4 === 0) row_.push(TILE.DESK);
@@ -178,7 +178,7 @@ export function createWorldMap(): TileType[][] {
       if (c === 0 || c === MAP_WIDTH - 1) {
         row_.push(TILE.WALL);
       } else if (c === 19) {
-        row_.push(TILE.WALL);
+        row_.push(TILE.DOOR);
       } else if (r === 1 && (c === 16 || c === 17)) {
         // Discussion room door
         row_.push(TILE.DOOR);
@@ -217,7 +217,7 @@ export function createWorldMap(): TileType[][] {
   const r16: TileType[] = [];
   for (let c = 0; c < MAP_WIDTH; c++) {
     if (c === 0 || c === MAP_WIDTH - 1) r16.push(TILE.WALL);
-    else if (c === 19) r16.push(TILE.WALL_BOOKSHELF);
+    else if (c === 19) r16.push(TILE.DOOR);
     else if (c >= 20 && c <= 37) r16.push(TILE.WALL);
     else r16.push(TILE.FLOOR);
   }
@@ -230,7 +230,7 @@ export function createWorldMap(): TileType[][] {
       if (c === 0 || c === MAP_WIDTH - 1) {
         row_.push(TILE.WALL);
       } else if (c === 19) {
-        row_.push(TILE.BOOKSHELF);
+        row_.push(TILE.DOOR);
       } else if (r === 2 && c >= 3 && c <= 5) {
         row_.push(TILE.BOOKSHELF);
       } else if (r === 2 && c >= 14 && c <= 16) {
@@ -292,7 +292,7 @@ export function createWorldMap(): TileType[][] {
   const r23: TileType[] = [];
   for (let c = 0; c < MAP_WIDTH; c++) {
     if (c === 0 || c === MAP_WIDTH - 1) r23.push(TILE.WALL);
-    else if (c === 19) r23.push(TILE.WALL_BOOKSHELF);
+    else if (c === 19) r23.push(TILE.DOOR);
     else if (c >= 20 && c <= 37) r23.push(TILE.WALL);
     else r23.push(TILE.FLOOR);
   }
@@ -305,7 +305,7 @@ export function createWorldMap(): TileType[][] {
       if (c === 0 || c === MAP_WIDTH - 1) {
         row_.push(TILE.WALL);
       } else if (c === 19) {
-        row_.push(TILE.BOOKSHELF);
+        row_.push(TILE.DOOR);
       } else if (r === 1 && c >= 3 && c <= 5) {
         row_.push(TILE.BOOKSHELF);
       } else if (r === 1 && c >= 14 && c <= 16) {
@@ -365,7 +365,7 @@ export function createWorldMap(): TileType[][] {
     else if (c >= 30 && c <= 30) r28.push(TILE.DESK);
     else if (c >= 34 && c <= 36) r28.push(TILE.CHAIR);
     else if (c >= 35 && c <= 35) r28.push(TILE.DESK);
-    else if (c === 19) r28.push(TILE.PILLAR);
+    else if (c === 19) r28.push(TILE.DOOR);
     else r28.push(TILE.FLOOR_DARK);
   }
   map.push(r28);
