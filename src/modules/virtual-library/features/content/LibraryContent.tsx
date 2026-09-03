@@ -540,7 +540,8 @@ function PdfViewerModal({
           </div>
         )}
 
-        {loadingState === "loaded" && pdfProxyUrl && (
+        {/* PDF iframe — always render so onLoad can fire; overlay shows while loading */}
+        {pdfProxyUrl && (
           <iframe
             id="pdf-viewer-frame"
             ref={iframeRef}
@@ -551,6 +552,13 @@ function PdfViewerModal({
             onError={handleIframeError}
             title={resource.name}
           />
+        )}
+
+        {loadingState === "loading" && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-zinc-900 z-10">
+            <div className="w-10 h-10 border-[3px] border-white/20 border-t-white rounded-full animate-spin" />
+            <p className="text-white/60 text-sm">Loading PDF…</p>
+          </div>
         )}
       </div>
 
