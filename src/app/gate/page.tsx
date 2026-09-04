@@ -6,6 +6,7 @@ import { PAPERS } from "@/lib/gate/config";
 import { type GATEPaper } from "@/lib/gate/config";
 import GateNav from "@/components/GateNav";
 import SearchInput from "@/components/SearchInput";
+import BillboardSlot from "@/components/BillboardSlot";
 import { useGateEvent } from "@/lib/tracking/useGateEvent";
 
 const STATUS_STYLES: Record<GATEPaper["processingStatus"], { label: string; className: string }> = {
@@ -160,6 +161,13 @@ export default function GateLandingPage() {
                 No papers match your search.
               </p>
             )}
+          </div>
+        </section>
+
+        {/* Sponsored Partner */}
+        <section className="border-t border-border">
+          <div className="max-w-6xl mx-auto px-6 py-16 md:py-20">
+            <BillboardSlot slotId="learning_secondary" intervalMs={14_000} />
           </div>
         </section>
       </main>

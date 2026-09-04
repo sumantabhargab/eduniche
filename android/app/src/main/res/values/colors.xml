@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- EduNeuro Brand Colors -->
+    <color name="ic_launcher_background">#1A1A1A</color>
+    <color name="eduniche_background">#FAF8F5</color>
+    <color name="eduniche_foreground">#1A1A1A</color>
+    <color name="eduniche_accent">#B8710E</color>
+    <color name="eduniche_accent_hover">#9A5E0A</color>
+    <color name="eduniche_muted">#6B6560</color>
+    <color name="eduniche_border">#E8E2DA</color>
+    <color name="eduniche_error">#C43E3E</color>
+    <color name="eduniche_success">#2D7A4F</color>
+    <color name="splash_background">#1A1A1A</color>
+    <color name="splash_logo">#B8710E</color>
+    <color name="status_bar">#1A1A1A</color>
+    <color name="navigation_bar">#FAF8F5</color>
+</resources>

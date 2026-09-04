@@ -9,6 +9,7 @@ import GATEIntroSection from "@/components/GATEIntroSection";
 import DoubtEngineMockup from "@/components/landing/DoubtEngineMockup";
 import GateIntelligenceMockup from "@/components/landing/GateIntelligenceMockup";
 import PersonalizedLearningMockup from "@/components/landing/PersonalizedLearningMockup";
+import BillboardSlot from "@/components/BillboardSlot";
 
 export const metadata = {
   title: "EduNeuro — AI-Powered GATE Preparation",
@@ -323,6 +324,13 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ============ SPONSORED ============ */}
+      <section className="border-t border-border">
+        <div className="max-w-6xl mx-auto px-6 py-16 md:py-20">
+          <BillboardSlot slotId="landing_main" />
         </div>
       </section>
 

@@ -65,6 +65,21 @@ function AdminInner({ admin, children }: AdminLayoutClientProps) {
 
         {/* Navigation */}
         <nav className="flex-1 py-3 space-y-0.5">
+          {/* Brand Ads */}
+          <a
+            href="/admin/billboard"
+            className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
+              pathname?.startsWith("/admin/billboard")
+                ? "bg-accent-subtle text-accent"
+                : "text-muted hover:text-foreground hover:bg-background-alt"
+            }`}
+          >
+            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75 19.5 15.75 19.5 7.5V3.375a2.25 2.25 0 0 0-2.25-2.25H7.5A2.25 2.25 0 0 0 5.25 3.375v4.125m14.25 0h4.125m-4.125 0v4.125M7.5 7.5v9.75m0 0h9.75m-9.75 0V21m0 0H3.375a2.25 2.25 0 0 1-2.25-2.25V5.625m0 0h17.25" />
+            </svg>
+            {!collapsed && <span>Brand Ads</span>}
+          </a>
+
           <a
             href="/admin/announcements"
             className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${

@@ -1,0 +1,284 @@
+/**
+ * Android-safe CSS resets and mobile optimizations.
+ *
+ * Imported in globals.css when running inside Capacitor.
+ * Handles:
+ * - Safe area insets
+ * - Touch target sizing
+ * - Keyboard avoidance
+ * - Canvas/WebGL sizing for virtual library
+ * - Scroll behavior
+ * - Input zoom prevention
+ */
+
+/* ─── Safe Area Insets (notch, status bar, navigation bar) ─────────────────── */
+
+@supports (padding-top: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Ensure modals/dialogs respect safe areas */
+  [role="dialog"],
+  .modal,
+  .dialog,
+  [data-modal] {
+    padding-top: max(env(safe-area-inset-top), 16px) !important;
+    padding-bottom: max(env(safe-area-inset-bottom), 16px) !important;
+    padding-left: max(env(safe-area-inset-left), 16px) !important;
+    padding-right: max(env(safe-area-inset-right), 16px) !important;
+  }
+
+  /* Bottom navigation safe area */
+  nav[data-bottom-nav],
+  .bottom-nav,
+  [role="navigation"]:has(.bottom-nav) {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ─── Touch Target Sizing (minimum 48dp per Material Design) ───────────────── */
+
+button,
+a[href],
+[role="button"],
+input[type="submit"],
+input[type="button"],
+.btn,
+[data-button] {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Smaller touch targets should be in a larger hit area */
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 8px;
+}
+
+/* ─── Input Zoom Prevention ────────────────────────────────────────────────── */
+
+input,
+textarea,
+select {
+  font-size: 16px !important;
+}
+
+/* ─── Keyboard Behavior ────────────────────────────────────────────────────── */
+
+/* When keyboard opens, scroll to focused input */
+html {
+  scroll-behavior: auto; /* smooth scroll breaks keyboard handling */
+}
+
+body.keyboard-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* ─── Canvas / Virtual Library Fixes ───────────────────────────────────────── */
+
+canvas {
+  touch-action: none; /* Prevent browser gestures on game canvas */
+  display: block;
+}
+
+/* Virtual library canvas container */
+[data-virtual-library],
+.virtual-library-container,
+.world-renderer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ─── Scroll Behavior ──────────────────────────────────────────────────────── */
+
+/* Prevent overscroll bounce on Android */
+html {
+  overscroll-behavior: none;
+}
+
+body {
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── Text Selection ───────────────────────────────────────────────────────── */
+
+/* Prevent accidental text selection during scrolling/tapping */
+.no-select,
+[data-no-select],
+.virtual-library-container,
+canvas {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* ─── Tap Highlight ────────────────────────────────────────────────────────── */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Pull-to-Refresh Prevention ───────────────────────────────────────────── */
+
+body {
+  overscroll-behavior-y: contain;
+}
+
+/* ─── Audio / Video ────────────────────────────────────────────────────────── */
+
+audio,
+video {
+  max-width: 100%;
+}
+
+/* ─── Modals ───────────────────────────────────────────────────────────────── */
+
+.modal-overlay,
+[data-modal-overlay] {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .modal-overlay,
+  [data-modal-overlay] {
+    align-items: center;
+  }
+}
+
+.modal-content,
+[data-modal-content] {
+  background: var(--background);
+  border-radius: 24px 24px 0 0;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 640px) {
+  .modal-content,
+  [data-modal-content] {
+    border-radius: 24px;
+    max-height: 80vh;
+  }
+}
+
+/* ─── Loading / Skeleton ───────────────────────────────────────────────────── */
+
+.skeleton {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--background-alt) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Error States ─────────────────────────────────────────────────────────── */
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  gap: 16px;
+}
+
+.error-container button,
+.error-container a {
+  margin-top: 8px;
+}
+
+/* ─── Empty States ─────────────────────────────────────────────────────────── */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  gap: 12px;
+}
+
+/* ─── Form Elements ────────────────────────────────────────────────────────── */
+
+input, textarea, select {
+  min-height: 48px;
+  font-size: 16px !important; /* Prevent iOS/Android zoom */
+  border-radius: 12px;
+}
+
+textarea {
+  min-height: 120px;
+}
+
+/* ─── Cards ────────────────────────────────────────────────────────────────── */
+
+.card {
+  border-radius: 16px;
+  padding: 20px;
+}
+
+@media (max-width: 640px) {
+  .card {
+    border-radius: 12px;
+    padding: 16px;
+  }
+}
+
+/* ─── Animations ───────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Focus Styles ─────────────────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove default focus outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}

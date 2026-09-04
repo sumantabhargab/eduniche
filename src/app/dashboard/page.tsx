@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { EduNeuroLoader, StatCardSkeleton } from "@/components/loading";
+import BillboardSlot from "@/components/BillboardSlot";
 
 type Period = "today" | "week" | "month" | "all";
 
@@ -493,6 +494,9 @@ export default function DashboardPage() {
           </Link>
         </div>
       </section>
+
+      {/* Sponsored Partner */}
+      <BillboardSlot slotId="dashboard_featured" intervalMs={14_000} />
 
       {/* Quote of the day */}
       <div className="bg-card border border-border rounded-2xl p-6 md:p-8">

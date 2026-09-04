@@ -1,5 +1,48 @@
 @import "tailwindcss";
 
+/* Android/Capacitor-specific mobile optimizations */
+/* These styles are critical for native mobile experience */
+@media (max-width: 640px) {
+  /* Apply Android CSS rules on mobile viewports */
+  input, textarea, select {
+    font-size: 16px !important; /* Prevent zoom on focus */
+  }
+
+  /* Safe modal behavior on mobile */
+  [role="dialog"], .modal, [data-modal] {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 85vh;
+    border-radius: 24px 24px 0 0;
+    z-index: 9999;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Bottom navigation safe area */
+  nav[data-bottom-nav], .bottom-nav, [role="navigation"]:last-child {
+    padding-bottom: env(safe-area-inset-bottom, 8px);
+  }
+
+  /* Prevent text selection during interaction */
+  button, [role="button"], .btn {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Tap highlight removal */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Scroll bounce prevention */
+  html {
+    overscroll-behavior-y: none;
+  }
+}
+
 :root {
   --background: #FAF8F5;
   --background-alt: #F2EDE6;
