@@ -8,11 +8,11 @@
 
 "use client";
 
-import { useRef, useCallback, useEffect, useState } from "react";
+import { useRef, useCallback, useEffect, useState, useMemo } from "react";
 import type { WorldPlayer } from "./types";
 
-const PROXIMITY_RANGE = 200; // pixels — how close players need to be to "hear" each other
-const ROOM_VOICE_RANGE = 600; // pixels — room-wide voice in voice-enabled rooms
+const PROXIMITY_RANGE = 200;
+const ROOM_VOICE_RANGE = 600;
 
 export interface VoiceState {
   isMicOn: boolean;
@@ -20,6 +20,7 @@ export interface VoiceState {
   error: string | null;
   nearbyPlayers: WorldPlayer[];
   roomVoiceEnabled: boolean;
+  proximityRange: number;
 }
 
 export function useProximityVoice(
@@ -27,44 +28,38 @@ export function useProximityVoice(
   remotePlayers: WorldPlayer[],
   currentRoomId: string | null
 ) {
-  const [state, setState] = useState<VoiceState>({
-    isMicOn: false,
-    isStreaming: false,
-    error: null,
-    nearbyPlayers: [],
-    roomVoiceEnabled: false,
-  });
-
+  const [micOn, setMicOn] = useState(false);
+  const [streaming, setStreaming] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
+  const nearbyPlayersRef = useRef<WorldPlayer[]>([]);
 
-  // Determine if the current room supports voice
   const roomVoiceEnabled = currentRoomId === "discussion-room" || currentRoomId === "group-study";
 
-  // Calculate nearby players based on proximity
-  useEffect(() => {
-    if (!localPlayer || !state.isMicOn) {
-      setState((prev) => ({ ...prev, nearbyPlayers: [] }));
-      return;
-    }
-
-    const nearby: (WorldPlayer & { distance: number })[] = [];
+  const nearbyPlayers = useMemo(() => {
+    if (!localPlayer || !micOn) return [];
     const range = roomVoiceEnabled ? ROOM_VOICE_RANGE : PROXIMITY_RANGE;
-
+    const nearby: WorldPlayer[] = [];
     for (const p of remotePlayers) {
       const dx = p.x - localPlayer.x;
       const dy = p.y - localPlayer.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist <= range) {
-        nearby.push({ ...p, distance: dist });
-      }
+      if (dist <= range) nearby.push(p);
     }
+    nearby.sort((a, b) => {
+      const da = Math.hypot(a.x - localPlayer.x, a.y - localPlayer.y);
+      const db = Math.hypot(b.x - localPlayer.x, b.y - localPlayer.y);
+      return da - db;
+    });
+    return nearby;
+  }, [localPlayer, remotePlayers, micOn, roomVoiceEnabled]);
 
-    nearby.sort((a, b) => (a.distance || 0) - (b.distance || 0));
-    setState((prev) => ({ ...prev, nearbyPlayers: nearby as WorldPlayer[], roomVoiceEnabled }));
-  }, [localPlayer, remotePlayers, state.isMicOn, currentRoomId, roomVoiceEnabled]);
+  // Keep refs current for any imperative consumers
+  useEffect(() => {
+    nearbyPlayersRef.current = nearbyPlayers;
+  }, [nearbyPlayers]);
 
-  // Request microphone access
   const requestMic = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -75,8 +70,6 @@ export function useProximityVoice(
         },
       });
       streamRef.current = stream;
-
-      // Set up audio analysis for future mute-detection UI
       const audioCtx = new AudioContext();
       audioCtxRef.current = audioCtx;
       const source = audioCtx.createMediaStreamSource(stream);
@@ -84,26 +77,19 @@ export function useProximityVoice(
       analyser.fftSize = 256;
       source.connect(analyser);
 
-      setState((prev) => ({
-        ...prev,
-        isMicOn: true,
-        isStreaming: true,
-        error: null,
-      }));
+      setMicOn(true);
+      setStreaming(true);
+      setError(null);
       return true;
     } catch (err) {
       const message = err instanceof Error ? err.message : "Microphone access denied";
-      setState((prev) => ({
-        ...prev,
-        isMicOn: false,
-        isStreaming: false,
-        error: message,
-      }));
+      setMicOn(false);
+      setStreaming(false);
+      setError(message);
       return false;
     }
   }, []);
 
-  // Stop microphone
   const stopMic = useCallback(() => {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((t) => t.stop());
@@ -113,22 +99,17 @@ export function useProximityVoice(
       audioCtxRef.current.close();
       audioCtxRef.current = null;
     }
-    setState((prev) => ({
-      ...prev,
-      isMicOn: false,
-      isStreaming: false,
-      nearbyPlayers: [],
-    }));
+    setMicOn(false);
+    setStreaming(false);
   }, []);
 
-  // Toggle mic
   const toggleMic = useCallback(async () => {
-    if (state.isMicOn) {
+    if (micOn) {
       stopMic();
     } else {
       await requestMic();
     }
-  }, [state.isMicOn, requestMic, stopMic]);
+  }, [micOn, requestMic, stopMic]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -143,10 +124,14 @@ export function useProximityVoice(
   }, []);
 
   return {
-    ...state,
+    isMicOn: micOn,
+    isStreaming: streaming,
+    error,
+    nearbyPlayers,
+    roomVoiceEnabled,
+    proximityRange: roomVoiceEnabled ? ROOM_VOICE_RANGE : PROXIMITY_RANGE,
     toggleMic,
     requestMic,
     stopMic,
-    proximityRange: roomVoiceEnabled ? ROOM_VOICE_RANGE : PROXIMITY_RANGE,
   };
 }

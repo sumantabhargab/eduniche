@@ -6,6 +6,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { createBrowserClient } from "@/lib/supabase/client";
 import { EduNeuroLoader, ChatSkeleton } from "@/components/loading";
@@ -51,6 +52,7 @@ interface Message {
 export default function DoubtsPage() {
   const { user, loading } = useAuth();
   const [isPremium, setIsPremium] = useState(false);
+  const [doubtUsage, setDoubtUsage] = useState<{ used: number; limit: number; remaining: number } | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -80,6 +82,27 @@ export default function DoubtsPage() {
     };
 
     checkPremium();
+
+    // Also load doubt usage for free users
+    const loadDoubtUsage = async () => {
+      try {
+        const res = await fetch("/api/ai/doubt/free");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.limit !== undefined) {
+            setDoubtUsage({
+              used: data.used || 0,
+              limit: data.limit,
+              remaining: data.remaining ?? data.limit - (data.used || 0),
+            });
+          }
+        }
+      } catch {
+        // ignore
+      }
+    };
+
+    loadDoubtUsage();
   }, [user]);
 
   useEffect(() => {
@@ -176,28 +199,14 @@ export default function DoubtsPage() {
     );
   }
 
-  if (!isPremium && user) {
+  if (!user) {
     return (
-      <div className="max-w-2xl mx-auto px-6 py-16 text-center">
-        <div className="bg-card border border-border rounded-2xl p-8">
-          <div className="text-muted mb-4 inline-block">
-            <IconSparkles />
-          </div>
-          <h2 className="text-2xl font-bold mb-3">Premium Required</h2>
-          <p className="text-muted mb-6">
-            The AI Doubt Engine is available for Premium subscribers.
-          </p>
-          <div className="bg-accent/30 rounded-xl p-6 mb-6">
-            <div className="text-lg font-bold mb-1">₹49 <span className="text-sm font-normal text-muted">/ month</span></div>
-            <p className="text-sm text-muted">Get access to the AI Doubt Engine, live chat, and more.</p>
-          </div>
-          <a
-            href="/pricing"
-            className="inline-flex px-8 py-3 bg-foreground text-background rounded-xl font-semibold hover:opacity-90 transition-opacity"
-          >
-            Upgrade to Premium
-          </a>
-        </div>
+      <div className="max-w-3xl mx-auto px-6 py-16 text-center">
+        <h1 className="text-3xl font-bold mb-4">AI Doubt Engine</h1>
+        <p className="text-muted mb-8">Sign in to ask questions. Free users get 5 questions per day.</p>
+        <a href="/login" className="inline-flex px-6 py-3 bg-foreground text-background rounded-xl font-semibold">
+          Sign In to Start
+        </a>
       </div>
     );
   }
@@ -205,10 +214,35 @@ export default function DoubtsPage() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-8">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold">AI Doubt Engine</h1>
-        <p className="text-sm text-muted">
-          Ask any GATE-related question. Powered by EduNeuro&apos;s library.
-        </p>
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <h1 className="text-2xl font-bold">AI Doubt Engine</h1>
+            <p className="text-sm text-muted">
+              Ask any GATE-related question. Powered by EduNeuro&apos;s library.
+            </p>
+          </div>
+          {!isPremium && (
+            <Link
+              href="/pricing"
+              className="text-xs px-3 py-1.5 bg-accent/10 text-accent rounded-lg hover:bg-accent/20 transition-colors"
+            >
+              Upgrade for unlimited
+            </Link>
+          )}
+        </div>
+        {!isPremium && doubtUsage && (
+          <div className="mt-3 flex items-center gap-2">
+            <div className="flex-1 h-1.5 bg-muted/30 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-accent rounded-full transition-all"
+                style={{ width: `${(doubtUsage.used / doubtUsage.limit) * 100}%` }}
+              />
+            </div>
+            <span className="text-xs text-muted">
+              {doubtUsage.remaining} left today
+            </span>
+          </div>
+        )}
       </div>
 
       <div className="bg-card border border-border rounded-2xl overflow-hidden">

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Playfair_Display } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -42,14 +43,16 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfair.variable} antialiased`}>
         <body className="min-h-full bg-background text-foreground">
            <ThemeProvider>
-               <Nav />
-               <ChatWidgetClient />
-               <ScrollReveal />
-               <main className="min-h-[calc(100vh-4rem)]">
-                   {children}
-               </main>
-               <Footer />
-               <Analytics />
+               <ErrorBoundary>
+                 <Nav />
+                 <ChatWidgetClient />
+                 <ScrollReveal />
+                 <main className="min-h-[calc(100vh-4rem)]">
+                     {children}
+                 </main>
+                 <Footer />
+                 <Analytics />
+               </ErrorBoundary>
              </ThemeProvider>
           </body>
     </html>

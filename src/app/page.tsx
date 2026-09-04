@@ -1,7 +1,7 @@
 /**
  * Homepage — GATE-focused product entry point.
  *
- * Redesigned for a modern, premium AI education feel.
+ * Conversion-optimized landing page for EduNeuro.
  */
 
 import Link from "next/link";
@@ -13,11 +13,11 @@ import PersonalizedLearningMockup from "@/components/landing/PersonalizedLearnin
 export const metadata = {
   title: "EduNeuro — AI-Powered GATE Preparation",
   description:
-    "AI doubt engine, GATE intelligence, personalized learning paths, study tracking, and a global leaderboard. Start preparing smarter for GATE.",
+    "Start with the free GATE library and AI doubt engine (5 questions/day). Upgrade for unlimited AI, live chat, and advanced analytics.",
   openGraph: {
     title: "EduNeuro — AI-Powered GATE Preparation",
     description:
-      "AI doubt engine, GATE intelligence, personalized study paths, and more for GATE aspirants.",
+      "Free GATE library, AI doubt engine, study tracker, and leaderboard. Start preparing smarter for GATE today.",
     type: "website",
   },
 };
@@ -31,22 +31,22 @@ export default function Home() {
           <div className="max-w-3xl">
             {/* Eyebrow */}
             <div className="font-mono text-xs tracking-[0.2em] text-accent uppercase mb-8">
-              AI-Powered GATE Preparation
+              Free GATE preparation platform
             </div>
 
             {/* Headline */}
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.08] tracking-tight mb-8">
-              Prepare for GATE
+              Study smarter,
               <br />
-              with an AI that{" "}
-              <span className="text-accent">understands</span> the exam.
+              not harder, for{" "}
+              <span className="text-accent">GATE</span>.
             </h1>
 
             {/* Subheadline */}
             <p className="text-base sm:text-lg md:text-xl text-muted leading-relaxed max-w-2xl mb-10">
-              EduNeuro gives you an AI doubt engine grounded in the GATE library,
-              intelligent paper analysis across 18 years of questions, and a
-              personalized study path — all in one place.
+              Start with the free library — explore 18 years of GATE questions, take
+              a diagnostic test, and get AI help (5 questions/day, no card required).
+              Upgrade when you need more.
             </p>
 
             {/* CTAs */}
@@ -71,30 +71,73 @@ export default function Home() {
                 </svg>
               </Link>
               <Link
-                href="/pricing"
+                href="/gate"
                 className="inline-flex items-center px-7 py-3.5 border border-border hover:border-foreground/40 text-foreground font-medium text-sm rounded-xl transition-all duration-200"
               >
-                View Premium Plans
+                Explore GATE Papers
               </Link>
             </div>
 
-            {/* Social proof row */}
+            {/* Trust signals */}
             <div className="flex flex-wrap items-center gap-6 mt-12 pt-8 border-t border-border/60">
               <div>
-                <div className="font-mono text-lg text-foreground">1,247+</div>
-                <div className="text-xs text-muted">GATE questions analyzed</div>
+                <div className="font-mono text-lg text-foreground">Free to start</div>
+                <div className="text-xs text-muted">No card required</div>
               </div>
               <div className="w-px h-8 bg-border hidden sm:block" />
               <div>
-                <div className="font-mono text-lg text-foreground">6 papers</div>
-                <div className="text-xs text-muted">CS · ECE · ME · CE · EE · IN</div>
+                <div className="font-mono text-lg text-foreground">5 AI questions/day</div>
+                <div className="text-xs text-muted">Free tier</div>
               </div>
               <div className="w-px h-8 bg-border hidden sm:block" />
               <div>
-                <div className="font-mono text-lg text-foreground">5/day free</div>
-                <div className="text-xs text-muted">AI doubts, no card needed</div>
+                <div className="font-mono text-lg text-foreground">20+ GATE papers</div>
+                <div className="text-xs text-muted">18 years of analysis</div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ HOW IT WORKS ============ */}
+      <section className="border-t border-border">
+        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+          <div className="max-w-2xl mb-16 md:mb-20">
+            <div className="font-mono text-xs tracking-[0.2em] text-muted uppercase mb-6 reveal">
+              How it works
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight mb-6 reveal">
+              Three steps to better preparation.
+            </h2>
+            <p className="text-base md:text-lg text-muted leading-relaxed reveal">
+              EduNeuro adapts to how you learn — not the other way around.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-8 md:gap-12">
+            {[
+              {
+                num: "01",
+                title: "Assess",
+                desc: "Take a quick diagnostic test to identify your weak areas across subjects. The AI maps your current level.",
+              },
+              {
+                num: "02",
+                title: "Adapt",
+                desc: "EduNeuro builds a study path around your gaps. Focus on what matters — not everything.",
+              },
+              {
+                num: "03",
+                title: "Improve",
+                desc: "Practice with adaptive questions, get instant feedback, and track progress. Watch your accuracy climb.",
+              },
+            ].map((step) => (
+              <div key={step.num} className="reveal">
+                <div className="font-mono text-4xl text-accent/20 mb-4">{step.num}</div>
+                <h3 className="font-semibold text-lg mb-2">{step.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -221,19 +264,21 @@ export default function Home() {
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight reveal">
               Everything you need for GATE prep.
             </h2>
+            <p className="text-base text-muted max-w-xl mx-auto mt-4 reveal">
+              Free forever. Premium when you need more.
+            </p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {[
               {
                 title: "AI Doubt Engine",
-                desc: "Ask any GATE question and get a grounded, step-by-step explanation from the EduNeuro library. Powered by Groq.",
+                desc: "Ask any GATE question and get a grounded, step-by-step explanation. Free: 5/day. Premium: unlimited.",
                 tier: "premium",
-                large: true,
               },
               {
                 title: "GATE Intelligence",
-                desc: "18 years of GATE data — subject weightage, difficulty trends, topic analysis across 6 branches.",
+                desc: "Topic weightage, difficulty trends, and topic analysis across 20+ GATE branches using historical question data.",
                 tier: "free",
               },
               {
@@ -259,15 +304,18 @@ export default function Home() {
             ].map((feature) => (
               <div
                 key={feature.title}
-                className={`group bg-card border border-border rounded-2xl p-6 md:p-8 hover:border-foreground/20 transition-all duration-300 reveal ${
-                  feature.large ? "sm:col-span-2 lg:col-span-1" : ""
-                }`}
+                className="group bg-card border border-border rounded-2xl p-6 md:p-8 hover:border-foreground/20 transition-all duration-300 reveal"
               >
                 <div className="flex items-start justify-between mb-4">
                   <h3 className="font-semibold text-base md:text-lg leading-snug">{feature.title}</h3>
                   {feature.tier === "premium" && (
                     <span className="text-[10px] px-2 py-0.5 bg-accent/10 text-accent rounded-full font-medium tracking-wider uppercase shrink-0 ml-2">
                       Premium
+                    </span>
+                  )}
+                  {feature.tier === "free" && (
+                    <span className="text-[10px] px-2 py-0.5 bg-green-500/10 text-green-600 rounded-full font-medium tracking-wider uppercase shrink-0 ml-2">
+                      Free
                     </span>
                   )}
                 </div>
@@ -291,7 +339,7 @@ export default function Home() {
             <p className="text-base md:text-lg text-muted leading-relaxed reveal">
               GATE isn&apos;t about memorizing everything. It&apos;s about knowing
               what to study, how deeply, and where to focus. EduNeuro&apos;s GATE
-              Intelligence gives you that clarity.
+              Intelligence gives you that clarity — available for free.
             </p>
           </div>
 
@@ -329,7 +377,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ PRICING PREVIEW ============ */}
+      {/* ============ FREE EXPERIENCE ============ */}
+      <section className="border-t border-border">
+        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+          <div className="max-w-2xl mb-12 md:mb-16">
+            <div className="font-mono text-xs tracking-[0.2em] text-muted uppercase mb-6 reveal">
+              Free experience
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight mb-6 reveal">
+              Start learning without paying anything.
+            </h2>
+            <p className="text-base md:text-lg text-muted leading-relaxed reveal">
+              You don&apos;t need a subscription to experience EduNeuro&apos;s core
+              value. The free tier is designed to be genuinely useful.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {[
+              { title: "Full GATE Library", desc: "Browse 20+ branches, 18 years of question analysis, subject-wise notes, and predicted papers." },
+              { title: "AI Doubt Engine", desc: "5 questions per day, powered by Groq. Get step-by-step explanations grounded in the library." },
+              { title: "Study Tracker", desc: "Timer with page-visibility detection, daily goals, verified sessions, and streak tracking." },
+              { title: "Diagnostic Tests", desc: "Free 10-question diagnostic to identify your weak areas across subjects." },
+              { title: "Global Leaderboard", desc: "Ranked by verified study time. See how you compare with fellow aspirants." },
+              { title: "Virtual Library", desc: "Enter a 2D multiplayer study space. Find your spot and study with others." },
+            ].map((feature) => (
+              <div key={feature.title} className="bg-card border border-border rounded-2xl p-6 reveal">
+                <h3 className="font-semibold text-base mb-2">{feature.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              href="/library"
+              className="inline-flex items-center px-7 py-3.5 bg-foreground text-background font-medium text-sm rounded-xl transition-all hover:opacity-90"
+            >
+              Start Learning Free
+              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+            <p className="text-xs text-muted mt-3">No sign-up required for the library demo</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ PRICING ============ */}
       <section className="border-t border-border" id="pricing">
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
           <div className="max-w-2xl mb-12 md:mb-16">
@@ -357,11 +452,12 @@ export default function Home() {
               <ul className="space-y-3 mb-8">
                 {[
                   "Full GATE Library access",
+                  "5 AI doubts per day",
                   "Study timer with verification",
                   "Daily goals and streaks",
                   "Global leaderboard",
-                  "Browse all free resources",
-                  "5 AI doubts per day",
+                  "Virtual Library demo",
+                  "Diagnostic tests",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm">
                     <svg className="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -397,6 +493,7 @@ export default function Home() {
                   "Live global study chat",
                   "All premium library content",
                   "Predicted mock papers",
+                  "Advanced analytics & insights",
                   "All Free features included",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm">
