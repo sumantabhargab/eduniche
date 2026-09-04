@@ -74,6 +74,28 @@ const ZONE_AMBIENT: Record<string, string> = {
   "booth-4": "rgba(240, 244, 255, 0.02)",
 };
 
+// Pure color helpers — stable references, no re-creation
+function lighten(hex: string, amt: number): string {
+  const n = parseInt(hex.replace("#",""), 16);
+  const r = Math.min(255, (n>>16)+amt);
+  const g = Math.min(255, ((n>>8)&0xFF)+amt);
+  const b = Math.min(255, (n&0xFF)+amt);
+  return `rgb(${r},${g},${b})`;
+}
+function darken(hex: string, amt: number): string {
+  const n = parseInt(hex.replace("#",""), 16);
+  const r = Math.max(0, (n>>16)-amt);
+  const g = Math.max(0, ((n>>8)&0xFF)-amt);
+  const b = Math.max(0, (n&0xFF)-amt);
+  return `rgb(${r},${g},${b})`;
+}
+
+// Seeded pseudo-random — stable, no re-creation
+function srand(seed: number): number {
+  const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+}
+
 interface WorldRendererProps {
   localPlayer: WorldPlayer;
   remotePlayers: WorldPlayer[];
@@ -204,27 +226,10 @@ export function WorldRenderer({
 
   // ─── Seeded Random ──────────────────────────────────────────────────────────
 
-  const srand = useCallback((seed: number) => {
-    const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
-    return x - Math.floor(x);
-  }, []);
+  // (srand is now a stable module-level function)
 
-  // ─── Color Helpers ──────────────────────────────────────────────────────────
-
-  function lighten(hex: string, amt: number): string {
-    const n = parseInt(hex.replace("#",""), 16);
-    const r = Math.min(255, (n>>16)+amt);
-    const g = Math.min(255, ((n>>8)&0xFF)+amt);
-    const b = Math.min(255, (n&0xFF)+amt);
-    return `rgb(${r},${g},${b})`;
-  }
-  function darken(hex: string, amt: number): string {
-    const n = parseInt(hex.replace("#",""), 16);
-    const r = Math.max(0, (n>>16)-amt);
-    const g = Math.max(0, ((n>>8)&0xFF)-amt);
-    const b = Math.max(0, (n&0xFF)-amt);
-    return `rgb(${r},${g},${b})`;
-  }
+  // ─── Color Helpers (module-level, stable refs) ───────────────────────────────
+  // (lightenColor / darkenColor / srand defined above)
 
   // ─── Tile Drawing ───────────────────────────────────────────────────────────
 
@@ -735,6 +740,20 @@ export function WorldRenderer({
   }, [tileSize]);
 
   // ─── Main Render Loop ────────────────────────────────────────────────────────
+  // Use refs for all draw functions so the effect only runs once and never
+  // restarts (avoids tearing down/restarting rAF on every prop change).
+
+  const drawTileRef = useRef(drawTile);
+  const drawPlayerRef = useRef(drawPlayer);
+  const drawRoomLabelRef = useRef(drawRoomLabel);
+  const drawMinimapRef = useRef(drawMinimap);
+  const drawLightingRef = useRef(drawLighting);
+
+  useEffect(() => { drawTileRef.current = drawTile; }, [drawTile]);
+  useEffect(() => { drawPlayerRef.current = drawPlayer; }, [drawPlayer]);
+  useEffect(() => { drawRoomLabelRef.current = drawRoomLabel; }, [drawRoomLabel]);
+  useEffect(() => { drawMinimapRef.current = drawMinimap; }, [drawMinimap]);
+  useEffect(() => { drawLightingRef.current = drawLighting; }, [drawLighting]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -753,26 +772,24 @@ export function WorldRenderer({
       const scale = scaleRef.current;
 
       ctx.save();
-
-      // Background
       ctx.fillStyle = "#1A1714";
       ctx.fillRect(0, 0, w, h);
 
       // Camera
       const cl = localPlayerRef.current;
       const cr = remotePlayersRef.current;
-      const tcx = cl.x*scale - w/2;
-      const tcy = cl.y*scale - h/2;
-      cameraRef.current.x += (tcx-cameraRef.current.x)*0.1;
-      cameraRef.current.y += (tcy-cameraRef.current.y)*0.1;
+      const tcx = cl.x * scale - w / 2;
+      const tcy = cl.y * scale - h / 2;
+      cameraRef.current.x += (tcx - cameraRef.current.x) * 0.1;
+      cameraRef.current.y += (tcy - cameraRef.current.y) * 0.1;
       const camX = cameraRef.current.x;
       const camY = cameraRef.current.y;
 
       // Tiles
-      const sc = Math.floor(camX/(tileSize*scale));
-      const sr = Math.floor(camY/(tileSize*scale));
-      const ec = Math.min(MAP_WIDTH, Math.ceil((camX+w)/(tileSize*scale))+1);
-      const er = Math.min(MAP_HEIGHT, Math.ceil((camY+h)/(tileSize*scale))+1);
+      const sc = Math.max(0, Math.floor(camX / (tileSize * scale)));
+      const sr = Math.max(0, Math.floor(camY / (tileSize * scale)));
+      const ec = Math.min(MAP_WIDTH, Math.ceil((camX + w) / (tileSize * scale)) + 1);
+      const er = Math.min(MAP_HEIGHT, Math.ceil((camY + h) / (tileSize * scale)) + 1);
       const map = mapRef.current;
 
       ctx.save();
@@ -780,44 +797,45 @@ export function WorldRenderer({
       for (let row = sr; row < er; row++) {
         for (let col = sc; col < ec; col++) {
           const tileType = map[row]?.[col];
-          if (tileType) drawTile(ctx, col, row, tileType, time);
+          if (tileType) drawTileRef.current(ctx, col, row, tileType, time);
         }
       }
 
       // Room labels
       for (const zone of ROOM_ZONES) {
         const [rx, ry, rw, rh] = zone.bounds;
-        if ((rx+rw)*tileSize*scale>=camX && rx*tileSize*scale<=camX+w && (ry+rh)*tileSize*scale>=camY && ry*tileSize*scale<=camY+h) {
-          drawRoomLabel(ctx, zone, scale);
+        if ((rx+rw)*tileSize*scale >= camX && rx*tileSize*scale <= camX+w
+            && (ry+rh)*tileSize*scale >= camY && ry*tileSize*scale <= camY+h) {
+          drawRoomLabelRef.current(ctx, zone, scale);
         }
       }
 
       // Players
-      for (const p of cr) drawPlayer(ctx, p, scale, false, time);
-      drawPlayer(ctx, cl, scale, true, time);
+      for (const p of cr) drawPlayerRef.current(ctx, p, scale, false, time);
+      drawPlayerRef.current(ctx, cl, scale, true, time);
 
       // Emoji reactions
       const now = Date.now();
       for (const emoji of emojiReactions) {
-        const elapsed = now-emoji.timestamp;
-        const progress = elapsed/emoji.ttl;
+        const elapsed = now - emoji.timestamp;
+        const progress = elapsed / emoji.ttl;
         if (progress > 1) continue;
         const player = [...cr, cl].find(p => p.id === emoji.playerId);
         if (!player) continue;
-        const ex = (player.displayX ?? player.x)*scale;
-        const ey = (player.displayY ?? player.y)*scale;
-        const floatY = -30*scale - progress*25*scale;
+        const ex = (player.displayX ?? player.x) * scale;
+        const ey = (player.displayY ?? player.y) * scale;
+        const floatY = -30 * scale - progress * 25 * scale;
         ctx.save();
-        ctx.globalAlpha = 1-progress;
+        ctx.globalAlpha = 1 - progress;
         ctx.font = `${Math.round(16*scale+(1-progress)*4*scale)}px Inter, sans-serif`;
         ctx.textAlign = "center"; ctx.textBaseline = "middle";
-        ctx.fillText(emoji.emoji, ex, ey+floatY);
+        ctx.fillText(emoji.emoji, ex, ey + floatY);
         ctx.restore();
       }
       ctx.restore();
 
-      // Lighting pass (screen space)
-      drawLighting(ctx, w, h, camX, camY, scale, time);
+      // Lighting
+      drawLightingRef.current(ctx, w, h, camX, camY, scale, time);
 
       // Connection status
       const dotColor = connectionState==="connected" ? COLORS.connectionDot
@@ -832,7 +850,10 @@ export function WorldRenderer({
       ctx.fillStyle = "rgba(0,0,0,0.5)";
       ctx.font = "10px Inter, sans-serif";
       ctx.textAlign = "right";
-      ctx.fillText(connectionState==="connected"?"Connected":connectionState==="connecting"?"Entering library...":connectionState==="reconnecting"?"Reconnecting...":"Offline", w-30, 24);
+      ctx.fillText(
+        connectionState==="connected"?"Connected":connectionState==="connecting"?"Entering library...":connectionState==="reconnecting"?"Reconnecting...":"Offline",
+        w-30, 24
+      );
 
       // Room name
       const curRoom = getRoomAtPosition(localPlayer.x, localPlayer.y, tileSize);
@@ -844,7 +865,7 @@ export function WorldRenderer({
       }
 
       // Minimap
-      drawMinimap(ctx, localPlayer, remotePlayers, w, h, scale, roomPopulations);
+      drawMinimapRef.current(ctx, localPlayer, remotePlayers, w, h, scale, roomPopulations);
 
       ctx.restore();
       animationRef.current = requestAnimationFrame(render);
@@ -852,7 +873,7 @@ export function WorldRenderer({
 
     const frameId = requestAnimationFrame(render);
     return () => cancelAnimationFrame(frameId);
-  }, [tileSize, drawTile, drawPlayer, drawRoomLabel, drawMinimap, drawLighting, resizeCanvas, lampPositions, srand, lighten, darken]);
+  }, [tileSize, resizeCanvas]); // Only restart when tileSize actually changes
 
   // ─── Resize Handler ─────────────────────────────────────────────────────────
 
