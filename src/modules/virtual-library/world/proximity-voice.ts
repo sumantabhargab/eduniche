@@ -14,6 +14,8 @@ import type { WorldPlayer } from "./types";
 const PROXIMITY_RANGE = 200;
 const ROOM_VOICE_RANGE = 600;
 
+const VOICE_ENABLED_ROOMS = new Set(["discussion-room", "group-study"]);
+
 export interface VoiceState {
   isMicOn: boolean;
   isStreaming: boolean;
@@ -35,7 +37,7 @@ export function useProximityVoice(
   const audioCtxRef = useRef<AudioContext | null>(null);
   const nearbyPlayersRef = useRef<WorldPlayer[]>([]);
 
-  const roomVoiceEnabled = currentRoomId === "discussion-room" || currentRoomId === "group-study";
+  const roomVoiceEnabled = currentRoomId ? VOICE_ENABLED_ROOMS.has(currentRoomId) : false;
 
   const nearbyPlayers = useMemo(() => {
     if (!localPlayer || !micOn) return [];

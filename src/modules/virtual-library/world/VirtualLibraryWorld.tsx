@@ -45,6 +45,17 @@ const AVATAR_COLORS = [
   "#5A8A7A",
 ];
 
+// Map in-app room IDs (map.ts / ROOM_ZONES) → database room IDs (virtual_library_* tables).
+const ROOM_ID_DB_MAP: Record<string, string> = {
+  "entrance":      "main",
+  "group-study":   "group",
+  "discussion-room": "discussion",
+};
+
+function toDbRoomId(appRoomId: string): string {
+  return ROOM_ID_DB_MAP[appRoomId] ?? appRoomId;
+}
+
 // ─── Loading Screen ───────────────────────────────────────────────────────────
 
 function LibraryLoading() {
@@ -469,78 +480,24 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     return () => document.removeEventListener("fullscreenchange", onChange);
   }, []);
 
-  // Resolve user identity
+  // Resolve user identity — only sets userId and userLabel, not localPlayer
   useEffect(() => {
     let cancelled = false;
 
     (async () => {
       try {
         const supabase = getChatSupabase();
-        if (!supabase) {
+        if (!supabase || !(await supabase.auth.getUser()).data.user) {
+          // Demo / unauthenticated mode
           if (!cancelled) {
-            const demoId = "demo-user-" + Math.random().toString(36).slice(2, 10);
-            const spawn = { x: 300, y: 300 };
-            const player: WorldPlayer = {
-              id: demoId,
-              label: "You",
-              x: spawn.x,
-              y: spawn.y,
-              targetX: spawn.x,
-              targetY: spawn.y,
-              dx: 0,
-              dy: 0,
-              displayX: spawn.x,
-              displayY: spawn.y,
-              isLocal: true,
-              colorIndex: 0,
-              roomId: "entrance",
-              lastUpdate: Date.now(),
-              isMuted: true,
-              isVideoOn: false,
-              isMoving: false,
-            };
-            setUserId(demoId);
+            setUserId("demo-" + Math.random().toString(36).slice(2, 10));
             setUserLabel("You");
-            setLocalPlayer(player);
-            setConnectionState("connected");
-            setLoading(false);
           }
           return;
         }
 
         const { data: { user } } = await supabase.auth.getUser();
-        if (cancelled) return;
-        if (!user) {
-          if (!cancelled) {
-            const demoId = "demo-user-" + Math.random().toString(36).slice(2, 10);
-            const spawn = { x: 300, y: 300 };
-            const player: WorldPlayer = {
-              id: demoId,
-              label: "You",
-              x: spawn.x,
-              y: spawn.y,
-              targetX: spawn.x,
-              targetY: spawn.y,
-              dx: 0,
-              dy: 0,
-              displayX: spawn.x,
-              displayY: spawn.y,
-              isLocal: true,
-              colorIndex: 0,
-              roomId: "entrance",
-              lastUpdate: Date.now(),
-              isMuted: true,
-              isVideoOn: false,
-              isMoving: false,
-            };
-            setUserId(demoId);
-            setUserLabel("You");
-            setLocalPlayer(player);
-            setConnectionState("connected");
-            setLoading(false);
-          }
-          return;
-        }
+        if (cancelled || !user) return;
 
         const { data: profile } = await supabase
           .from("profiles")
@@ -559,14 +516,18 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
           setUserLabel(label);
         }
       } catch {
-        // ignore
+        // If anything fails, fall back to demo mode so the user isn't stuck
+        if (!cancelled) {
+          setUserId("demo-" + Math.random().toString(36).slice(2, 10));
+          setUserLabel("You");
+        }
       }
     })();
 
     return () => { cancelled = true; };
   }, [devMode]);
 
-  // Initialize player once user is resolved
+  // Initialize player once user is resolved — this is the SOLE place localPlayer is set
   useEffect(() => {
     if (!userId) return;
 
@@ -578,7 +539,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
 
     const player: WorldPlayer = {
       id: userId,
-      label: userLabel,
+      label: userLabel || "there",
       x: spawn.x,
       y: spawn.y,
       targetX: spawn.x,
@@ -629,18 +590,18 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
 
     setConnectionState("connected");
 
-    // Mark presence
+    // Mark presence in the correct database room
     (async () => {
       const supabase = getChatSupabase();
       if (!supabase) return;
       try {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return; // skip in dev mode
+        if (!user) return; // skip in demo mode
         await supabase
           .from("study_room_presence")
           .upsert(
             {
-              room_id: "main-library",
+              room_id: toDbRoomId(currentRoom || "entrance"),
               user_id: userId,
               participant_label: userLabel,
               last_seen_at: new Date().toISOString(),
@@ -822,10 +783,10 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
         try {
           await supabase.from("study_sessions").insert({
             participant_id: userId,
-            room_id: currentRoom || "main-library",
+            room_id: toDbRoomId(currentRoom || "entrance"),
             status: "completed",
             duration: Math.round(session.totalFocusMs / 60000),
-            branch: currentRoom || "general",
+            branch: currentRoom || "entrance",
           });
         } catch {
           // ignore
@@ -925,11 +886,11 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
 
         const result = collision.resolveMovement(current.x, current.y, targetX, targetY);
 
-        localPlayerRef.current = { ...current, x: result.x, y: result.y, dx, dy, isMoving: true };
+        localPlayerRef.current = { ...current, x: result.x, y: result.y, dx, dy, isMoving: true, displayX: result.x, displayY: result.y };
 
         setLocalPlayer((prev) => {
           if (!prev) return prev;
-          return { ...prev, x: result.x, y: result.y, dx, dy, isMoving: true, targetX, targetY, lastUpdate: Date.now() };
+          return { ...prev, x: result.x, y: result.y, displayX: result.x, displayY: result.y, dx, dy, isMoving: true, targetX, targetY, lastUpdate: Date.now() };
         });
 
         const newRoom = findRoomFromPosition(result.x, result.y);
@@ -950,10 +911,10 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
           });
         }
       } else if (current.isMoving) {
-        localPlayerRef.current = { ...current, dx: 0, dy: 0, isMoving: false };
+        localPlayerRef.current = { ...current, dx: 0, dy: 0, isMoving: false, displayX: current.x, displayY: current.y };
         setLocalPlayer((prev) => {
           if (!prev) return prev;
-          return { ...prev, dx: 0, dy: 0, isMoving: false, lastUpdate: Date.now() };
+          return { ...prev, dx: 0, dy: 0, isMoving: false, displayX: prev.x, displayY: prev.y, lastUpdate: Date.now() };
         });
       }
 
@@ -973,12 +934,18 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Cleanup
+  // Cleanup on unmount — guard against partial-initialization states
   useEffect(() => {
     return () => {
-      multiplayerManager.disconnect();
-      music.stop();
-      voice.stopMic();
+      try {
+        if (multiplayerManager.isConnected) {
+          multiplayerManager.disconnect();
+        }
+      } catch {
+        // swallow — channel may be null if connect() failed mid-way
+      }
+      try { music.stop(); } catch { /* ignore */ }
+      try { voice.stopMic(); } catch { /* ignore */ }
       if (roomInfoTimeoutRef.current) clearTimeout(roomInfoTimeoutRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
