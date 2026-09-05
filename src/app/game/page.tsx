@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BRANCHES } from "@/modules/game/branches";
 import { Metadata } from "next";
 
@@ -54,6 +55,13 @@ export default function BranchSelectPage() {
           </a>
         ))}
       </div>
+
+      <Link
+        href="/game/leaderboard"
+        className="text-xs text-gray-600 hover:text-cyan-400 transition-colors border border-gray-800 rounded-lg px-4 py-2"
+      >
+        View Arcade Leaderboard →
+      </Link>
     </div>
   );
 }

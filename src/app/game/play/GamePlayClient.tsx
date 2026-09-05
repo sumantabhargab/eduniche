@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import type { GameQuestion, FallingTarget, Projectile, Bomb } from "@/modules/game/types";
 import { getQuestionsForBranch, toAnswerMapping } from "@/modules/game/services/questions";
 
@@ -177,6 +178,21 @@ export default function GamePlayClient() {
     }
   }, [branch]);
 
+  const submitScore = useCallback(async (data: {
+    branch: string; score: number; correct: number; total: number;
+    accuracy: string; bestCombo: number; durationSeconds: number;
+  }) => {
+    try {
+      await fetch("/api/game/score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+    } catch {
+      // silent — leaderboard is non-critical
+    }
+  }, []);
+
   // ─── Next question ──────────────────────────────────────────────────────────
 
   const nextQuestion = useCallback(() => {
@@ -272,13 +288,25 @@ export default function GamePlayClient() {
     const accuracy = g.questionsAnswered > 0
       ? Math.round((g.correctAnswers / g.questionsAnswered) * 100) + "%"
       : "0%";
-    setGameResult({
+    const result = {
       score: g.score, questions: g.questionsAnswered,
       correct: g.correctAnswers, accuracy, bestCombo: g.bestCombo,
       time: `${mm}:${ss}`,
-    });
+    };
+    setGameResult(result);
     setPhase("game_over");
-  }, []);
+
+    // Submit to leaderboard (fire and forget)
+    submitScore({
+      branch,
+      score: g.score,
+      correct: g.correctAnswers,
+      total: g.questionsAnswered,
+      accuracy,
+      bestCombo: g.bestCombo,
+      durationSeconds: elapsed,
+    });
+  }, [branch]);
 
   // ─── Game loop (self-running RAF, no external deps) ──────────────────────────
 
@@ -705,6 +733,12 @@ export default function GamePlayClient() {
                 >
                   PLAY AGAIN
                 </button>
+                <Link
+                  href="/game/leaderboard"
+                  className="px-6 py-2.5 border border-cyan-800 text-cyan-400 text-sm rounded-lg hover:bg-cyan-900/20 transition-colors"
+                >
+                  LEADERBOARD
+                </Link>
                 <button
                   onClick={() => {
                     gRef.current.phase = "idle";
