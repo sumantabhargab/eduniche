@@ -1,0 +1,25 @@
+{
+  "platform": "EduNeuro",
+  "branch": "ar",
+  "branch_code": "AR",
+  "branch_name": "Architecture and Planning",
+  "mock_number": 3,
+  "title": "Architecture and Planning — Mock Test 03",
+  "type": "premium_full_length_mock",
+  "generation_basis": "previous_year_question_analysis",
+  "question_count": 60,
+  "maximum_marks": 108,
+  "duration_minutes": 180,
+  "subjects": [
+    "Architecture Design",
+    "Building Materials",
+    "Urban Planning"
+  ],
+  "difficulty_distribution": {
+    "easy": 20,
+    "moderate": 33,
+    "hard": 47
+  },
+  "created_at": "2026-09-06T19:07:03.246Z",
+  "created_for": "EduNeuro Premium"
+}

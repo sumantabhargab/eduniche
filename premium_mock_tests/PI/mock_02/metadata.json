@@ -1,0 +1,26 @@
+{
+  "platform": "EduNeuro",
+  "branch": "pi",
+  "branch_code": "PI",
+  "branch_name": "Production and Industrial Engineering",
+  "mock_number": 2,
+  "title": "Production and Industrial Engineering — Mock Test 02",
+  "type": "premium_full_length_mock",
+  "generation_basis": "previous_year_question_analysis",
+  "question_count": 60,
+  "maximum_marks": 108,
+  "duration_minutes": 180,
+  "subjects": [
+    "Manufacturing Processes",
+    "Industrial Engineering",
+    "Metrology",
+    "Thermodynamics"
+  ],
+  "difficulty_distribution": {
+    "easy": 20,
+    "moderate": 33,
+    "hard": 47
+  },
+  "created_at": "2026-09-06T19:07:02.271Z",
+  "created_for": "EduNeuro Premium"
+}
