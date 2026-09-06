@@ -28,8 +28,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ bran
         .from("pyq_questions")
         .select("subject_name, topic_name")
         .eq("branch_code", branch.branchCode)
-        .eq("is_duplicate", false)
-        .limit;
+        .eq("is_duplicate", false);
 
       if (!error && data) {
         dbSubjects = data;
