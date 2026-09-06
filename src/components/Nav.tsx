@@ -58,6 +58,14 @@ function NavInner() {
           >
             Library
           </Link>
+          <Link
+            href="/mock-tests"
+            className={`text-sm transition-colors ${
+              isActive("/mock-tests", true) ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            Mock Tests
+          </Link>
           {isAuthenticated && (
             <Link
               href="/leaderboard"
@@ -207,6 +215,7 @@ function NavInner() {
             <Link href="/game" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">GATE Arcade</Link>
             <Link href="/doubts" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Doubt Engine</Link>
             <Link href="/library" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Library</Link>
+            <Link href="/mock-tests" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Mock Tests</Link>
             {isAuthenticated && (
               <>
                 <Link href="/leaderboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Leaderboard</Link>
