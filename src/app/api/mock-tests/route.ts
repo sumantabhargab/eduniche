@@ -13,7 +13,7 @@ export async function GET() {
     const { tests, error } = await listMockTests();
 
     if (error) {
-      return NextResponse.json({ error: tests === [] ? error : "Failed to list mock tests." }, { status: 500 });
+      return NextResponse.json({ error: Array.isArray(tests) && tests.length === 0 ? error : "Failed to list mock tests." }, { status: 500 });
     }
 
     return NextResponse.json({ tests });

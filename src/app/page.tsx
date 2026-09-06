@@ -143,6 +143,74 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ============ PYQ SECTION ============ */}
+      <section className="border-t border-border">
+        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+            <div className="lg:w-5/12 lg:sticky lg:top-24">
+              <div className="font-mono text-xs tracking-[0.15em] text-accent uppercase mb-4 reveal">
+                PYQ Library
+              </div>
+              <h2 className="font-serif text-2xl md:text-3xl leading-snug mb-4 reveal">
+                Every GATE PYQ. One place.
+              </h2>
+              <p className="text-sm md:text-base text-muted leading-relaxed mb-6 reveal">
+                Practice real GATE questions from every branch, every year. Filter by
+                branch, subject, year, and topic. Track your accuracy, bookmark questions,
+                and learn from patterns that actually appeared in the exam.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {["CS", "EC", "EE", "ME", "CE", "IN"].map((code) => (
+                  <span key={code} className="text-xs px-3 py-1.5 bg-foreground/5 rounded-lg font-mono text-muted">
+                    {code}
+                  </span>
+                ))}
+                <span className="text-xs px-3 py-1.5 text-muted self-center">+ more</span>
+              </div>
+              <Link
+                href="/pyqs"
+                className="inline-flex items-center text-sm font-medium text-accent hover:text-accent-hover transition-colors reveal"
+              >
+                Explore PYQ Library
+                <svg className="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
+            <div className="lg:w-7/12 reveal">
+              <div className="bg-card border border-border rounded-2xl p-6 md:p-8">
+                <div className="flex items-center gap-2 mb-6">
+                  <span className="text-xs font-mono text-muted">GATE PYQs</span>
+                  <span className="text-[10px] px-2 py-0.5 bg-accent/10 text-accent rounded-full">Premium</span>
+                </div>
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  {[
+                    { label: "CS", sub: "Algorithms" },
+                    { label: "EC", sub: "Signals" },
+                    { label: "EE", sub: "Machines" },
+                    { label: "ME", sub: "Thermo" },
+                    { label: "CE", sub: "Structures" },
+                    { label: "IN", sub: "Control" },
+                  ].map((b) => (
+                    <div key={b.label} className="p-3 bg-background/50 rounded-xl border border-border">
+                      <div className="font-mono text-sm font-medium">{b.label}</div>
+                      <div className="text-[10px] text-muted">{b.sub} + more</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center justify-between p-3 bg-foreground/5 rounded-xl">
+                  <span className="text-xs text-muted">Topic-wise filtering</span>
+                  <span className="text-[10px] px-2 py-0.5 bg-accent/10 text-accent rounded-full flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2 14.5 8.5 21 9.5 16 14 17.5 21 12 17.5 6.5 21 8 14 3 9.5 9.5 8.5z"/></svg>
+                    Premium
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ============ PRODUCT DEMOS ============ */}
       <section className="border-t border-border">
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">

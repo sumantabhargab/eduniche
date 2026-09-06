@@ -66,6 +66,14 @@ function NavInner() {
           >
             Mock Tests
           </Link>
+          <Link
+            href="/pyqs"
+            className={`text-sm transition-colors ${
+              isActive("/pyqs", true) ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            PYQs
+          </Link>
           {isAuthenticated && (
             <Link
               href="/leaderboard"
@@ -216,6 +224,7 @@ function NavInner() {
             <Link href="/doubts" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Doubt Engine</Link>
             <Link href="/library" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Library</Link>
             <Link href="/mock-tests" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Mock Tests</Link>
+            <Link href="/pyqs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">PYQs</Link>
             {isAuthenticated && (
               <>
                 <Link href="/leaderboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Leaderboard</Link>
