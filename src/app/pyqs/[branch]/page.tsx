@@ -7,7 +7,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, Lock, Star, ArrowLeft, ChevronRight } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
@@ -26,10 +26,11 @@ interface SubjectRef {
   topics?: { topicName: string; displayName: string }[];
 }
 
-export default function BranchPage({ params }: { params: { branch: string } }) {
+export default function BranchPage({ params }: { params: Promise<{ branch: string }> }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const branch = params?.branch?.toUpperCase() || "CS";
+  const resolvedParams = use(params);
+  const branch = resolvedParams?.branch?.toUpperCase() || "CS";
   const subjectParam = searchParams.get("subject") || "";
 
   // If subject is selected, show practice session
