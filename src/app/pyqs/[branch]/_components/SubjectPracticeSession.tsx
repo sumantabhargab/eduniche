@@ -6,7 +6,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Bookmark, ArrowLeft, CheckCircle, XCircle, Lock, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Bookmark, ArrowLeft, CheckCircle, XCircle, Lock, Search } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useRouter, useSearchParams } from "next/navigation";
 import Nav from "@/components/Nav";

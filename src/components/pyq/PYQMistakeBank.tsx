@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Flame, ChevronRight, RefreshCw } from "lucide-react";
+import { Flame, ChevronRight, RefreshCw } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useRouter } from "next/navigation";
 

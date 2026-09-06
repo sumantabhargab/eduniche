@@ -27,7 +27,7 @@ import {
   RefreshCw,
   Zap,
   Settings2,
-} from "lucide-react";
+} from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useRouter, useSearchParams } from "next/navigation";
 import Nav from "@/components/Nav";

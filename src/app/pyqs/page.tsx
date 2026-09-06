@@ -30,7 +30,7 @@ import {
   FileText,
   Target,
   Filter,
-} from "lucide-react";
+} from "@/components/pyq/PYQIcons";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { useAuth } from "@/lib/hooks/useAuth";

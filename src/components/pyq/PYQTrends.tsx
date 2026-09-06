@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { TrendingUp, Lock, ArrowUp, ArrowDown, Minus } from "lucide-react";
+import { TrendingUp, Lock, ArrowUp, ArrowDown, Minus } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useRouter } from "next/navigation";
 

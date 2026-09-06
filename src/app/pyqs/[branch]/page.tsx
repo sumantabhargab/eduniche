@@ -9,7 +9,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { BookOpen, Lock, Star, ArrowLeft, ChevronRight } from "lucide-react";
+import { BookOpen, Lock, Star, ArrowLeft, ChevronRight } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useRouter, useSearchParams } from "next/navigation";
 import Nav from "@/components/Nav";
