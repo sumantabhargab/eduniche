@@ -1,0 +1,455 @@
+{
+  "generatedAt": "2026-09-07T14:23:22.941Z",
+  "totalQuestions": 797,
+  "branches": [
+    {
+      "branch": "AG",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Engineering Mathematics",
+        "Farm Machinery",
+        "Farm Power",
+        "Food Processing",
+        "General Aptitude",
+        "Green Energy",
+        "Irrigation",
+        "Post Harvest",
+        "Soil and Water",
+        "Surveying"
+      ]
+    },
+    {
+      "branch": "AR",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Architecture",
+        "Building Materials",
+        "Climate",
+        "Construction",
+        "Design",
+        "General Aptitude",
+        "Landscape",
+        "Services",
+        "Urban Planning"
+      ]
+    },
+    {
+      "branch": "BT",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Biochemistry",
+        "Bioinformatics",
+        "Bioprocess Engineering",
+        "Cell Biology",
+        "Engineering Mathematics",
+        "General Aptitude",
+        "Genetics",
+        "Immunology",
+        "Microbiology"
+      ]
+    },
+    {
+      "branch": "CE",
+      "count": 20,
+      "years": [
+        2023,
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Concrete Technology",
+        "Engineering Mathematics",
+        "Environmental Engineering",
+        "Fluid Mechanics",
+        "General Aptitude",
+        "Geotechnical Engineering",
+        "Hydrology",
+        "Structural Analysis",
+        "Surveying",
+        "Transportation Engineering"
+      ]
+    },
+    {
+      "branch": "CH",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Chemical Reaction Engineering",
+        "Engineering Mathematics",
+        "Fluid Mechanics",
+        "General Aptitude",
+        "Heat Transfer",
+        "Mass Transfer",
+        "Mechanical Operations",
+        "Process Calculations",
+        "Process Control",
+        "Thermodynamics"
+      ]
+    },
+    {
+      "branch": "CS",
+      "count": 397,
+      "years": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sessions": [
+        "S2",
+        "S1"
+      ],
+      "subjects": [
+        "Algorithms",
+        "CS",
+        "Compiler Design",
+        "Computer Networks",
+        "Computer Organization",
+        "Databases",
+        "Digital Logic",
+        "Engineering Mathematics",
+        "General Aptitude",
+        "Operating Systems",
+        "Programming and Data Structures",
+        "Theory of Computation"
+      ]
+    },
+    {
+      "branch": "EC",
+      "count": 170,
+      "years": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "sessions": [
+        "S1",
+        "S7"
+      ],
+      "subjects": [
+        "Analog Circuits",
+        "Communications",
+        "Control Systems",
+        "Digital Circuits",
+        "EC",
+        "EMFT",
+        "Electronic Devices",
+        "Engineering Mathematics",
+        "General Aptitude",
+        "Networks",
+        "Signals and Systems"
+      ]
+    },
+    {
+      "branch": "EE",
+      "count": 40,
+      "years": [
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Analog Electronics",
+        "Control Systems",
+        "Digital Electronics",
+        "EMFT",
+        "Electric Circuits",
+        "Electrical Machines",
+        "Engineering Mathematics",
+        "General Aptitude",
+        "Power Electronics",
+        "Power Systems",
+        "Signals and Systems"
+      ]
+    },
+    {
+      "branch": "EY",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Behavioral Ecology",
+        "Cell Biology",
+        "Ecology",
+        "Engineering Mathematics",
+        "Environmental Science",
+        "Evolution",
+        "General Aptitude",
+        "Genetics",
+        "Plant Physiology",
+        "Zoology"
+      ]
+    },
+    {
+      "branch": "GG",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Engineering Mathematics",
+        "General Aptitude",
+        "Geology",
+        "Geophysics",
+        "Petrology",
+        "Remote Sensing"
+      ]
+    },
+    {
+      "branch": "IN",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Analog Electronics",
+        "Communication Systems",
+        "Control Systems",
+        "Digital Electronics",
+        "Electrical and Electronics Measurements",
+        "Engineering Mathematics",
+        "General Aptitude",
+        "Process Control",
+        "Sensors",
+        "Signals and Systems"
+      ]
+    },
+    {
+      "branch": "MA",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Algebra",
+        "Analysis",
+        "Calculus",
+        "Probability",
+        "Real Analysis",
+        "Topology"
+      ]
+    },
+    {
+      "branch": "ME",
+      "count": 20,
+      "years": [
+        2023,
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Engineering Mathematics",
+        "Engineering Mechanics",
+        "Fluid Mechanics",
+        "General Aptitude",
+        "Heat Transfer",
+        "IC Engine",
+        "Machine Design",
+        "Manufacturing",
+        "Strength of Materials",
+        "Theory of Machines",
+        "Thermodynamics"
+      ]
+    },
+    {
+      "branch": "MT",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Corrosion",
+        "Engineering Mathematics",
+        "Extractive Metallurgy",
+        "General Aptitude",
+        "Heat Treatment",
+        "Mechanical Metallurgy",
+        "Non-Ferrous Metals",
+        "Phase Transformations",
+        "Physical Metallurgy",
+        "Welding"
+      ]
+    },
+    {
+      "branch": "PE",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Drilling Engineering",
+        "Engineering Mathematics",
+        "General Aptitude",
+        "Offshore Drilling",
+        "Petroleum Chemistry",
+        "Petroleum Exploration",
+        "Petroleum Formation Evaluation",
+        "Production Engineering",
+        "Reservoir Engineering",
+        "Well Testing"
+      ]
+    },
+    {
+      "branch": "PH",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Classical Mechanics",
+        "Electromagnetism",
+        "Engineering Mathematics",
+        "General Aptitude",
+        "Nuclear Physics",
+        "Optics",
+        "Quantum Mechanics",
+        "Solid State",
+        "Thermal Physics"
+      ]
+    },
+    {
+      "branch": "PI",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Engineering Mathematics",
+        "General Aptitude",
+        "Industrial Engineering",
+        "Machine Design",
+        "Manufacturing",
+        "Manufacturing Processes",
+        "Mechanics of Materials",
+        "Metrology",
+        "Operations Research",
+        "Thermal Engineering"
+      ]
+    },
+    {
+      "branch": "TF",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Apparel Engineering",
+        "Chemical Processing",
+        "Engineering Mathematics",
+        "Fabric Manufacturing",
+        "General Aptitude",
+        "Textile Fibers",
+        "Textile Machinery",
+        "Textile Physics",
+        "Textile Testing",
+        "Yarn Manufacturing"
+      ]
+    },
+    {
+      "branch": "XE",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Basic Electrical",
+        "Basic Electronics",
+        "Computers and Programming",
+        "Engineering Mathematics",
+        "Environmental Science",
+        "Fluid Mechanics",
+        "General Aptitude",
+        "Material Science",
+        "Solid Mechanics",
+        "Thermodynamics"
+      ]
+    },
+    {
+      "branch": "XL",
+      "count": 10,
+      "years": [
+        2024
+      ],
+      "sessions": [
+        "S1"
+      ],
+      "subjects": [
+        "Biochemistry",
+        "Botany",
+        "Cell Biology",
+        "Ecology",
+        "Engineering Mathematics",
+        "Evolution",
+        "General Aptitude",
+        "Genetics",
+        "Microbiology",
+        "Zoology"
+      ]
+    }
+  ]
+}
