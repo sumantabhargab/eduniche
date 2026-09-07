@@ -1,0 +1,1123 @@
+                                              Electronics and Communication Engineering (EC)
+
+General Aptitude
+
+Q.1 ­ Q.5 Carry ONE mark Each
+ Q.1 Here are two analogous groups, Group-I and Group-II, that list words in their
+
+            decreasing order of intensity. Identify the missing word in Group-II.
+            Group-I: Abuse  Insult  Ridicule
+            Group-II: ________  Praise  Appreciate
+ (A) Extol
+ (B) Prize
+ (C) Appropriate
+ (D) Espouse
+
+ Q.2 Had I learnt acting as a child, I ________ a famous film star.
+            Select the most appropriate option to complete the above sentence.
+
+ (A) will be
+ (B) can be
+ (C) am going to be
+ (D) could have been
+
+Organizing Institute: IIT Roorkee  Page 1 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.3 The 12 musical notes are given as , #, , #, , , #, , #, , #, and .
+
+        Frequency of each note is 122 times the frequency of the previous note. If the
+
+          frequency of the note C is 130.8 Hz, then the ratio of frequencies of notes # and 
+          is:
+
+(A) 62
+
+(B) 2
+
+(C) 42
+
+(D) 2
+
+Organizing Institute: IIT Roorkee  Page 2 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.4 The following figures show three curves generated using an iterative algorithm. The
+          total length of the curve generated after `Iteration ' is:
+          Note: The figures shown are representative.
+
+                                               1
+          Iteration 0:
+
+     Iteration 1:                  1                                              1
+                                                    Length of each segment: 3
+                                   3
+
+                         1                                                        1
+     Iteration 2: 9                                 Length of each segment: 9
+
+(A)      
+
+     52
+     (3)
+
+(B)  5 
+     (3)
+
+(C)  5 2
+     (3)
+
+(D)  5 (2-1)
+     (3)
+
+Organizing Institute: IIT Roorkee     Page 3 of 52
+                                          Electronics and Communication Engineering (EC)
+
+Q.5  Which  one  of  the        following  plots  represents  ()  =  -  ||,  where    is  a  non-
+
+                                                                        
+
+     zero real number?
+
+     Note: The figures shown are representative.
+
+(A)              f(x)
+
+                 (0,1)
+
+                              x
+     (0, -1)
+
+                          f(x)
+(B)
+
+                 (0,1)
+
+                                       x
+                         (0, -1)
+
+                          f(x)
+(C)
+
+     (-1,0)          (1,0)
+                              x
+
+                          f(x)
+(D)
+
+                         (0,1)
+
+                                       x
+             (0, -1)
+
+Organizing Institute: IIT Roorkee          Page 4 of 52
+                                              Electronics and Communication Engineering (EC)
+
+Q.6 ­ Q.10 Carry TWO marks Each
+
+ Q.6 Identify the option that has the most appropriate sequence such that a coherent
+            paragraph is formed:
+                P. Over time, such adaptations lead to significant evolutionary changes with
+                     the potential to shape the development of new species.
+                Q. In natural world, organisms constantly adapt to their environments in
+                     response to challenges and opportunities.
+                R. This process of adaptation is driven by the principle of natural selection,
+                     where favorable traits increase an organism's chances of survival and
+                     reproduction.
+                S. As environments change, organisms that can adapt their behavior, structure
+                     and physiology to such changes are more likely to survive.
+
+ (A) P  Q  R  S
+
+ (B) Q  S  R  P
+
+ (C) R  S  Q  P
+
+ (D) S  P  R  Q
+
+Organizing Institute: IIT Roorkee  Page 5 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.7 A stick of length one meter is broken at two locations at distances of 1 and 2 from
+          the origin (0), as shown in the figure. Note that 0 < 1 < 2 < 1. Which one of the
+          following is NOT a necessary condition for forming a triangle using the three
+          pieces?
+          Note: All lengths are in meter. The figure shown is representative.
+
+(A) 1 < 0.5
+(B) 2 > 0.5
+(C) 2 < 1 + 0.5
+(D) 1 + 2 < 1
+
+Organizing Institute: IIT Roorkee  Page 6 of 52
+                                         Electronics and Communication Engineering (EC)
+
+Q.8 Eight students (P, Q, R, S, T, U, V, and W) are playing musical chairs. The figure
+          indicates their order of position at the start of the game. They play the game by
+          moving forward in a circle in the clockwise direction.
+
+          After the 1st round, 4th student behind P leaves the game. After 2nd round, 5th student
+          behind Q leaves the game. After 3rd round, 3rd student behind V leaves the game.
+          After 4th round, 4th student behind U leaves the game. Who all are left in the game
+          after the 4th round?
+
+          Note: The figure shown is representative.
+
+                                         P
+
+                                      W                R
+
+                                   U                      T
+
+                                      V                Q
+
+                                         S
+
+(A) P; T; Q; S
+(B) V; P; T; Q
+(C) W; R; Q; V
+(D) Q; T; V; W
+
+Organizing Institute: IIT Roorkee        Page 7 of 52
+                                       Electronics and Communication Engineering (EC)
+
+Q.9 The table lists the top 5 nations according to the number of gold medals won in a
+          tournament; also included are the number of silver and the bronze medals won by
+          them. Based only on the data provided in the table, which one of the following
+          statements is INCORRECT?
+
+Nation                             Gold  Silver          Bronze
+
+USA                                40    44              41
+
+Canada                             39    27              24
+
+Japan                              20    12              13
+
+Australia                          17    19              16
+
+France                             16    26              22
+
+(A) France will occupy the third place if the list were made on the basis of the total
+          number of medals won.
+
+(B) The order of the top two nations will not change even if the list is made on the basis
+          of the total number of medals won.
+
+(C) USA and Canada together have less than 50% of the medals awarded to the nations
+          in the above table.
+
+(D) Canada has won twice as many total medals as Japan.
+
+Organizing Institute: IIT Roorkee        Page 8 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.10 An organization allows its employees to work independently on consultancy
+          projects but charges an overhead on the consulting fee. The overhead is 20% of the
+          consulting fee, if the fee is up to  5,00,000. For higher fees, the overhead is
+           1,00,000 plus 10% of the amount by which the fee exceeds  5,00,000. The
+          government charges a Goods and Services Tax of 18% on the total amount (the
+          consulting fee plus the overhead). An employee of the organization charges this
+          entire amount, i.e., the consulting fee, overhead, and tax, to the client. If the client
+          cannot pay more than  10,00,000, what is the maximum consulting fee that the
+          employee can charge?
+
+(A)  7,01,438
+
+(B)  7,24,961
+
+(C)  7,51,232
+
+(D)  7,75,784
+
+Organizing Institute: IIT Roorkee  Page 9 of 52
+                                   Electronics and Communication Engineering (EC)
+
+Q.11 ­ Q.35 Carry ONE mark Each
+
+Q.11 Consider the matrix  below:
+
+                                         2 34 5
+
+                                    = [  0  67    8  ]
+                                         0  0     
+
+                                         0 0 0 
+
+For which of the following combinations of , , and , is the rank of  at least
+
+three?
+
+               (i)  = 0 and  =   0.
+               (ii)  =  =  = 0.
+               (iii)  =  = 0 and   0.
+               (iv)  =  =   0.
+
+(A) Only (i), (iii), and (iv)
+
+(B) Only (iv)
+
+(C) Only (ii)
+
+(D) Only (i) and (iii)
+
+Organizing Institute: IIT Roorkee  Page 10 of 52
+                                   Electronics and Communication Engineering (EC)
+
+Q.12  Consider the following series:
+
+      (i)  =1   1
+               
+
+      (ii)  =1      1
+                (+1)
+
+      (iii)  =1  1
+                 !
+
+      Choose the correct option.
+
+(A) Only (ii) converges
+
+(B) Only (ii) and (iii) converge
+
+(C) Only (iii) converges
+
+(D) All three converge
+
+Organizing Institute: IIT Roorkee     Page 11 of 52
+                                   Electronics and Communication Engineering (EC)
+
+Q.13 A pot contains two red balls and two blue balls. Two balls are drawn from this pot
+          randomly without replacement.
+
+          What is the probability that the two balls drawn have different colours?
+
+(A) 2/3
+
+(B)  1/ 3
+
+(C)  1/ 2
+
+(D) 1
+
+Organizing Institute: IIT Roorkee  Page 12 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.14 Consider a frequency-modulated (FM) signal
+
+                () =  cos(2 + 3 sin(21) + 4 sin(61)),
+
+         where  and  are, respectively, the amplitude and frequency (in Hz) of the
+         carrier waveform. The frequency 1 is in Hz, and assume that  > 1001.
+
+          The peak frequency deviation of the FM signal in Hz is _______.
+
+(A) 151
+
+(B) 121
+
+(C) 41
+(D) 21
+
+Organizing Institute: IIT Roorkee  Page 13 of 52
+                                   Electronics and Communication Engineering (EC)
+
+Q.15  Consider an additive white Gaussian noise (AWGN) channel with bandwidth 
+      and noise power spectral density 20. Let  denote the average transmit power
+
+      constraint.
+
+      Which one of the following plots illustrates the dependence of the channel capacity
+
+       on the bandwidth  (keeping  and 0 fixed)?
+
+(A)
+
+(B)
+
+(C)
+
+(D)
+
+Organizing Institute: IIT Roorkee  Page 14 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.16 The Nyquist plot of a system is given in the figure below. Let , , , and 
+
+          be the positive frequencies at the points , , , and , respectively.
+          Which one of the following statements is TRUE?
+
+(A)  is the gain crossover frequency and  is the phase crossover frequency
+(B)  is the gain crossover frequency and  is the phase crossover frequency
+(C)  is the gain crossover frequency and  is the phase crossover frequency
+(D)  is the gain crossover frequency and  is the phase crossover frequency
+
+Organizing Institute: IIT Roorkee  Page 15 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.17 Consider the discrete-time system below with input [] and output []. In the
+        figure, 1[] and 2[] denote the impulse responses of LTI Subsystems 1 and 2,
+        respectively. Also, [] is the unit impulse, and  > 0.
+        Assuming 2[]  [], the overall system (denoted by the dashed box) is _______.
+
+(A) linear and time invariant
+(B) linear and time variant
+(C) nonlinear and time invariant
+(D) nonlinear and time variant
+
+Organizing Institute: IIT Roorkee  Page 16 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.18 Consider a continuous-time, real-valued signal () whose Fourier transform
+         () = - () exp(- )  exists.
+
+          Which one of the following statements is always TRUE?
+
+(A) |()|  - |()| 
+(B) |()| > - |()| 
+(C) |()|  - () 
+(D) |()|  - () 
+
+Organizing Institute: IIT Roorkee  Page 17 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.19 Consider a part of an electrical network as shown below. Some node voltages, and
+          the current flowing through the 3 resistor are as indicated.
+          The voltage (in Volts) at node  is ______.
+
+(A) 20/3
+
+(B)  32/3
+
+(C)  22/3
+
+(D) 2/3
+
+Organizing Institute: IIT Roorkee  Page 18 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.20 Let , , and  be the currents flowing through the capacitor, inductor, and
+
+          resistor, respectively, in the circuit given below. The AC admittances are given in
+          Siemens (S).
+          Which one of the following is TRUE?
+
+(A)  = 0.25180° A,  = 0.10° A,  = 0.290° A
+(B)  = 4180° A,  = 100° A,  = 590° A
+(C)  = 0.25270° A,  = 0.190° A,  = 0.290° A
+(D)  = 490° A,  = 10270° A,  = 50° A
+
+Organizing Institute: IIT Roorkee  Page 19 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.21 A simplified small-signal equivalent circuit of a BJT-based amplifier is given
+          below.
+
+       The small-signal voltage gain vo/vs (in V/V) is ___________.
+
+(A)  -RL
+
+     RS + r
+
+(B) +RL
+           RS
+
+(C) -RL
+           RS
+
+(D)  +RL
+
+     RS + r
+
+Organizing Institute: IIT Roorkee  Page 20 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.22 The ideal BJT in the circuit given below is biased in the active region with a  of
+
+          100.
+
+         If  is 10 µA, then  (in Volts, rounded off to two decimal places) is _______ .
+
+(A) 4.95
+(B) 3.03
+(C) 1.92
+(D) 3.73
+
+Organizing Institute: IIT Roorkee  Page 21 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.23 A 3-input majority logic gate has inputs , , and . The output  of the gate is
+         logic `1' if two or more of the inputs are logic `1'. The output  is logic `0' if two
+
+          or more of the inputs are logic `0'.
+
+         Which one of the following options is a Boolean expression of the output ?
+
+(A)  +  + 
+
+(B)     
+
+(C)  +  + 
+
+(D) 
+
+Organizing Institute: IIT Roorkee  Page 22 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.24 A full adder and an XOR gate are used to design a digital circuit with inputs X, Y,
+         and Z, and output F, as shown below. The input Z is connected to the carry-in input
+
+          of the full adder.
+
+         If the input Z is set to logic `1', then the circuit functions as ________ with X and
+         Y as inputs.
+
+(A) an adder
+(B) a subtractor
+(C) a multiplier
+(D) a binary to Gray code converter
+
+Organizing Institute: IIT Roorkee  Page 23 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.25 Consider the function :   , defined as
+                                 () = 23 - 32 - 12 + 1.
+
+          Which of the following statements is/are correct?
+
+         (Here,  is the set of real numbers.)
+(A)  has no global maximizer
+(B)  has no global minimizer
+(C)  = -1 is a local minimizer of 
+(D)  = 2 is a local maximizer of 
+
+Organizing Institute: IIT Roorkee  Page 24 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.26 Consider the unity-negative-feedback system shown in Figure (i) below, where
+         gain   0. The root locus of this system is shown in Figure (ii) below.
+         For what value(s) of  will the system in Figure (i) have a pole at -1 + 1?
+
+(A)  = 5
+(B)  = 1/5
+(C) For no positive value of 
+(D) For all positive values of 
+
+Organizing Institute: IIT Roorkee  Page 25 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.27 Let [] be a discrete-time signal whose -transform is ().
+
+          Which of the following statements is/are TRUE?
+
+(A) The discrete-time Fourier transform (DTFT) of [] always exists
+
+(B) The region of convergence (RoC) of () contains neither poles nor zeros
+
+(C) The discrete-time Fourier transform (DTFT) exists if the region of convergence
+          (RoC) contains the unit circle
+
+(D) If [] = [], where [] is the unit impulse and  is a scalar, then the
+         region of convergence (RoC) is the entire -plane
+
+Organizing Institute: IIT Roorkee  Page 26 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.28 Consider a message signal () which is bandlimited to [-, ], where  is in
+
+          Hz. Consider the following two modulation schemes for the message signal:
+               · Double sideband-suppressed carrier (DSB-SC):
+
+                                      () =  () cos(2)
+
+               · Amplitude modulation (AM):
+
+                                  () =  (1 +  ()) cos(2)
+         Here,  and  are the amplitude and frequency (in Hz) of the carrier, respectively.
+         In the case of AM,  denotes the modulation index.
+
+          Consider the following statements:
+               (i) An envelope detector can be used for demodulation in the DSB-SC
+
+                    scheme if () > 0 for all .
+
+               (ii) An envelope detector can be used for demodulation in the AM scheme
+
+                    only if () > 0 for all .
+
+          Which of the following options is/are correct?
+
+(A) (i) is TRUE
+
+(B) (i) is FALSE
+
+(C) (ii) is TRUE
+
+(D) (ii) is FALSE
+
+Organizing Institute: IIT Roorkee  Page 27 of 52
+                                             Electronics and Communication Engineering (EC)
+Q.29 Which of the following statements is/are TRUE with respect to an ideal opamp?
+(A) It has an infinite input resistance
+(B) It has an infinite output resistance
+(C) It has an infinite open-loop differential gain
+(D) It has an infinite open-loop common-mode gain
+
+Q.30 Which of the following statements is/are TRUE with respect to ideal MOSFET-
+          based DC-coupled single-stage amplifiers having finite load resistors?
+
+(A) The common-gate amplifier has an infinite input resistance
+(B) The common-source amplifier has an infinite input resistance
+(C) The input and output voltages of the common-source amplifier are in phase
+(D) The input and output voltages of the common-drain amplifier are in phase
+
+Organizing Institute: IIT Roorkee  Page 28 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.31 Which of the following can be used as an n-type dopant for silicon?
+          Select the correct option(s).
+
+(A) Arsenic
+
+(B) Boron
+
+(C) Gallium
+
+(D) Phosphorous
+
+Q.32 The function () satisfies
+                                2() - 2() + 2() = 0,
+
+         where () and () denote the first and second derivatives of (),
+
+          respectively.
+
+         Given (0) = 1 and (1) = -1, the maximum value of () over [0,1] is
+
+          _____ (rounded off to two decimal places).
+
+Q.33 The generator matrix of a (6,3) binary linear block code is given by
+
+                                          1 0 01 0 1
+                                    = [0 1 0 0 1 1].
+
+                                          0 0 11 1 0
+         The minimum Hamming distance  between codewords equals _____ (answer
+
+          in integer).
+
+Organizing Institute: IIT Roorkee  Page 29 of 52
+                                             Electronics and Communication Engineering (EC)
+Q.34 All the components in the bandpass filter given below are ideal. The lower -3 dB
+
+          frequency of the filter is 1 MHz.
+          The upper -3 dB frequency (in MHz, rounded off to the nearest integer) is
+          __________.
+
+Q.35 A 4-bit weighted-resistor DAC with inputs b3, b2, b1, and b0 (MSB to LSB) is
+
+          designed using an ideal opamp, as shown below. The switches are closed when the
+          corresponding input bits are logic `1' and open otherwise.
+
+         When the input b3b2b1b0 changes from 1110 to 1101, the magnitude of the change
+         in the output voltage VO (in mV, rounded off to the nearest integer) is ________.
+
+Organizing Institute: IIT Roorkee  Page 30 of 52
+                                        Electronics and Communication Engineering (EC)
+
+Q.36 ­ Q.65 Carry TWO marks Each
+
+Q.36  Let () =    1  be            the  transfer  function  of  a  second-order  system.  A  controller
+                102
+      () is connected to the system () in the configuration shown below.
+
+      Consider the following statements.
+
+      (i) There exists no controller of the form () =              ,  where        is  a  positive  real
+
+                                                                   
+
+      number, such that the closed loop system is stable.
+
+      (ii) There exists at least one controller of the form () =  + , where 
+      and  are positive real numbers, such that the closed loop system is stable.
+
+      Which one of the following options is correct?
+
+(A) (i) is TRUE and (ii) is FALSE
+(B) (i) is FALSE and (ii) is TRUE
+(C) Both (i) and (ii) are FALSE
+(D) Both (i) and (ii) are TRUE
+
+Organizing Institute: IIT Roorkee       Page 31 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.37 Consider the polynomial () = 5 + 74 + 33 - 332 + 2 - 40. Let
+         (, , ) be defined as follows.
+          is the number of roots of () with negative real parts.
+          is the number of roots of () that are purely imaginary.
+          is the number of roots of () with positive real parts.
+
+          Which one of the following options is correct?
+
+(A)  = 2,  = 2, and  = 1
+
+(B)  = 3,  = 2, and  = 0
+
+(C)  = 1,  = 2, and  = 2
+
+(D)  = 0,  = 4, and  = 1
+
+Organizing Institute: IIT Roorkee  Page 32 of 52
+                                          Electronics and Communication Engineering (EC)
+
+Q.38 Consider a continuous-time finite-energy signal () whose Fourier transform
+         vanishes outside the frequency interval [- , ], where  is in rad/sec.
+
+The signal () is uniformly sampled to obtain () = () (). Here,
+
+                                                    
+
+                        () =  ( -  - ),
+
+                                                 =-
+
+with () being the Dirac impulse,  > 0, and  > 0. The sampled signal ()
+                                                                    sin ()
+is  passed  through  an            ideal  lowpass  filter  () =             with  cutoff
+
+frequency  and passband gain .
+
+The output of the filter is given by ________________.
+
+(A) () if  < /
+
+(B) ( - ) if  < /
+
+(C) ( - ) if  < 2/
+
+(D) () if  < 2/
+
+Organizing Institute: IIT Roorkee         Page 33 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.39 In the circuit below, 1 is an ideal AC voltmeter and 2 is an ideal AC ammeter.
+         The source voltage (in Volts) is () = 100 cos(200).
+         What should be the value of the variable capacitor  such that the RMS readings
+         on 1 and 2 are 25 V and 5 A, respectively?
+
+(A) 25 F
+(B) 4 F
+(C) 0.25 F
+
+(D) Insufficient information to find 
+
+Organizing Institute: IIT Roorkee  Page 34 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.40 The -parameter matrix of a two port network relates the port voltages and port
+
+          currents as follows:
+
+                                           [12] =  [12]
+         The -parameter matrix (with each entry in Ohms) of the network shown below is
+
+          __________.
+
+(A)     10/3 2/3
+
+     [  2/3 10/3  ]
+
+(B)     2/3 10/3
+
+     [  10/3 2/3  ]
+
+(C) 10 2
+
+     [        ]
+
+        2 10
+
+(D)     10/3 1/3
+
+     [  1/3 10/3  ]
+
+Organizing Institute: IIT Roorkee  Page 35 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.41 A source transmits symbol  that takes values uniformly at random from the set
+         {-2,0,2}. The receiver obtains  =  + , where  is a zero-mean Gaussian
+
+        random variable independent of . The receiver uses the maximum likelihood
+        decoder to estimate the transmitted symbol .
+
+         Suppose the probability of symbol estimation error  is expressed as follows:
+                                          =  ( > 1),
+
+         where ( > 1) denotes the probability that  exceeds 1.
+         What is the value of  ?
+
+(A) 1/3
+
+(B) 1
+
+(C) 2/3
+
+(D) 4/3
+
+Organizing Institute: IIT Roorkee  Page 36 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.42 Consider a real-valued random process
+
+                                                                 
+
+                                    () =   ( - ),
+
+                                                                =1
+
+         where  > 0 and  is a positive integer. Here, () = 1 for   [0, 0.5] and
+         0 otherwise. The coefficients  are pairwise independent, zero-mean unit-
+
+          variance random variables.
+          Read the following statements about the random process and choose the correct
+          option.
+
+             (i) The mean of the process () is independent of time .
+             (ii) The autocorrelation function [ ()( + )] is independent of
+
+                    time  for all .
+         (Here, [] is the expectation operation.)
+
+(A) (i) is TRUE and (ii) is FALSE
+
+(B) Both (i) and (ii) are TRUE
+
+(C) Both (i) and (ii) are FALSE
+
+(D) (i) is FALSE and (ii) is TRUE
+
+Organizing Institute: IIT Roorkee  Page 37 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.43 The identical MOSFETs M1 and M2 in the circuit given below are ideal and biased
+
+         in the saturation region. M1 and M2 have a transconductance  of 5 mS.
+
+          The input signals (in Volts) are:
+
+                                     1 = 2.5 + 0.01 sin 
+                                     2 = 2.5 - 0.01 sin 
+         The output signal 3 (in Volts) is __________.
+
+(A) 3 + 0.05 sin 
+(B) 3 - 0.1 sin 
+(C) 4 + 0.1 sin 
+(D) 4 - 0.05 sin 
+
+Organizing Institute: IIT Roorkee  Page 38 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.44 A 10-bit analog-to-digital converter (ADC) has a sampling frequency of 1 MHz and
+          a full scale voltage of 3.3 V.
+          For an input sinusoidal signal with frequency 500 kHz, the maximum SNR (in dB,
+          rounded off to two decimal places) and the data rate (in Mbps) at the output of the
+          ADC are ________, respectively.
+
+(A) 61.96 and 10
+
+(B) 61.96 and 5
+
+(C) 33.36 and 10
+
+(D) 33.36 and 5
+
+Organizing Institute: IIT Roorkee  Page 39 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.45 A positive-edge-triggered sequential circuit is shown below. There are no timing
+
+         violations in the circuit. Input P0 is set to logic `0' and P1 is set to logic `1' at all
+         times. The timing diagram of the inputs SEL and S are also shown below.
+         The sequence of output Y from time T0 to T3 is ________.
+
+(A) 1011
+(B) 0100
+(C) 0010
+(D) 1101
+
+Organizing Institute: IIT Roorkee  Page 40 of 52
+                                   Electronics and Communication Engineering (EC)
+
+Q.46  The intrinsic carrier concentration of a semiconductor is 2.5 × 1016 /m3 at 300 K.
+
+      If the electron and hole mobilities are 0.15 m2/Vs and 0.05 m2/Vs, respectively, then
+      the intrinsic resistivity of the semiconductor (in k.m) at 300 K is ________.
+
+      (Charge of an electron  = 1.6 × 10-19 C.)
+
+(A) 1.65
+
+(B) 1.25
+
+(C) 0.85
+
+(D) 1.95
+
+Organizing Institute: IIT Roorkee  Page 41 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.47 In the circuit shown, the identical transistors Q1 and Q2 are biased in the active
+
+         region with  = 120. The Zener diode is in the breakdown region with VZ = 5 V
+         and IZ = 25 mA.
+         If IL = 12 mA and VEB1 = VEB2 = 0.7 V, then the values of R1 and R2 (in k,
+
+          rounded off to one decimal place) are ______, respectively.
+
+(A) 0.6 and 0.4
+(B) 1.4 and 2.5
+(C) 14.0 and 25.0
+(D) 6.0 and 4.0
+
+Organizing Institute: IIT Roorkee  Page 42 of 52
+                                   Electronics and Communication Engineering (EC)
+
+Q.48  The electron mobility µn in a non-degenerate germanium semiconductor at 300 K
+
+      is 0.38 m2/Vs.
+
+      The electron diffusivity  at 300 K (in cm2/s, rounded off to the nearest integer)
+      is _______.
+
+      (Consider the Boltzmann constant B = 1.38 × 10-23J/K and the charge of an
+      electron  = 1.6 × 10-19 C.)
+
+(A) 26
+
+(B) 98
+
+(C) 38
+
+(D) 10
+
+Organizing Institute: IIT Roorkee  Page 43 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.49 A square metal sheet of 4 m × 4 m is placed on the x-y plane as shown in the figure
+          below.
+
+         If the surface charge density (in µC/m2) on the sheet is (, ) = 4||, then the
+
+          total charge (in µC, rounded off to the nearest integer) on the sheet is ________.
+
+(A) 16
+(B) 85
+(C) 64
+(D) 256
+
+Organizing Institute: IIT Roorkee  Page 44 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.50 An electric field of 0.01 V/m is applied along the length of a copper wire of circular
+          cross-section with diameter 1 mm. Copper has a conductivity of 5.8 × 107 S/m.
+          The current (in Amperes, rounded off to two decimal places) flowing through the
+          wire is _________.
+
+(A) 0.46
+
+(B) 1.82
+
+(C) 0.58
+
+(D) 1.12
+
+Q.51 Consider a non-negative function () which is continuous and bounded over the
+         interval [2, 8]. Let  and  denote, respectively, the maximum and the minimum
+         values of () over the interval.
+
+Among the combinations of  and  given below, choose the one(s) for which the
+
+inequality
+
+                                     28 ()   
+
+is guaranteed to hold.
+
+(A)  = 5,  = 7
+
+(B)  = 6,  = 5
+
+(C)  = 7,  = 6
+
+(D)  = 7,  = 5
+
+Organizing Institute: IIT Roorkee  Page 45 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.52 Which of the following statements involving contour integrals (evaluated counter-
+          clockwise) on the unit circle  in the complex plane is/are TRUE?
+
+(A)    = 0
+(B)    = 0, where  is an even integer
+(C)  cos    0
+(D)  sec    0
+
+Q.53 Consider a system where 1(), 2(), and 3() are three internal state signals
+         and () is the input signal. The differential equations governing the system are
+
+          given by
+
+ 1()                                  2 0 0 1()      1
+
+  [2()]                            =  [0  -2   0] [2()] + [1] ().
+   3()                                 0    0  0 3() 1
+
+Which of the following statements is/are TRUE?
+
+(A) The signals 1(), 2(), and 3() are bounded for all bounded inputs
+
+(B) There exists a bounded input such that at least one of the signals 1(),
+         2(), and 3() is unbounded
+
+(C) There exists a bounded input such that the signals 1(), 2(), and 3() are
+
+          unbounded
+
+(D) The signals 1(), 2(), and 3() are unbounded for all bounded inputs
+
+Organizing Institute: IIT Roorkee     Page 46 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.54 The random variable  takes values in {-1,0,1} with probabilities
+
+          ( = -1) = ( = 1) =  and ( = 0) = 1 - 2, where 0 <  < 1/2.
+
+         Let () denote the entropy of  (in bits), parameterized by .
+
+          Which of the following statements is/are TRUE?
+
+(A) (0.4) > (0.3)
+(B) (0.3) > (0.4)
+(C) (0.3) > (0.25)
+(D) (0.25) > (0.3)
+
+Q.55 Let () be a periodic signal with fundamental period 0 > 0. Consider the signal
+         () = (), where  > 1.
+
+The Fourier series expansions of () and () are given by
+
+() =                                 20  and () =        20 .
+
+                                                   
+
+      =-                                           =-
+
+Which of the following statements is/are TRUE?
+
+(A)  =  for all 
+(B) () is periodic with a fundamental period 0
+(C)  = / for all 
+
+(D) () is periodic with a fundamental period 0/
+
+Organizing Institute: IIT Roorkee  Page 47 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.56 Consider a system represented by the block diagram shown below. Which of the
+          following signal flow graphs represent(s) this system? Choose the correct option(s).
+
+(A)
+(B)
+(C)
+(D)
+
+Organizing Institute: IIT Roorkee  Page 48 of 52
+                                             Electronics and Communication Engineering (EC)
+Q.57 All the diodes in the circuit given below are ideal.
+
+         Which of the following plots is/are correct when VI (in Volts) is swept from ­M to
+         M?
+
+(A)
+(B)
+
+(C)
+(D)
+
+Organizing Institute: IIT Roorkee  Page 49 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.58 Two fair dice (with faces labeled 1, 2, 3, 4, 5, and 6) are rolled. Let the random
+          variable  denote the sum of the outcomes obtained.
+          The expectation of  is______ (rounded off to two decimal places).
+
+Q.59 Consider the vectors
+
+                                         1             0
+                                    = [ ] ,     = [ ].
+
+                                         1           32
+
+For real-valued scalar variable , the value of
+
+                                   min         -  2
+
+                                      
+
+is ____________ (rounded off to two decimal places).
+
+2 denotes the Euclidean norm, i.e., for  =         1      = 12 + 22.
+                                                  [2], 2
+
+Q.60  and  are Bernoulli random variables taking values in {0,1}. The joint
+
+          probability mass function of the random variables is given by:
+
+                                    ( = 0,  = 0) = 0.06
+                                    ( = 0,  = 1) = 0.14
+                                    ( = 1,  = 0) = 0.24
+                                    ( = 1,  = 1) = 0.56
+
+         The mutual information (; ) is _________ (rounded off to two decimal places).
+
+Organizing Institute: IIT Roorkee  Page 50 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.61 The diode in the circuit shown below is ideal. The input voltage (in Volts) is given
+
+        by  = 10 sin 100, where time  is in seconds.
+
+          The time duration (in ms, rounded off to two decimal places) for which the diode is
+          forward biased during one period of the input is ___________.
+
+Q.62 In the circuit shown below, the AND gate has a propagation delay of 1 ns. The edge-
+          triggered flip-flops have a set-up time of 2 ns, a hold-time of 0 ns, and a clock-to-Q
+          delay of 2 ns.
+          The maximum clock frequency (in MHz, rounded off to the nearest integer) such
+          that there are no setup violations is ________.
+
+Organizing Institute: IIT Roorkee  Page 51 of 52
+                                             Electronics and Communication Engineering (EC)
+
+Q.63 An ideal p-n junction germanium diode has a reverse saturation current of 10 µA at
+          300 K.
+          The voltage (in Volts, rounded off to two decimal places) to be applied across the
+          junction to get a forward bias current of 100 mA at 300 K is _____.
+          (Consider the Boltzmann constant B = 1.38 × 10-23J/K and the charge of an
+          electron  = 1.6 × 10-19 C.)
+
+Q.64  A 50  lossless transmission line is terminated with a load ZL of (50 ­ j75) .
+
+      If the average incident power on the line is 10 mW, then the average power
+      delivered to the load (in mW, rounded off to one decimal place) is __________.
+
+Q.65  Two resistors are connected in a circuit loop of area 5 m2, as shown in the figure
+      below. The circuit loop is placed on the x-y plane.
+
+      When a time-varying magnetic flux, with flux-density () = 0.5 (in Tesla), is
+      applied along the positive z-axis, the magnitude of current I (in Amperes, rounded
+      off to two decimal places) in the loop is ________.
+
+Organizing Institute: IIT Roorkee  Page 52 of 52

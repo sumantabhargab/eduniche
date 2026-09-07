@@ -33,6 +33,8 @@ interface Question {
   answerVerified: boolean;
 }
 
+type Mode = "browse" | "quiz";
+
 interface SubjectPracticeSessionProps {
   branch: string;
   subject: string;
@@ -74,11 +76,13 @@ export default function SubjectPracticeSession({ branch, subject }: SubjectPract
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [answerState, setAnswerState] = useState<"unanswered" | "correct" | "incorrect">("unanswered");
   const [showExplanation, setShowExplanation] = useState(false);
+  const [mode, setMode] = useState<Mode>("browse");
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Question[]>([]);
   const [pagination, setPagination] = useState({ totalCount: 0, totalPages: 0, hasMore: false });
+  const [allLoaded, setAllLoaded] = useState(false);
 
   // Load bookmarks
   useEffect(() => {
@@ -93,42 +97,81 @@ export default function SubjectPracticeSession({ branch, subject }: SubjectPract
       .catch(() => {});
   }, [user?.id]);
 
-  // Load questions
+  // Load ALL questions for the subject (browse mode shows everything)
   useEffect(() => {
     setLoading(true);
     setSelectedAnswer(null);
     setAnswerState("unanswered");
     setShowExplanation(false);
     setCurrentIndex(0);
+    setAllLoaded(false);
 
-    const params = new URLSearchParams({ branch, subject, pageSize: "50", sortBy: "year", sortDir: "desc" });
-    if (topicParam) params.set("topic", topicParam);
-    if (yearParam) params.set("year", yearParam);
+    // Fetch ALL questions by paginating through until exhausted
+    const fetchAll = async () => {
+      try {
+        const allQs: Question[] = [];
+        let page = 1;
+        const pageSize = 100;
+        let totalCount = 0;
 
-    fetch(`/api/pyq/questions?${params.toString()}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.data) {
-          setQuestions(data.data);
-          setPagination({
-            totalCount: data.pagination?.totalCount || 0,
-            totalPages: data.pagination?.totalPages || 0,
-            hasMore: data.pagination?.hasMore || false,
+        while (true) {
+          const params = new URLSearchParams({
+            branch,
+            subject,
+            pageSize: pageSize.toString(),
+            sortBy: "year",
+            sortDir: "desc",
+            page: page.toString(),
           });
+          if (topicParam) params.set("topic", topicParam);
+          if (yearParam) params.set("year", yearParam);
+
+          const r = await fetch(`/api/pyq/questions?${params.toString()}`);
+          const data = await r.json();
+          if (data.data && data.data.length > 0) {
+            allQs.push(...data.data);
+            totalCount = data.pagination?.totalCount || allQs.length;
+            if (!data.pagination?.hasMore || allQs.length >= totalCount) break;
+            page++;
+            if (page > 50) break; // safety cap
+          } else {
+            break;
+          }
         }
+
+        setQuestions(allQs);
+        setPagination({
+          totalCount,
+          totalPages: Math.ceil(totalCount / pageSize),
+          hasMore: false,
+        });
+        setAllLoaded(true);
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      } catch {
+        setLoading(false);
+      }
+    };
+
+    fetchAll();
   }, [branch, subject, topicParam, yearParam]);
 
   const current = questions[currentIndex];
 
   const handleSelectAnswer = (answer: string) => {
     if (answerState !== "unanswered" || !current) return;
-    setSelectedAnswer(answer);
-    const isCorrect = answer === current.correctAnswer;
-    setAnswerState(isCorrect ? "correct" : "incorrect");
-    setShowExplanation(true);
+    if (mode === "browse") {
+      // In browse mode, just show the answer immediately
+      setSelectedAnswer(answer);
+      const isCorrect = answer === current.correctAnswer;
+      setAnswerState(isCorrect ? "correct" : "incorrect");
+      setShowExplanation(true);
+    } else {
+      // Quiz mode: record selection but don't reveal until user clicks reveal
+      setSelectedAnswer(answer);
+      const isCorrect = answer === current.correctAnswer;
+      setAnswerState(isCorrect ? "correct" : "incorrect");
+      setShowExplanation(true);
+    }
 
     // Record attempt
     if (user?.id) {
@@ -140,7 +183,7 @@ export default function SubjectPracticeSession({ branch, subject }: SubjectPract
           branch,
           subject,
           selectedAnswer: answer,
-          isCorrect,
+          isCorrect: answer === current.correctAnswer,
           timeSpent: 0,
         }),
       }).catch(() => {});
@@ -269,6 +312,25 @@ export default function SubjectPracticeSession({ branch, subject }: SubjectPract
             <span className="text-xs text-muted">
               {currentIndex + 1} / {questions.length}
             </span>
+            {/* Mode toggle */}
+            <div className="flex items-center gap-1 bg-foreground/5 rounded-lg p-0.5">
+              <button
+                onClick={() => setMode("browse")}
+                className={`text-[11px] px-2.5 py-1 rounded-md transition-colors ${
+                  mode === "browse" ? "bg-background text-foreground shadow-sm" : "text-muted hover:text-foreground"
+                }`}
+              >
+                Browse
+              </button>
+              <button
+                onClick={() => setMode("quiz")}
+                className={`text-[11px] px-2.5 py-1 rounded-md transition-colors ${
+                  mode === "quiz" ? "bg-background text-foreground shadow-sm" : "text-muted hover:text-foreground"
+                }`}
+              >
+                Quiz
+              </button>
+            </div>
           </div>
         </div>
 
@@ -358,19 +420,19 @@ export default function SubjectPracticeSession({ branch, subject }: SubjectPract
                     const letter = String.fromCharCode(65 + idx);
                     let stateClass = "border-border hover:border-muted-foreground/30";
                     if (answerState !== "unanswered") {
-                      if (option === current.correctAnswer) {
+                      if (letter === current.correctAnswer) {
                         stateClass = "border-green-500 bg-green-50 dark:bg-green-950/30";
-                      } else if (option === selectedAnswer && option !== current.correctAnswer) {
+                      } else if (letter === selectedAnswer && letter !== current.correctAnswer) {
                         stateClass = "border-red-500 bg-red-50 dark:bg-red-950/30";
                       }
-                    } else if (selectedAnswer === option) {
+                    } else if (selectedAnswer === letter) {
                       stateClass = "border-accent bg-accent/5";
                     }
 
                     return (
                       <button
                         key={idx}
-                        onClick={() => handleSelectAnswer(option)}
+                        onClick={() => handleSelectAnswer(letter)}
                         disabled={answerState !== "unanswered"}
                         className={`w-full text-left p-4 rounded-xl border-2 transition-all ${stateClass} ${
                           answerState !== "unanswered" ? "cursor-default" : "cursor-pointer"
@@ -402,7 +464,7 @@ export default function SubjectPracticeSession({ branch, subject }: SubjectPract
                       <XCircle className="w-5 h-5 text-red-600" />
                     )}
                     <span className="font-medium">
-                      {answerState === "correct" ? "Correct!" : `Incorrect — Answer: ${current.correctAnswer}`}
+                      {answerState === "correct" ? "Correct!" : `Incorrect — Correct Answer: ${current.correctAnswer}`}
                     </span>
                   </div>
 

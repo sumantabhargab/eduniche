@@ -1,0 +1,965 @@
+[
+  {
+    "question_number": 1,
+    "section": "GA",
+    "marks": 1,
+    "question_type": "MCQ",
+    "question_text": "Here are two analogous groups, Group-I and Group-II, that list words in their decreasing order of intensity. Identify the missing word in Group-II. Group-I: Abuse Insult Ridicule Group-II: ________ Praise Appreciate",
+    "options": [
+      "Extol",
+      "Prize",
+      "Appropriate",
+      "Espouse"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 2,
+    "section": "GA",
+    "marks": 1,
+    "question_type": "MCQ",
+    "question_text": "Had I learnt acting as a child, I ________ a famous film star. Select the most appropriate option to complete the above sentence.",
+    "options": [
+      "will be",
+      "can be",
+      "am going to be",
+      "could have been"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 3,
+    "section": "GA",
+    "marks": 1,
+    "question_type": "MCQ",
+    "question_text": "The 12 musical notes are given as , #, , #, , , #, , #, , #, and . Frequency of each note is 122 times the frequency of the previous note. If the frequency of the note C is 130.8 Hz, then the ratio of frequencies of notes # and is:",
+    "options": [
+      "62",
+      "2",
+      "42",
+      "2"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 4,
+    "section": "GA",
+    "marks": 1,
+    "question_type": "MCQ",
+    "question_text": "The following figures show three curves generated using an iterative algorithm. The total length of the curve generated after `Iteration ' is: Note: The figures shown are representative. 1 Iteration 0: Iteration 1: 1 1 Length of each segment: 3 3 1 1 Iteration 2: 9 Length of each segment: 9",
+    "options": [
+      "5",
+      "5 2",
+      "5 (2-1)"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 5,
+    "section": "GA",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Which one of the following plots represents () = - ||, where is a non- zero real number? Note: The figures shown are representative.",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 6,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Identify the option that has the most appropriate sequence such that a coherent paragraph is formed: P. Over time, such adaptations lead to significant evolutionary changes with the potential to shape the development of new species. Q. In natural world, organisms constantly adapt to their environments in response to challenges and opportunities. R. This process of adaptation is driven by the principle of natural selection, where favorable traits increase an organism's chances of survival and reproduction. S. As environments change, organisms that can adapt their behavior, structure and physiology to such changes are more likely to survive.",
+    "options": [
+      "P Q R S",
+      "Q S R P",
+      "R S Q P",
+      "S P R Q"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 7,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A stick of length one meter is broken at two locations at distances of 1 and 2 from the origin (0), as shown in the figure. Note that 0 < 1 < 2 < 1. Which one of the following is NOT a necessary condition for forming a triangle using the three pieces? Note: All lengths are in meter. The figure shown is representative.",
+    "options": [
+      "1 < 0.5",
+      "2 > 0.5",
+      "2 < 1 + 0.5",
+      "1 + 2 < 1"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 8,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Eight students (P, Q, R, S, T, U, V, and W) are playing musical chairs. The figure indicates their order of position at the start of the game. They play the game by moving forward in a circle in the clockwise direction. After the 1st round, 4th student behind P leaves the game. After 2nd round, 5th student behind Q leaves the game. After 3rd round, 3rd student behind V leaves the game. After 4th round, 4th student behind U leaves the game. Who all are left in the game after the 4th round? Note: The figure shown is representative. P W R U T V Q S",
+    "options": [
+      "P; T; Q; S",
+      "V; P; T; Q",
+      "W; R; Q; V",
+      "Q; T; V; W"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 9,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The table lists the top 5 nations according to the number of gold medals won in a tournament; also included are the number of silver and the bronze medals won by them. Based only on the data provided in the table, which one of the following statements is INCORRECT? Nation Gold Silver Bronze USA 40 44 41 Canada 39 27 24 Japan 20 12 13 Australia 17 19 16 France 16 26 22",
+    "options": [
+      "France will occupy the third place if the list were made on the basis of the total",
+      "The order of the top two nations will not change even if the list is made on the basis",
+      "USA and Canada together have less than 50% of the medals awarded to the nations",
+      "Canada has won twice as many total medals as Japan."
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 10,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "An organization allows its employees to work independently on consultancy projects but charges an overhead on the consulting fee. The overhead is 20% of the consulting fee, if the fee is up to 5,00,000. For higher fees, the overhead is 1,00,000 plus 10% of the amount by which the fee exceeds 5,00,000. The government charges a Goods and Services Tax of 18% on the total amount (the consulting fee plus the overhead). An employee of the organization charges this entire amount, i.e., the consulting fee, overhead, and tax, to the client. If the client cannot pay more than 10,00,000, what is the maximum consulting fee that the employee can charge?",
+    "options": [
+      "7,01,438",
+      "7,24,961",
+      "7,51,232",
+      "7,75,784"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 11,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider the matrix below: 2 34 5 = [ 0 67 8 ] 0 0 0 0 0 For which of the following combinations of , , and , is the rank of at least three? (i) = 0 and = 0. (ii) = = = 0. (iii) = = 0 and 0. (iv) = = 0.",
+    "options": [
+      "Only (i), (iii), and (iv)",
+      "Only (iv)",
+      "Only (ii)",
+      "Only (i) and (iii)"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 12,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider the following series: (i) =1 1 (ii) =1 1 (+1) (iii) =1 1 ! Choose the correct option.",
+    "options": [
+      "Only (ii) converges",
+      "Only (ii) and (iii) converge",
+      "Only (iii) converges",
+      "All three converge"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 13,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A pot contains two red balls and two blue balls. Two balls are drawn from this pot randomly without replacement. What is the probability that the two balls drawn have different colours?",
+    "options": [
+      "2/3",
+      "1/ 3",
+      "1/ 2",
+      "1"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 14,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a frequency-modulated (FM) signal () = cos(2 + 3 sin(21) + 4 sin(61)), where and are, respectively, the amplitude and frequency (in Hz) of the carrier waveform. The frequency 1 is in Hz, and assume that > 1001. The peak frequency deviation of the FM signal in Hz is _______.",
+    "options": [
+      "151",
+      "121",
+      "41",
+      "21"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 15,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "Consider an additive white Gaussian noise (AWGN) channel with bandwidth and noise power spectral density 20. Let denote the average transmit power constraint. Which one of the following plots illustrates the dependence of the channel capacity on the bandwidth (keeping and 0 fixed)?",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 16,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The Nyquist plot of a system is given in the figure below. Let , , , and be the positive frequencies at the points , , , and , respectively. Which one of the following statements is TRUE?",
+    "options": [
+      "is the gain crossover frequency and is the phase crossover frequency",
+      "is the gain crossover frequency and is the phase crossover frequency",
+      "is the gain crossover frequency and is the phase crossover frequency",
+      "is the gain crossover frequency and is the phase crossover frequency"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 17,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider the discrete-time system below with input [] and output []. In the figure, 1[] and 2[] denote the impulse responses of LTI Subsystems 1 and 2, respectively. Also, [] is the unit impulse, and > 0. Assuming 2[] [], the overall system (denoted by the dashed box) is _______.",
+    "options": [
+      "linear and time invariant",
+      "linear and time variant",
+      "nonlinear and time invariant",
+      "nonlinear and time variant"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 18,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a continuous-time, real-valued signal () whose Fourier transform () = - () exp(- ) exists. Which one of the following statements is always TRUE?",
+    "options": [
+      "|()| - |()|",
+      "|()| > - |()|",
+      "|()| - ()",
+      "|()| - ()"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 19,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a part of an electrical network as shown below. Some node voltages, and the current flowing through the 3 resistor are as indicated. The voltage (in Volts) at node is ______.",
+    "options": [
+      "20/3",
+      "32/3",
+      "22/3",
+      "2/3"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 20,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Let , , and be the currents flowing through the capacitor, inductor, and resistor, respectively, in the circuit given below. The AC admittances are given in Siemens (S). Which one of the following is TRUE?",
+    "options": [
+      "= 0.25180� A, = 0.10� A, = 0.290� A",
+      "= 4180� A, = 100� A, = 590� A",
+      "= 0.25270� A, = 0.190� A, = 0.290� A",
+      "= 490� A, = 10270� A, = 50� A"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 21,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A simplified small-signal equivalent circuit of a BJT-based amplifier is given below. The small-signal voltage gain vo/vs (in V/V) is ___________.",
+    "options": [
+      "-RL",
+      "+RL",
+      "-RL",
+      "+RL"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 22,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The ideal BJT in the circuit given below is biased in the active region with a of 100. If is 10 �A, then (in Volts, rounded off to two decimal places) is _______ .",
+    "options": [
+      "4.95",
+      "3.03",
+      "1.92",
+      "3.73"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 23,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A 3-input majority logic gate has inputs , , and . The output of the gate is logic `1' if two or more of the inputs are logic `1'. The output is logic `0' if two or more of the inputs are logic `0'. Which one of the following options is a Boolean expression of the output ?",
+    "options": [
+      "+ +",
+      "+ +"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 24,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A full adder and an XOR gate are used to design a digital circuit with inputs X, Y, and Z, and output F, as shown below. The input Z is connected to the carry-in input of the full adder. If the input Z is set to logic `1', then the circuit functions as ________ with X and Y as inputs.",
+    "options": [
+      "an adder",
+      "a subtractor",
+      "a multiplier",
+      "a binary to Gray code converter"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 25,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider the function : , defined as () = 23 - 32 - 12 + 1. Which of the following statements is/are correct? (Here, is the set of real numbers.)",
+    "options": [
+      "has no global maximizer",
+      "has no global minimizer",
+      "= -1 is a local minimizer of",
+      "= 2 is a local maximizer of"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 26,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider the unity-negative-feedback system shown in Figure (i) below, where gain 0. The root locus of this system is shown in Figure (ii) below. For what value(s) of will the system in Figure (i) have a pole at -1 + 1?",
+    "options": [
+      "= 5",
+      "= 1/5",
+      "For no positive value of",
+      "For all positive values of"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 27,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Let [] be a discrete-time signal whose -transform is (). Which of the following statements is/are TRUE?",
+    "options": [
+      "The discrete-time Fourier transform (DTFT) of [] always exists",
+      "The region of convergence (RoC) of () contains neither poles nor zeros",
+      "The discrete-time Fourier transform (DTFT) exists if the region of convergence",
+      "If [] = [], where [] is the unit impulse and is a scalar, then the"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 28,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a message signal () which is bandlimited to [-, ], where is in Hz. Consider the following two modulation schemes for the message signal: � Double sideband-suppressed carrier (DSB-SC): () = () cos(2) � Amplitude modulation (AM): () = (1 + ()) cos(2) Here, and are the amplitude and frequency (in Hz) of the carrier, respectively. In the case of AM, denotes the modulation index. Consider the following statements: (i) An envelope detector can be used for demodulation in the DSB-SC scheme if () > 0 for all . (ii) An envelope detector can be used for demodulation in the AM scheme only if () > 0 for all . Which of the following options is/are correct?",
+    "options": [
+      "(i) is TRUE",
+      "(i) is FALSE",
+      "(ii) is TRUE",
+      "(ii) is FALSE"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 29,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Which of the following statements is/are TRUE with respect to an ideal opamp?",
+    "options": [
+      "It has an infinite input resistance",
+      "It has an infinite output resistance",
+      "It has an infinite open-loop differential gain",
+      "It has an infinite open-loop common-mode gain"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 30,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Which of the following statements is/are TRUE with respect to ideal MOSFET- based DC-coupled single-stage amplifiers having finite load resistors?",
+    "options": [
+      "The common-gate amplifier has an infinite input resistance",
+      "The common-source amplifier has an infinite input resistance",
+      "The input and output voltages of the common-source amplifier are in phase",
+      "The input and output voltages of the common-drain amplifier are in phase"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 31,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Which of the following can be used as an n-type dopant for silicon? Select the correct option(s).",
+    "options": [
+      "Arsenic",
+      "Boron",
+      "Gallium",
+      "Phosphorous"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 32,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "The function () satisfies 2() - 2() + 2() = 0, where () and () denote the first and second derivatives of (), respectively. Given (0) = 1 and (1) = -1, the maximum value of () over [0,1] is _____ (rounded off to two decimal places).",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 33,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "The generator matrix of a (6,3) binary linear block code is given by 1 0 01 0 1 = [0 1 0 0 1 1]. 0 0 11 1 0 The minimum Hamming distance between codewords equals _____ (answer in integer). Electronics and Communication Engineering (EC)",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 34,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "All the components in the bandpass filter given below are ideal. The lower -3 dB frequency of the filter is 1 MHz. The upper -3 dB frequency (in MHz, rounded off to the nearest integer) is __________.",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 35,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "A 4-bit weighted-resistor DAC with inputs b3, b2, b1, and b0 (MSB to LSB) is designed using an ideal opamp, as shown below. The switches are closed when the corresponding input bits are logic `1' and open otherwise. When the input b3b2b1b0 changes from 1110 to 1101, the magnitude of the change in the output voltage VO (in mV, rounded off to the nearest integer) is ________. Electronics and Communication Engineering (EC) Q.36 � Q.65 Carry TWO marks Each",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 36,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Let () = 1 be the transfer function of a second-order system. A controller 102 () is connected to the system () in the configuration shown below. Consider the following statements. (i) There exists no controller of the form () = , where is a positive real number, such that the closed loop system is stable. (ii) There exists at least one controller of the form () = + , where and are positive real numbers, such that the closed loop system is stable. Which one of the following options is correct?",
+    "options": [
+      "(i) is TRUE and (ii) is FALSE",
+      "(i) is FALSE and (ii) is TRUE",
+      "Both (i) and (ii) are FALSE",
+      "Both (i) and (ii) are TRUE"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 37,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider the polynomial () = 5 + 74 + 33 - 332 + 2 - 40. Let (, , ) be defined as follows. is the number of roots of () with negative real parts. is the number of roots of () that are purely imaginary. is the number of roots of () with positive real parts. Which one of the following options is correct?",
+    "options": [
+      "= 2, = 2, and = 1",
+      "= 3, = 2, and = 0",
+      "= 1, = 2, and = 2",
+      "= 0, = 4, and = 1"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 38,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a continuous-time finite-energy signal () whose Fourier transform vanishes outside the frequency interval [- , ], where is in rad/sec. The signal () is uniformly sampled to obtain () = () (). Here, () = ( - - ), =- with () being the Dirac impulse, > 0, and > 0. The sampled signal () sin () is passed through an ideal lowpass filter () = with cutoff frequency and passband gain . The output of the filter is given by ________________.",
+    "options": [
+      "() if < /",
+      "( - ) if < /",
+      "( - ) if < 2/",
+      "() if < 2/"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 39,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "In the circuit below, 1 is an ideal AC voltmeter and 2 is an ideal AC ammeter. The source voltage (in Volts) is () = 100 cos(200). What should be the value of the variable capacitor such that the RMS readings on 1 and 2 are 25 V and 5 A, respectively?",
+    "options": [
+      "25 F",
+      "4 F",
+      "0.25 F",
+      "Insufficient information to find"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 40,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The -parameter matrix of a two port network relates the port voltages and port currents as follows: [12] = [12] The -parameter matrix (with each entry in Ohms) of the network shown below is __________.",
+    "options": [
+      "10/3 2/3",
+      "2/3 10/3",
+      "10 2",
+      "10/3 1/3"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 41,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A source transmits symbol that takes values uniformly at random from the set {-2,0,2}. The receiver obtains = + , where is a zero-mean Gaussian random variable independent of . The receiver uses the maximum likelihood decoder to estimate the transmitted symbol . Suppose the probability of symbol estimation error is expressed as follows: = ( > 1), where ( > 1) denotes the probability that exceeds 1. What is the value of ?",
+    "options": [
+      "1/3",
+      "1",
+      "2/3",
+      "4/3"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 42,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a real-valued random process () = ( - ), =1 where > 0 and is a positive integer. Here, () = 1 for [0, 0.5] and 0 otherwise. The coefficients are pairwise independent, zero-mean unit- variance random variables. Read the following statements about the random process and choose the correct option. (i) The mean of the process () is independent of time . (ii) The autocorrelation function [ ()( + )] is independent of time for all . (Here, [] is the expectation operation.)",
+    "options": [
+      "(i) is TRUE and (ii) is FALSE",
+      "Both (i) and (ii) are TRUE",
+      "Both (i) and (ii) are FALSE",
+      "(i) is FALSE and (ii) is TRUE"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 43,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The identical MOSFETs M1 and M2 in the circuit given below are ideal and biased in the saturation region. M1 and M2 have a transconductance of 5 mS. The input signals (in Volts) are: 1 = 2.5 + 0.01 sin 2 = 2.5 - 0.01 sin The output signal 3 (in Volts) is __________.",
+    "options": [
+      "3 + 0.05 sin",
+      "3 - 0.1 sin",
+      "4 + 0.1 sin",
+      "4 - 0.05 sin"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 44,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A 10-bit analog-to-digital converter (ADC) has a sampling frequency of 1 MHz and a full scale voltage of 3.3 V. For an input sinusoidal signal with frequency 500 kHz, the maximum SNR (in dB, rounded off to two decimal places) and the data rate (in Mbps) at the output of the ADC are ________, respectively.",
+    "options": [
+      "61.96 and 10",
+      "61.96 and 5",
+      "33.36 and 10",
+      "33.36 and 5"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 45,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A positive-edge-triggered sequential circuit is shown below. There are no timing violations in the circuit. Input P0 is set to logic `0' and P1 is set to logic `1' at all times. The timing diagram of the inputs SEL and S are also shown below. The sequence of output Y from time T0 to T3 is ________.",
+    "options": [
+      "1011",
+      "0100",
+      "0010",
+      "1101"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 46,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The intrinsic carrier concentration of a semiconductor is 2.5 � 1016 /m3 at 300 K. If the electron and hole mobilities are 0.15 m2/Vs and 0.05 m2/Vs, respectively, then the intrinsic resistivity of the semiconductor (in k.m) at 300 K is ________. (Charge of an electron = 1.6 � 10-19 C.)",
+    "options": [
+      "1.65",
+      "1.25",
+      "0.85",
+      "1.95"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 47,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "In the circuit shown, the identical transistors Q1 and Q2 are biased in the active region with = 120. The Zener diode is in the breakdown region with VZ = 5 V and IZ = 25 mA. If IL = 12 mA and VEB1 = VEB2 = 0.7 V, then the values of R1 and R2 (in k, rounded off to one decimal place) are ______, respectively.",
+    "options": [
+      "0.6 and 0.4",
+      "1.4 and 2.5",
+      "14.0 and 25.0",
+      "6.0 and 4.0"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 48,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The electron mobility �n in a non-degenerate germanium semiconductor at 300 K is 0.38 m2/Vs. The electron diffusivity at 300 K (in cm2/s, rounded off to the nearest integer) is _______. (Consider the Boltzmann constant B = 1.38 � 10-23J/K and the charge of an electron = 1.6 � 10-19 C.)",
+    "options": [
+      "26",
+      "98",
+      "38",
+      "10"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 49,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A square metal sheet of 4 m � 4 m is placed on the x-y plane as shown in the figure below. If the surface charge density (in �C/m2) on the sheet is (, ) = 4||, then the total charge (in �C, rounded off to the nearest integer) on the sheet is ________.",
+    "options": [
+      "16",
+      "85",
+      "64",
+      "256"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 50,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "An electric field of 0.01 V/m is applied along the length of a copper wire of circular cross-section with diameter 1 mm. Copper has a conductivity of 5.8 � 107 S/m. The current (in Amperes, rounded off to two decimal places) flowing through the wire is _________.",
+    "options": [
+      "0.46",
+      "1.82",
+      "0.58",
+      "1.12"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 51,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a non-negative function () which is continuous and bounded over the interval [2, 8]. Let and denote, respectively, the maximum and the minimum values of () over the interval. Among the combinations of and given below, choose the one(s) for which the inequality 28 () is guaranteed to hold.",
+    "options": [
+      "= 5, = 7",
+      "= 6, = 5",
+      "= 7, = 6",
+      "= 7, = 5"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 52,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Which of the following statements involving contour integrals (evaluated counter- clockwise) on the unit circle in the complex plane is/are TRUE?",
+    "options": [
+      "= 0",
+      "= 0, where is an even integer",
+      "cos 0",
+      "sec 0"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 53,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a system where 1(), 2(), and 3() are three internal state signals and () is the input signal. The differential equations governing the system are given by 1() 2 0 0 1() 1 [2()] = [0 -2 0] [2()] + [1] (). 3() 0 0 0 3() 1 Which of the following statements is/are TRUE?",
+    "options": [
+      "The signals 1(), 2(), and 3() are bounded for all bounded inputs",
+      "There exists a bounded input such that at least one of the signals 1(),",
+      "There exists a bounded input such that the signals 1(), 2(), and 3() are",
+      "The signals 1(), 2(), and 3() are unbounded for all bounded inputs"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 54,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The random variable takes values in {-1,0,1} with probabilities ( = -1) = ( = 1) = and ( = 0) = 1 - 2, where 0 < < 1/2. Let () denote the entropy of (in bits), parameterized by . Which of the following statements is/are TRUE?",
+    "options": [
+      "(0.4) > (0.3)",
+      "(0.3) > (0.4)",
+      "(0.3) > (0.25)",
+      "(0.25) > (0.3)"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 55,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Let () be a periodic signal with fundamental period 0 > 0. Consider the signal () = (), where > 1. The Fourier series expansions of () and () are given by () = 20 and () = 20 . =- =- Which of the following statements is/are TRUE?",
+    "options": [
+      "= for all",
+      "() is periodic with a fundamental period 0",
+      "= / for all",
+      "() is periodic with a fundamental period 0/"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 56,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a system represented by the block diagram shown below. Which of the following signal flow graphs represent(s) this system? Choose the correct option(s).",
+    "options": [
+      "(B)",
+      "(D)"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 57,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "All the diodes in the circuit given below are ideal. Which of the following plots is/are correct when VI (in Volts) is swept from �M to M?",
+    "options": [
+      "(B)",
+      "(D)"
+    ],
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 58,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "Two fair dice (with faces labeled 1, 2, 3, 4, 5, and 6) are rolled. Let the random variable denote the sum of the outcomes obtained. The expectation of is______ (rounded off to two decimal places).",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 59,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "Consider the vectors 1 0 = [ ] , = [ ]. 1 32 For real-valued scalar variable , the value of min - 2 is ____________ (rounded off to two decimal places). 2 denotes the Euclidean norm, i.e., for = 1 = 12 + 22. [2], 2",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 60,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "and are Bernoulli random variables taking values in {0,1}. The joint probability mass function of the random variables is given by: ( = 0, = 0) = 0.06 ( = 0, = 1) = 0.14 ( = 1, = 0) = 0.24 ( = 1, = 1) = 0.56 The mutual information (; ) is _________ (rounded off to two decimal places). Electronics and Communication Engineering (EC)",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 61,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "The diode in the circuit shown below is ideal. The input voltage (in Volts) is given by = 10 sin 100, where time is in seconds. The time duration (in ms, rounded off to two decimal places) for which the diode is forward biased during one period of the input is ___________.",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 62,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "In the circuit shown below, the AND gate has a propagation delay of 1 ns. The edge- triggered flip-flops have a set-up time of 2 ns, a hold-time of 0 ns, and a clock-to-Q delay of 2 ns. The maximum clock frequency (in MHz, rounded off to the nearest integer) such that there are no setup violations is ________. Electronics and Communication Engineering (EC)",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 63,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "An ideal p-n junction germanium diode has a reverse saturation current of 10 �A at 300 K. The voltage (in Volts, rounded off to two decimal places) to be applied across the junction to get a forward bias current of 100 mA at 300 K is _____. (Consider the Boltzmann constant B = 1.38 � 10-23J/K and the charge of an electron = 1.6 � 10-19 C.)",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 64,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "A 50 lossless transmission line is terminated with a load ZL of (50 � j75) . If the average incident power on the line is 10 mW, then the average power delivered to the load (in mW, rounded off to one decimal place) is __________.",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  },
+  {
+    "question_number": 65,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "Two resistors are connected in a circuit loop of area 5 m2, as shown in the figure below. The circuit loop is placed on the x-y plane. When a time-varying magnetic flux, with flux-density () = 0.5 (in Tesla), is applied along the positive z-axis, the magnitude of current I (in Amperes, rounded off to two decimal places) in the loop is ________.",
+    "options": null,
+    "branch": "EC",
+    "year": 2025,
+    "session": "1"
+  }
+]

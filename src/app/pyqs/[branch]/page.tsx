@@ -3,19 +3,20 @@
  *
  * Shows subjects for a selected branch.
  * If ?subject= is present, shows the practice session.
+ *
+ * FIX: Uses usePathname() instead of use(params) to avoid hydration mismatch.
  */
 
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, Lock, Star, ArrowLeft, ChevronRight } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import SubjectPracticeSession from "./_components/SubjectPracticeSession";
-import { Suspense } from "react";
 
 interface SubjectRef {
   id: string;
@@ -27,45 +28,37 @@ interface SubjectRef {
   topics?: { topicName: string; displayName: string }[];
 }
 
-export default function BranchPage({ params }: { params: Promise<{ branch: string }> }) {
+export default function BranchPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const resolvedParams = use(params);
-  const branch = resolvedParams?.branch?.toUpperCase() || "CS";
-  const subjectParam = searchParams.get("subject") || "";
-
-  // If subject is selected, show practice session
-  if (subjectParam) {
-    return (
-      <Suspense fallback={
-        <main className="min-h-screen bg-background">
-          <Nav />
-          <div className="pt-24 flex items-center justify-center min-h-[60vh]">
-            <div className="text-center">
-              <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-sm text-muted">Loading practice session…</p>
-            </div>
-          </div>
-        </main>
-      }>
-        <SubjectPracticeSession branch={branch} subject={subjectParam} />
-      </Suspense>
-    );
-  }
-
-  const [subjects, setSubjects] = useState<SubjectRef[]>([]);
-  const [loading, setLoading] = useState(true);
+  const pathname = usePathname();
   const { isPremium } = useAuth();
 
+  // Extract branch from URL pathname: /pyqs/CS -> CS
+  const branchFromUrl = pathname.replace("/pyqs/", "").split("?")[0].toUpperCase() || "CS";
+  const subjectParam = searchParams.get("subject") || "";
+
+  const [mounted, setMounted] = useState(false);
+  const [subjects, setSubjects] = useState<SubjectRef[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Avoid hydration mismatch
   useEffect(() => {
-    fetch(`/api/pyq/branches/${branch}/subjects`)
+    setMounted(true);
+  }, []);
+
+  // Load subjects
+  useEffect(() => {
+    if (!mounted) return;
+    setLoading(true);
+    fetch(`/api/pyq/branches/${branchFromUrl}/subjects`)
       .then((r) => r.json())
       .then((data) => {
         if (data.subjects) setSubjects(data.subjects);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [branch]);
+  }, [branchFromUrl, mounted]);
 
   const branchMeta: Record<string, { name: string; icon: string }> = {
     CS: { name: "Computer Science & IT", icon: "💻" },
@@ -90,7 +83,42 @@ export default function BranchPage({ params }: { params: Promise<{ branch: strin
     PH: { name: "Engineering Physics", icon: "⚛️" },
   };
 
-  const meta = branchMeta[branch] || { name: branch, icon: "📚" };
+  const meta = branchMeta[branchFromUrl] || { name: branchFromUrl, icon: "📚" };
+
+  // Don't render until mounted to avoid hydration mismatch
+  if (!mounted) {
+    return (
+      <main className="min-h-screen bg-background">
+        <Nav />
+        <div className="pt-24 flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-sm text-muted">Loading…</p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  // If subject is selected, show practice session (needs Suspense for useSearchParams)
+  if (subjectParam) {
+    return (
+      <Suspense fallback={
+        <main className="min-h-screen bg-background">
+          <Nav />
+          <div className="pt-24 flex items-center justify-center min-h-[60vh]">
+            <div className="text-center">
+              <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-sm text-muted">Loading practice session…</p>
+            </div>
+          </div>
+          <Footer />
+        </main>
+      }>
+        <SubjectPracticeSession branch={branchFromUrl} subject={subjectParam} />
+      </Suspense>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-background">
@@ -106,7 +134,7 @@ export default function BranchPage({ params }: { params: Promise<{ branch: strin
           <span className="text-muted/30 mx-3">/</span>
           <span className="text-sm font-medium flex items-center gap-2">
             <span>{meta.icon}</span>
-            <span className="font-mono">{branch}</span>
+            <span className="font-mono">{branchFromUrl}</span>
           </span>
         </div>
       </div>
@@ -123,7 +151,7 @@ export default function BranchPage({ params }: { params: Promise<{ branch: strin
               {meta.name}
             </h1>
             <p className="text-muted text-sm">
-              GATE PYQs across all years · Choose a subject to begin practicing
+              GATE PYQs across all years · Choose a subject to begin
             </p>
           </motion.div>
 
@@ -178,7 +206,7 @@ export default function BranchPage({ params }: { params: Promise<{ branch: strin
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.03 }}
-                  onClick={() => router.push(`/pyqs/${branch}?subject=${encodeURIComponent(subject.displayName)}`)}
+                  onClick={() => router.push(`/pyqs/${branchFromUrl}?subject=${encodeURIComponent(subject.displayName)}`)}
                   className="group relative bg-card border border-border rounded-2xl p-6 text-left
                     hover:border-foreground/20 hover:shadow-lg hover:shadow-black/5
                     transition-all duration-300"

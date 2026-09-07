@@ -66,8 +66,10 @@ export default function PYQLibraryPage() {
         }));
         setBranches(mapped);
         const total = mapped.reduce((sum: number, b: any) => sum + (b.questionCount || 0), 0);
-        const yMin = Math.min(...mapped.map((b: any) => b.yearMin).filter(Boolean));
-        const yMax = Math.max(...mapped.map((b: any) => b.yearMax).filter(Boolean));
+        const yearMins = mapped.map((b: any) => b.yearMin).filter((y: any) => typeof y === "number");
+        const yearMaxs = mapped.map((b: any) => b.yearMax).filter((y: any) => typeof y === "number");
+        const yMin = yearMins.length ? Math.min(...yearMins) : 2024;
+        const yMax = yearMaxs.length ? Math.max(...yearMaxs) : 2024;
         setStats({ total, branchCount: mapped.length, yearMin: yMin, yearMax: yMax });
       })
       .catch(() => {});
@@ -102,8 +104,29 @@ export default function PYQLibraryPage() {
     return icons[code] || "📚";
   };
 
-  if (selectedBranch && view === "library") {
-    router.push(`/pyqs/${selectedBranch}`);
+  const [mounted, setMounted] = useState(false);
+
+  // Client-only redirect to avoid SSR hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+    if (selectedBranch && view === "library") {
+      router.push(`/pyqs/${selectedBranch}`);
+    }
+  }, [selectedBranch, view, router]);
+
+  if (!mounted) {
+    return (
+      <main className="min-h-screen bg-background">
+        <Nav />
+        <div className="pt-32 flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-sm text-muted">Loading PYQ Library…</p>
+          </div>
+        </div>
+        <Footer />
+      </main>
+    );
   }
 
   return (

@@ -7,7 +7,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { createServiceClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
   try {
@@ -31,14 +31,44 @@ export async function GET(request: Request) {
     const pageSize = Math.min(parseInt(searchParams.get("pageSize") || "20"), 100);
 
     // ─── Premium check for topic filter ──────────────────────────────────
-    // Topic filtering is premium-only
     if (topic) {
-      // In a real implementation, check user's premium status here
-      // For now, we allow it but the frontend handles the premium gate
+      const supabase = await createServerClient();
+      if (!supabase) {
+        return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+      }
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) {
+        return NextResponse.json(
+          { error: "Topic filtering requires authentication. Please sign in.", requiresAuth: true },
+          { status: 401 }
+        );
+      }
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("plan")
+        .eq("id", session.user.id)
+        .maybeSingle();
+      const isPremium = (profile?.plan as string | null) === "monthly_premium" ||
+                        (profile?.plan as string | null) === "weekly_premium";
+      if (!isPremium) {
+        const { data: sub } = await supabase
+          .from("user_subscriptions")
+          .select("plan")
+          .eq("user_id", session.user.id)
+          .eq("status", "active")
+          .gte("expires_at", new Date().toISOString())
+          .maybeSingle();
+        if (!sub) {
+          return NextResponse.json(
+            { error: "Topic filtering is a Premium feature. Please upgrade to access.", requiresPremium: true },
+            { status: 403 }
+          );
+        }
+      }
     }
 
     // ─── Build query ────────────────────────────────────────────────────
-    const supabase = await createServiceClient();
+    const supabase = await createServerClient();
     if (!supabase) {
       return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
     }

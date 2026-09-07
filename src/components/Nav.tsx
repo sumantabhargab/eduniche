@@ -35,28 +35,12 @@ function NavInner() {
             GATE
           </Link>
           <Link
-            href="/game"
+            href="/pyqs"
             className={`text-sm transition-colors ${
-              isActive("/game", true) ? "text-accent" : "text-muted hover:text-foreground"
+              isActive("/pyqs", true) ? "text-accent" : "text-muted hover:text-foreground"
             }`}
           >
-            GATE Arcade
-          </Link>
-          <Link
-            href="/doubts"
-            className={`text-sm transition-colors ${
-              isActive("/doubts") ? "text-accent" : "text-muted hover:text-foreground"
-            }`}
-          >
-            Doubt Engine
-          </Link>
-          <Link
-            href="/library"
-            className={`text-sm transition-colors ${
-              isActive("/library", true) ? "text-accent" : "text-muted hover:text-foreground"
-            }`}
-          >
-            Library
+            PYQs
           </Link>
           <Link
             href="/mock-tests"
@@ -67,31 +51,61 @@ function NavInner() {
             Mock Tests
           </Link>
           <Link
-            href="/pyqs"
+            href="/study-plan"
             className={`text-sm transition-colors ${
-              isActive("/pyqs", true) ? "text-accent" : "text-muted hover:text-foreground"
+              isActive("/study-plan", true) ? "text-accent" : "text-muted hover:text-foreground"
             }`}
           >
-            PYQs
+            Study Plan
+          </Link>
+          <Link
+            href="/formulas"
+            className={`text-sm transition-colors ${
+              isActive("/formulas", true) ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            Formulas
+          </Link>
+          <Link
+            href="/cutoffs"
+            className={`text-sm transition-colors ${
+              isActive("/cutoffs", true) ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            Cutoffs
+          </Link>
+          <Link
+            href="/game"
+            className={`text-sm transition-colors ${
+              isActive("/game", true) ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            Arcade
+          </Link>
+          <Link
+            href="/library-world/game"
+            className={`text-sm transition-colors ${
+              isActive("/library-world/game", true) ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            🎮 Mystery Game
+          </Link>
+          <Link
+            href="/doubts"
+            className={`text-sm transition-colors ${
+              isActive("/doubts") ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            Doubts
           </Link>
           {isAuthenticated && (
             <Link
-              href="/leaderboard"
+              href="/revision"
               className={`text-sm transition-colors ${
-                isActive("/leaderboard") ? "text-accent" : "text-muted hover:text-foreground"
+                isActive("/revision", true) ? "text-accent" : "text-muted hover:text-foreground"
               }`}
             >
-              Leaderboard
-            </Link>
-          )}
-          {isAuthenticated && (
-            <Link
-              href="/chat"
-              className={`text-sm transition-colors ${
-                isActive("/chat") ? "text-accent" : "text-muted hover:text-foreground"
-              }`}
-            >
-              Chat
+              Revision
             </Link>
           )}
         </div>
@@ -199,10 +213,10 @@ function NavInner() {
           </Link>
         )}
         <button
-            onClick={() => setMobileOpen((v) => !v)}
-            className="flex items-center justify-center w-9 h-9 text-muted hover:text-foreground"
-            aria-label="Toggle menu"
-          >
+          onClick={() => setMobileOpen((v) => !v)}
+          className="flex items-center justify-center w-9 h-9 text-muted hover:text-foreground"
+          aria-label="Toggle menu"
+        >
           {mobileOpen ? (
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -220,13 +234,17 @@ function NavInner() {
         <div className="md:hidden border-t border-border bg-background">
           <div className="px-6 py-4 space-y-3">
             <Link href="/gate" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">GATE</Link>
+            <Link href="/pyqs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">PYQs</Link>
+            <Link href="/mock-tests" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Mock Tests</Link>
+            <Link href="/study-plan" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Study Plan</Link>
+            <Link href="/formulas" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Formulas</Link>
+            <Link href="/cutoffs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Cutoffs</Link>
             <Link href="/game" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">GATE Arcade</Link>
             <Link href="/doubts" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Doubt Engine</Link>
             <Link href="/library" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Library</Link>
-            <Link href="/mock-tests" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Mock Tests</Link>
-            <Link href="/pyqs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">PYQs</Link>
             {isAuthenticated && (
               <>
+                <Link href="/revision" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Revision</Link>
                 <Link href="/leaderboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Leaderboard</Link>
                 <Link href="/chat" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Chat</Link>
                 {user?.role === "admin" && (

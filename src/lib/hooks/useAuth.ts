@@ -39,10 +39,14 @@ export function useAuth() {
         if (data.user) {
           setUser(data.user as AuthUser);
           setNeedsUsername(data.user.hasUsername === false);
+          return;
         }
       }
-    } catch (e) {
-      // ignore
+      // Not authenticated
+      setUser(null);
+      setNeedsUsername(false);
+    } catch {
+      setUser(null);
     } finally {
       setLoading(false);
     }
@@ -50,6 +54,43 @@ export function useAuth() {
 
   useEffect(() => {
     fetchProfile();
+
+    // Listen for auth state changes (login, logout, token refresh)
+    let unsub: (() => void) | undefined;
+    let retryTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const init = async () => {
+      try {
+        const { createBrowserClient } = await import("@/lib/supabase/client");
+        const supabase = createBrowserClient();
+        if (!supabase) return;
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+          (event, session) => {
+            if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED" || event === "INITIAL_SESSION") {
+              // Refresh profile when auth state changes
+              clearTimeout(retryTimer);
+              retryTimer = setTimeout(() => fetchProfile(), 100);
+            } else if (event === "SIGNED_OUT") {
+              setUser(null);
+              setNeedsUsername(false);
+              setLoading(false);
+            }
+          }
+        );
+
+        unsub = () => subscription.unsubscribe();
+      } catch {
+        // supabase client init failed silently
+      }
+    };
+
+    init();
+
+    return () => {
+      if (unsub) unsub();
+      if (retryTimer) clearTimeout(retryTimer);
+    };
   }, [fetchProfile]);
 
   const refresh = useCallback(() => {

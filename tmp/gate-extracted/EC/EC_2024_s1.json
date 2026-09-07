@@ -1,0 +1,944 @@
+[
+  {
+    "question_number": 1,
+    "section": "GA",
+    "marks": 1,
+    "question_type": "MCQ",
+    "question_text": "If `' denotes increasing order of intensity, then the meaning of the words [charm enamor bewitch] is analogous to [bored _______ weary]. Which one of the given options is appropriate to fill the blank?",
+    "options": [
+      "jaded",
+      "baffled",
+      "dead",
+      "worsted"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 2,
+    "section": "GA",
+    "marks": 1,
+    "question_type": "MCQ",
+    "question_text": "P, Q, R, S, and T have launched a new startup. Two of them are siblings. The office of the startup has just three rooms. All of them agree that the siblings should not share the same room. If S and Q are single children, and the room allocations shown below are acceptable to all, PR TS Q PQ RT S then, which one of the given options is the siblings?",
+    "options": [
+      "P and T",
+      "P and S",
+      "T and Q",
+      "T and R"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 3,
+    "section": "GA",
+    "marks": 1,
+    "question_type": "MCQ",
+    "question_text": "Five years ago, the ratio of Aman's age to his father's age was 1:4, and five years from now, the ratio will be 2:5. What was his father's age when Aman was born?",
+    "options": [
+      "28 years",
+      "30 years",
+      "35 years",
+      "32 years"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 4,
+    "section": "GA",
+    "marks": 1,
+    "question_type": "MCQ",
+    "question_text": "For a real number > 1, 1 1 1 log2 + log3 + log4 = 1 The value of is",
+    "options": [
+      "4",
+      "12",
+      "24",
+      "36"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 5,
+    "section": "GA",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The greatest prime factor of (3199 - 3196) is",
+    "options": [
+      "13",
+      "17",
+      "3",
+      "11"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 6,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Sequence the following sentences (P, Q, R, S) in a coherent passage: P: Shifu's student exclaimed, \"Why do you run since the bull is an illusion?\" Q: Shifu said, \"Surely my running away from the bull is also an illusion.\" R: Shifu once proclaimed that all life is illusion. S: One day, when a bull gave him chase, Shifu began running for his life.",
+    "options": [
+      "SPRQ",
+      "SRPQ",
+      "RSPQ",
+      "RPQS"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 7,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Four identical cylindrical chalk-sticks, each of radius = 0.5 cm and length = 10 cm, are bound tightly together using a duct tape as shown in the following figure. The width of the duct tape is equal to the length of the chalk-stick. The area (in cm2) of the duct tape required to wrap the bundle of chalk-sticks once, is",
+    "options": [
+      "20 (4 + )",
+      "20 (8 + )",
+      "10 (8 + )",
+      "10 (4 + )"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 8,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The bar chart shows the data for the percentage of population falling into different categories based on Body Mass Index (BMI) in 2003 and 2023. 2023 2003 Obese Overweight Normal Underweight 0% 5% 10% 15% 20% 25% 30% 35% 40% 45% 50% 55% Percentage of population Based on the data provided, which one of the following options is INCORRECT?",
+    "options": [
+      "The ratio of the percentage of population falling into overweight category to the",
+      "The ratio of the percentage of population falling into underweight category to the",
+      "The ratio of the percentage of population falling into obese category to the",
+      "The percentage of population falling into normal category has decreased in 20 years."
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 9,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Examples of mirror and water reflections are shown in the figures below: An object appears as the following image after first reflecting in a mirror and then reflecting on water. The original object is",
+    "options": [
+      "(B)",
+      "(D)"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 10,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Two identical sheets A and B, of dimensions 24 cm � 16 cm, can be folded into half using two distinct operations, FO1 or FO2. In FO1, the axis of folding remains parallel to the initial long edge, and in FO2, the axis of folding remains parallel to the initial short edge. If sheet A is folded twice using FO1, and sheet B is folded twice using FO2, the ratio of the perimeters of the final shapes of A and B is",
+    "options": [
+      "14:11",
+      "11:14",
+      "18:11",
+      "11:18"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 11,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The general form of the complementary function of a differential equation is given by y(t) = ( At + B) e-2t , where A and B are real constants determined by the initial condition. The corresponding differential equation is _____.",
+    "options": [
+      "d2 y + 4 dy + 4y = f (t)",
+      "d2 y",
+      "d2 y + 3 dy + 2 y = f (t)",
+      "d2 y + 5 dy +6y = f (t )"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 12,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "In the context of Bode magnitude plots, 40 dB/decade is the same as _______.",
+    "options": [
+      "12 dB/octave",
+      "6 dB/octave",
+      "20 dB/octave",
+      "10 dB/octave"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 13,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "s(s +1)(s + 2) R(s) + + E(s) G(s) Y (s) - R(s),Y (s), and E(s) are the Laplace transforms of r(t), y(t), and e(t) , respectively. If the input r(t) is a unit step function, then __________.",
+    "options": [
+      "lim e(t) = 0",
+      "lim e(t) = 1",
+      "lim e(t) = 1",
+      "lim e(t) does not exist, e(t) is oscillatory"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 14,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A digital communication system transmits through a noiseless bandlimited channel [- ]. The received signal z(t) at the output of the receiving filter is given by z(t) = b[n]x(t - nT ) where b[n] are the symbols and x(t) is the overall system n response to a single symbol. The received signal is sampled at = . The Fourier transform of x(t) is X ( f ) . The Nyquist condition that X ( f ) must satisfy for zero intersymbol interference at the receiver is ______.",
+    "options": [
+      "f + m = T",
+      "X f + m = 1",
+      "X ( f + mT ) = 1"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 15,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a lossless transmission line terminated with a short circuit as shown in the figure below. As one moves towards the generator from the load, the normalized impedances zinA , zinB , zinC , and zinD (indicated in the figure) are _______. /8 /8 /8 /8 zinD zinC zinB zinA -l 0z",
+    "options": [
+      "zinA = +1 , zinB = , zinC = -1 , zinD = 0",
+      "zinA = , zinB = +0.4 , zinC = 0 , zinD = +0.4",
+      "zinA = -1 , zinB = 0, zinC = +1 , zinD =",
+      "zinA = +0.4 , zinB = , zinC = -0.4 , zinD = 0"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 16,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Let i^ and ^j be the unit vectors along and axes, respectively and let A be a positive constant. Which one of the following statements is true for the vector fields F1 = A(i^y + ^jx) and F2 = A(i^y - ^jx) ?",
+    "options": [
+      "Both F1 and F2 are electrostatic fields.",
+      "Only F1 is an electrostatic field.",
+      "Only F2 is an electrostatic field.",
+      "Neither F1 nor F2 is an electrostatic field."
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 17,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "In the circuit below, assume that the long channel NMOS transistor is biased in saturation. The small signal trans-conductance of the transistor is gm . Neglect body effect, channel length modulation and intrinsic device capacitances. The small signal input impedance Zin ( j) is _______. Zin ( j) C1 CL",
+    "options": [
+      "-gm + 1 + 1",
+      "gm + 1 + 1",
+      "1+ 1",
+      "-gm + 1"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 18,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "For the closed loop amplifier circuit shown below, the magnitude of open loop low frequency small signal voltage gain is 40. All the transistors are biased in saturation. The current source ISS is ideal. Neglect body effect, channel length modulation and intrinsic device capacitances. The closed loop low frequency small signal voltage gain (rounded off to three decimal places) is ____. VDD vin vout",
+    "options": [
+      "0.976 ISS",
+      "1.000",
+      "1.025",
+      "0.488"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 19,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "For the Boolean function (, , , ) = (0,2,5,7,8,10,12,13,14,15), the essential prime implicants are __________.",
+    "options": [
+      ",",
+      ",",
+      ",",
+      ", ,"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 20,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A white Gaussian noise w(t) with zero mean and power spectral density N0 , 2 when applied to a first-order RC low pass filter produces an output (). At a particular time = , the variance of the random variable () is ________.",
+    "options": [
+      "N0",
+      "N0",
+      "N0",
+      "2N0"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 21,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A causal and stable LTI system with impulse response () produces an output () for an input signal (). A signal (0.5) is applied to another causal and stable LTI system with impulse response (0.5). The resulting output is _____.",
+    "options": [
+      "2(0.5)",
+      "4(0.5)",
+      "0.25(2)",
+      "0.25(0.25)"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 22,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "For non-degenerately doped n-type silicon, which one of the following plots represents the temperature () dependence of free electron concentration ()?",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 23,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "In the circuit shown, the : 1 step-down transformer and the diodes are ideal. The diodes have no voltage drop in forward biased condition. If the input voltage (in Volts) is () = 10sin and the average value of load voltage () (in Volts) is 2.5/ , the value of is ______.",
+    "options": [
+      "4",
+      "8",
+      "12",
+      "16"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 24,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "For a causal discrete-time LTI system with transfer function () = ( 22+3 13) + 13)( - which of the following statements is/are true?",
+    "options": [
+      "The system is stable.",
+      "The system is a minimum phase system.",
+      "The initial value of the impulse response is 2.",
+      "The final value of the impulse response is 0."
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 25,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Let (x, y, z,t) and u(x, y, z,t) represent density and velocity, respectively, at a point (x, y, z) and time . Assume is continuous. Let V be an arbitrary volume t in space enclosed by the closed surface S and n^ be the outward unit normal of S Which of the following equations is/are equivalent to + (u) = 0 ? t",
+    "options": [
+      "dv = - u n^ ds",
+      "dv = u n^ ds",
+      "dv = - ( u) dv",
+      "dv = (u) dv"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 26,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The free electron concentration profile n(x) in a doped semiconductor at equilibrium is shown in the figure, where the points A, B, and C mark three different positions. Which of the following statements is/are true?",
+    "options": [
+      "For between B and C, the electron diffusion current is directed from C to B.",
+      "For between B and A, the electron drift current is directed from B to A.",
+      "For between B and C, the electric field is directed from B to C.",
+      "For between B and A, the electric field is directed from A to B."
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 27,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "A machine has a 32-bit architecture with 1-word long instructions. It has 24 registers and supports an instruction set of size 40. Each instruction has five distinct fields, namely opcode, two source register identifiers, one destination register identifier, and an immediate value. Assuming that the immediate operand is an unsigned integer, its maximum value is ________. Electronics and Communication Engineering (EC)",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 28,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "An amplitude modulator has output (in Volts) s(t) = Acos(400t) + B cos(360t) + B cos(440t) . The carrier power normalized to 1 resistance is 50 Watts. The ratio of the total sideband power to the total power is 1/9. The value of (in Volts, rounded off to two decimal places) is _______ .",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 29,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "In a number system of base , the equation 2 - 12 + 37 = 0 has = 8 as one of its solutions. The value of is _______.",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 30,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "Let and 3 denote the set of real numbers and the three dimensional vector space over it, respectively. The value of for which the set of vectors {[2 -3 ], [3 -1 3], [1 -5 7]} does not form a basis of 3 is _______. Electronics and Communication Engineering (EC)",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 31,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "In the given circuit, the current Ix (in mA) is ______. 1000 I0 -+ 5 mA 1k 1k 1k I0 Ix 2 mA",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 32,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "In the circuit given below, the switch S was kept open for a sufficiently long time and is closed at time = 0. The time constant (in seconds) of the circuit for > 0 is _______. t=0 3H S 5A 2 4 4",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 33,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "Suppose X and Y are independent and identically distributed random variables that are distributed uniformly in the interval [0,1] . The probability that X Y is _______ . Electronics and Communication Engineering (EC)",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 34,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "A source transmits symbols from an alphabet of size 16. The value of maximum achievable entropy (in bits) is _______ .",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 35,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "As shown in the circuit, the initial voltage across the capacitor is 10 V, with the switch being open. The switch is then closed at = 0. The total energy dissipated in the ideal Zener diode ( = 5 ) after the switch is closed (in mJ, rounded off to three decimal places) is __________. = 0 10 k 10 F + = 5 V (0-) = 10 V - Electronics and Communication Engineering (EC) Q.36 � Q.65 Carry TWO marks Each",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 36,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider the Earth to be a perfect sphere of radius R. Then the surface area of the region, enclosed by the 60�N latitude circle, that contains the north pole in its interior is _______.",
+    "options": [
+      "(2 - 3) R2",
+      "( 2 -1) R2",
+      "2 R2",
+      "(2 + 3) R2"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 37,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a unity negative feedback control system with forward path gain G(s) = K as shown. (s +1)(s + 2)(s + 3) R(s)+ + G(s) Y (s) - The impulse response of the closed-loop system decays faster than e-t if _______.",
+    "options": [
+      "1 K 5",
+      "7 K 21",
+      "-4 K -1",
+      "-24 K -6"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 38,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A satellite attitude control system, as shown below, has a plant with transfer function G(s) = 1 cascaded with a compensator C(s) = K (s + ) , where and s2 s+4 are positive real constants. R(s) + + C(s) G(s) Y (s) - In order for the closed-loop system to have poles at -1 j 3 , the value of must be _______.",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 39,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "- j 2 x A uniform plane wave with electric field E(x) = Aya^ye 3 V/m is travelling in the air (relative permittivity, �r = 1and relative permeability, r = 1) in the + direction ( Ay is a positive constant, a^y is the unit vector along the axis). It is incident normally on an ideal electric conductor (conductivity, = ) at = 0. The position of the first null of the total magnetic field in the air (measured from = 0, in metres) is _______.",
+    "options": [
+      "-3",
+      "-3",
+      "-6",
+      "-3"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 40,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A 4-bit priority encoder has inputs 3, 2, 1, and 0 in descending order of priority. The two-bit output is generated as 00, 01, 10, and 11 corresponding to inputs 3, 2, 1, and 0, respectively. The Boolean expression of the output bit is _______.",
+    "options": [
+      "3 2",
+      "32 + 3 1",
+      "32 + 3 1",
+      "3 1"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 41,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The propagation delay of the 2 � 1 MUX shown in the circuit is 10 ns. Consider the propagation delay of the inverter as 0 ns. 0 2X1 MUX Y 1 S If S is set to 1 then the output Y is _______.",
+    "options": [
+      "a square wave of frequency 100 MHz",
+      "a square wave of frequency 50 MHz",
+      "constant at 0",
+      "constant at 1"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 42,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The sequence of states (10) of the given synchronous sequential circuit is _______. T1 Q1 T0 Q0 Q1 Q0 CLK",
+    "options": [
+      "00 10 11 00",
+      "11 00 10 01 00",
+      "01 10 11 00 01",
+      "00 01 10 00"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 43,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Let z be a complex variable. If sin( z) and C is the circle in the complex f (z) = z2 (z - 2) plane with z = 3 then f (z)dz is _______. C",
+    "options": [
+      "2 j",
+      "j 1 -",
+      "j 1 +",
+      "- 2 j"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 44,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider two continuous time signals () and () as shown below () () 1 -1 0.5 0 -2 0 2 -1 If () denotes the Fourier transform of (), then the Fourier transform of () is _______.",
+    "options": [
+      "-4(4)-",
+      "-4(4)-4",
+      "- 1 (/4) -",
+      "- 1 (/4) -4"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 45,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A source transmits a symbol s, taken from {-4, 0, 4} with equal probability, over an additive white Gaussian noise channel. The received noisy symbol r is given by r = s + w, where the noise w is zero mean with variance 4 and is independent of s. Using () = 1 -2 , the optimum symbol error probability is _______. 2 2",
+    "options": [
+      "2 Q(2)",
+      "4 Q(1)",
+      "2 Q(1)",
+      "4 Q(2)"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 46,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A full scale sinusoidal signal is applied to a 10-bit ADC. The fundamental signal component in the ADC output has a normalized power of 1 W, and the total noise and distortion normalized power is 10 W. The effective number of bits (rounded off to the nearest integer) of the ADC is _______.",
+    "options": [
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 47,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The information bit sequence {1 1 1 0 1 0 1 0 1} is to be transmitted by encoding with Cyclic Redundancy Check 4 (CRC-4) code, for which the generator polynomial is () = 4 + + 1. The encoded sequence of bits is ________.",
+    "options": [
+      "{1 1 1 0 1 0 1 0 1 1 1 0 0}",
+      "{1 1 1 0 1 0 1 0 1 1 1 0 1}",
+      "{1 1 1 0 1 0 1 0 1 1 1 1 0}",
+      "{1 1 1 0 1 0 1 0 1 0 1 0 0}"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 48,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "A continuous time signal () = 2 cos(8 + /3) is sampled at a rate of 15 Hz. The sampled signal () when passed through an LTI system with impulse response () = (sin 2) cos(38 - /2) produces an output (). The expression for () is _____.",
+    "options": [
+      "15 sin(38 + /3)",
+      "15 sin(38 - /3)",
+      "15 cos(38 - /6)",
+      "15 cos(38 + /6)"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 49,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The opamps in the circuit shown are ideal, but have saturation voltages of �10 V. Assume that the initial inductor current is 0 A. The input voltage (Vi) is a triangular signal with peak voltages of �2 V and time period of 8 �s. Which one of the following statements is true?",
+    "options": [
+      "V01 is delayed by 2 �s relative to Vi, and V02 is a triangular waveform.",
+      "V01 is not delayed relative to Vi, and V02 is a trapezoidal waveform.",
+      "V01 is not delayed relative to Vi, and V02 is a triangular waveform.",
+      "V01 is delayed by 1 �s relative to Vi, and V02 is a trapezoidal waveform."
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 50,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "In the circuit below, the opamp is ideal. R1 _ C R R + R C If the circuit is to show sustained oscillations, the respective values of 1 and the corresponding frequency of oscillation are _____.",
+    "options": [
+      "29 and 1/(26)",
+      "2 and 1/(2)",
+      "29 and 1/(2)",
+      "2 and 1/(26)"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 51,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "In the circuit shown below, the transistors M1 and M 2 are biased in saturation. Their small signal transconductances are gm1 and gm2 respectively. Neglect body effect, channel length modulation and intrinsic device capacitances. VDD Iref VDD RD M1 RB vout RS M2 C1 vin Assuming that capacitor C1 is a short circuit for AC analysis, the exact magnitude of small signal voltage gain || is ______.",
+    "options": [
+      "gm2 RD",
+      "1",
+      "1",
+      "1"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 52,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Which of the following statements is/are true for a BJT with respect to its DC current gain ?",
+    "options": [
+      "Under high-level injection condition in forward active mode, will decrease with",
+      "Under low-level injection condition in forward active mode, where the current at",
+      "will be lower when the BJT is in saturation region compared to when it is in",
+      "A higher value of will lead to a lower value of the collector-to-emitter"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 53,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider a system S represented in state space as dx = 0 -2 x + 1 r , y =2 -5 x . dt 1 -3 0 Which of the state space representations given below has/have the same transfer function as that of S ?",
+    "options": [
+      "dx = 0 1 0 y = 1 2 x",
+      "dx = 0 1 x + 1 r y = 0 2 x",
+      "dx = -1 0 -1 y = 1 1 x",
+      "dx = -1 0 x + 1 r y = 1 2 x"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 54,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Let F1, F2, and F3 be functions of (x, y, z) . Suppose that for every given pair of points and in space, the line integral C ( F1dx + F2dy + F3dz ) evaluates to the same value along any path C that starts at and ends at B . Then which of the following is/are true?",
+    "options": [
+      "For every closed path , we have (F1dx + F2dy + F3dz) = 0 .",
+      "There exists a differentiable scalar function f (x, y, z) such that",
+      "F1 + F2 + F3 = 0 .",
+      "F3 = F2 , F1 = F3 , F2 = F1 ."
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 55,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "Consider the matrix 2 , where real Which the 1 following vectors is/are eigenvector(s) of this matrix?",
+    "options": [
+      "1",
+      "1",
+      "2k",
+      "2k"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 56,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "MCQ",
+    "question_text": "The radian frequency value(s) for which the discrete time sinusoidal signal [] = cos( + /3) has a period of 40 is/are ______.",
+    "options": [
+      "0.15",
+      "0.225",
+      "0.3",
+      "0.45"
+    ],
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 57,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "Let X (t) = Acos(2 f0t + ) be a random process, where amplitude A and phase are independent of each other, and are uniformly distributed in the intervals [-2, 2] and [0, 2 ] , respectively. X (t) is fed to an 8-bit uniform mid-rise type quantizer. Given that the autocorrelation of X (t) is RX ( ) = 2 cos(2 f0 ) , the signal to 3 quantization noise ratio (in dB, rounded off to two decimal places) at the output of the quantizer is __________.",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 58,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "A lossless transmission line with characteristic impedance Z0 = 50 is terminated with an unknown load. The magnitude of the reflection co-efficient is | | = 0.6. As one moves towards the generator from the load, the maximum value of the input impedance magnitude looking towards the load (in ) is _______.",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 59,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "The relationship between any N-length sequence [] and its corresponding N-point discrete Fourier transform [] is defined as [] = {[]}. Another sequence [] is formed as below [] = { {{{[]}}}} . For the sequence [] = {1, 2, 1, 3}, the value of [0] is _______. Electronics and Communication Engineering (EC)",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 60,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "For the two port network shown below, the value of the Y21 parameter (in Siemens) is ______. I1 I2 1 +2 + 4 2 - V2 V1 + 8V1 1' - - 2'",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 61,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "Consider a MOS capacitor made with p-type silicon. It has an oxide thickness of 100 nm, a fixed positive oxide charge of 10-8 C/cm2 at the oxide-silicon interface, and a metal work function of 4.6 eV. Assume that the relative permittivity of the oxide is 4 and the absolute permittivity of free space is 8.85 � 10-14 F/cm. If the flatband voltage is 0 V, the work function of the p-type silicon (in eV, rounded off to two decimal places) is ______.",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 62,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "In the network shown below, maximum power is to be transferred to the load . 2 3 50 V - vx + -+ vx 2 RL The value of (in ) is ________ . Electronics and Communication Engineering (EC)",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 63,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "A non-degenerate n-type semiconductor has 5 % neutral dopant atoms. Its Fermi level is located at 0.25 eV below the conduction band () and the donor energy level () has a degeneracy of 2. Assuming the thermal voltage to be 20 mV, the difference between and (in eV, rounded off to two decimal places) is _________.",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 64,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "An NMOS transistor operating in the linear region has of 5 A at of 0.1 V. Keeping constant, the is increased to 1.5 V. Given that = 50 A/V2, the transconductance at the new operating point (in A/V, rounded off to two decimal places) is ______.",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  },
+  {
+    "question_number": 65,
+    "section": "EC",
+    "marks": 2,
+    "question_type": "NAT",
+    "question_text": "The photocurrent of a PN junction diode solar cell is 1 mA. The voltage corresponding to its maximum power point is 0.3 V. If the thermal voltage is 30 mV, the reverse saturation current of the diode (in nA, rounded off to two decimal places) is _____.",
+    "options": null,
+    "branch": "EC",
+    "year": 2024,
+    "session": "1"
+  }
+]
