@@ -7,7 +7,7 @@
 
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { virtualLibraryConfig } from "../../config/feature-flags";
@@ -93,6 +93,47 @@ const navItems = [
 export function LibraryLayout({ children }: LibraryLayoutProps) {
   const pathname = usePathname();
 
+  // ─── Fullscreen toggle: focuses <main> and exits/enters fullscreen on it ──
+  const enterFullscreen = useCallback(async (el: Element) => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const anyEl = el as any;
+      if (anyEl.requestFullscreen) await anyEl.requestFullscreen();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      else if (anyEl.webkitRequestFullscreen) await anyEl.webkitRequestFullscreen();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      else if (anyEl.msRequestFullscreen) await anyEl.msRequestFullscreen();
+    } catch {
+      // ignore — fullscreen may be blocked by browser policy
+    }
+  }, []);
+
+  const exitFullscreen = useCallback(async () => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const d = document as any;
+      if (d.fullscreenElement || d.webkitFullscreenElement || d.msFullscreenElement) {
+        if (d.exitFullscreen) await d.exitFullscreen();
+        else if (d.webkitExitFullscreen) await d.webkitExitFullscreen();
+        else if (d.msExitFullscreen) await d.msExitFullscreen();
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const toggleFullscreen = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const d = document as any;
+    const inFs = !!(d.fullscreenElement || d.webkitFullscreenElement || d.msFullscreenElement);
+    if (inFs) {
+      void exitFullscreen();
+    } else {
+      const main = document.getElementById("library-main");
+      if (main) void enterFullscreen(main);
+    }
+  }, [enterFullscreen, exitFullscreen]);
+
   if (!virtualLibraryConfig.enabled) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -137,12 +178,29 @@ export function LibraryLayout({ children }: LibraryLayoutProps) {
                 </Link>
               );
             })}
+
+            {/* Fullscreen toggle */}
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              aria-label="Toggle fullscreen"
+              title="Toggle fullscreen mode"
+              className="ml-1 px-3 py-1.5 rounded-lg text-sm font-medium text-muted hover:text-foreground hover:bg-accent/50 transition-colors flex items-center gap-1.5"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3" />
+                <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
+                <path d="M3 16v3a2 2 0 0 0 2 2h3" />
+                <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+              </svg>
+              <span className="hidden lg:inline">Fullscreen</span>
+            </button>
           </div>
         </div>
       </nav>
 
-      {/* Main content */}
-      <main className="max-w-6xl mx-auto px-4 py-6">
+      {/* Main content — anchor target for fullscreen */}
+      <main id="library-main" className="max-w-6xl mx-auto px-4 py-6">
         {children}
       </main>
     </div>

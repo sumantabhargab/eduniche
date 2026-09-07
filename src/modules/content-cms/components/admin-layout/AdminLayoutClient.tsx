@@ -120,32 +120,6 @@ function AdminInner({ admin, children }: AdminLayoutClientProps) {
             {!collapsed && <span>Files</span>}
           </a>
           <a
-            href="/admin/game/questions"
-            className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
-              isActive("/admin/game")
-                ? "bg-accent-subtle text-accent"
-                : "text-muted hover:text-foreground hover:bg-background-alt"
-            }`}
-          >
-            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992h4.992m-4.992 0h4.013m12.993 0h4.012m-12.993 0v4.992m0-4.992h4.992m0 0v4.992m0-4.992h4.992m0 0v4.992" />
-            </svg>
-            {!collapsed && <span>Game Questions</span>}
-          </a>
-          <a
-            href="/admin/mock-tests"
-            className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
-              isActive("/admin/mock-tests")
-                ? "bg-accent-subtle text-accent"
-                : "text-muted hover:text-foreground hover:bg-background-alt"
-            }`}
-          >
-            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v8.25A2.25 2.25 0 006 16.5h.75m3 0v3.75m-3 0v3.75" />
-            </svg>
-            {!collapsed && <span>Mock Tests</span>}
-          </a>
-          <a
             href="/"
             className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
               isActive("/")

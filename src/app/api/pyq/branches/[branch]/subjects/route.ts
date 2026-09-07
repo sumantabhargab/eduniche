@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/server";
 import { resolveBranch, getSubjectsForBranch } from "@/lib/pyq/branches";
+import { getStaticSubjectsForBranch } from "@/lib/pyq/static-questions";
 
 export async function GET(request: Request, { params }: { params: Promise<{ branch: string }> }) {
   try {
@@ -35,7 +36,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ bran
       }
     }
 
-    // If DB has data, build from DB; otherwise fall back to static registry
+    // If DB has data, build from DB; otherwise fall back to static bank
     if (dbSubjects.length > 0) {
       const subjectMap = new Map<string, {
         subjectName: string;
@@ -79,9 +80,15 @@ export async function GET(request: Request, { params }: { params: Promise<{ bran
       return NextResponse.json({ subjects, total: subjects.length, branch: { branchName: branch.branchName, displayName: branch.displayName } });
     }
 
-    // Fallback: build subjects from static registry
-    const staticSubjects = getSubjectsForBranch(branch.branchCode);
-    const subjects = staticSubjects.map((s, idx) => ({
+    // Fallback 1: use static question bank if available
+    const bankSubjects = getStaticSubjectsForBranch(branch.branchCode);
+    if (bankSubjects.length > 0) {
+      return NextResponse.json({ subjects: bankSubjects, total: bankSubjects.length, branch: { branchName: branch.branchName, displayName: branch.displayName } });
+    }
+
+    // Fallback 2: use the static registry with subject metadata
+    const registrySubjects = getSubjectsForBranch(branch.branchCode);
+    const subjects = registrySubjects.map((s, idx) => ({
       subjectName: s.subjectName,
       displayName: s.displayName,
       displayOrder: s.displayOrder || idx + 1,

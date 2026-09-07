@@ -28,8 +28,6 @@ const BREADCRUMB_LABELS: Record<string, string> = {
 };
 
 const PAGE_LABELS: Record<string, string> = {
-  diagnostic: "Diagnostic",
-  plan: "Study Plan",
   practice: "Practice",
   doubt: "Doubt Engine",
   questions: "Questions",

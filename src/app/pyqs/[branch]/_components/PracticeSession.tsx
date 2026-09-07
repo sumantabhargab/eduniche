@@ -32,6 +32,7 @@ import { useAuth } from "@/lib/hooks/useAuth";
 import { useRouter, useSearchParams } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import { MultiplayerPracticePanel } from "@/modules/virtual-library/world/MultiplayerPracticePanel";
 
 type Mode = "practice" | "exam";
 type AnswerState = "unanswered" | "correct" | "incorrect";
@@ -76,6 +77,7 @@ export default function PracticeSession() {
   const [typeFilter, setTypeFilter] = useState<string>("");
   const [totalTime, setTotalTime] = useState(0);
   const [submittedExams, setSubmittedExams] = useState<Set<number>>(new Set());
+  const [multiplayerOpen, setMultiplayerOpen] = useState(false);
 
   // Fetch questions
   useEffect(() => {
@@ -283,7 +285,7 @@ export default function PracticeSession() {
             </div>
           </div>
 
-          {/* Right: mode + timer */}
+          {/* Right: mode + timer + multiplayer */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1 text-xs text-muted">
               <Clock className="w-3.5 h-3.5" />
@@ -298,6 +300,23 @@ export default function PracticeSession() {
               }`}
             >
               {mode === "exam" ? "📝 Exam Mode" : "📖 Practice Mode"}
+            </button>
+            <button
+              onClick={() => setMultiplayerOpen((prev) => !prev)}
+              className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors flex items-center gap-1.5 ${
+                multiplayerOpen
+                  ? "bg-accent/20 text-foreground"
+                  : "bg-foreground/5 text-muted hover:text-foreground"
+              }`}
+              title="Study with others (multiplayer)"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              <span className="hidden sm:inline">Together</span>
             </button>
           </div>
         </div>
@@ -524,6 +543,14 @@ export default function PracticeSession() {
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
+
+          {/* Multiplayer practice panel */}
+          <MultiplayerPracticePanel
+            branch={branch}
+            subject={subjectParam}
+            isOpen={multiplayerOpen}
+            onClose={() => setMultiplayerOpen(false)}
+          />
 
           {/* Subject filter pills */}
           {!subjectParam && (

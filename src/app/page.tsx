@@ -45,8 +45,8 @@ export default function Home() {
 
             {/* Subheadline */}
             <p className="text-base sm:text-lg md:text-xl text-muted leading-relaxed max-w-2xl mb-10">
-              Start with the free library — explore 18 years of GATE questions, take
-              a diagnostic test, and get AI help (5 questions/day, no card required).
+              Start with the free library — explore 18 years of GATE questions, get
+              AI help (5 questions/day, no card required), and track your progress.
               Upgrade when you need more.
             </p>
 
@@ -119,18 +119,18 @@ export default function Home() {
             {[
               {
                 num: "01",
-                title: "Assess",
-                desc: "Take a quick diagnostic test to identify your weak areas across subjects. The AI maps your current level.",
+                title: "Explore",
+                desc: "Browse 18 years of GATE PYQs across 20+ branches. Filter by topic, year, and difficulty.",
               },
               {
                 num: "02",
-                title: "Adapt",
-                desc: "EduNeuro builds a study path around your gaps. Focus on what matters — not everything.",
+                title: "Ask",
+                desc: "Get instant AI-powered explanations for any GATE doubt. Free users get 5 questions per day.",
               },
               {
                 num: "03",
-                title: "Improve",
-                desc: "Practice with adaptive questions, get instant feedback, and track progress. Watch your accuracy climb.",
+                title: "Track",
+                desc: "Monitor your study time, build streaks, and watch your progress. Verify your effort with verified sessions.",
               },
             ].map((step) => (
               <div key={step.num} className="reveal">
@@ -474,7 +474,6 @@ export default function Home() {
               { title: "Full GATE Library", desc: "Browse 20+ branches, 18 years of question analysis, subject-wise notes, and predicted papers." },
               { title: "AI Doubt Engine", desc: "5 questions per day, powered by Groq. Get step-by-step explanations grounded in the library." },
               { title: "Study Tracker", desc: "Timer with page-visibility detection, daily goals, verified sessions, and streak tracking." },
-              { title: "Diagnostic Tests", desc: "Free 10-question diagnostic to identify your weak areas across subjects." },
               { title: "Global Leaderboard", desc: "Ranked by verified study time. See how you compare with fellow aspirants." },
               { title: "Virtual Library", desc: "Enter a 2D multiplayer study space. Find your spot and study with others." },
             ].map((feature) => (
@@ -533,7 +532,6 @@ export default function Home() {
                   "Daily goals and streaks",
                   "Global leaderboard",
                   "Virtual Library demo",
-                  "Diagnostic tests",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-sm">
                     <svg className="w-4 h-4 text-success mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -1,50 +1,24 @@
 /**
- * /library-world/game — Among Us style multiplayer game in the virtual library.
+ * /library/world/game — Game challenge mode in the Virtual Library.
  *
- * Uses the (game) route group so it doesn't inherit the /library layout.
- * GameWorld is self-contained with its own state and UI.
+ * Redirects to the main world with a dev-mode flag for debugging.
  */
-
 "use client";
 
-import { Suspense, useMemo } from "react";
-import { GameWorld } from "@/modules/virtual-library/world/among-us";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-function LoadingFallback() {
+export default function LibraryWorldGamePage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    // Open the world in the same tab with game mode flag
+    router.replace("/library/world?game=1");
+  }, [router]);
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background">
-      <div className="text-center">
-        <div className="w-16 h-16 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-sm text-muted">Loading game...</p>
-      </div>
+    <div className="flex items-center justify-center min-h-screen bg-background">
+      <p className="text-sm text-muted">Loading game mode…</p>
     </div>
-  );
-}
-
-export default function LibraryGamePage() {
-  // Read initial lobby code from URL query params
-  const initialLobbyCode = useMemo(() => {
-    if (typeof window === "undefined") return undefined;
-    const params = new URLSearchParams(window.location.search);
-    return params.get("join") || undefined;
-  }, []);
-
-  return (
-    <Suspense fallback={<LoadingFallback />}>
-      <GameWorldWrapper initialLobbyCode={initialLobbyCode} />
-    </Suspense>
-  );
-}
-
-function GameWorldWrapper({ initialLobbyCode }: { initialLobbyCode?: string }) {
-  return (
-    <GameWorld
-      onLeave={() => {
-        if (typeof window !== "undefined") {
-          window.location.href = "/library";
-        }
-      }}
-      initialLobbyCode={initialLobbyCode}
-    />
   );
 }

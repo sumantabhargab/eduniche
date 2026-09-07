@@ -8,6 +8,7 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/server";
 import { getActiveBranches, getSubjectsForBranch } from "@/lib/pyq/branches";
+import { getStaticQuestionsForBranch, getStaticBranchStats } from "@/lib/pyq/static-questions";
 
 export async function GET() {
   try {
@@ -16,19 +17,32 @@ export async function GET() {
     let liveYearRanges: Record<string, { min: number; max: number }> = {};
 
     if (supabase) {
-      const { data } = await supabase
-        .from("pyq_questions")
-        .select("branch_code, year")
-        .eq("is_duplicate", false);
+      try {
+        const { data } = await supabase
+          .from("pyq_questions")
+          .select("branch_code, year")
+          .eq("is_duplicate", false);
 
-      if (data) {
-        for (const row of data) {
-          liveCounts[row.branch_code] = (liveCounts[row.branch_code] || 0) + 1;
-          const r = liveYearRanges[row.branch_code] || { min: row.year, max: row.year };
-          r.min = Math.min(r.min, row.year);
-          r.max = Math.max(r.max, row.year);
-          liveYearRanges[row.branch_code] = r;
+        if (data) {
+          for (const row of data) {
+            liveCounts[row.branch_code] = (liveCounts[row.branch_code] || 0) + 1;
+            const r = liveYearRanges[row.branch_code] || { min: row.year, max: row.year };
+            r.min = Math.min(r.min, row.year);
+            r.max = Math.max(r.max, row.year);
+            liveYearRanges[row.branch_code] = r;
+          }
         }
+      } catch {
+        // DB unavailable — fall back to static counts
+      }
+    }
+
+    // Supplement static counts for branches not yet in DB
+    const staticStats = getStaticBranchStats();
+    for (const stat of staticStats) {
+      if (!(stat.branchCode in liveCounts) || liveCounts[stat.branchCode] === 0) {
+        liveCounts[stat.branchCode] = stat.questionCount;
+        liveYearRanges[stat.branchCode] = { min: stat.yearMin, max: stat.yearMax };
       }
     }
 

@@ -43,22 +43,6 @@ function NavInner() {
             PYQs
           </Link>
           <Link
-            href="/mock-tests"
-            className={`text-sm transition-colors ${
-              isActive("/mock-tests", true) ? "text-accent" : "text-muted hover:text-foreground"
-            }`}
-          >
-            Mock Tests
-          </Link>
-          <Link
-            href="/study-plan"
-            className={`text-sm transition-colors ${
-              isActive("/study-plan", true) ? "text-accent" : "text-muted hover:text-foreground"
-            }`}
-          >
-            Study Plan
-          </Link>
-          <Link
             href="/formulas"
             className={`text-sm transition-colors ${
               isActive("/formulas", true) ? "text-accent" : "text-muted hover:text-foreground"
@@ -75,22 +59,6 @@ function NavInner() {
             Cutoffs
           </Link>
           <Link
-            href="/game"
-            className={`text-sm transition-colors ${
-              isActive("/game", true) ? "text-accent" : "text-muted hover:text-foreground"
-            }`}
-          >
-            Arcade
-          </Link>
-          <Link
-            href="/library-world/game"
-            className={`text-sm transition-colors ${
-              isActive("/library-world/game", true) ? "text-accent" : "text-muted hover:text-foreground"
-            }`}
-          >
-            🎮 Mystery Game
-          </Link>
-          <Link
             href="/doubts"
             className={`text-sm transition-colors ${
               isActive("/doubts") ? "text-accent" : "text-muted hover:text-foreground"
@@ -98,16 +66,6 @@ function NavInner() {
           >
             Doubts
           </Link>
-          {isAuthenticated && (
-            <Link
-              href="/revision"
-              className={`text-sm transition-colors ${
-                isActive("/revision", true) ? "text-accent" : "text-muted hover:text-foreground"
-              }`}
-            >
-              Revision
-            </Link>
-          )}
         </div>
 
         <div className="hidden md:flex items-center gap-3">
@@ -235,16 +193,12 @@ function NavInner() {
           <div className="px-6 py-4 space-y-3">
             <Link href="/gate" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">GATE</Link>
             <Link href="/pyqs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">PYQs</Link>
-            <Link href="/mock-tests" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Mock Tests</Link>
-            <Link href="/study-plan" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Study Plan</Link>
             <Link href="/formulas" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Formulas</Link>
             <Link href="/cutoffs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Cutoffs</Link>
-            <Link href="/game" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">GATE Arcade</Link>
             <Link href="/doubts" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Doubt Engine</Link>
             <Link href="/library" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Library</Link>
             {isAuthenticated && (
               <>
-                <Link href="/revision" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Revision</Link>
                 <Link href="/leaderboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Leaderboard</Link>
                 <Link href="/chat" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Chat</Link>
                 {user?.role === "admin" && (
@@ -256,7 +210,7 @@ function NavInner() {
               {isAuthenticated && (
                 <Link href="/profile" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-sm text-foreground font-medium mb-3">
                   {user?.avatar_url ? (
-                    <img src={user.avatar_url} alt="" className="w-6 h-6 rounded-full object-cover" />
+                    <img src={user?.avatar_url} alt="" className="w-6 h-6 rounded-full object-cover" />
                   ) : (
                     <span className="w-6 h-6 rounded-full bg-accent text-background text-xs font-medium flex items-center justify-center uppercase">
                       {(user?.display_name || user?.username || user?.email || "U")[0]}
@@ -301,7 +255,6 @@ export default function Nav() {
           <Link href="/" className="font-serif text-xl text-foreground">Eduneuro</Link>
           <div className="hidden md:flex items-center gap-3">
             <Link href="/library" className="text-sm text-muted hover:text-foreground">Library</Link>
-            <Link href="/game" className="text-sm text-accent hover:text-foreground">GATE Arcade</Link>
             <Link href="/pricing" className="text-sm text-muted hover:text-foreground">Pricing</Link>
             <Link href="/login" className="inline-flex items-center px-5 py-2 bg-foreground text-background text-sm font-medium">Sign In</Link>
           </div>

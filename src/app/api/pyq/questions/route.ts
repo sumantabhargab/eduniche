@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
+import { getStaticQuestionsForBranch } from "@/lib/pyq/static-questions";
 
 export async function GET(request: Request) {
   try {
@@ -69,79 +70,155 @@ export async function GET(request: Request) {
 
     // ─── Build query ────────────────────────────────────────────────────
     const supabase = await createServerClient();
-    if (!supabase) {
-      return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
-    }
 
-    let query = supabase
-      .from("pyq_questions")
-      .select("*", { count: "exact" })
-      .eq("is_duplicate", false)
-      .order(sortBy as string, { ascending: sortDir === "asc" });
+    // Try database first, fall back to static bank
+    let questions: any[] = [];
+    let totalCount = 0;
+    let useStatic = false;
 
-    // Apply filters
-    if (branchCode) query = query.eq("branch_code", branchCode);
-    if (subject) query = query.ilike("subject_name", `%${subject}%`);
-    if (topic) query = query.ilike("topic_name", `%${topic}%`);
-    if (year) query = query.eq("year", year);
-    if (yearFrom) query = query.gte("year", yearFrom);
-    if (yearTo) query = query.lte("year", yearTo);
-    if (questionType) query = query.eq("question_type", questionType);
-    if (difficulty) query = query.eq("difficulty", difficulty);
-    if (marks) query = query.eq("marks", marks);
-    if (verifiedOnly) query = query.eq("answer_verified", true);
+    if (supabase) {
+      let query = supabase
+        .from("pyq_questions")
+        .select("*", { count: "exact" })
+        .eq("is_duplicate", false)
+        .order(sortBy as string, { ascending: sortDir === "asc" });
 
-    // Search in question text
-    if (search) {
-      query = query.or(`question_text.ilike.%${search}%,subject_name.ilike.%${search}%,topic_name.ilike.%${search}%`);
-    }
+      // Apply filters
+      if (branchCode) query = query.eq("branch_code", branchCode);
+      if (subject) query = query.ilike("subject_name", `%${subject}%`);
+      if (topic) query = query.ilike("topic_name", `%${topic}%`);
+      if (year) query = query.eq("year", year);
+      if (yearFrom) query = query.gte("year", yearFrom);
+      if (yearTo) query = query.lte("year", yearTo);
+      if (questionType) query = query.eq("question_type", questionType);
+      if (difficulty) query = query.eq("difficulty", difficulty);
+      if (marks) query = query.eq("marks", marks);
+      if (verifiedOnly) query = query.eq("answer_verified", true);
 
-    // Pagination
-    const from = (page - 1) * pageSize;
-    const to = from + pageSize - 1;
-    query = query.range(from, to);
-
-    const { data, error, count } = await query;
-
-    if (error) {
-      console.error("[PYQ] Questions query error:", error);
-      const code = (error as { code?: string }).code;
-      const msg = (error as { message?: string }).message || "";
-      if (code === "42P01" || code === "PGRST205" || msg.includes("does not exist") || msg.includes("Could not find the table") || msg.includes("schema cache")) {
-        return NextResponse.json({ data: [], pagination: { page, pageSize, totalCount: 0, totalPages: 0, hasMore: false } });
+      // Search in question text
+      if (search) {
+        query = query.or(`question_text.ilike.%${search}%,subject_name.ilike.%${search}%,topic_name.ilike.%${search}%`);
       }
-      return NextResponse.json({ error: "Failed to fetch questions" }, { status: 500 });
+
+      // Pagination
+      const from = (page - 1) * pageSize;
+      const to = from + pageSize - 1;
+      query = query.range(from, to);
+
+      const { data, error, count } = await query;
+
+      if (error) {
+        const code = (error as { code?: string }).code;
+        const msg = (error as { message?: string }).message || "";
+        if (code === "42P01" || code === "PGRST205" || msg.includes("does not exist") || msg.includes("Could not find the table") || msg.includes("schema cache")) {
+          useStatic = true;
+        } else {
+          console.error("[PYQ] Questions query error:", error);
+          return NextResponse.json({ error: "Failed to fetch questions" }, { status: 500 });
+        }
+      } else if (data && data.length > 0) {
+        questions = data.map((q: Record<string, unknown>) => ({
+          id: q.id as string,
+          questionId: q.question_id as string,
+          questionNumber: q.question_number as number,
+          subjectName: q.subject_name as string,
+          topicName: q.topic_name as string,
+          questionType: q.question_type as string,
+          marks: q.marks as number,
+          difficulty: q.difficulty as string,
+          year: q.year as number,
+          session: q.session as string | undefined,
+          questionText: q.question_text as string,
+          questionHtml: q.question_html as string | undefined,
+          options: (q.options as string[]) || [],
+          correctAnswer: q.correct_answer as string,
+          answerExplanation: q.answer_explanation as string,
+          source: q.source as { primary: string; url?: string } | undefined,
+          answerVerified: q.answer_verified as boolean,
+        }));
+        totalCount = count || 0;
+      } else {
+        // No data in DB — use static
+        useStatic = true;
+      }
+    } else {
+      useStatic = true;
     }
 
-    // Transform to frontend format
-    const questions = (data || []).map((q: Record<string, unknown>) => ({
-      id: q.id as string,
-      questionId: q.question_id as string,
-      questionNumber: q.question_number as number,
-      subjectName: q.subject_name as string,
-      topicName: q.topic_name as string,
-      questionType: q.question_type as string,
-      marks: q.marks as number,
-      difficulty: q.difficulty as string,
-      year: q.year as number,
-      session: q.session as string | undefined,
-      questionText: q.question_text as string,
-      questionHtml: q.question_html as string | undefined,
-      options: (q.options as string[]) || [],
-      correctAnswer: q.correct_answer as string,
-      answerExplanation: q.answer_explanation as string,
-      source: q.source as { primary: string; url?: string } | undefined,
-      answerVerified: q.answer_verified as boolean,
-    }));
+    // ─── Static data fallback ─────────────────────────────────────────────
+    if (useStatic && branchCode) {
+      const rawQs = getStaticQuestionsForBranch(branchCode);
+
+      // Apply filters
+      let filtered = rawQs;
+      if (subject) filtered = filtered.filter((q) => q.subjectName.toLowerCase().includes(subject.toLowerCase()));
+      if (topic) filtered = filtered.filter((q) => q.topicName.toLowerCase().includes(topic.toLowerCase()));
+      if (year) filtered = filtered.filter((q) => q.year === year);
+      if (yearFrom) filtered = filtered.filter((q) => q.year >= yearFrom);
+      if (yearTo) filtered = filtered.filter((q) => q.year <= yearTo);
+      if (questionType) filtered = filtered.filter((q) => q.questionType.toLowerCase() === questionType.toLowerCase());
+      if (difficulty) filtered = filtered.filter((q) => q.difficulty.toLowerCase() === difficulty.toLowerCase());
+      if (marks) filtered = filtered.filter((q) => q.marks === marks);
+      if (verifiedOnly) filtered = filtered.filter((q) => q.answerVerified);
+      if (search) {
+        const s = search.toLowerCase();
+        filtered = filtered.filter((q) =>
+          q.questionText.toLowerCase().includes(s) ||
+          q.subjectName.toLowerCase().includes(s) ||
+          q.topicName.toLowerCase().includes(s)
+        );
+      }
+
+      // Sort
+      filtered.sort((a, b) => {
+        let cmp = 0;
+        if (sortBy === "year") cmp = a.year - b.year;
+        else if (sortBy === "marks") cmp = a.marks - b.marks;
+        else if (sortBy === "difficulty") cmp = a.difficulty.localeCompare(b.difficulty);
+        else cmp = a.topicName.localeCompare(b.topicName);
+        return sortDir === "asc" ? cmp : -cmp;
+      });
+
+      totalCount = filtered.length;
+      const from = (page - 1) * pageSize;
+      const paginated = filtered.slice(from, from + pageSize);
+
+      questions = paginated.map((q) => ({
+        id: q.id,
+        questionId: q.id,
+        questionNumber: q.questionNumber,
+        subjectName: q.subjectName,
+        topicName: q.topicName,
+        questionType: q.questionType,
+        marks: q.marks,
+        difficulty: q.difficulty,
+        year: q.year,
+        session: q.session,
+        questionText: q.questionText,
+        questionHtml: undefined,
+        options: q.options,
+        correctAnswer: q.correctAnswer,
+        answerExplanation: q.answerExplanation,
+        source: q.source,
+        answerVerified: q.answerVerified,
+      }));
+    }
+
+    if (questions.length === 0 && !useStatic) {
+      return NextResponse.json({
+        data: [],
+        pagination: { page, pageSize, totalCount: 0, totalPages: 0, hasMore: false },
+      });
+    }
 
     return NextResponse.json({
       data: questions,
       pagination: {
         page,
         pageSize,
-        totalCount: count || 0,
-        totalPages: count ? Math.ceil(count / pageSize) : 0,
-        hasMore: count ? from + questions.length < count : false,
+        totalCount,
+        totalPages: totalCount ? Math.ceil(totalCount / pageSize) : 0,
+        hasMore: totalCount ? (page - 1) * pageSize + questions.length < totalCount : false,
       },
     });
   } catch (error) {
