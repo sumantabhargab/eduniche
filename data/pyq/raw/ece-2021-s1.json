@@ -1,0 +1,170 @@
+{
+  "gate-ec-2021-1": {
+    "year": 2021,
+    "branch": "EC",
+    "branchName": "Electronics and Communication Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Probability",
+        "questionText": "P(A∪B) = ?",
+        "options": [
+          "P(A)+P(B)",
+          "P(A)+P(B)-P(A∩B)",
+          "P(A)P(B)",
+          "P(A)/P(B)"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Signals and Systems",
+        "topicName": "Convolution",
+        "questionText": "Convolution in time =",
+        "options": [
+          "Addition in freq",
+          "Multiplication in freq",
+          "Division",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Analog Circuits",
+        "topicName": "FET",
+        "questionText": "FET is:",
+        "options": [
+          "Current controlled",
+          "Voltage controlled",
+          "Power",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Digital Circuits",
+        "topicName": "Memory",
+        "questionText": "ROM is:",
+        "options": [
+          "Read only",
+          "Read write",
+          "Volatile",
+          "Cache"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Communications",
+        "topicName": "Analog",
+        "questionText": "FM has:",
+        "options": [
+          "Constant amplitude",
+          "Variable",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Control Systems",
+        "topicName": "Controllers",
+        "questionText": "Lead compensator:",
+        "options": [
+          "Improves steady state",
+          "Improves transient",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "EMFT",
+        "topicName": "Waveguides",
+        "questionText": "Waveguide supports:",
+        "options": [
+          "TEM",
+          "TE/TM",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Networks",
+        "topicName": "Two Port",
+        "questionText": "Z-parameter conditions:",
+        "options": [
+          "Open circuit",
+          "Short circuit",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Electronic Devices",
+        "topicName": "SCR",
+        "questionText": "SCR has:",
+        "options": [
+          "2 terminals",
+          "3",
+          "4",
+          "5"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "If train 100m crosses pole in 10s, speed:",
+        "options": [
+          "10 m/s",
+          "36 km/h",
+          "18 km/h",
+          "72 km/h"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "gate-ee-2022-1": {
+    "year": 2022,
+    "branch": "EE",
+    "branchName": "Electrical Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Electric Circuits",
+        "topicName": "AC",
+        "questionText": "Power factor =",
+        "options": [
+          "R/Z",
+          "X/Z",
+          "Z/R",
+          "Z/X"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Power Systems",
+        "topicName": "Generators",
+        "questionText": "Synchronous generator excitation:",
+        "options": [
+          "Rotor",
+          "Stator",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Electrical Machines",
+        "topicName": "Induction Motor",
+        "questionText": "Slip s =",
+        "options": [
+          "(Ns-Nr)/Ns",
+          "(Nr-Ns)/Ns",
+          "Ns/Nr",
+          "Nr/Ns"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Control Systems",
+        "topicName": "Root Locus",
+        "questionText": "Root locus plots:",
+        "options": [
+          "Open loop poles",
+          "Closed loop poles",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Power Electronics",
+        "topicName": "Choppers",
+        "questionText": "Step-down chopper output:",
+        "options": [
+          "Less than input",
+          "More than input",
+          "Equal",
+          "Zero"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Analog Electronics",
+        "topicName": "Feedback",
+        "questionText": "Negative feedback:",
+        "options": [
+          "Increases gain",
+          "Decreases gain",
+          "No effect",
+          "Oscillates"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Digital Electronics",
+        "topicName": "PLD",
+        "questionText": "PLD stands for:",
+        "options": [
+          "Programmable Logic Device",
+          "Processor Logic",
+          "Programmable Logic Design",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Signals and Systems",
+        "topicName": "Fourier",
+        "questionText": "FS coefficients:",
+        "options": [
+          "Discrete",
+          "Continuous",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "EMFT",
+        "topicName": "Maxwell",
+        "questionText": "Displacement current added by:",
+        "options": [
+          "Faraday",
+          "Maxwell",
+          "Ampere",
+          "Gauss"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Verbal",
+        "questionText": "Choose opposite of 'latent':",
+        "options": [
+          "Obvious",
+          "Hidden",
+          "Clear",
+          "Manifest"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

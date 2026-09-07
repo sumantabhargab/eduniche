@@ -1,0 +1,170 @@
+{
+  "gate-bt-2024-1": {
+    "year": 2024,
+    "branch": "BT",
+    "branchName": "Biotechnology",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Probability",
+        "questionText": "Normal distribution mean = median = ?",
+        "options": [
+          "Mode",
+          "Median",
+          "Mean",
+          "SD"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Genetics",
+        "topicName": "Molecular Biology",
+        "questionText": "DNA stands for:",
+        "options": [
+          "Deoxyribonucleic Acid",
+          "Ribonucleic",
+          "Dinitrogen Acid",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Biochemistry",
+        "topicName": "Proteins",
+        "questionText": "Amino acids linked by:",
+        "options": [
+          "Peptide bond",
+          "Hydrogen bond",
+          "Ionic bond",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Microbiology",
+        "topicName": "Bacteria",
+        "questionText": "Binary fission in:",
+        "options": [
+          "Bacteria",
+          "Fungi",
+          "Plants",
+          "Animals"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Bioprocess Engineering",
+        "topicName": "Fermentation",
+        "questionText": "Batch process is:",
+        "options": [
+          "Continuous",
+          "Intermittent",
+          "Steady",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Immunology",
+        "topicName": "Antibodies",
+        "questionText": "Antibody produced by:",
+        "options": [
+          "T cells",
+          "B cells",
+          "Macrophages",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Bioinformatics",
+        "topicName": "Sequence",
+        "questionText": "BLAST is for:",
+        "options": [
+          "Sequence alignment",
+          "Structure prediction",
+          "Phylogeny",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Cell Biology",
+        "topicName": "Mitosis",
+        "questionText": "Chromosome number in daughter:",
+        "options": [
+          "Halved",
+          "Same",
+          "Doubled",
+          "Variable"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Genetics",
+        "topicName": "Mendel",
+        "questionText": "Law of segregation describes:",
+        "options": [
+          "Alleles",
+          "Genes",
+          "Chromosomes",
+          "DNA"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Verbal",
+        "questionText": "Choose similar to 'catalyst':",
+        "options": [
+          "Inhibitor",
+          "Accelerator",
+          "Precursor",
+          "Reactant"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

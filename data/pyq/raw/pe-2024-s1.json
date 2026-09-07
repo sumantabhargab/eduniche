@@ -1,0 +1,170 @@
+{
+  "gate-pe-2024-1": {
+    "year": 2024,
+    "branch": "PE",
+    "branchName": "Petroleum Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Differential Equations",
+        "questionText": "First order ODE dy/dx = y solution:",
+        "options": [
+          "Ce^x",
+          "Ce^-x",
+          "x^2",
+          "ln(x)"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Petroleum Exploration",
+        "topicName": "Geology",
+        "questionText": "Source rock rich in:",
+        "options": [
+          "Carbonate",
+          "Organic matter",
+          "Sand",
+          "Shale"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Drilling Engineering",
+        "topicName": "Bits",
+        "questionText": "Roller cone bit has:",
+        "options": [
+          "1 cone",
+          "2",
+          "3",
+          "4"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Reservoir Engineering",
+        "topicName": "Fluid Flow",
+        "questionText": "Darcy's law: q = ?",
+        "options": [
+          "kAΔP/μL",
+          "μLA/k",
+          "kL/μA",
+          "μ/KA"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Production Engineering",
+        "topicName": "Artificial Lift",
+        "questionText": "ESP stands for:",
+        "options": [
+          "Electric Submersible Pump",
+          "Electronic Surface Pump",
+          "Electrostatic Pump",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Petroleum Formation Evaluation",
+        "topicName": "Logging",
+        "questionText": "Gamma ray log measures:",
+        "options": [
+          "Porosity",
+          "Saturation",
+          "Shale",
+          "Permeability"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Offshore Drilling",
+        "topicName": "Rigs",
+        "questionText": "Jack-up rig works in:",
+        "options": [
+          "Deep water",
+          "Shallow water",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Well Testing",
+        "topicName": "Analysis",
+        "questionText": "Pressure transient analysis uses:",
+        "options": [
+          "Horner plot",
+          "Material balance",
+          "MBAL",
+          "PVT"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Petroleum Chemistry",
+        "topicName": "Crude",
+        "questionText": "API gravity > 31.1 is:",
+        "options": [
+          "Heavy",
+          "Light",
+          "Extra heavy",
+          "Bitumen"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "15% of 2000:",
+        "options": [
+          "200",
+          "300",
+          "400",
+          "150"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "gate-pi-2024-1": {
+    "year": 2024,
+    "branch": "PI",
+    "branchName": "Production and Industrial Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Probability",
+        "questionText": "Probability of event A given B = ?",
+        "options": [
+          "P(A)/P(B)",
+          "P(A∩B)/P(B)",
+          "P(A)+P(B)",
+          "P(A)P(B)"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Manufacturing Processes",
+        "topicName": "Casting",
+        "questionText": "Sand mould uses:",
+        "options": [
+          "Pattern",
+          "Core",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Machine Design",
+        "topicName": "Shaft",
+        "questionText": "Keyway weakens shaft by:",
+        "options": [
+          "10%",
+          "20%",
+          "30%",
+          "50%"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Thermal Engineering",
+        "topicName": "Heat Transfer",
+        "questionText": "Convection involves:",
+        "options": [
+          "Conduction only",
+          "Mass motion",
+          "Radiation only",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Industrial Engineering",
+        "topicName": "OR",
+        "questionText": "CPM stands for:",
+        "options": [
+          "Critical Path Method",
+          "Critical Process Method",
+          "Critical Project Method",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Mechanics of Materials",
+        "topicName": "Stress",
+        "questionText": "Tensile stress formula:",
+        "options": [
+          "F/A",
+          "F×A",
+          "F/A^2",
+          "A/F"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Metrology",
+        "topicName": "Measurements",
+        "questionText": "Vernier caliper least count:",
+        "options": [
+          "0.1 mm",
+          "0.01 mm",
+          "0.001 mm",
+          "1 mm"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Manufacturing",
+        "topicName": "Welding",
+        "questionText": "Arc welding temperature:",
+        "options": [
+          "~3000K",
+          "~6000K",
+          "~10000K",
+          "~500K"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Operations Research",
+        "topicName": "Linear Programming",
+        "questionText": "Optimal solution of LP:",
+        "options": [
+          "Unique",
+          "Multiple",
+          "Unbounded",
+          "All possible"
+        ],
+        "correctAnswer": "D",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "10% increase from 100:",
+        "options": [
+          "110",
+          "115",
+          "120",
+          "105"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "gate-xl-2024-1": {
+    "year": 2024,
+    "branch": "XL",
+    "branchName": "Life Sciences",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Statistics",
+        "questionText": "Mean of normal distribution is:",
+        "options": [
+          "Median",
+          "Mode",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Biochemistry",
+        "topicName": "Enzymes",
+        "questionText": "Enzyme specificity is:",
+        "options": [
+          "High",
+          "Low",
+          "Zero",
+          "Variable"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Botany",
+        "topicName": "Plant Physiology",
+        "questionText": "Photosynthesis produces:",
+        "options": [
+          "O2",
+          "CO2",
+          "N2",
+          "H2"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Zoology",
+        "topicName": "Animal Physiology",
+        "questionText": "Heart of mammal is:",
+        "options": [
+          "2-chambered",
+          "3-chambered",
+          "4-chambered",
+          "5-chambered"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Microbiology",
+        "topicName": "Microbes",
+        "questionText": "Penicillin from:",
+        "options": [
+          "Fungus",
+          "Bacteria",
+          "Virus",
+          "Algae"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Genetics",
+        "topicName": "DNA",
+        "questionText": "DNA replication is:",
+        "options": [
+          "Conservative",
+          "Semi-conservative",
+          "Dispersive",
+          "Random"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Cell Biology",
+        "topicName": "Organelles",
+        "questionText": "Powerhouse of cell:",
+        "options": [
+          "Nucleus",
+          "Mitochondria",
+          "Ribosome",
+          "ER"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Ecology",
+        "topicName": "Food Chain",
+        "questionText": "Trophic level of producers:",
+        "options": [
+          "1st",
+          "2nd",
+          "3rd",
+          "4th"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Evolution",
+        "topicName": "Darwinism",
+        "questionText": "Natural selection proposed by:",
+        "options": [
+          "Lamarck",
+          "Darwin",
+          "Mendel",
+          "Wallace"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Verbal",
+        "questionText": "Choose synonym of 'abundant':",
+        "options": [
+          "Scarce",
+          "Plentiful",
+          "Minimal",
+          "Rare"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

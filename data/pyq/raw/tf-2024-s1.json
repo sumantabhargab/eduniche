@@ -1,0 +1,170 @@
+{
+  "gate-tf-2024-1": {
+    "year": 2024,
+    "branch": "TF",
+    "branchName": "Textile Engineering and Fibre Science",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Calculus",
+        "questionText": "Integral of 2x dx:",
+        "options": [
+          "x^2 + C",
+          "2x + C",
+          "x + C",
+          "x^2/2"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Textile Fibers",
+        "topicName": "Natural Fibers",
+        "questionText": "Cotton is a:",
+        "options": [
+          "Protein",
+          "Cellulosic",
+          "Synthetic",
+          "Mineral"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Yarn Manufacturing",
+        "topicName": "Spinning",
+        "questionText": "Carding does:",
+        "options": [
+          "Parallelize fibers",
+          "Spin fibers",
+          "Dye",
+          "Weave"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Fabric Manufacturing",
+        "topicName": "Weaving",
+        "questionText": "Plain weave has:",
+        "options": [
+          "1 up 1 down",
+          "2 up 2 down",
+          "3 up 1 down",
+          "Random"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Textile Testing",
+        "topicName": "Properties",
+        "questionText": "Tensile strength measured by:",
+        "options": [
+          "Microscope",
+          "Tensile tester",
+          "Air permeability",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Chemical Processing",
+        "topicName": "Dyeing",
+        "questionText": "Reactive dye bonds with:",
+        "options": [
+          "Physical",
+          "Covalent",
+          "Hydrogen",
+          "Van der Waals"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Apparel Engineering",
+        "topicName": "Pattern Making",
+        "questionText": "Pattern is for:",
+        "options": [
+          "Fabric design",
+          "Garment shape",
+          "Dyeing",
+          "Finishing"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Textile Machinery",
+        "topicName": "Machines",
+        "questionText": "Ring frame produces:",
+        "options": [
+          "Sliver",
+          "Roving",
+          "Yarn",
+          "Fabric"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Textile Physics",
+        "topicName": "Friction",
+        "questionText": "Coulomb friction law: F = ?",
+        "options": [
+          "μN",
+          "μ/N",
+          "N/μ",
+          "μ+N"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "Perimeter of square side 5:",
+        "options": [
+          "10",
+          "20",
+          "25",
+          "5"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

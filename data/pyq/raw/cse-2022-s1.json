@@ -1,0 +1,170 @@
+{
+  "gate-cs-2022-1": {
+    "year": 2022,
+    "branch": "CS",
+    "branchName": "Computer Science and Information Technology",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Linear Algebra",
+        "questionText": "Determinant of 2x2 identity:",
+        "options": [
+          "0",
+          "1",
+          "2",
+          "-1"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Algorithms",
+        "topicName": "Greedy",
+        "questionText": "Kruskal uses:",
+        "options": [
+          "DFS",
+          "BFS",
+          "Union-Find",
+          "Dijkstra"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Databases",
+        "topicName": "Indexing",
+        "questionText": "B+ tree preferred over B-tree because:",
+        "options": [
+          "Smaller height",
+          "Sequential access",
+          "Range queries",
+          "All"
+        ],
+        "correctAnswer": "D",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Operating Systems",
+        "topicName": "File Systems",
+        "questionText": "Inode contains:",
+        "options": [
+          "File name",
+          "Metadata",
+          "File data",
+          "Directories"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Computer Networks",
+        "topicName": "Security",
+        "questionText": "Asymmetric encryption:",
+        "options": [
+          "AES",
+          "DES",
+          "RSA",
+          "3DES"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Programming and Data Structures",
+        "topicName": "Stacks",
+        "questionText": "Infix to postfix uses:",
+        "options": [
+          "Queue",
+          "Stack",
+          "Tree",
+          "Graph"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Algorithms",
+        "topicName": "Graph Algorithms",
+        "questionText": "BFS uses:",
+        "options": [
+          "Stack",
+          "Queue",
+          "Heap",
+          "Tree"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Computer Organization",
+        "topicName": "Cache",
+        "questionText": "LRU evicts:",
+        "options": [
+          "Oldest",
+          "Least recently used",
+          "Most recent",
+          "Random"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Operating Systems",
+        "topicName": "Virtual Memory",
+        "questionText": "TLB stands for:",
+        "options": [
+          "Translation Lookaside Buffer",
+          "Time Local Buffer",
+          "Total Logic Block",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "If A:B=2:3, B:C=4:5, then A:C = ?",
+        "options": [
+          "8:15",
+          "2:5",
+          "4:15",
+          "1:5"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

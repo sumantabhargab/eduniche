@@ -1,0 +1,170 @@
+{
+  "gate-ec-2022-1": {
+    "year": 2022,
+    "branch": "EC",
+    "branchName": "Electronics and Communication Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Complex Analysis",
+        "questionText": "i^4 =:",
+        "options": [
+          "0",
+          "1",
+          "-1",
+          "i"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Signals and Systems",
+        "topicName": "Fourier",
+        "questionText": "FS exists for:",
+        "options": [
+          "Periodic",
+          "Aperiodic",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Analog Circuits",
+        "topicName": "BJT",
+        "questionText": "β in BJT is:",
+        "options": [
+          "α/(1+α)",
+          "α/(1-α)",
+          "Ic/Ib",
+          "Ie/Ic"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Digital Circuits",
+        "topicName": "Counters",
+        "questionText": "4-bit binary counter counts:",
+        "options": [
+          "0-15",
+          "0-9",
+          "1-16",
+          "1-10"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Communications",
+        "topicName": "Digital",
+        "questionText": "ASK modulation varies:",
+        "options": [
+          "Amplitude",
+          "Frequency",
+          "Phase",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Control Systems",
+        "topicName": "Stability",
+        "questionText": "Nyquist criterion uses:",
+        "options": [
+          "Polar plot",
+          "Root locus",
+          "Routh",
+          "Bode"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "EMFT",
+        "topicName": "Transmission Line",
+        "questionText": "Characteristic impedance Z0 =:",
+        "options": [
+          "√(L/C)",
+          "L/C",
+          "C/L",
+          "√(LC)"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Networks",
+        "topicName": "Three Phase",
+        "questionText": "3-phase power:",
+        "options": [
+          "√3 VL IL cosφ",
+          "3 VL IL",
+          "VL IL",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Electronic Devices",
+        "topicName": "Diodes",
+        "questionText": "Zener diode used for:",
+        "options": [
+          "Rectification",
+          "Voltage regulation",
+          "Amplification",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Verbal",
+        "questionText": "Choose synonym of 'trivial':",
+        "options": [
+          "Significant",
+          "Insignificant",
+          "Important",
+          "Major"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

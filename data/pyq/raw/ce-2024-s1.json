@@ -1,0 +1,170 @@
+{
+  "gate-ce-2024-1": {
+    "year": 2024,
+    "branch": "CE",
+    "branchName": "Civil Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Differential Equations",
+        "questionText": "Order of dy/dx=y:",
+        "options": [
+          "0",
+          "1",
+          "2",
+          "3"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Structural Analysis",
+        "topicName": "Beams",
+        "questionText": "Bending moment in UDL simply supported:",
+        "options": [
+          "wL^2/8",
+          "wL^2/12",
+          "wL/2",
+          "wL^2"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Geotechnical Engineering",
+        "topicName": "Soil Mechanics",
+        "questionText": "Atterberg limits:",
+        "options": [
+          "Liquid limit",
+          "Plastic limit",
+          "Shrinkage",
+          "All"
+        ],
+        "correctAnswer": "D",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Concrete Technology",
+        "topicName": "Cement",
+        "questionText": "Initial setting time OPC:",
+        "options": [
+          "30 min",
+          "45 min",
+          "60 min",
+          "24 hr"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Fluid Mechanics",
+        "topicName": "Open Channel",
+        "questionText": "Manning's equation for:",
+        "options": [
+          "Pipe",
+          "Open channel",
+          "Laminar",
+          "Turbulent"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Surveying",
+        "topicName": "Levelling",
+        "questionText": "Dumpy level used for:",
+        "options": [
+          "Angle",
+          "Distance",
+          "Levelling",
+          "All"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Transportation Engineering",
+        "topicName": "Highways",
+        "questionText": "Camber provided for:",
+        "options": [
+          "Strength",
+          "Drainage",
+          "Smoothness",
+          "Aesthetics"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Environmental Engineering",
+        "topicName": "Water",
+        "questionText": "Sedimentation removes:",
+        "options": [
+          "Dissolved",
+          "Suspended",
+          "Colloids",
+          "Gases"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Hydrology",
+        "topicName": "Precipitation",
+        "questionText": "Rainfall measured by:",
+        "options": [
+          "Hygrometer",
+          "Rain gauge",
+          "Anemometer",
+          "Barometer"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "Volume of sphere r:",
+        "options": [
+          "4/3 πr^3",
+          "πr^3",
+          "πr^2",
+          "2πr"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

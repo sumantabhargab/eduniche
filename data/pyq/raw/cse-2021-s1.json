@@ -1,0 +1,170 @@
+{
+  "gate-cs-2021-1": {
+    "year": 2021,
+    "branch": "CS",
+    "branchName": "Computer Science and Information Technology",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Probability",
+        "questionText": "Mean of binomial n=10,p=0.5:",
+        "options": [
+          "2",
+          "5",
+          "10",
+          "0.5"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Digital Logic",
+        "topicName": "Sequential Circuits",
+        "questionText": "Flip-flop stores:",
+        "options": [
+          "1 bit",
+          "2 bits",
+          "4 bits",
+          "8 bits"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Programming and Data Structures",
+        "topicName": "Hashing",
+        "questionText": "Avg hash lookup:",
+        "options": [
+          "O(n)",
+          "O(log n)",
+          "O(1)",
+          "O(n^2)"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Operating Systems",
+        "topicName": "Deadlocks",
+        "questionText": "Banker's algorithm is for:",
+        "options": [
+          "Detection",
+          "Avoidance",
+          "Prevention",
+          "Recovery"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Databases",
+        "topicName": "ER Model",
+        "questionText": "Diamond in ER diagram:",
+        "options": [
+          "Entity",
+          "Attribute",
+          "Relationship",
+          "Weak entity"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Computer Networks",
+        "topicName": "Routing",
+        "questionText": "OSPF is:",
+        "options": [
+          "Distance vector",
+          "Link state",
+          "Path vector",
+          "Hybrid"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Algorithms",
+        "topicName": "Divide and Conquer",
+        "questionText": "Merge sort space:",
+        "options": [
+          "O(1)",
+          "O(log n)",
+          "O(n)",
+          "O(n^2)"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Theory of Computation",
+        "topicName": "Decidability",
+        "questionText": "Halting problem:",
+        "options": [
+          "Decidable",
+          "Undecidable",
+          "Semi-decidable",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Compiler Design",
+        "topicName": "Code Generation",
+        "questionText": "3-address code operands:",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Verbal",
+        "questionText": "Synonym of 'ubiquitous':",
+        "options": [
+          "Rare",
+          "Omnipresent",
+          "Hidden",
+          "Unique"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

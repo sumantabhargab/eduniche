@@ -1,0 +1,170 @@
+{
+  "gate-ec-2024-1": {
+    "year": 2024,
+    "branch": "EC",
+    "branchName": "Electronics and Communication Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Calculus",
+        "questionText": "Integral of 1/x dx:",
+        "options": [
+          "x",
+          "log(x)+C",
+          "1/x^2",
+          "x^2/2"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Signals and Systems",
+        "topicName": "Fourier Transform",
+        "questionText": "Fourier of delta function:",
+        "options": [
+          "0",
+          "1",
+          "Infinity",
+          "sin(w)"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Electronic Devices",
+        "topicName": "Semiconductors",
+        "questionText": "n-type majority carriers:",
+        "options": [
+          "Holes",
+          "Electrons",
+          "Both equal",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Analog Circuits",
+        "topicName": "Amplifiers",
+        "questionText": "Common emitter has:",
+        "options": [
+          "High input Z",
+          "Low input Z",
+          "Zero gain",
+          "Unity"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Digital Circuits",
+        "topicName": "Flip-Flops",
+        "questionText": "D flip-flop follows input after:",
+        "options": [
+          "Same instant",
+          "One clock",
+          "Two clocks",
+          "Never"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Communications",
+        "topicName": "Modulation",
+        "questionText": "AM stands for:",
+        "options": [
+          "Amplitude Modulation",
+          "Angle Modulation",
+          "Analog Modulation",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Control Systems",
+        "topicName": "Stability",
+        "questionText": "Routh-Hurwitz determines:",
+        "options": [
+          "Stability",
+          "Time response",
+          "Frequency",
+          "Sensitivity"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "EMFT",
+        "topicName": "Maxwell Equations",
+        "questionText": "Maxwell has how many equations:",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Networks",
+        "topicName": "Circuit Analysis",
+        "questionText": "Thevenin replaces with:",
+        "options": [
+          "V source + R",
+          "I source + R",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "Sum of first 100 natural numbers:",
+        "options": [
+          "1000",
+          "5050",
+          "4950",
+          "5000"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

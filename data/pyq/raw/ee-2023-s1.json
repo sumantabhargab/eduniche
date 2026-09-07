@@ -1,0 +1,170 @@
+{
+  "gate-ee-2023-1": {
+    "year": 2023,
+    "branch": "EE",
+    "branchName": "Electrical Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Electric Circuits",
+        "topicName": "AC Analysis",
+        "questionText": "Impedance of RL series:",
+        "options": [
+          "R+jωL",
+          "R-jωL",
+          "R+1/jωL",
+          "R-1/jωL"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Power Systems",
+        "topicName": "Per Unit",
+        "questionText": "Per unit system base values:",
+        "options": [
+          "Voltage only",
+          "Power only",
+          "Voltage and Power",
+          "Current"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Electrical Machines",
+        "topicName": "Transformers",
+        "questionText": "Transformer works on:",
+        "options": [
+          "Auto induction",
+          "Mutual induction",
+          "Self induction",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Control Systems",
+        "topicName": "Controllers",
+        "questionText": "Integral controller eliminates:",
+        "options": [
+          "Rise time",
+          "Steady state error",
+          "Damping",
+          "Overshoot"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Power Electronics",
+        "topicName": "Inverters",
+        "questionText": "Inverter converts:",
+        "options": [
+          "DC to AC",
+          "AC to DC",
+          "DC to DC",
+          "AC to AC"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Analog Electronics",
+        "topicName": "Transistors",
+        "questionText": "ICBO in transistor is:",
+        "options": [
+          "Collector-Base reverse",
+          "Emitter-Base",
+          "Collector-Emitter",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Digital Electronics",
+        "topicName": "Logic Gates",
+        "questionText": "Universal gate:",
+        "options": [
+          "AND",
+          "OR",
+          "NAND",
+          "XOR"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Signals and Systems",
+        "topicName": "Sampling",
+        "questionText": "Nyquist rate for 4kHz signal:",
+        "options": [
+          "4kHz",
+          "8kHz",
+          "2kHz",
+          "1kHz"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Electrical Machines",
+        "topicName": "Induction Motor",
+        "questionText": "Slip in induction motor:",
+        "options": [
+          "Always positive",
+          "Can be negative",
+          "Always zero",
+          "Infinity"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Verbal",
+        "questionText": "Choose synonym of 'pragmatic':",
+        "options": [
+          "Idealistic",
+          "Practical",
+          "Theoretical",
+          "Abstract"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

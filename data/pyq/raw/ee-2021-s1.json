@@ -1,0 +1,170 @@
+{
+  "gate-ee-2021-1": {
+    "year": 2021,
+    "branch": "EE",
+    "branchName": "Electrical Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Electric Circuits",
+        "topicName": "Network Theorems",
+        "questionText": "Superposition for:",
+        "options": [
+          "Linear",
+          "Non-linear",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Power Systems",
+        "topicName": "Protection",
+        "questionText": "Circuit breaker operates on:",
+        "options": [
+          "Overload",
+          "Short circuit",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Electrical Machines",
+        "topicName": "Alternators",
+        "questionText": "Alternator produces:",
+        "options": [
+          "DC",
+          "AC",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Control Systems",
+        "topicName": "Frequency Response",
+        "questionText": "Gain margin:",
+        "options": [
+          "At phase crossover",
+          "At gain crossover",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Power Electronics",
+        "topicName": "Rectifiers",
+        "questionText": "Full-wave rectifier uses:",
+        "options": [
+          "1",
+          "2",
+          "4",
+          "3"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Analog Electronics",
+        "topicName": "Oscillators",
+        "questionText": "RC phase shift uses:",
+        "options": [
+          "180°",
+          "360°",
+          "90°",
+          "45°"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Digital Electronics",
+        "topicName": "Flip-Flops",
+        "questionText": "JK flip-flop toggles when:",
+        "options": [
+          "J=K=0",
+          "J=K=1",
+          "J=0,K=1",
+          "J=1,K=0"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Signals and Systems",
+        "topicName": "Sampling",
+        "questionText": "Aliasing avoided by:",
+        "options": [
+          "Increasing rate",
+          "Decreasing rate",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "EMFT",
+        "topicName": "Transmission",
+        "questionText": "Corona loss increases with:",
+        "options": [
+          "Wire diameter",
+          "Voltage",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "Distance 200km at 50km/h takes:",
+        "options": [
+          "2h",
+          "4h",
+          "5h",
+          "3h"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

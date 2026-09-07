@@ -1,0 +1,170 @@
+{
+  "gate-xe-2024-1": {
+    "year": 2024,
+    "branch": "XE",
+    "branchName": "Engineering Sciences",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Linear Algebra",
+        "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
+        "options": [
+          "2 and 3",
+          "1 and 4",
+          "3 and 3",
+          "2 and 4"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Solid Mechanics",
+        "topicName": "Stress",
+        "questionText": "Tensile stress formula:",
+        "options": [
+          "F/A",
+          "F*A",
+          "F/A^2",
+          "A/F"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Fluid Mechanics",
+        "topicName": "Bernoulli",
+        "questionText": "Bernoulli assumes:",
+        "options": [
+          "Viscous",
+          "Inviscid",
+          "Compressible",
+          "Turbulent"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Thermodynamics",
+        "topicName": "First Law",
+        "questionText": "First law:",
+        "options": [
+          "Energy conservation",
+          "Entropy",
+          "Enthalpy",
+          "Gibbs"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Material Science",
+        "topicName": "Polymers",
+        "questionText": "Thermoplastics:",
+        "options": [
+          "Thermoset",
+          "Remoldable",
+          "Crosslinked",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Basic Electronics",
+        "topicName": "Semiconductors",
+        "questionText": "Diode used as:",
+        "options": [
+          "Amplifier",
+          "Rectifier",
+          "Oscillator",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Basic Electrical",
+        "topicName": "Ohm's Law",
+        "questionText": "V =:",
+        "options": [
+          "IR",
+          "I/R",
+          "R/I",
+          "I^2R"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Computers and Programming",
+        "topicName": "Algorithms",
+        "questionText": "Binary search complexity:",
+        "options": [
+          "O(n)",
+          "O(log n)",
+          "O(n^2)",
+          "O(1)"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Environmental Science",
+        "topicName": "Pollution",
+        "questionText": "PM2.5 particle size:",
+        "options": [
+          "<2.5μm",
+          "<5μm",
+          "<10μm",
+          "<1μm"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "If x^2=16, x =:",
+        "options": [
+          "4",
+          "-4",
+          "±4",
+          "0"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

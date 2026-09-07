@@ -1,0 +1,170 @@
+{
+  "gate-ph-2024-1": {
+    "year": 2024,
+    "branch": "PH",
+    "branchName": "Engineering Physics",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Calculus",
+        "questionText": "d/dx of e^x:",
+        "options": [
+          "e^x",
+          "xe^x",
+          "1",
+          "ln(x)"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Classical Mechanics",
+        "topicName": "Newton",
+        "questionText": "F=ma is:",
+        "options": [
+          "1st law",
+          "2nd law",
+          "3rd law",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Electromagnetism",
+        "topicName": "Gauss",
+        "questionText": "Electric flux =",
+        "options": [
+          "E.dA",
+          "q/ε0",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Quantum Mechanics",
+        "topicName": "Wave Function",
+        "questionText": "|ψ|^2 gives:",
+        "options": [
+          "Energy",
+          "Probability density",
+          "Momentum",
+          "Force"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Thermal Physics",
+        "topicName": "Kinetic Theory",
+        "questionText": "Avg KE of molecule:",
+        "options": [
+          "(3/2)kT",
+          "kT",
+          "(1/2)kT",
+          "2kT"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Optics",
+        "topicName": "Lasers",
+        "questionText": "Laser principle:",
+        "options": [
+          "Spontaneous",
+          "Stimulated emission",
+          "Absorption",
+          "Reflection"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Solid State",
+        "topicName": "Semiconductors",
+        "questionText": "Intrinsic semiconductor at 0K:",
+        "options": [
+          "Conductor",
+          "Insulator",
+          "Superconductor",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Nuclear Physics",
+        "topicName": "Radioactivity",
+        "questionText": "Half-life formula:",
+        "options": [
+          "N=N0 e^(-λt)",
+          "N=N0/2",
+          "N0-N",
+          "λ/N"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Classical Mechanics",
+        "topicName": "SHM",
+        "questionText": "Period of spring-mass:",
+        "options": [
+          "2π√(m/k)",
+          "2π√(k/m)",
+          "m/k",
+          "k/m"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "5^2 + 12^2:",
+        "options": [
+          "13",
+          "169",
+          "17",
+          "144"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

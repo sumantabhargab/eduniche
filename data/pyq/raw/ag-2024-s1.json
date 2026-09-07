@@ -1,0 +1,170 @@
+{
+  "gate-ag-2024-1": {
+    "year": 2024,
+    "branch": "AG",
+    "branchName": "Agricultural Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Calculus",
+        "questionText": "Derivative of e^x:",
+        "options": [
+          "e^x",
+          "xe^x",
+          "e^xe^x",
+          "1"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Farm Machinery",
+        "topicName": "Tractors",
+        "questionText": "Tractor power measured in:",
+        "options": [
+          "HP",
+          "kW",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Irrigation",
+        "topicName": "Water Management",
+        "questionText": "Drip irrigation saves:",
+        "options": [
+          "30%",
+          "50%",
+          "70%",
+          "90%"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Soil and Water",
+        "topicName": "Soil Mechanics",
+        "questionText": "Field capacity is:",
+        "options": [
+          "Saturation",
+          "Optimal water",
+          "Wilting point",
+          "Dry"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Post Harvest",
+        "topicName": "Storage",
+        "questionText": "Fumigation controls:",
+        "options": [
+          "Insects",
+          "Moisture",
+          "Temperature",
+          "Light"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Food Processing",
+        "topicName": "Preservation",
+        "questionText": "Pasteurization temperature:",
+        "options": [
+          "63°C/30min",
+          "100°C",
+          "0°C",
+          "150°C"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Farm Power",
+        "topicName": "Engines",
+        "questionText": "4-stroke engine has:",
+        "options": [
+          "2 strokes",
+          "4 strokes per cycle",
+          "1",
+          "3"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Surveying",
+        "topicName": "Land",
+        "questionText": "Chain survey used for:",
+        "options": [
+          "Large area",
+          "Small area",
+          "Mountain",
+          "Forest"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Green Energy",
+        "topicName": "Solar",
+        "questionText": "Solar panel converts:",
+        "options": [
+          "Heat to electric",
+          "Light to electric",
+          "Wind to electric",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "Area of rectangle 10x5:",
+        "options": [
+          "15",
+          "50",
+          "25",
+          "100"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

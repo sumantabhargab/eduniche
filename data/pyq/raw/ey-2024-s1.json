@@ -1,0 +1,170 @@
+{
+  "gate-ey-2024-1": {
+    "year": 2024,
+    "branch": "EY",
+    "branchName": "Ecology and Evolution",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Statistics",
+        "questionText": "Standard deviation is:",
+        "options": [
+          "Mean",
+          "Spread",
+          "Median",
+          "Mode"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Ecology",
+        "topicName": "Population",
+        "questionText": "Logistic growth has:",
+        "options": [
+          "No limit",
+          "Carrying capacity",
+          "Exponential",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Evolution",
+        "topicName": "Natural Selection",
+        "questionText": "Darwin finches from:",
+        "options": [
+          "Galapagos",
+          "Africa",
+          "Asia",
+          "Australia"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Genetics",
+        "topicName": "Population Genetics",
+        "questionText": "Hardy-Weinberg needs:",
+        "options": [
+          "No mutation",
+          "No migration",
+          "Large pop",
+          "All"
+        ],
+        "correctAnswer": "D",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Environmental Science",
+        "topicName": "Biodiversity",
+        "questionText": "Biodiversity hotspot criteria:",
+        "options": [
+          "Endemism",
+          "Deforestation",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Cell Biology",
+        "topicName": "Mitochondria",
+        "questionText": "Mitochondria function:",
+        "options": [
+          "Protein synthesis",
+          "ATP production",
+          "Photosynthesis",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Plant Physiology",
+        "topicName": "Photosynthesis",
+        "questionText": "Photosynthesis in:",
+        "options": [
+          "Mitochondria",
+          "Chloroplast",
+          "Nucleus",
+          "Ribosome"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Zoology",
+        "topicName": "Taxonomy",
+        "questionText": "Binomial nomenclature by:",
+        "options": [
+          "Linnaeus",
+          "Darwin",
+          "Mendel",
+          "Watson"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Behavioral Ecology",
+        "topicName": "Migration",
+        "questionText": "Monarch butterfly migrates from:",
+        "options": [
+          "Canada to Mexico",
+          "India",
+          "Africa",
+          "Europe"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Verbal",
+        "questionText": "Antonym of 'indigenous':",
+        "options": [
+          "Native",
+          "Foreign",
+          "Local",
+          "Original"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

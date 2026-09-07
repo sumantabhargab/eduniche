@@ -1,0 +1,170 @@
+{
+  "gate-me-2024-1": {
+    "year": 2024,
+    "branch": "ME",
+    "branchName": "Mechanical Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Calculus",
+        "questionText": "Derivative of sin(x):",
+        "options": [
+          "cos(x)",
+          "-sin(x)",
+          "-cos(x)",
+          "tan(x)"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Thermodynamics",
+        "topicName": "First Law",
+        "questionText": "First law based on:",
+        "options": [
+          "Energy conservation",
+          "Entropy",
+          "Temperature",
+          "Pressure"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Fluid Mechanics",
+        "topicName": "Bernoulli",
+        "questionText": "Bernoulli applies to:",
+        "options": [
+          "Viscous",
+          "Inviscid",
+          "Compressible",
+          "All"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Strength of Materials",
+        "topicName": "Stress",
+        "questionText": "Stress = Force /:",
+        "options": [
+          "Length",
+          "Area",
+          "Volume",
+          "Mass"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Manufacturing",
+        "topicName": "Casting",
+        "questionText": "Sand casting uses:",
+        "options": [
+          "Permanent mold",
+          "Sand mold",
+          "Die",
+          "Investment"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Theory of Machines",
+        "topicName": "Gears",
+        "questionText": "Gear ratio is:",
+        "options": [
+          "Teeth ratio",
+          "Speed ratio",
+          "Torque ratio",
+          "Power ratio"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Heat Transfer",
+        "topicName": "Conduction",
+        "questionText": "Fourier's law q =:",
+        "options": [
+          "-k dT/dx",
+          "k dT/dx",
+          "k T",
+          "-k T"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Machine Design",
+        "topicName": "Shaft",
+        "questionText": "Shaft designed for:",
+        "options": [
+          "Torsion",
+          "Bending",
+          "Combined",
+          "Axial"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Engineering Mechanics",
+        "topicName": "Statics",
+        "questionText": "Equilibrium requires:",
+        "options": [
+          "ΣF=0",
+          "ΣM=0",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "Area of circle radius r:",
+        "options": [
+          "2πr",
+          "πr^2",
+          "πr",
+          "4πr^2"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

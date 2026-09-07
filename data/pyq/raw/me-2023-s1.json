@@ -1,0 +1,170 @@
+{
+  "gate-me-2023-1": {
+    "year": 2023,
+    "branch": "ME",
+    "branchName": "Mechanical Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Thermodynamics",
+        "topicName": "Entropy",
+        "questionText": "Entropy change for reversible process:",
+        "options": [
+          "Positive",
+          "Negative",
+          "Zero",
+          "Infinity"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Fluid Mechanics",
+        "topicName": "Viscosity",
+        "questionText": "Laminar flow has:",
+        "options": [
+          "Low Re",
+          "High Re",
+          "Re=1",
+          "Re=0"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Manufacturing",
+        "topicName": "Welding",
+        "questionText": "MIG welding uses:",
+        "options": [
+          "Flux",
+          "Gas shield",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Strength of Materials",
+        "topicName": "Bending",
+        "questionText": "Section modulus Z =:",
+        "options": [
+          "I/y",
+          "I/G",
+          "M/Z",
+          "σy/I"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Theory of Machines",
+        "topicName": "Cam",
+        "questionText": "Cam converts:",
+        "options": [
+          "Rotary to rotary",
+          "Rotary to reciprocating",
+          "Recip to recip",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Heat Transfer",
+        "topicName": "Radiation",
+        "questionText": "Stefan-Boltzmann: q = ?",
+        "options": [
+          "σT",
+          "σT^2",
+          "σT^3",
+          "σT^4"
+        ],
+        "correctAnswer": "D",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Engineering Mechanics",
+        "topicName": "Dynamics",
+        "questionText": "F = ma is:",
+        "options": [
+          "Newton 1st",
+          "2nd",
+          "3rd",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Machine Design",
+        "topicName": "Keys",
+        "questionText": "Key prevents:",
+        "options": [
+          "Sliding",
+          "Rotation",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "IC Engine",
+        "topicName": "Cycles",
+        "questionText": "Otto cycle is:",
+        "options": [
+          "Constant volume",
+          "Constant pressure",
+          "Constant temp",
+          "Adiabatic"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Verbal",
+        "questionText": "Antonym of 'prolific':",
+        "options": [
+          "Scarce",
+          "Abundant",
+          "Creative",
+          "Unusual"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

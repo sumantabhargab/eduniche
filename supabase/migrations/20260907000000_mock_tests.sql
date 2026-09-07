@@ -42,11 +42,13 @@ CREATE INDEX IF NOT EXISTS idx_mock_tests_visibility ON mock_tests(visibility);
 ALTER TABLE mock_tests ENABLE ROW LEVEL SECURITY;
 
 -- Public can see published mock tests (metadata only — PDF serving is separately gated)
+DROP POLICY IF EXISTS "Public read published mock tests meta" ON mock_tests;
 CREATE POLICY "Public read published mock tests meta"
   ON mock_tests FOR SELECT
   USING (visibility = 'published');
 
 -- Authenticated premium users can read everything about published mock tests
+DROP POLICY IF EXISTS "Premium read mock tests" ON mock_tests;
 CREATE POLICY "Premium read mock tests"
   ON mock_tests FOR SELECT
   USING (
@@ -60,6 +62,7 @@ CREATE POLICY "Premium read mock tests"
   );
 
 -- Admin full access
+DROP POLICY IF EXISTS "Admin full mock tests" ON mock_tests;
 CREATE POLICY "Admin full mock tests"
   ON mock_tests FOR ALL
   USING (

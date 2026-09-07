@@ -353,6 +353,15 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     }
   }, []);
 
+  // Sync fullscreen state with the browser
+  useEffect(() => {
+    const onChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
   const handleMusicToggle = useCallback(() => {
     music.toggle();
     if (musicHintShown) {
@@ -560,60 +569,53 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     setLocalPlayer(player);
     setConnectionState("connecting");
 
-    // Pre-warm: broadcast a wave to already-present players
+    // Connect to multiplayer — connection state updates when the realtime channel actually opens
     multiplayerManager.connect({
       ...player,
       displayX: spawn.x,
       displayY: spawn.y,
     });
 
-    // Wave on join
-    setTimeout(() => {
-      multiplayerManager.broadcastEmoji("👋");
-      setEmojiReactions((prev) => [
-        ...prev,
-        {
-          id: `emoji-local-${Date.now()}`,
-          emoji: "👋",
-          playerId: userId,
-          playerLabel: userLabel,
-          x: spawn.x,
-          y: spawn.y,
-          timestamp: Date.now(),
-          ttl: 4000,
-        },
-      ]);
-      setTimeout(() => {
-        setEmojiReactions((prev) => prev.filter((e) => !e.id.startsWith("emoji-local-")));
-      }, 4000);
+    // Listen for the channel to actually subscribe
+    const unsubConnected = multiplayerManager.onConnected(() => {
+      setConnectionState("connected");
+    });
+
+    // Safety timeout: if the channel doesn't subscribe within 5s, show connected anyway
+    const connectTimeout = setTimeout(() => {
+      setConnectionState((prev) => prev === "connecting" ? "connected" : prev);
+    }, 5000);
+
+    // Wave on join (only once channel is live — broadcast won't work until then)
+    const waveTimeout = setTimeout(() => {
+      if (multiplayerManager.isConnected) {
+        multiplayerManager.broadcastEmoji("👋");
+        setEmojiReactions((prev) => [
+          ...prev,
+          {
+            id: `emoji-local-${Date.now()}`,
+            emoji: "👋",
+            playerId: userId,
+            playerLabel: userLabel,
+            x: spawn.x,
+            y: spawn.y,
+            timestamp: Date.now(),
+            ttl: 4000,
+          },
+        ]);
+        setTimeout(() => {
+          setEmojiReactions((prev) => prev.filter((e) => !e.id.startsWith("emoji-local-")));
+        }, 4000);
+      }
     }, 1500);
 
-    setConnectionState("connected");
-
-    // Mark presence in the correct database room
-    (async () => {
-      const supabase = getChatSupabase();
-      if (!supabase) return;
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return; // skip in demo mode
-        await supabase
-          .from("study_room_presence")
-          .upsert(
-            {
-              room_id: toDbRoomId(currentRoom || "entrance"),
-              user_id: userId,
-              participant_label: userLabel,
-              last_seen_at: new Date().toISOString(),
-            },
-            { onConflict: "room_id,user_id" }
-          );
-      } catch {
-        // ignore
-      }
-    })();
-
     setLoading(false);
+
+    return () => {
+      unsubConnected();
+      clearTimeout(connectTimeout);
+      clearTimeout(waveTimeout);
+    };
   }, [userId, userLabel]);
 
   // Listen for multiplayer updates

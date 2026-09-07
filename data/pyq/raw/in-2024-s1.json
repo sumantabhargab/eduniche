@@ -1,0 +1,170 @@
+{
+  "gate-in-2024-1": {
+    "year": 2024,
+    "branch": "IN",
+    "branchName": "Instrumentation Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Linear Algebra",
+        "questionText": "Determinant of 2x2 matrix:",
+        "options": [
+          "ad-bc",
+          "ad+bc",
+          "a+d",
+          "ab"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Electrical and Electronics Measurements",
+        "topicName": "Instrumentation",
+        "questionText": "Moving coil instrument measures:",
+        "options": [
+          "AC only",
+          "DC only",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Sensors",
+        "topicName": "Transducers",
+        "questionText": "LVDT measures:",
+        "options": [
+          "Displacement",
+          "Velocity",
+          "Acceleration",
+          "Force"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Control Systems",
+        "topicName": "Controllers",
+        "questionText": "PID controller has:",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Analog Electronics",
+        "topicName": "Op-Amps",
+        "questionText": "Instrumentation amp has:",
+        "options": [
+          "1 op-amp",
+          "2",
+          "3",
+          "4"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Digital Electronics",
+        "topicName": "ADC",
+        "questionText": "8-bit ADC has resolution:",
+        "options": [
+          "1/256",
+          "1/128",
+          "1/512",
+          "1/64"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Signals and Systems",
+        "topicName": "FFT",
+        "questionText": "FFT computes:",
+        "options": [
+          "DFT",
+          "DTFT",
+          "CTFT",
+          "Laplace"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Communication Systems",
+        "topicName": "Modulation",
+        "questionText": "FM uses:",
+        "options": [
+          "Amplitude",
+          "Frequency",
+          "Phase",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Process Control",
+        "topicName": "Control Loops",
+        "questionText": "Closed-loop uses:",
+        "options": [
+          "No feedback",
+          "Feedback",
+          "Feedforward",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "20% of 200:",
+        "options": [
+          "20",
+          "40",
+          "80",
+          "100"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

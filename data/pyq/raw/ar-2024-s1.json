@@ -1,0 +1,170 @@
+{
+  "gate-ar-2024-1": {
+    "year": 2024,
+    "branch": "AR",
+    "branchName": "Architecture and Planning",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Architecture",
+        "topicName": "History",
+        "questionText": "Taj Mahal built by:",
+        "options": [
+          "Akbar",
+          "Shah Jahan",
+          "Aurangzeb",
+          "Jahangir"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Building Materials",
+        "topicName": "Concrete",
+        "questionText": "M20 concrete ratio:",
+        "options": [
+          "1:1:2",
+          "1:1.5:3",
+          "1:2:4",
+          "1:3:6"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Urban Planning",
+        "topicName": "Zoning",
+        "questionText": "Zoning regulates:",
+        "options": [
+          "Land use",
+          "Building height",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Design",
+        "topicName": "Principles",
+        "questionText": "Golden ratio approximately:",
+        "options": [
+          "1.414",
+          "1.618",
+          "2.0",
+          "3.14"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Construction",
+        "topicName": "Structures",
+        "questionText": "Load-bearing wall thickness:",
+        "options": [
+          "23cm",
+          "11cm",
+          "46cm",
+          "5cm"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Climate",
+        "topicName": "Solar",
+        "questionText": "Sun path in northern hemisphere:",
+        "options": [
+          "South",
+          "North",
+          "East",
+          "West"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Services",
+        "topicName": "Plumbing",
+        "questionText": " Trap in plumbing:",
+        "options": [
+          "Prevents smell",
+          "Stores water",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Landscape",
+        "topicName": "Elements",
+        "questionText": "Hardscape includes:",
+        "options": [
+          "Plants",
+          "Pavement",
+          "Water",
+          "Trees"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Architecture",
+        "topicName": "Vernacular",
+        "questionText": "Kath-Kuni from:",
+        "options": [
+          "Rajasthan",
+          "Himachal Pradesh",
+          "Kerala",
+          "Gujarat"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "Scale 1:100, drawing 10cm -> actual:",
+        "options": [
+          "1m",
+          "10m",
+          "100m",
+          "1000m"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

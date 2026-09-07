@@ -1,0 +1,169 @@
+{
+  "gate-ce-2023-1": {
+    "year": 2023,
+    "branch": "CE",
+    "branchName": "Civil Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Structural Analysis",
+        "topicName": "Trusses",
+        "questionText": "Method of joints gives:",
+        "options": [
+          "Forces only",
+          "Moments",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Geotechnical Engineering",
+        "topicName": "Foundation",
+        "questionText": "Bearing capacity of footing:",
+        "options": [
+          "Depends on soil",
+          "Depends on load",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Concrete Technology",
+        "topicName": "Mix Design",
+        "questionText": "Water-cement ratio affects:",
+        "options": [
+          "Strength only",
+          "Workability only",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Fluid Mechanics",
+        "topicName": "Pipe Flow",
+        "questionText": "Darcy-Weisbach for:",
+        "options": [
+          "Minor losses",
+          "Major losses",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Surveying",
+        "topicName": "Theodolite",
+        "questionText": "Theodolite measures:",
+        "options": [
+          "Distance",
+          "Angle",
+          "Level",
+          "All"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Environmental Engineering",
+        "topicName": "Sewage",
+        "questionText": "BOD stands for:",
+        "options": [
+          "Biological Oxygen Demand",
+          "Basic Oxygen Demand",
+          "Bacterial Oxygen Demand",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Transportation Engineering",
+        "topicName": "Traffic",
+        "questionText": "PCU stands for:",
+        "options": [
+          "Passenger Car Unit",
+          "Power Control Unit",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Hydrology",
+        "topicName": "Flood",
+        "questionText": "Gumbel distribution used for:",
+        "options": [
+          "Rainfall",
+          "Flood frequency",
+          "Runoff",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Structural Analysis",
+        "topicName": "Deflection",
+        "questionText": "Moment-area method gives:",
+        "options": [
+          "Slope",
+          "Deflection",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Verbal",
+        "questionText": "Choose similar to 'diligent':",
+        "options": [
+          "Lazy",
+          "Industrious",
+          "Careless",
+          "Ignorant"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

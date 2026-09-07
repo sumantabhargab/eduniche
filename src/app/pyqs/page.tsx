@@ -41,36 +41,37 @@ import PYQTrends from "@/components/pyq/PYQTrends";
 import PYQMistakeBank from "@/components/pyq/PYQMistakeBank";
 
 type View = "library" | "practice" | "heatmap" | "trends" | "mistakes";
+type BranchItem = { code: string; name: string; icon: string; questionCount: number; yearMin: number; yearMax: number };
 
 export default function PYQLibraryPage() {
   const router = useRouter();
   const [view, setView] = useState<View>("library");
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [branches, setBranches] = useState<BranchItem[]>([]);
+  const [stats, setStats] = useState({ total: 0, branchCount: 0, yearMin: 2024, yearMax: 2024 });
   const { isPremium } = useAuth();
 
-  const branches = [
-    { code: "CS", name: "Computer Science", icon: "💻", totalQuestions: 2580, color: "from-blue-500/20 to-cyan-500/20" },
-    { code: "EC", name: "Electronics & Comm", icon: "📡", totalQuestions: 2340, color: "from-purple-500/20 to-pink-500/20" },
-    { code: "EE", name: "Electrical Engg", icon: "⚡", totalQuestions: 2100, color: "from-amber-500/20 to-orange-500/20" },
-    { code: "ME", name: "Mechanical Engg", icon: "⚙️", totalQuestions: 2200, color: "from-green-500/20 to-emerald-500/20" },
-    { code: "CE", name: "Civil Engg", icon: "🏗️", totalQuestions: 1950, color: "from-yellow-500/20 to-amber-500/20" },
-    { code: "IN", name: "Instrumentation", icon: "🔬", totalQuestions: 1400, color: "from-indigo-500/20 to-blue-500/20" },
-    { code: "PI", name: "Production & Industrial", icon: "🏭", totalQuestions: 1100, color: "from-red-500/20 to-pink-500/20" },
-    { code: "CH", name: "Chemical Engg", icon: "🧪", totalQuestions: 1050, color: "from-teal-500/20 to-cyan-500/20" },
-    { code: "BT", name: "Biotechnology", icon: "🧬", totalQuestions: 900, color: "from-emerald-500/20 to-green-500/20" },
-    { code: "MT", name: "Metallurgy", icon: "🔥", totalQuestions: 800, color: "from-orange-500/20 to-red-500/20" },
-    { code: "XE", name: "Engineering Sciences", icon: "🔭", totalQuestions: 1200, color: "from-violet-500/20 to-purple-500/20" },
-    { code: "XL", name: "Life Sciences", icon: "🧫", totalQuestions: 1000, color: "from-lime-500/20 to-green-500/20" },
-    { code: "TF", name: "Textile Engg", icon: "🧵", totalQuestions: 650, color: "from-pink-500/20 to-rose-500/20" },
-    { code: "PE", name: "Petroleum Engg", icon: "🛢️", totalQuestions: 550, color: "from-slate-500/20 to-gray-500/20" },
-    { code: "EY", name: "Ecology & Evolution", icon: "🌿", totalQuestions: 500, color: "from-green-500/20 to-emerald-500/20" },
-    { code: "MA", name: "Mathematics (MA)", icon: "📐", totalQuestions: 750, color: "from-sky-500/20 to-blue-500/20" },
-    { code: "AR", name: "Architecture & Planning", icon: "🏛️", totalQuestions: 700, color: "from-stone-500/20 to-amber-500/20" },
-    { code: "AG", name: "Agricultural Engg", icon: "🌾", totalQuestions: 600, color: "from-lime-500/20 to-yellow-500/20" },
-    { code: "GG", name: "Geology & Geophysics", icon: "🌍", totalQuestions: 600, color: "from-orange-500/20 to-yellow-500/20" },
-    { code: "PH", name: "Engineering Physics", icon: "⚛️", totalQuestions: 550, color: "from-indigo-500/20 to-violet-500/20" },
-  ];
+  useEffect(() => {
+    fetch("/api/pyq/branches")
+      .then((r) => r.json())
+      .then((data) => {
+        const mapped = (data.branches || []).map((b: any) => ({
+          code: b.branchCode,
+          name: b.displayName,
+          icon: iconFor(b.branchCode),
+          questionCount: b.questionCount,
+          yearMin: b.yearMin,
+          yearMax: b.yearMax,
+        }));
+        setBranches(mapped);
+        const total = mapped.reduce((sum: number, b: any) => sum + (b.questionCount || 0), 0);
+        const yMin = Math.min(...mapped.map((b: any) => b.yearMin).filter(Boolean));
+        const yMax = Math.max(...mapped.map((b: any) => b.yearMax).filter(Boolean));
+        setStats({ total, branchCount: mapped.length, yearMin: yMin, yearMax: yMax });
+      })
+      .catch(() => {});
+  }, []);
 
   const quickActions = [
     { id: "practice" as View, label: "Quick Practice", icon: Target, desc: "Jump into questions", color: "text-accent" },
@@ -78,6 +79,28 @@ export default function PYQLibraryPage() {
     { id: "trends" as View, label: "Trend Analysis", icon: TrendingUp, desc: "What's been asked more", color: "text-blue-600 dark:text-blue-400", premium: true },
     { id: "mistakes" as View, label: "Mistake Bank", icon: Flame, desc: "Review wrong answers", color: "text-red-600 dark:text-red-400" },
   ];
+
+  const colorFor = (code: string) => {
+    const colors: Record<string, string> = {
+      CS: "from-blue-500/20 to-cyan-500/20", EC: "from-purple-500/20 to-pink-500/20", EE: "from-amber-500/20 to-orange-500/20",
+      ME: "from-green-500/20 to-emerald-500/20", CE: "from-yellow-500/20 to-amber-500/20", IN: "from-indigo-500/20 to-blue-500/20",
+      PI: "from-red-500/20 to-pink-500/20", CH: "from-teal-500/20 to-cyan-500/20", BT: "from-emerald-500/20 to-green-500/20",
+      MT: "from-orange-500/20 to-red-500/20", XE: "from-violet-500/20 to-purple-500/20", XL: "from-lime-500/20 to-green-500/20",
+      TF: "from-pink-500/20 to-rose-500/20", PE: "from-slate-500/20 to-gray-500/20", EY: "from-green-500/20 to-emerald-500/20",
+      MA: "from-sky-500/20 to-blue-500/20", AR: "from-stone-500/20 to-amber-500/20", AG: "from-lime-500/20 to-yellow-500/20",
+      GG: "from-orange-500/20 to-yellow-500/20", PH: "from-indigo-500/20 to-violet-500/20",
+    };
+    return colors[code] || "from-gray-500/20 to-slate-500/20";
+  };
+
+  const iconFor = (code: string) => {
+    const icons: Record<string, string> = {
+      CS: "💻", EC: "📡", EE: "⚡", ME: "⚙️", CE: "🏗️", IN: "🔬", PI: "🏭", CH: "🧪",
+      BT: "🧬", MT: "🔥", XE: "🔭", XL: "🧫", TF: "🧵", PE: "🛢️", EY: "🌿", MA: "📐",
+      AR: "🏛️", AG: "🌾", GG: "🌍", PH: "⚛️",
+    };
+    return icons[code] || "📚";
+  };
 
   if (selectedBranch && view === "library") {
     router.push(`/pyqs/${selectedBranch}`);
@@ -146,9 +169,9 @@ export default function PYQLibraryPage() {
             className="flex flex-wrap justify-center gap-8 md:gap-12 mb-16"
           >
             {[
-              { label: "Total PYQs", value: "19,430+" },
-              { label: "Branches", value: "20" },
-              { label: "Years Covered", value: "2004–2026" },
+              { label: "Total PYQs", value: stats.total.toLocaleString() + "+" },
+              { label: "Branches", value: stats.branchCount.toString() },
+              { label: "Years Covered", value: stats.yearMin === stats.yearMax ? `${stats.yearMin}` : `${stats.yearMin}–${stats.yearMax}` },
               { label: "Verified Answers", value: "Official Keys" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
@@ -245,31 +268,29 @@ export default function PYQLibraryPage() {
             Choose Your Branch
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {branches.map((branch) => (
-              <button
-                key={branch.code}
-                onClick={() => {
-                  setSelectedBranch(branch.code);
-                  router.push(`/pyqs/${branch.code}`);
-                }}
-                className={`group relative bg-card border border-border rounded-2xl p-6 text-left
-                  hover:border-foreground/20 hover:shadow-lg hover:shadow-black/5
-                  transition-all duration-300 overflow-hidden`}
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${branch.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                <div className="relative">
-                  <span className="text-3xl mb-3 block">{branch.icon}</span>
-                  <div className="font-semibold text-sm mb-1">{branch.name}</div>
-                  <div className="flex items-center gap-2 text-xs text-muted">
-                    <span className="font-mono">{branch.code}</span>
-                    <span>·</span>
-                    <span>{branch.totalQuestions.toLocaleString()} PYQs</span>
+              {branches.map((branch) => (
+                <button
+                  key={branch.code}
+                  onClick={() => {
+                    setSelectedBranch(branch.code);
+                    router.push(`/pyqs/${branch.code}`);
+                  }}
+                  className={`group relative bg-card border border-border rounded-2xl p-6 text-left
+                    hover:border-foreground/20 hover:shadow-lg hover:shadow-black/5
+                    transition-all duration-300 overflow-hidden`}
+                >
+                  <div className={`absolute inset-0 bg-gradient-to-br ${colorFor(branch.code)} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                  <div className="relative">
+                    <span className="text-3xl mb-3 block">{branch.icon}</span>
+                    <div className="font-semibold text-sm mb-1">{branch.name}</div>
+                    <div className="flex items-center gap-2 text-xs text-muted">
+                      <span className="font-mono">{branch.code}</span>
+                      <span>·</span>
+                      <span>{(branch.questionCount || 0).toLocaleString()} PYQs</span>
+                    </div>
                   </div>
-                </div>
-              </button>
-            ))}
-          </div>
+                </button>
+              ))}
         </div>
       </section>
 

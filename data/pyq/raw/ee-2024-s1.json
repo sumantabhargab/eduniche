@@ -1,0 +1,170 @@
+{
+  "gate-ee-2024-1": {
+    "year": 2024,
+    "branch": "EE",
+    "branchName": "Electrical Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Linear Algebra",
+        "questionText": "Eigenvalues of identity:",
+        "options": [
+          "All zero",
+          "All one",
+          "Distinct",
+          "Depends"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Electric Circuits",
+        "topicName": "Network Theorems",
+        "questionText": "Norton equivalent to:",
+        "options": [
+          "Thevenin",
+          "Superposition",
+          "Max power",
+          "KCL"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Signals and Systems",
+        "topicName": "LTI Systems",
+        "questionText": "LTI characterized by:",
+        "options": [
+          "Impulse response",
+          "Step response",
+          "Frequency",
+          "All"
+        ],
+        "correctAnswer": "D",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Electrical Machines",
+        "topicName": "DC Machines",
+        "questionText": "DC starter used to:",
+        "options": [
+          "Regulate speed",
+          "Limit start current",
+          "Reverse",
+          "Increase torque"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Power Systems",
+        "topicName": "Transmission",
+        "questionText": "Most efficient transmission:",
+        "options": [
+          "Low voltage",
+          "High voltage",
+          "DC",
+          "AC"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Control Systems",
+        "topicName": "Time Response",
+        "questionText": "Time constant of RC:",
+        "options": [
+          "RC",
+          "R/C",
+          "C/R",
+          "1/RC"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Power Electronics",
+        "topicName": "Converters",
+        "questionText": "Thyristor is:",
+        "options": [
+          "Current controlled",
+          "Voltage controlled",
+          "Power",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Analog Electronics",
+        "topicName": "Op-Amps",
+        "questionText": "Ideal op-amp gain:",
+        "options": [
+          "Infinite",
+          "Zero",
+          "Unity",
+          "Negative"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Digital Electronics",
+        "topicName": "Counters",
+        "questionText": "Mod-10 counts from:",
+        "options": [
+          "0 to 10",
+          "0 to 9",
+          "1 to 10",
+          "1 to 9"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "Speed = Distance /:",
+        "options": [
+          "Time",
+          "Velocity",
+          "Acceleration",
+          "Force"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "gate-cs-2024-1": {
+    "year": 2024,
+    "branch": "CS",
+    "branchName": "Computer Science and Information Technology",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Linear Algebra",
+        "questionText": "Let A be a 3x3 matrix with eigenvalues 1, 2, and 3. Then trace of A^2 is:",
+        "options": [
+          "6",
+          "7",
+          "14",
+          "15"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Digital Logic",
+        "topicName": "Boolean Algebra",
+        "questionText": "Number of Boolean functions of n variables:",
+        "options": [
+          "2^n",
+          "2^(2^n)",
+          "2^(n^2)",
+          "n^2"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Programming and Data Structures",
+        "topicName": "Linked List",
+        "questionText": "Time complexity of inserting at beginning of linked list:",
+        "options": [
+          "O(n)",
+          "O(1)",
+          "O(log n)",
+          "O(n^2)"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Operating Systems",
+        "topicName": "Deadlocks",
+        "questionText": "Which is NOT a necessary condition for deadlock?",
+        "options": [
+          "Mutual Exclusion",
+          "Hold and Wait",
+          "Preemption",
+          "Circular Wait"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Databases",
+        "topicName": "SQL",
+        "questionText": "SQL command permanently removes table and data:",
+        "options": [
+          "DELETE",
+          "DROP",
+          "TRUNCATE",
+          "ALTER"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Computer Networks",
+        "topicName": "Application Layer",
+        "questionText": "Protocol at application layer of TCP/IP:",
+        "options": [
+          "TCP",
+          "UDP",
+          "HTTP",
+          "IP"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Algorithms",
+        "topicName": "Graph Algorithms",
+        "questionText": "Time complexity of Dijkstra with binary heap:",
+        "options": [
+          "O(V^2)",
+          "O(E log V)",
+          "O(V log V + E)",
+          "O(V log V)"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 2,
+        "negativeMarks": 0.66
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Operating Systems",
+        "topicName": "Memory Management",
+        "questionText": "Using 3 frames, which algorithm avoids page faults for 0,1,2,3,0,1,4,0,1,2,3,4?",
+        "options": [
+          "FIFO",
+          "LRU",
+          "Optimal",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 2,
+        "negativeMarks": 0.66
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Computer Organization",
+        "topicName": "Memory",
+        "questionText": "32-bit machine with 64MB memory needs how many bits to address?",
+        "options": [
+          "26",
+          "32",
+          "64",
+          "16"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "60 students: 30 cricket, 25 football, 15 both. How many play neither?",
+        "options": [
+          "20",
+          "25",
+          "30",
+          "35"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q11",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Probability",
+        "questionText": "Probability of at least one head in 3 coin tosses:",
+        "options": [
+          "1/8",
+          "3/8",
+          "7/8",
+          "1/2"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q12",
+        "subjectName": "Algorithms",
+        "topicName": "Sorting",
+        "questionText": "Worst-case time complexity of merge sort:",
+        "options": [
+          "O(n)",
+          "O(n log n)",
+          "O(n^2)",
+          "O(log n)"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q13",
+        "subjectName": "Theory of Computation",
+        "topicName": "Regular Languages",
+        "questionText": "Which language is regular?",
+        "options": [
+          "Equal 0s and 1s",
+          "Strings ending in ab",
+          "Palindromes",
+          "a^n b^n"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q14",
+        "subjectName": "Computer Networks",
+        "topicName": "Transport Layer",
+        "questionText": "TCP connection establishment uses:",
+        "options": [
+          "2-way",
+          "3-way handshake",
+          "4-way",
+          "1-way"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q15",
+        "subjectName": "Databases",
+        "topicName": "Normalization",
+        "questionText": "3NF relation is also in:",
+        "options": [
+          "1NF only",
+          "2NF",
+          "BCNF always",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

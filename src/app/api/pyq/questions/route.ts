@@ -75,7 +75,9 @@ export async function GET(request: Request) {
 
     if (error) {
       console.error("[PYQ] Questions query error:", error);
-      if ((error as { code?: string }).code === "42P01" || (error as { message?: string }).message?.includes("does not exist")) {
+      const code = (error as { code?: string }).code;
+      const msg = (error as { message?: string }).message || "";
+      if (code === "42P01" || code === "PGRST205" || msg.includes("does not exist") || msg.includes("Could not find the table") || msg.includes("schema cache")) {
         return NextResponse.json({ data: [], pagination: { page, pageSize, totalCount: 0, totalPages: 0, hasMore: false } });
       }
       return NextResponse.json({ error: "Failed to fetch questions" }, { status: 500 });

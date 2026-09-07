@@ -1,0 +1,170 @@
+{
+  "gate-mt-2024-1": {
+    "year": 2024,
+    "branch": "MT",
+    "branchName": "Metallurgical Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Linear Algebra",
+        "questionText": "Rank of 3x3 zero matrix:",
+        "options": [
+          "0",
+          "1",
+          "2",
+          "3"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Physical Metallurgy",
+        "topicName": "Crystal Structure",
+        "questionText": "BCC coordination number:",
+        "options": [
+          "4",
+          "6",
+          "8",
+          "12"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Extractive Metallurgy",
+        "topicName": "Iron Making",
+        "questionText": "Reducing agent in blast furnace:",
+        "options": [
+          "Coke",
+          "Limestone",
+          "Hot air",
+          "Slag"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Mechanical Metallurgy",
+        "topicName": "Dislocations",
+        "questionText": "Edge dislocation moves by:",
+        "options": [
+          "Climb",
+          "Glide",
+          "Cross slip",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Phase Transformations",
+        "topicName": "Phase Diagrams",
+        "questionText": "Eutectic point has:",
+        "options": [
+          "One phase",
+          "Two phases",
+          "Three phases simultaneously",
+          "Four phases"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Heat Treatment",
+        "topicName": "Steel",
+        "questionText": "Martensite is formed by:",
+        "options": [
+          "Slow cooling",
+          "Quenching",
+          "Annealing",
+          "Normalizing"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Corrosion",
+        "topicName": "Electrochemical",
+        "questionText": "Cathodic reaction in rusting:",
+        "options": [
+          "Fe -> Fe2+ + 2e-",
+          "O2 + 2H2O + 4e- -> 4OH-",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Welding",
+        "topicName": "Arc Welding",
+        "questionText": "Shielded metal arc uses:",
+        "options": [
+          "Gas shield",
+          "Flux coated electrode",
+          "Both",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Non-Ferrous Metals",
+        "topicName": "Aluminum",
+        "questionText": "Duralumin is Al +:",
+        "options": [
+          "Cu",
+          "Mg",
+          "Si",
+          "Mn"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "10% of 500:",
+        "options": [
+          "5",
+          "50",
+          "500",
+          "0.5"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

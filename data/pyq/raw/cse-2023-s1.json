@@ -1,0 +1,250 @@
+{
+  "gate-cs-2023-1": {
+    "year": 2023,
+    "branch": "CS",
+    "branchName": "Computer Science and Information Technology",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Calculus",
+        "questionText": "Derivative of x^3 at x=2:",
+        "options": [
+          "6",
+          "12",
+          "8",
+          "4"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Digital Logic",
+        "topicName": "Combinational Circuits",
+        "questionText": "Full adder has how many inputs:",
+        "options": [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Programming and Data Structures",
+        "topicName": "Trees",
+        "questionText": "Inorder traversal of BST gives:",
+        "options": [
+          "Sorted order",
+          "Reverse sorted",
+          "Level order",
+          "Random"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Operating Systems",
+        "topicName": "Process Scheduling",
+        "questionText": "Round-robin uses:",
+        "options": [
+          "Time quantum",
+          "Priority",
+          "Arrival time",
+          "Burst time"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Databases",
+        "topicName": "Transactions",
+        "questionText": "ACID stands for:",
+        "options": [
+          "Atomicity, Consistency, Isolation, Durability",
+          "Accuracy, Completeness, Integrity, Density",
+          "Access, Control, Identity, Duration",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Computer Networks",
+        "topicName": "Network Layer",
+        "questionText": "Protocol to find MAC from IP:",
+        "options": [
+          "DNS",
+          "ARP",
+          "DHCP",
+          "ICMP"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Algorithms",
+        "topicName": "Dynamic Programming",
+        "questionText": "LCS uses:",
+        "options": [
+          "Greedy",
+          "Divide and Conquer",
+          "Dynamic Programming",
+          "Backtracking"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Operating Systems",
+        "topicName": "Synchronization",
+        "questionText": "Semaphore with value 1 is:",
+        "options": [
+          "Counting",
+          "Binary (mutex)",
+          "Monitor",
+          "Lock variable"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Computer Organization",
+        "topicName": "Pipelining",
+        "questionText": "Hazard from data dependencies is:",
+        "options": [
+          "Structural",
+          "Data hazard",
+          "Control hazard",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Verbal",
+        "questionText": "Antonym of 'ephemeral':",
+        "options": [
+          "Transient",
+          "Permanent",
+          "Brief",
+          "Short"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q11",
+        "subjectName": "Algorithms",
+        "topicName": "Complexity Analysis",
+        "questionText": "Time complexity of binary search:",
+        "options": [
+          "O(n)",
+          "O(log n)",
+          "O(n log n)",
+          "O(1)"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q12",
+        "subjectName": "Databases",
+        "topicName": "Relational Model",
+        "questionText": "Primary key ensures:",
+        "options": [
+          "Uniqueness",
+          "Not null",
+          "Both",
+          "Referential integrity"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q13",
+        "subjectName": "Computer Networks",
+        "topicName": "Data Link Layer",
+        "questionText": "CSMA/CD is used in:",
+        "options": [
+          "Token Ring",
+          "Ethernet",
+          "WiFi",
+          "Bluetooth"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q14",
+        "subjectName": "Theory of Computation",
+        "topicName": "Context Free Languages",
+        "questionText": "PDA recognizes:",
+        "options": [
+          "Regular",
+          "Context-free",
+          "Context-sensitive",
+          "Recursive"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q15",
+        "subjectName": "Compiler Design",
+        "topicName": "Lexical Analysis",
+        "questionText": "Lexical analyzer outputs:",
+        "options": [
+          "Tokens",
+          "Parse tree",
+          "Intermediate code",
+          "Assembly"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

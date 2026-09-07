@@ -1,0 +1,120 @@
+{
+  "gate-cse-2024-1": {
+    "year": 2024,
+    "branch": "CS",
+    "branchName": "Computer Science and Information Technology",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Engineering Mathematics",
+        "topicName": "Linear Algebra",
+        "questionText": "Let A be a 3×3 matrix with eigenvalues 1, 2, and 3. Then the trace of A² is:",
+        "options": ["6", "7", "14", "15"],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Digital Logic",
+        "topicName": "Boolean Algebra",
+        "questionText": "The number of Boolean functions of n variables is:",
+        "options": ["2^n", "2^(2^n)", "2^(n^2)", "n^2"],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Programming and Data Structures",
+        "topicName": "Linked List",
+        "questionText": "What is the time complexity of inserting at the beginning of a linked list?",
+        "options": ["O(n)", "O(1)", "O(log n)", "O(n^2)"],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Operating Systems",
+        "topicName": "Deadlocks",
+        "questionText": "Which of the following is NOT a necessary condition for deadlock?",
+        "options": ["Mutual Exclusion", "Hold and Wait", "Preemption", "Circular Wait"],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Databases",
+        "topicName": "SQL",
+        "questionText": "In SQL, which command permanently removes a table and its data from the database?",
+        "options": ["DELETE", "DROP", "TRUNCATE", "ALTER"],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "Computer Networks",
+        "topicName": "Application Layer",
+        "questionText": "Which protocol operates at the application layer of the TCP/IP model?",
+        "options": ["TCP", "UDP", "HTTP", "IP"],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Algorithms",
+        "topicName": "Graph Algorithms",
+        "questionText": "The time complexity of Dijkstra's algorithm using a binary heap is:",
+        "options": ["O(V^2)", "O(E log V)", "O(V log V + E)", "O(V log V)"],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 2,
+        "negativeMarks": 0.66
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Operating Systems",
+        "topicName": "Memory Management",
+        "questionText": "Using 3 frames, which page replacement algorithm would not cause any page fault for reference string 0,1,2,3,0,1,4,0,1,2,3,4?",
+        "options": ["FIFO", "LRU", "Optimal", "None of these"],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 2,
+        "negativeMarks": 0.66
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Computer Organization",
+        "topicName": "Memory",
+        "questionText": "In a 32-bit machine with 64MB main memory, how many bits are needed to address a memory location?",
+        "options": ["26 bits", "32 bits", "64 bits", "16 bits"],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Quantitative",
+        "questionText": "In a class of 60 students, 30 play cricket, 25 play football, and 15 play both. How many play neither?",
+        "options": ["20", "25", "30", "35"],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

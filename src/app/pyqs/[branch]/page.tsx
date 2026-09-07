@@ -15,6 +15,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import SubjectPracticeSession from "./_components/SubjectPracticeSession";
+import { Suspense } from "react";
 
 interface SubjectRef {
   id: string;
@@ -35,7 +36,21 @@ export default function BranchPage({ params }: { params: Promise<{ branch: strin
 
   // If subject is selected, show practice session
   if (subjectParam) {
-    return <SubjectPracticeSession branch={branch} subject={subjectParam} />;
+    return (
+      <Suspense fallback={
+        <main className="min-h-screen bg-background">
+          <Nav />
+          <div className="pt-24 flex items-center justify-center min-h-[60vh]">
+            <div className="text-center">
+              <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-sm text-muted">Loading practice session…</p>
+            </div>
+          </div>
+        </main>
+      }>
+        <SubjectPracticeSession branch={branch} subject={subjectParam} />
+      </Suspense>
+    );
   }
 
   const [subjects, setSubjects] = useState<SubjectRef[]>([]);

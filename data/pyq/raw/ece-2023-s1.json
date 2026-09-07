@@ -1,0 +1,170 @@
+{
+  "gate-ec-2023-1": {
+    "year": 2023,
+    "branch": "EC",
+    "branchName": "Electronics and Communication Engineering",
+    "session": "1",
+    "questions": [
+      {
+        "qid": "Q1",
+        "subjectName": "Signals and Systems",
+        "topicName": "LTI Systems",
+        "questionText": "Impulse response of LTI gives:",
+        "options": [
+          "Input",
+          "Output",
+          "Complete response",
+          "None"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q2",
+        "subjectName": "Analog Circuits",
+        "topicName": "Op-Amps",
+        "questionText": "Ideal op-amp open-loop gain:",
+        "options": [
+          "0",
+          "1",
+          "Infinite",
+          "-1"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q3",
+        "subjectName": "Digital Circuits",
+        "topicName": "Logic Families",
+        "questionText": "TTL stands for:",
+        "options": [
+          "Transistor-Transistor Logic",
+          "Tunnel Transistor Logic",
+          "Totem Pole Logic",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q4",
+        "subjectName": "Communications",
+        "topicName": "Digital Comm",
+        "questionText": "PCM stands for:",
+        "options": [
+          "Pulse Code Modulation",
+          "Phase Code Modulation",
+          "Pulse Carrier Modulation",
+          "None"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q5",
+        "subjectName": "Control Systems",
+        "topicName": "Transfer Function",
+        "questionText": "Transfer function is defined:",
+        "options": [
+          "In time domain",
+          "Laplace",
+          "Fourier",
+          "Z-domain"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q6",
+        "subjectName": "EMFT",
+        "topicName": "Wave Propagation",
+        "questionText": "Skin depth increases with:",
+        "options": [
+          "Frequency",
+          "Conductivity",
+          "Both",
+          "Neither"
+        ],
+        "correctAnswer": "D",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q7",
+        "subjectName": "Networks",
+        "topicName": "Two-Port Networks",
+        "questionText": "h-parameter represents:",
+        "options": [
+          "Open circuit",
+          "Short circuit",
+          "Hybrid",
+          "Inverse"
+        ],
+        "correctAnswer": "C",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q8",
+        "subjectName": "Electronic Devices",
+        "topicName": "MOSFET",
+        "questionText": "MOSFET is:",
+        "options": [
+          "BJT",
+          "Unipolar",
+          "Bipolar",
+          "None"
+        ],
+        "correctAnswer": "B",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q9",
+        "subjectName": "Analog Circuits",
+        "topicName": "Oscillators",
+        "questionText": "RC oscillator frequency:",
+        "options": [
+          "f=1/(2πRC)",
+          "f=1/RC",
+          "f=1/(4πRC)",
+          "f=2πRC"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "qid": "Q10",
+        "subjectName": "General Aptitude",
+        "topicName": "Verbal",
+        "questionText": "Choose opposite of 'benevolent':",
+        "options": [
+          "Hostile",
+          "Kind",
+          "Generous",
+          "Helpful"
+        ],
+        "correctAnswer": "A",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}

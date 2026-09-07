@@ -22,6 +22,7 @@ const NOTICE_TTL = 5000; // ms before system notice expires
 type PositionUpdateHandler = (player: WorldPlayer) => void;
 type PlayerLeaveHandler = (playerId: string) => void;
 type PlayerJoinHandler = (player: WorldPlayer) => void;
+type ConnectedHandler = () => void;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RealtimeChannel = any;
@@ -35,6 +36,7 @@ export class MultiplayerManager {
   private positionHandlers: Set<PositionUpdateHandler> = new Set();
   private leaveHandlers: Set<PlayerLeaveHandler> = new Set();
   private joinHandlers: Set<PlayerJoinHandler> = new Set();
+  private connectedHandlers: Set<ConnectedHandler> = new Set();
   private connected = false;
   private lastBroadcast = 0;
 
@@ -74,6 +76,20 @@ export class MultiplayerManager {
   onPlayerJoin(handler: PlayerJoinHandler): () => void {
     this.joinHandlers.add(handler);
     return () => this.joinHandlers.delete(handler);
+  }
+
+  /** Subscribe to connection-actually-ready events (channel subscribed). */
+  onConnected(handler: ConnectedHandler): () => void {
+    this.connectedHandlers.add(handler);
+    // Fire immediately if already connected
+    if (this.connected && this.channel) handler();
+    return () => this.connectedHandlers.delete(handler);
+  }
+
+  private emitConnected(): void {
+    this.connectedHandlers.forEach((h) => {
+      try { h(); } catch { /* ignore */ }
+    });
   }
 
   /** Broadcast an emoji reaction. */
@@ -119,19 +135,13 @@ export class MultiplayerManager {
     const supabase = getChatSupabase();
     if (!supabase) {
       console.warn("[multiplayer] No Supabase client — running in local-only mode.");
+      this.connected = false;
       return;
     }
 
-    // Verify we have an authenticated session before creating realtime channels
-    supabase.auth.getUser().then(({ data }) => {
-      if (!data.user) {
-        console.warn("[multiplayer] No authenticated user — running in local-only mode.");
-        return;
-      }
-      this.initChannel(supabase);
-    }).catch(() => {
-      console.warn("[multiplayer] Auth check failed — running in local-only mode.");
-    });
+    // Skip auth gate: Supabase Realtime broadcast works with the anon key.
+    // Presence (track) needs a user_id but broadcast does not.
+    this.initChannel(supabase);
   }
 
   private initChannel(supabase: any): void {
@@ -237,6 +247,8 @@ export class MultiplayerManager {
 
       this.channel.subscribe((status: string) => {
         if (status === "SUBSCED" || status === "SUBSCRIBED") {
+          // Channel is actually open — mark connected and track presence
+          this.connected = true;
           // Track our presence
           if (this.localPlayer) {
             try {
@@ -258,6 +270,7 @@ export class MultiplayerManager {
               // ignore track errors
             }
           }
+          this.emitConnected();
         }
       });
 

@@ -1,0 +1,110 @@
+{
+  "gate-cse-2024": {
+    "year": 2024,
+    "branch": "CS",
+    "branchName": "Computer Science and Information Technology",
+    "session": "1",
+    "questions": [
+      {
+        "questionNumber": "1",
+        "subjectName": "Engineering Mathematics",
+        "questionText": "Let A be a 3x3 matrix with eigenvalues 1, 2, and 3. Then the trace of A^2 is:",
+        "options": ["6", "7", "14", "15"],
+        "correctAnswer": "14",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "questionNumber": "2",
+        "subjectName": "Digital Logic",
+        "questionText": "The number of Boolean functions of n variables is:",
+        "options": ["2^n", "2^(2^n)", "2^(n^2)", "n^2"],
+        "correctAnswer": "2^(2^n)",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "questionNumber": "3",
+        "subjectName": "Algorithms",
+        "questionText": "Which of the following sorting algorithms has the best worst-case time complexity?",
+        "options": ["Quick Sort", "Merge Sort", "Bubble Sort", "Insertion Sort"],
+        "correctAnswer": "Merge Sort",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "questionNumber": "4",
+        "subjectName": "Operating Systems",
+        "questionText": "Which of the following is NOT a necessary condition for deadlock?",
+        "options": ["Mutual Exclusion", "Hold and Wait", "Preemption", "Circular Wait"],
+        "correctAnswer": "Preemption",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "questionNumber": "5",
+        "subjectName": "Databases",
+        "questionText": "In SQL, which command is used to remove a table and its data permanently from the database?",
+        "options": ["DELETE", "DROP", "TRUNCATE", "ALTER"],
+        "correctAnswer": "DROP",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "questionNumber": "6",
+        "subjectName": "Computer Networks",
+        "questionText": "Which protocol is used at the application layer of the TCP/IP model?",
+        "options": ["TCP", "UDP", "HTTP", "IP"],
+        "correctAnswer": "HTTP",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "questionNumber": "7",
+        "subjectName": "Algorithms",
+        "questionText": "The time complexity of Dijkstra's algorithm using a binary heap is:",
+        "options": ["O(V^2)", "O(E log V)", "O(V log V + E)", "O(V log V)"],
+        "correctAnswer": "O(V log V + E)",
+        "questionType": "MCQ",
+        "marks": 2,
+        "negativeMarks": 0.66
+      },
+      {
+        "questionNumber": "8",
+        "subjectName": "Operating Systems",
+        "questionText": "A process has four pages in its virtual address space. It loads pages 0, 1, and 2 into frames 2, 3, and 1 respectively. Which page replacement algorithm would not cause any page fault for the reference string 0, 1, 2, 3, 0, 1, 4, 0, 1, 2, 3, 4 using 3 frames?",
+        "options": ["FIFO", "LRU", "Optimal", "None of these"],
+        "correctAnswer": "Optimal",
+        "questionType": "MCQ",
+        "marks": 2,
+        "negativeMarks": 0.66
+      },
+      {
+        "questionNumber": "9",
+        "subjectName": "Computer Organization",
+        "questionText": "In a 32-bit machine with 64MB of main memory, how many bits are needed to address a memory location?",
+        "options": ["26 bits", "32 bits", "64 bits", "16 bits"],
+        "correctAnswer": "26 bits",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      },
+      {
+        "questionNumber": "10",
+        "subjectName": "General Aptitude",
+        "questionText": "In a class of 60 students, 30 students play cricket, 25 play football, and 15 play both. How many students play neither?",
+        "options": ["20", "25", "30", "35"],
+        "correctAnswer": "20",
+        "questionType": "MCQ",
+        "marks": 1,
+        "negativeMarks": 0.33
+      }
+    ]
+  }
+}
