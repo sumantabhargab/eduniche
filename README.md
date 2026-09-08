@@ -1,6 +1,6 @@
-# Eduneuro
+# PadhaiShuru
 
-Pre-launch website for Eduneuro — an AI-powered, neuroscience-informed platform for learning real-world skills through active practice and personalized feedback.
+Pre-launch website for PadhaiShuru — an AI-powered, neuroscience-informed platform for GATE (Graduate Aptitude Test in Engineering) preparation. One platform for PYQs, AI doubt solving, study planning, virtual library, analytics, and more.
 
 ## Quick Start
 
@@ -23,7 +23,7 @@ npm run dev
 ```
 src/
   app/
-    page.tsx           — Main homepage (all sections)
+    page.tsx           — Main homepage (hero, GATE papers, features, pricing CTA)
     layout.tsx         — Root layout + fonts + metadata
     globals.css        — Design tokens, animations, reduced-motion
     api/
