@@ -6,6 +6,8 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
 import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
+import { requireUser } from "@/lib/auth/user";
+import { ok, conflict, serverError } from "@/lib/api/response";
 
 export async function PATCH(
   request: Request,
@@ -14,16 +16,18 @@ export async function PATCH(
   try {
     const supabaseRaw = await createServerClient();
     if (!supabaseRaw) {
-      return NextResponse.json({ error: "Server not configured." }, { status: 500 });
+      return serverError("Server not configured.");
     }
     const sb: any = supabaseRaw;
 
-    const { data: { session } } = await supabaseRaw.auth.getSession();
-    if (!session?.user) {
+    // Authenticate via requireUser helper
+    const userResult = await requireUser();
+    if (!userResult.ok) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
+    const { user } = userResult;
 
-    const rl = checkRateLimit({ maxRequests: 20, windowMs: 60000 }, getClientIdentifier(request) + session.user.id);
+    const rl = checkRateLimit({ maxRequests: 20, windowMs: 60000 }, getClientIdentifier(request) + user.id);
     if (!rl.allowed) {
       return NextResponse.json({ error: "Too many requests." }, { status: 429 });
     }
@@ -38,7 +42,7 @@ export async function PATCH(
       .from("study_sessions")
       .select("*")
       .eq("id", id)
-      .eq("user_id", session.user.id)
+      .eq("user_id", user.id)
       .maybeSingle();
 
     if (fetchError || !existing) {
@@ -46,7 +50,10 @@ export async function PATCH(
     }
 
     if (existing.validation_status !== 'pending') {
-      return NextResponse.json({ error: "Session already ended." }, { status: 400 });
+      return conflict("Session already ended.", {
+        sessionId: id,
+        currentStatus: existing.validation_status,
+      });
     }
 
     const body = await request.json().catch(() => ({}));
@@ -70,9 +77,10 @@ export async function PATCH(
       return NextResponse.json({ error: "Session too short." }, { status: 400 });
     }
 
-    // Sanity check against client-provided duration (allow 10% tolerance)
+    // Flat 60-second tolerance against client-provided duration.
+    // Reject client values that deviate by more than 60s from server-side calculation.
     const clientDuration = typeof duration_seconds === 'number' ? duration_seconds : null;
-    const finalDuration = clientDuration && Math.abs(clientDuration - serverDuration) / Math.max(serverDuration, 1) < 0.1
+    const finalDuration = clientDuration && Math.abs(clientDuration - serverDuration) <= 60
       ? clientDuration
       : serverDuration;
 
@@ -84,7 +92,7 @@ export async function PATCH(
         validation_status: 'valid',
       })
       .eq("id", id)
-      .eq("user_id", session.user.id)
+      .eq("user_id", user.id)
       .select("*")
       .single();
 
@@ -94,9 +102,9 @@ export async function PATCH(
     }
 
     // Check for new badges
-    await checkAndAwardBadges(sb, session.user.id);
+    await checkAndAwardBadges(sb, user.id);
 
-    return NextResponse.json({ session: updated });
+    return NextResponse.json(ok({ session: updated }));
   } catch (e) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }

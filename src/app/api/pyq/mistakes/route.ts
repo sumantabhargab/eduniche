@@ -1,23 +1,25 @@
 /**
  * GET /api/pyq/mistakes
  *
- * Returns the student's mistake bank.
+ * Returns the authenticated student's mistake bank.
  */
 
 import { NextResponse } from "next/server";
-import { createServiceClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase/server";
+import { getUser } from "@/lib/auth/user";
+import { ok, unauthorized, serverError } from "@/lib/api/response";
 
 export async function GET(request: Request) {
   try {
-    const supabase = await createServiceClient();
-    if (!supabase) {
-      return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+    const user = await getUser();
+    if (!user) {
+      return unauthorized("Sign in to view your mistake bank");
     }
 
-    // In production, get user ID from auth session
-    // const { data: { user } } = await supabase.auth.getUser();
-    // const userId = user?.id;
-    const userId = "anonymous";
+    const supabase = await createServerClient();
+    if (!supabase) {
+      return serverError("Database unavailable");
+    }
 
     const { data: attempts, error } = await supabase
       .from("pyq_attempts")
@@ -34,23 +36,17 @@ export async function GET(request: Request) {
           question_number,
           subject_name,
           topic_name,
-          question_text,
-          question_html,
-          options,
-          correct_answer,
-          marks,
-          difficulty,
-          question_type
+          correct_answer
         )
       `)
-      .eq("user_id", userId)
+      .eq("user_id", user.id)
       .eq("is_correct", false)
       .order("created_at", { ascending: false })
       .limit(100);
 
     if (error) {
       console.error("[PYQ] Mistakes query error:", error);
-      return NextResponse.json({ error: "Failed to fetch mistakes" }, { status: 500 });
+      return serverError("Failed to fetch mistakes");
     }
 
     const mistakes = (attempts || []).map((a: {
@@ -85,9 +81,9 @@ export async function GET(request: Request) {
       };
     });
 
-    return NextResponse.json({ mistakes, total: mistakes.length });
+    return ok({ mistakes, total: mistakes.length });
   } catch (error) {
     console.error("[PYQ] Mistakes error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return serverError("Internal server error");
   }
 }

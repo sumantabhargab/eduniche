@@ -7,79 +7,59 @@
  * the order in our database.
  */
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
 import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
+import { PLANS, PAID_PLAN_IDS, formatINR } from "@/config/plans";
+import { ok, badRequest, serverError } from "@/lib/api/response";
 
-// Authoritative server-side plan configuration.
-// The client may request a plan, but NEVER controls price, currency,
-// or entitlement duration.
-const PLANS = {
-  weekly: {
-    durationDays: 7,
-    amountPaise: 2000,
-    currency: "INR",
-    label: "weekly_premium",
-  },
-  monthly: {
-    durationDays: 30,
-    amountPaise: 4900,
-    currency: "INR",
-    label: "monthly_premium",
-  },
-} as const;
-
-type PlanKey = keyof typeof PLANS;
-
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const supabase = await createServerClient();
     if (!supabase) {
-      return NextResponse.json({ error: "Server not configured." }, { status: 500 });
+      return serverError("Server not configured.");
     }
 
     // 1. Authenticate — payment identity comes from the Supabase session,
     //    never from client-supplied user IDs.
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+      return badRequest("Unauthorized.");
     }
 
     // 2. Rate limit per user+IP
     const rl = checkRateLimit(
       { maxRequests: 5, windowMs: 60000 },
-      getClientIdentifier(request) + session.user.id
+      getClientIdentifier(request) + session.user.id,
     );
     if (!rl.allowed) {
-      return NextResponse.json({ error: "Too many requests." }, { status: 429 });
+      return badRequest("Too many requests.");
     }
 
     // 3. Validate plan — reject unknown plans, trust only server config
     const body = await request.json().catch(() => ({}));
     const rawPlan = typeof body.plan === "string" ? body.plan : "";
-    const plan = rawPlan as PlanKey;
 
-    if (!PLANS[plan]) {
-      return NextResponse.json(
-        { error: "Invalid plan. Choose 'weekly' or 'monthly'." },
-        { status: 400 }
-      );
+    if (!PAID_PLAN_IDS.includes(rawPlan as any) || !PLANS[rawPlan as keyof typeof PLANS]) {
+      return badRequest("Invalid plan. Choose 'weekly' or 'monthly'.");
     }
 
-    // 4. Resolve plan config entirely from server
+    const plan = rawPlan as keyof typeof PLANS;
     const config = PLANS[plan];
-    const amount = config.amountPaise;
+    const amount = config.amountInPaise;
     const currency = config.currency;
 
-    // 5. Check Razorpay credentials
+    // 4. Check Razorpay credentials
     const razorpayKeyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
     const razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET;
 
     if (!razorpayKeyId || !razorpayKeySecret) {
-      return NextResponse.json({ error: "Payment system not configured." }, { status: 500 });
+      return serverError("Payment system not configured.");
     }
 
-    // 6. Insert a pending subscription row BEFORE creating the Razorpay order.
+    // 5. Insert a pending subscription row BEFORE creating the Razorpay order.
     //    This ensures verify and webhook can always find the order.
     //    The atomic activate_subscription RPC will claim it on first successful payment.
     const { data: subRow, error: insertErr } = await supabase
@@ -97,12 +77,12 @@ export async function POST(request: Request) {
 
     if (insertErr || !subRow) {
       console.error("Failed to create pending subscription:", insertErr);
-      return NextResponse.json({ error: "Failed to initialize payment." }, { status: 500 });
+      return serverError("Failed to initialize payment.");
     }
 
     const receipt = `edun_${subRow.id.slice(0, 8)}_${Date.now()}`;
 
-    // 7. Create Razorpay order server-side
+    // 6. Create Razorpay order server-side
     const authHeader = Buffer.from(`${razorpayKeyId}:${razorpayKeySecret}`).toString("base64");
 
     const orderResponse = await fetch("https://api.razorpay.com/v1/orders", {
@@ -133,26 +113,29 @@ export async function POST(request: Request) {
 
       const errorData = await orderResponse.text();
       console.error("Razorpay order error:", errorData);
-      return NextResponse.json({ error: "Failed to create payment order." }, { status: 500 });
+      return serverError("Failed to create payment order.");
     }
 
     const order = await orderResponse.json();
 
-    // 8. Link the Razorpay order ID to our subscription row
+    // 7. Link the Razorpay order ID to our subscription row
     await supabase
       .from("user_subscriptions")
       .update({ razorpay_order_id: order.id })
       .eq("id", subRow.id);
 
-    // 9. Return only data required by the browser
-    return NextResponse.json({
+    // 8. Return only data required by the browser
+    return NextResponse.json(ok({
       orderId: order.id,
       amount: order.amount,
       currency: order.currency,
       keyId: razorpayKeyId,
-    });
+      formattedAmount: formatINR(amount),
+      plan: plan,
+      durationDays: config.durationDays,
+    }));
   } catch (e) {
     console.error("Subscription order error:", e);
-    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+    return badRequest("Invalid request.");
   }
 }

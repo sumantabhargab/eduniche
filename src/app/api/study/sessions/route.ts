@@ -11,24 +11,28 @@ import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
 import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
 import { validateUuid } from "@/modules/content-cms/lib/validators";
+import { requireUser } from "@/lib/auth/user";
+import { ok, badRequest, unauthorized, conflict, serverError } from "@/lib/api/response";
 
 // POST - Start a new session
 export async function POST(request: Request) {
   try {
     const supabase = await createServerClient();
     if (!supabase) {
-      return NextResponse.json({ error: "Server not configured." }, { status: 500 });
+      return serverError("Server not configured.");
     }
 
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    // Authenticate via requireUser helper
+    const userResult = await requireUser();
+    if (!userResult.ok) {
+      return unauthorized();
     }
+    const { user } = userResult;
 
     // Rate limit
-    const rl = checkRateLimit({ maxRequests: 10, windowMs: 60000 }, getClientIdentifier(request) + session.user.id);
+    const rl = checkRateLimit({ maxRequests: 10, windowMs: 60000 }, getClientIdentifier(request) + user.id);
     if (!rl.allowed) {
-      return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+      return badRequest("Too many requests. Please try again later.");
     }
 
     const body = await request.json().catch(() => ({}));
@@ -36,16 +40,36 @@ export async function POST(request: Request) {
 
     // Validate inputs
     if (room_id && typeof room_id === 'string' && room_id.length > 100) {
-      return NextResponse.json({ error: "Invalid room_id." }, { status: 400 });
+      return badRequest("Invalid room_id.");
     }
     if (topic && typeof topic === 'string' && topic.length > 200) {
-      return NextResponse.json({ error: "Topic too long." }, { status: 400 });
+      return badRequest("Topic too long.");
+    }
+
+    // Enforce session uniqueness: reject if user already has an active session
+    const { data: activeSession, error: activeError } = await supabase
+      .from("study_sessions")
+      .select("id, started_at, validation_status")
+      .eq("user_id", user.id)
+      .eq("validation_status", "pending")
+      .maybeSingle();
+
+    if (activeError) {
+      console.error("Active session check error:", activeError);
+      return serverError("Failed to check existing sessions.");
+    }
+
+    if (activeSession) {
+      return conflict("You already have an active study session. End it before starting a new one.", {
+        existingSessionId: activeSession.id,
+        startedAt: activeSession.started_at,
+      });
     }
 
     const { data, error } = await supabase
       .from("study_sessions")
       .insert({
-        user_id: session.user.id,
+        user_id: user.id,
         room_id: room_id ?? null,
         branch_id: branch_id ?? null,
         subject_id: subject_id ?? null,
@@ -58,12 +82,12 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("Session create error:", error);
-      return NextResponse.json({ error: "Failed to start session." }, { status: 500 });
+      return serverError("Failed to start session.");
     }
 
-    return NextResponse.json({ session: data }, { status: 201 });
+    return NextResponse.json(ok({ session: data }), { status: 201 });
   } catch (e) {
-    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+    return badRequest("Invalid request.");
   }
 }
 

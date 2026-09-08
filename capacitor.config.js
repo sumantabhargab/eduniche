@@ -1,10 +1,10 @@
 const config = {
-  appId: 'com.eduniche.app',
-  appName: 'EduNeuro',
+  appId: 'com.padhaishuru.app',
+  appName: 'PadhaiShuru',
   webDir: 'out',
   server: {
     androidScheme: 'https',
-    url: 'https://eduniche.com',
+    url: 'https://padhaishuru.com',
     cleartext: false,
   },
   android: {

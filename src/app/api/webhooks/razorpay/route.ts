@@ -32,12 +32,13 @@
 import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/server";
 import crypto from "crypto";
+import { ok, badRequest, serverError } from "@/lib/api/response";
 
 export async function POST(request: Request) {
   try {
     const razorpayWebhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
     if (!razorpayWebhookSecret) {
-      return NextResponse.json({ error: "Webhook not configured." }, { status: 500 });
+      return serverError("Webhook not configured.");
     }
 
     // 1. Read RAW body BEFORE parsing — required for HMAC verification
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
     // 2. Verify webhook signature against raw body
     const signature = request.headers.get("x-razorpay-signature");
     if (!signature) {
-      return NextResponse.json({ error: "Missing signature." }, { status: 400 });
+      return badRequest("Missing signature.");
     }
 
     const expectedSignature = crypto
@@ -56,13 +57,13 @@ export async function POST(request: Request) {
 
     if (!crypto.timingSafeEqual(Buffer.from(expectedSignature), Buffer.from(signature))) {
       console.error("Invalid Razorpay webhook signature");
-      return NextResponse.json({ error: "Invalid signature." }, { status: 400 });
+      return badRequest("Invalid signature.");
     }
 
     const event = JSON.parse(body);
     const supabase = createServiceClient();
     if (!supabase) {
-      return NextResponse.json({ error: "Server not configured." }, { status: 500 });
+      return serverError("Server not configured.");
     }
 
     // 3. Use x-razorpay-event-id header as the authoritative event identifier.
@@ -72,7 +73,7 @@ export async function POST(request: Request) {
 
     if (!eventId) {
       console.error("Webhook event missing ID (no x-razorpay-event-id header and no event.id)");
-      return NextResponse.json({ received: true });
+      return NextResponse.json(ok({ received: true }));
     }
 
     // claim_webhook_event returns the new row UUID on a fresh or stale claim,
@@ -87,7 +88,7 @@ export async function POST(request: Request) {
 
     if (!claimedId) {
       // Already processed or failed — safe no-op (terminal state).
-      return NextResponse.json({ received: true });
+      return NextResponse.json(ok({ received: true }));
     }
 
     // 4. Process only supported payment events
@@ -99,7 +100,7 @@ export async function POST(request: Request) {
         p_event_id: eventId,
         p_status: "processed",
       });
-      return NextResponse.json({ received: true });
+      return NextResponse.json(ok({ received: true }));
     }
 
     const orderId = paymentEntity.order_id;
@@ -119,7 +120,7 @@ export async function POST(request: Request) {
         p_event_id: eventId,
         p_status: "processed",
       });
-      return NextResponse.json({ received: true });
+      return NextResponse.json(ok({ received: true }));
     }
 
     try {
@@ -142,7 +143,7 @@ export async function POST(request: Request) {
             p_status: "failed",
             p_error: `Activation error: ${updateErr.message || JSON.stringify(updateErr)}`,
           });
-          return NextResponse.json({ error: "Activation failed." }, { status: 500 });
+          return serverError("Activation failed.");
         }
 
         // Sync plan to profiles so premium access works immediately.
@@ -190,7 +191,7 @@ export async function POST(request: Request) {
             p_event_id: eventId,
             p_status: "processed",
           });
-          return NextResponse.json({ received: true });
+          return NextResponse.json(ok({ received: true }));
         }
 
         await supabase
@@ -211,7 +212,7 @@ export async function POST(request: Request) {
         });
       }
 
-      return NextResponse.json({ received: true });
+      return NextResponse.json(ok({ received: true }));
     } catch (processingErr) {
       console.error("Webhook processing error:", processingErr);
       await supabase.rpc("complete_webhook_event", {
@@ -219,10 +220,10 @@ export async function POST(request: Request) {
         p_status: "failed",
         p_error: `Processing error: ${processingErr instanceof Error ? processingErr.message : "unknown"}`,
       });
-      return NextResponse.json({ error: "Webhook processing failed." }, { status: 500 });
+      return serverError("Webhook processing failed.");
     }
   } catch (e) {
     console.error("Webhook error:", e);
-    return NextResponse.json({ error: "Webhook processing failed." }, { status: 500 });
+    return serverError("Webhook processing failed.");
   }
 }

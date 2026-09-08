@@ -123,7 +123,7 @@ function NavInner() {
                   >
                     <path d="M12 2 14.5 8.5 21 9.5 16 14 17.5 21 12 17.5 6.5 21 8 14 3 9.5 9.5 8.5z" />
                   </svg>
-                  <span className="tracking-wide">EduPremium</span>
+                  <span className="tracking-wide">PadhaiPremium</span>
                 </span>
               ) : (
                 <Link
@@ -227,7 +227,7 @@ function NavInner() {
                   <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M12 2 14.5 8.5 21 9.5 16 14 17.5 21 12 17.5 6.5 21 8 14 3 9.5 9.5 8.5z" />
                   </svg>
-                  <span className="tracking-wide">EduPremium</span>
+                  <span className="tracking-wide">PadhaiPremium</span>
                 </span>
               ) : (
                 <Link

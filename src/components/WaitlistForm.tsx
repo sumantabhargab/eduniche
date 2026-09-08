@@ -98,7 +98,7 @@ export default function WaitlistForm({
         if (userData?.referralCode) {
           setMyReferralCode(userData.referralCode);
           // Set cookie so the referral link works across sessions
-          document.cookie = `eduniche_ref=${userData.referralCode};path=/;max-age=${60*60*24*30};SameSite=Lax`;
+          document.cookie = `padhaishuru_ref=${userData.referralCode};path=/;max-age=${60*60*24*30};SameSite=Lax`;
         }
         onSuccess?.(userData as { name: string; referralCode: string; position: number; count: number });
       } catch (err) {

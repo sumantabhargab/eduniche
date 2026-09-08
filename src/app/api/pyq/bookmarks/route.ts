@@ -7,97 +7,100 @@
 
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
+import { requireUser } from "@/lib/auth/user";
+import { ok, badRequest, unauthorized, serverError } from "@/lib/api/response";
 
-async function getUserId() {
+async function getAuthenticatedUser() {
   const supabase = await createServerClient();
-  if (!supabase) return null;
-  const { data: { session } } = await supabase.auth.getSession();
-  return session?.user?.id || null;
+  if (!supabase) return { supabase: null as any, user: null };
+  const userResult = await requireUser();
+  return { supabase, user: userResult.ok ? userResult.user : null };
 }
 
 export async function POST(request: Request) {
   try {
+    const { supabase, user } = await getAuthenticatedUser();
+    if (!supabase || !user) {
+      return unauthorized("Unauthorized. Please sign in.");
+    }
+
     const body = await request.json();
     const { questionId } = body;
 
     if (!questionId) {
-      return NextResponse.json({ error: "Missing questionId" }, { status: 400 });
+      return badRequest("Missing questionId");
     }
 
-    const userId = await getUserId();
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized. Please sign in." }, { status: 401 });
-    }
+    // Look up the question to get its branch_code — never hardcode
+    const { data: question, error: qErr } = await supabase
+      .from("pyq_questions")
+      .select("branch_code")
+      .eq("id", questionId)
+      .maybeSingle();
 
-    const supabase = await createServerClient();
-    if (!supabase) {
-      return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+    if (qErr || !question) {
+      return badRequest("Question not found.");
     }
 
     const { error } = await supabase.from("pyq_bookmarks").upsert({
       question_id: questionId,
-      user_id: userId,
-      branch_code: "CS",
+      user_id: user.id,
+      branch_code: question.branch_code,
     }, { onConflict: "user_id,question_id" });
 
     if (error) {
       console.error("[PYQ] Bookmark error:", error);
-      return NextResponse.json({ error: "Failed to bookmark" }, { status: 500 });
+      return serverError("Failed to bookmark");
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json(ok({ success: true }));
   } catch (error) {
     console.error("[PYQ] Bookmark error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return serverError("Internal server error");
   }
 }
 
 export async function DELETE(request: Request) {
   try {
+    const { supabase, user } = await getAuthenticatedUser();
+    if (!supabase || !user) {
+      return unauthorized("Unauthorized. Please sign in.");
+    }
+
     const { searchParams } = new URL(request.url);
     const questionId = searchParams.get("questionId");
 
     if (!questionId) {
-      return NextResponse.json({ error: "Missing questionId" }, { status: 400 });
-    }
-
-    const userId = await getUserId();
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized. Please sign in." }, { status: 401 });
-    }
-
-    const supabase = await createServerClient();
-    if (!supabase) {
-      return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+      return badRequest("Missing questionId");
     }
 
     const { error } = await supabase
       .from("pyq_bookmarks")
       .delete()
       .eq("question_id", questionId)
-      .eq("user_id", userId);
+      .eq("user_id", user.id);
 
     if (error) {
       console.error("[PYQ] Unbookmark error:", error);
-      return NextResponse.json({ error: "Failed to remove bookmark" }, { status: 500 });
+      return serverError("Failed to remove bookmark");
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json(ok({ success: true }));
   } catch (error) {
     console.error("[PYQ] Unbookmark error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return serverError("Internal server error");
   }
 }
 
 export async function GET() {
   try {
-    const userId = await getUserId();
-    if (!userId) {
+    const { supabase, user } = await getAuthenticatedUser();
+    if (!supabase) {
       return NextResponse.json({ bookmarks: [] });
     }
 
-    const supabase = await createServerClient();
-    if (!supabase) {
+    const userId = user?.id;
+    if (!userId) {
       return NextResponse.json({ bookmarks: [] });
     }
 

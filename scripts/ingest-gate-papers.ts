@@ -3,7 +3,7 @@
  *
  * Downloads official GATE papers from gate2026.iitg.ac.in,
  * extracts questions using pdftotext, and prepares them for
- * insertion into the EduNeuro Supabase database.
+ * insertion into the PadhaiShuru Supabase database.
  *
  * Usage:
  *   node scripts/ingest-gate-papers.js --branch CS --years 2024,2025

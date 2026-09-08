@@ -23,14 +23,42 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "PadhaiShuru.com — GATE Preparation Platform",
+  title: {
+    default: "PadhaiShuru.com — GATE Preparation Platform",
+    template: "%s | PadhaiShuru",
+  },
   description:
     "Free GATE PYQ library, AI doubt engine, study tracker, mock tests, analytics, and mentorship — everything a GATE aspirant needs.",
+  metadataBase: new URL("https://padhaishuru.com"),
   openGraph: {
     title: "PadhaiShuru.com — GATE Preparation Platform",
     description:
-      "Free GATE PYQ library, AI doubt engine, study tracker, mock tests, analytics, and mentorship — everything a GATE aspirant needs.",
+      "Free GATE PYQ library, AI doubt engine, study tracker, mock tests, analytics, and mentorship.",
     type: "website",
+    url: "https://padhaishuru.com",
+    siteName: "PadhaiShuru",
+    images: [
+      {
+        url: "/og-image.svg",
+        width: 1200,
+        height: 630,
+        alt: "PadhaiShuru — GATE Preparation, Reimagined",
+      },
+    ],
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PadhaiShuru.com — GATE Preparation Platform",
+    description:
+      "Free GATE PYQ library, AI doubt engine, study tracker, mock tests, analytics, and mentorship.",
+    images: ["/og-image.svg"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 

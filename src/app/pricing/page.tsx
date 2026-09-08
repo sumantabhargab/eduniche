@@ -1,9 +1,6 @@
 /**
  * Pricing page at /pricing
- * Shows subscription plans and upgrade flow.
- *
- * Uses a module-level flag to deduplicate Razorpay checkout script loads
- * across multiple upgrade attempts.
+ * Renders plans from src/config/plans.ts (single source of truth).
  */
 
 "use client";
@@ -11,6 +8,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
+import { PLANS, PAID_PLAN_IDS, formatINR, type PlanId } from "@/config/plans";
 
 let razorpayScriptLoaded = false;
 let razorpayLoadPromise: Promise<void> | null = null;
@@ -41,10 +39,9 @@ export default function PricingPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [selectedPlan, setSelectedPlan] = useState<"weekly" | "monthly">("monthly");
+  const [selectedPlan, setSelectedPlan] = useState<PlanId>("monthly");
   const rzpRef = useRef<{ close(): void; open(): void } | null>(null);
 
-  // Cleanup Razorpay instance on unmount
   useEffect(() => {
     return () => {
       if (rzpRef.current) {
@@ -54,7 +51,7 @@ export default function PricingPage() {
     };
   }, []);
 
-  const handleUpgrade = async (plan: "weekly" | "monthly") => {
+  const handleUpgrade = async (plan: PlanId) => {
     if (!user) {
       router.push("/login");
       return;
@@ -63,7 +60,6 @@ export default function PricingPage() {
     setLoading(true);
     setError(null);
 
-    // Close any previously open checkout
     if (rzpRef.current) {
       rzpRef.current.close();
       rzpRef.current = null;
@@ -79,13 +75,12 @@ export default function PricingPage() {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        setError(data.error || "Failed to start payment.");
+      if (!res.ok || !data.success) {
+        setError(data.error?.message ?? "Failed to start payment.");
         setLoading(false);
         return;
       }
 
-      // Load Razorpay checkout script (deduped)
       try {
         await loadRazorpayScript();
       } catch {
@@ -94,34 +89,26 @@ export default function PricingPage() {
         return;
       }
 
-      // Populate customer info from the authenticated PadhaiShuru user.
-      // Never fabricate information.
       const prefill: Record<string, string> = {};
       if (user.email) prefill.email = user.email;
       if (user.display_name || user.username) {
         prefill.name = user.display_name || user.username || "";
       }
-      // Phone is not stored in profiles — only set if available
-      // from user metadata (e.g., Google OAuth)
       const userMetadata = (user as { user_metadata?: { phone?: string } }).user_metadata;
       const phone = userMetadata?.phone;
       if (phone) prefill.contact = phone;
 
-      // Razorpay is loaded dynamically by loadRazorpayScript above.
-      // The global constructor is exposed by checkout.js.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const RazorpayCtor = (window as any).Razorpay as new (
         options: Record<string, unknown>
       ) => { close(): void; open(): void };
       const rzp = new RazorpayCtor({
-        key: data.keyId,
-        amount: data.amount,
-        currency: data.currency,
-        order_id: data.orderId,
+        key: data.data.keyId,
+        amount: data.data.amount,
+        currency: data.data.currency,
+        order_id: data.data.orderId,
         prefill,
-        notes: {
-          plan,
-        },
+        notes: { plan },
         handler: async (response: Record<string, unknown>) => {
           try {
             const verifyRes = await fetch("/api/subscriptions/verify", {
@@ -138,10 +125,9 @@ export default function PricingPage() {
             const verifyData = await verifyRes.json();
 
             if (verifyRes.ok && verifyData.success) {
-              // Server confirmed payment — redirect to success
               router.push("/success?type=subscription");
             } else {
-              setError(verifyData.error || "Payment verification failed.");
+              setError(verifyData.error?.message ?? "Payment verification failed.");
               setLoading(false);
             }
           } catch {
@@ -162,6 +148,9 @@ export default function PricingPage() {
       setLoading(false);
     }
   };
+
+  const paidPlans = PAID_PLAN_IDS.map((id) => PLANS[id]);
+  const freePlan = PLANS.free;
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-16">
@@ -189,56 +178,33 @@ export default function PricingPage() {
         </div>
       )}
 
-      <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-        {/* Weekly Plan */}
-        <PricingCard
-          name="Weekly"
-          price="₹20"
-          period="week"
-          features={[
-            "Access to all premium content",
-            "AI Doubt Engine",
-            "Live global chat",
-            "Global leaderboard",
-            "Cosmetic badges",
-            "Predicted mock papers",
-          ]}
-          isSelected={selectedPlan === "weekly"}
-          onSelect={() => setSelectedPlan("weekly")}
-          onUpgrade={() => handleUpgrade("weekly")}
-          loading={loading}
-          disabled={isPremium}
-          highlighted={false}
-        />
-
-        {/* Monthly Plan - Primary */}
-        <PricingCard
-          name="Monthly"
-          price="₹49"
-          period="month"
-          features={[
-            "Everything in Weekly",
-            "Better value — save ₹31",
-            "Access to all premium content",
-            "AI Doubt Engine",
-            "Live global chat",
-            "Global leaderboard",
-            "Cosmetic badges",
-            "Predicted mock papers",
-          ]}
-          isSelected={selectedPlan === "monthly"}
-          onSelect={() => setSelectedPlan("monthly")}
-          onUpgrade={() => handleUpgrade("monthly")}
-          loading={loading}
-          disabled={isPremium}
-          highlighted={true}
-        />
+      <div
+        className={`grid md:grid-cols-${paidPlans.length} gap-8 max-w-3xl mx-auto`}
+        role="radiogroup"
+        aria-label="Subscription plans"
+      >
+        {paidPlans.map((plan) => (
+          <PricingCard
+            key={plan.id}
+            planId={plan.id}
+            name={plan.displayName}
+            price={formatINR(plan.amountInPaise)}
+            period={plan.id === "weekly" ? "week" : "month"}
+            features={plan.features}
+            isSelected={selectedPlan === plan.id}
+            onSelect={() => setSelectedPlan(plan.id)}
+            onUpgrade={() => handleUpgrade(plan.id)}
+            loading={loading}
+            disabled={isPremium}
+            highlighted={plan.popular}
+          />
+        ))}
       </div>
 
       <div className="mt-16 text-center">
-        <h2 className="text-2xl font-bold mb-8">Free includes</h2>
+        <h2 className="text-2xl font-bold mb-8">{freePlan.displayName} includes</h2>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-          {["PYQ Analysis", "Study Timer", "Study History", "Daily Goals", "Streaks", "Shareable Images", "Browse Library", "Read Free Content"].map((feature) => (
+          {freePlan.features.map((feature) => (
             <div key={feature} className="bg-card border border-border rounded-xl px-4 py-3 text-sm">
               ✓ {feature}
             </div>
@@ -250,6 +216,7 @@ export default function PricingPage() {
 }
 
 function PricingCard({
+  planId,
   name,
   price,
   period,
@@ -261,6 +228,7 @@ function PricingCard({
   disabled,
   highlighted,
 }: {
+  planId: PlanId;
   name: string;
   price: string;
   period: string;
@@ -309,7 +277,7 @@ function PricingCard({
         <span className="text-muted">/{period}</span>
       </div>
       <p className="text-sm text-muted mb-6">
-        {name === "Monthly" ? "Best value" : "Flexible plan"}
+        {highlighted ? "Best value" : "Flexible plan"}
       </p>
       <ul className="space-y-3 mb-8">
         {features.map((feature) => (

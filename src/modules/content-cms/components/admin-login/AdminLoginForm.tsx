@@ -60,7 +60,7 @@ export default function AdminLoginForm() {
           onChange={(e) => setEmail(e.target.value)}
           required
           className="w-full rounded-lg border border-border bg-background px-3 py-2 text-foreground placeholder:text-muted focus:border-accent focus:outline-none transition-colors"
-          placeholder="admin@eduniche.com"
+          placeholder="admin@padhaishuru.com"
         />
       </div>
 

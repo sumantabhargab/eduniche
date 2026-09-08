@@ -76,7 +76,7 @@ export const MAX_FILE_SIZE_BYTES = 200 * 1024 * 1024;
 export const MAX_FILE_SIZE_MB = MAX_FILE_SIZE_BYTES / (1024 * 1024);
 
 export const STORAGE_BUCKET =
-  process.env.NEXT_PUBLIC_CONTENT_BUCKET || "eduniche-content";
+  process.env.NEXT_PUBLIC_CONTENT_BUCKET || "padhaishuru-content";
 
 /**
  * Accept a file when EITHER its extension OR its MIME type matches an allowed

@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
   // Track referral code from URL params
   const refCode = request.nextUrl.searchParams.get("ref");
   if (refCode) {
-    response.cookies.set("eduniche_ref", refCode, {
+    response.cookies.set("padhaishuru_ref", refCode, {
       maxAge: 60 * 60 * 24 * 30, // 30 days
       httpOnly: true,
       sameSite: "lax",

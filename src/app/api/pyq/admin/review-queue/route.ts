@@ -5,16 +5,34 @@
  */
 
 import { NextResponse } from "next/server";
-import { createServiceClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase/server";
+import { getUser } from "@/lib/auth/user";
+import { unauthorized, forbidden, serverError, ok } from "@/lib/api/response";
 
 export async function GET() {
   try {
-    const supabase = await createServiceClient();
-    if (!supabase) {
-      return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+    const user = await getUser();
+    if (!user) {
+      return unauthorized("Authentication required");
     }
 
-    // Get questions needing review — low confidence or C tier quality
+    const supabase = await createServerClient();
+    if (!supabase) {
+      return serverError("Database unavailable");
+    }
+
+    // Verify admin role
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (!profile || !["admin", "super_admin"].includes(profile.role)) {
+      return forbidden("Admin access required");
+    }
+
+    // Get questions needing review
     const { data: reviewQuestions, error } = await supabase
       .from("pyq_questions")
       .select("*")
@@ -24,7 +42,7 @@ export async function GET() {
 
     if (error) {
       console.error("[PYQ] Review queue error:", error);
-      return NextResponse.json({ error: "Failed to load review queue" }, { status: 500 });
+      return serverError("Failed to load review queue");
     }
 
     // Get aggregate stats
@@ -42,7 +60,7 @@ export async function GET() {
       .select("*", { count: "exact", head: true })
       .eq("quality_tier", "A");
 
-    return NextResponse.json({
+    return ok({
       reviewQueue: (reviewQuestions || []).map((q: Record<string, unknown>) => ({
         id: q.id,
         questionId: q.question_id,
@@ -70,6 +88,6 @@ export async function GET() {
     });
   } catch (error) {
     console.error("[PYQ] Admin review error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return serverError("Internal server error");
   }
 }

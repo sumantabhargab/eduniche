@@ -20,35 +20,39 @@
  *   Only after ALL layers pass is Premium entitlement granted.
  */
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
 import crypto from "crypto";
+import { legacyPlanToPlanId } from "@/config/plans";
+import { ok, badRequest, serverError } from "@/lib/api/response";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const supabase = await createServerClient();
     if (!supabase) {
-      return NextResponse.json({ error: "Server not configured." }, { status: 500 });
+      return serverError("Server not configured.");
     }
 
     const razorpayKeyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
     const razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET;
 
     if (!razorpayKeyId || !razorpayKeySecret) {
-      return NextResponse.json({ error: "Payment verification not configured." }, { status: 500 });
+      return serverError("Payment verification not configured.");
     }
 
     // 1. Authenticate — payment identity comes from the Supabase session
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+      return badRequest("Unauthorized.");
     }
 
     const body = await request.json().catch(() => ({}));
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = body;
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-      return NextResponse.json({ error: "Missing payment details." }, { status: 400 });
+      return badRequest("Missing payment details.");
     }
 
     // 2. Verify Razorpay signature server-side using the trusted order ID.
@@ -64,7 +68,7 @@ export async function POST(request: Request) {
         order: razorpay_order_id,
         payment: razorpay_payment_id,
       });
-      return NextResponse.json({ error: "Invalid payment signature." }, { status: 400 });
+      return badRequest("Invalid payment signature.");
     }
 
     // 3. Look up the order from our database using the Razorpay order ID.
@@ -78,7 +82,7 @@ export async function POST(request: Request) {
 
     if (orderErr || !order) {
       console.error("Order not found in database:", razorpay_order_id);
-      return NextResponse.json({ error: "Order not recognized." }, { status: 400 });
+      return badRequest("Order not recognized.");
     }
 
     // 4. Verify the order belongs to the authenticated user.
@@ -89,7 +93,7 @@ export async function POST(request: Request) {
         orderUserId: order.user_id,
         sessionUserId: session.user.id,
       });
-      return NextResponse.json({ error: "Order not found." }, { status: 400 });
+      return badRequest("Order not found.");
     }
 
     // 5. Fetch the payment directly from Razorpay's API to confirm
@@ -114,25 +118,19 @@ export async function POST(request: Request) {
           headers: {
             Authorization: `Basic ${authHeader}`,
           },
-        }
+        },
       );
 
       if (!paymentResponse.ok) {
         const errorText = await paymentResponse.text();
         console.error("Razorpay payment fetch failed:", paymentResponse.status, errorText);
-        return NextResponse.json(
-          { error: "Unable to verify payment with provider." },
-          { status: 502 }
-        );
+        return badRequest("Unable to verify payment with provider.");
       }
 
       razorpayPayment = await paymentResponse.json() as typeof razorpayPayment;
     } catch (fetchErr) {
       console.error("Razorpay payment fetch error:", fetchErr);
-      return NextResponse.json(
-        { error: "Unable to verify payment with provider." },
-        { status: 502 }
-      );
+      return badRequest("Unable to verify payment with provider.");
     }
 
     // 5a. Confirm the payment belongs to the expected order.
@@ -142,7 +140,7 @@ export async function POST(request: Request) {
         paymentOrder: razorpayPayment.order_id,
         expectedOrder: razorpay_order_id,
       });
-      return NextResponse.json({ error: "Payment does not match order." }, { status: 400 });
+      return badRequest("Payment does not match order.");
     }
 
     // 5b. Confirm the amount matches our server-side stored amount.
@@ -152,7 +150,7 @@ export async function POST(request: Request) {
         paymentAmount: razorpayPayment.amount,
         orderAmount: order.amount,
       });
-      return NextResponse.json({ error: "Payment amount mismatch." }, { status: 400 });
+      return badRequest("Payment amount mismatch.");
     }
 
     // 5c. Confirm the currency matches.
@@ -161,7 +159,7 @@ export async function POST(request: Request) {
         paymentCurrency: razorpayPayment.currency,
         orderCurrency: order.currency,
       });
-      return NextResponse.json({ error: "Payment currency mismatch." }, { status: 400 });
+      return badRequest("Payment currency mismatch.");
     }
 
     // 5d. Confirm the payment is captured, not merely authorized.
@@ -169,39 +167,37 @@ export async function POST(request: Request) {
     //     transferred them. Do NOT grant Premium for authorized-only.
     if (razorpayPayment.status !== "captured") {
       if (razorpayPayment.status === "authorized") {
-        return NextResponse.json(
-          { status: "pending_capture", message: "Payment authorized, awaiting capture." },
-          { status: 202 }
-        );
+        return new Response(JSON.stringify({ status: "pending_capture", message: "Payment authorized, awaiting capture." }), {
+          status: 202,
+          headers: { "Content-Type": "application/json" },
+        });
       }
-      return NextResponse.json(
-        { error: `Payment not captured (status: ${razorpayPayment.status}).` },
-        { status: 400 }
-      );
+      return badRequest(`Payment not captured (status: ${razorpayPayment.status}).`);
     }
 
-    // 6. Atomic claim + activation via RPC.
+    // 6. Normalize plan via legacyPlanToPlanId for any legacy values
+    const canonicalPlan = legacyPlanToPlanId(order.plan);
+
+    // 7. Atomic claim + activation via RPC.
     //    WHERE razorpay_payment_id IS NULL ensures only one concurrent caller
     //    (verify or webhook) can activate this payment. All subsequent calls
     //    hit 0 rows and return as already-processed.
     //    Extension is computed in SQL so it is atomic with the claim.
-    const plan = order.plan;
-
     const { data: updated, error: updateErr } = await supabase.rpc(
       "activate_subscription",
       {
         p_subscription_id: order.id,
         p_payment_id: razorpay_payment_id,
-        p_plan: plan,
-      }
+        p_plan: canonicalPlan,
+      },
     );
 
     if (updateErr) {
       console.error("Subscription activation error:", updateErr);
-      return NextResponse.json({ error: "Failed to activate subscription." }, { status: 500 });
+      return serverError("Failed to activate subscription.");
     }
 
-    // 7. If the RPC returned null, the payment was already claimed by a
+    // 8. If the RPC returned null, the payment was already claimed by a
     //    concurrent verify or webhook call. Return success — idempotent.
     if (!updated || updated.length === 0) {
       const { data: current } = await supabase
@@ -210,21 +206,21 @@ export async function POST(request: Request) {
         .eq("id", order.id)
         .single();
 
-      return NextResponse.json({ success: true, subscription: current, idempotent: true });
+      return NextResponse.json(ok({ success: true, subscription: current, idempotent: true }));
     }
 
     const subscription = updated[0];
 
-    // 8. Sync plan to profiles table so premium access works immediately
-    const planValue = plan === "weekly" ? "weekly_premium" : "monthly_premium";
+    // 9. Sync plan to profiles table so premium access works immediately
+    const planValue = canonicalPlan === "weekly" ? "weekly_premium" : "monthly_premium";
     await supabase
       .from("profiles")
       .update({ plan: planValue })
       .eq("id", session.user.id);
 
-    return NextResponse.json({ success: true, subscription });
+    return NextResponse.json(ok({ success: true, subscription }));
   } catch (e) {
     console.error("Subscription verify error:", e);
-    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+    return badRequest("Invalid request.");
   }
 }

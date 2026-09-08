@@ -778,17 +778,24 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
   // Study session
   const { status: sessionStatus, focusSeconds, start, pause, resume, end } = useStudySession({
     roomId: currentRoom || "global",
-    onSessionEnd: (session) => {
+    branchId: currentRoom || "general",
+    onSessionEnd: (completedSession) => {
       (async () => {
         const supabase = getChatSupabase();
-        if (!supabase || !userId) return;
+        if (!supabase || !userId || userId.startsWith("demo-")) return;
         try {
+          const endedAt = new Date();
+          const startedAt = new Date(completedSession.startedAt);
+          const durationSec = Math.round(completedSession.totalFocusMs / 1000);
           await supabase.from("study_sessions").insert({
-            participant_id: userId,
-            room_id: toDbRoomId(currentRoom || "entrance"),
-            status: "completed",
-            duration: Math.round(session.totalFocusMs / 60000),
-            branch: currentRoom || "entrance",
+            user_id: userId,
+            room_id: toDbRoomId(completedSession.roomId || currentRoom || "entrance"),
+            branch_id: completedSession.branchId || currentRoom,
+            topic: completedSession.topic,
+            started_at: startedAt.toISOString(),
+            ended_at: endedAt.toISOString(),
+            duration_seconds: durationSec,
+            validation_status: "valid",
           });
         } catch {
           // ignore

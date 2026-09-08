@@ -3,19 +3,19 @@
  *
  * Free-tier AI Doubt Engine endpoint.
  * - Allows 5 questions per day for free users
- * - Uses the same Groq AI engine but with usage tracking
  * - Premium users get unlimited via /api/ai/doubt
  */
 
 import { NextResponse } from "next/server";
 import { Groq } from "groq-sdk";
 import { createServerClient } from "@/lib/supabase/server";
-import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
+import { requirePremium } from "@/lib/entitlements";
+import { rateLimitAI } from "@/lib/rate-limit/db";
+import { getUser, clientIdentifier } from "@/lib/auth/user";
+import { ok, unauthorized, badRequest, forbidden, serverError } from "@/lib/api/response";
 
 const GROQ_MODEL = "openai/gpt-oss-120b";
 const MAX_QUESTION_LENGTH = 2000;
-const RATE_LIMIT_WINDOW = 60000;
-const RATE_LIMIT_MAX = 10; // 10 requests per minute for free
 const FREE_DAILY_LIMIT = 5;
 
 interface ChatMessage {
@@ -51,17 +51,16 @@ async function getDoubtUsageToday(supabase: any, userId: string): Promise<number
       p_user_id: userId,
     });
     if (error) {
-      // Fallback: direct query
       const today = new Date().toISOString().split("T")[0];
       const { data: usage } = await supabase
-        .from("doubt_usage")
+        .from("doubt_usage_tracking")
         .select("message_count")
         .eq("user_id", userId)
         .eq("usage_date", today)
         .maybeSingle();
       return usage?.message_count ?? 0;
     }
-    return data ?? 0;
+    return (data as number) ?? 0;
   } catch {
     return 0;
   }
@@ -73,10 +72,9 @@ async function incrementDoubtUsage(supabase: any, userId: string): Promise<numbe
       p_user_id: userId,
     });
     if (error) {
-      // Fallback: upsert
       const today = new Date().toISOString().split("T")[0];
       const { data: existing } = await supabase
-        .from("doubt_usage")
+        .from("doubt_usage_tracking")
         .select("message_count")
         .eq("user_id", userId)
         .eq("usage_date", today)
@@ -84,24 +82,20 @@ async function incrementDoubtUsage(supabase: any, userId: string): Promise<numbe
 
       const newCount = (existing?.message_count ?? 0) + 1;
       await supabase
-        .from("doubt_usage")
+        .from("doubt_usage_tracking")
         .upsert(
           { user_id: userId, usage_date: today, message_count: newCount, last_message_at: new Date().toISOString() },
           { onConflict: "user_id,usage_date" }
         );
       return newCount;
     }
-    return data ?? 0;
+    return (data as number) ?? 0;
   } catch {
     return 0;
   }
 }
 
-async function retrieveRelevantContent(
-  supabase: any,
-  userId: string,
-  question: string
-): Promise<string> {
+async function retrieveRelevantContent(supabase: any, userId: string, question: string): Promise<string> {
   try {
     const keywords = question
       .toLowerCase()
@@ -142,67 +136,69 @@ async function retrieveRelevantContent(
   }
 }
 
-async function isPremium(supabase: any, userId: string): Promise<boolean> {
+async function chatCompletion(groq: Groq, messages: ChatMessage[]): Promise<string> {
   try {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("plan")
-      .eq("id", userId)
-      .maybeSingle();
-
-    const plan = (profile as any)?.plan;
-    if (plan === "monthly_premium" || plan === "weekly_premium") {
-      return true;
-    }
-
-    const { data } = await supabase.rpc("has_active_subscription", {
-      p_user_id: userId,
+    const response = await groq.chat.completions.create({
+      model: GROQ_MODEL,
+      messages: messages.map((m) => ({
+        role: m.role,
+        content: m.content,
+      })),
+      max_tokens: 1024,
+      temperature: 0.7,
     });
 
-    if (data === true) return true;
+    return response.choices[0]?.message?.content ?? "I couldn't generate a response. Please try again.";
+  } catch (e: any) {
+    devLog("Groq: API call failed", {
+      message: e?.message,
+      status: e?.status,
+      code: e?.code,
+    });
 
-    // Fallback
-    const { data: subs } = await supabase
-      .from("user_subscriptions")
-      .select("status, expires_at")
-      .eq("user_id", userId)
-      .eq("status", "active")
-      .gte("expires_at", new Date().toISOString())
-      .limit(1);
+    if (e?.status === 429) {
+      return "PadhaiShuru is temporarily busy. Please try again in a moment.";
+    }
+    if (e?.status === 401) {
+      devLog("Groq: authentication error — check GROQ_API_KEY");
+      throw new Error("AI service temporarily unavailable");
+    }
 
-    return (subs?.length ?? 0) > 0;
-  } catch {
-    return false;
+    throw e;
   }
-}
-
-async function chatCompletion(
-  groq: Groq,
-  messages: ChatMessage[]
-): Promise<string> {
-  const response = await groq.chat.completions.create({
-    model: GROQ_MODEL,
-    messages: messages.map((m) => ({
-      role: m.role,
-      content: m.content,
-    })),
-    max_tokens: 1024,
-    temperature: 0.7,
-  });
-
-  return response.choices[0]?.message?.content ?? "I couldn't generate a response. Please try again.";
 }
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createServerClient();
-    if (!supabase) {
-      return NextResponse.json({ error: "Server not configured." }, { status: 500 });
+    const user = await getUser();
+    if (!user) {
+      return unauthorized("Sign in to use the Doubt Engine");
     }
 
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized. Please log in to use the Doubt Engine." }, { status: 401 });
+    const supabase = await createServerClient();
+    if (!supabase) {
+      return serverError("Database unavailable");
+    }
+
+    // Check if user is premium — they should use the premium endpoint
+    try {
+      const entitlement = await requirePremium(user.id);
+      // Premium user on free endpoint — return clear response telling them to use premium endpoint
+      return forbidden(
+        "You have Premium access. Use /api/ai/doubt for the full experience.",
+        { upgradeUrl: "/api/ai/doubt" }
+      );
+    } catch {
+      // Not premium — proceed with free-tier logic
+    }
+
+    // Rate limit
+    const rateResult = await rateLimitAI(clientIdentifier(user.id, request), false);
+    if (!rateResult.allowed) {
+      return NextResponse.json(
+        fail("RATE_LIMITED", "Too many requests. Please wait a moment."),
+        { status: 429, headers: { "Retry-After": "60" } }
+      );
     }
 
     const body = await request.json().catch(() => ({}));
@@ -210,50 +206,18 @@ export async function POST(request: Request) {
     const paperId = typeof body.paperId === "string" ? body.paperId : "";
 
     if (!question) {
-      return NextResponse.json({ error: "Question is required." }, { status: 400 });
+      return badRequest("Question is required.");
     }
-
     if (question.length > MAX_QUESTION_LENGTH) {
-      return NextResponse.json(
-        { error: `Question too long. Maximum ${MAX_QUESTION_LENGTH} characters.` },
-        { status: 400 }
-      );
-    }
-
-    // Check if user is premium — if so, redirect to premium endpoint
-    const premium = await isPremium(supabase, session.user.id);
-    if (premium) {
-      return NextResponse.json(
-        { error: "Premium users should use /api/ai/doubt for unlimited access.", redirect: "/api/ai/doubt" },
-        { status: 303 }
-      );
-    }
-
-    // Rate limit check
-    const rateId = getClientIdentifier(request);
-    const rateResult = checkRateLimit(
-      { maxRequests: RATE_LIMIT_MAX, windowMs: RATE_LIMIT_WINDOW },
-      `doubt-free:${rateId}`
-    );
-
-    if (!rateResult.allowed) {
-      return NextResponse.json(
-        { error: "Too many requests. Please wait a moment before trying again." },
-        { status: 429 }
-      );
+      return badRequest(`Question too long. Maximum ${MAX_QUESTION_LENGTH} characters.`);
     }
 
     // Daily limit check
-    const usageToday = await getDoubtUsageToday(supabase, session.user.id);
+    const usageToday = await getDoubtUsageToday(supabase, user.id);
     if (usageToday >= FREE_DAILY_LIMIT) {
-      return NextResponse.json(
-        {
-          error: `Daily limit reached. Free users get ${FREE_DAILY_LIMIT} doubts per day. Upgrade to Premium for unlimited access!`,
-          limit: FREE_DAILY_LIMIT,
-          used: usageToday,
-          upgradeUrl: "/pricing",
-        },
-        { status: 403 }
+      return forbidden(
+        `Daily limit reached. Free users get ${FREE_DAILY_LIMIT} doubts per day. Upgrade to Premium for unlimited access.`,
+        { limit: FREE_DAILY_LIMIT, used: usageToday, upgradeUrl: "/pricing" }
       );
     }
 
@@ -261,37 +225,38 @@ export async function POST(request: Request) {
     const groqApiKey = process.env.GROQ_API_KEY;
     if (!groqApiKey) {
       devLog("GROQ_API_KEY not configured");
-      return NextResponse.json(
-        { error: "AI service temporarily unavailable." },
-        { status: 503 }
-      );
+      return serverError("AI service temporarily unavailable.");
     }
 
     // Build context from paper if specified
     let contextBlock = "";
     if (paperId) {
-      const { getPaperDataSource } = await import("@/lib/gate/paper-data");
-      const src = getPaperDataSource(paperId);
-      if (src && src.rawData.length > 0) {
-        const subjects = [...new Set(src.questions.map((q) => q.subject))].slice(0, 5);
-        contextBlock = `\n\nPaper context: ${src.paper.name} (${paperId.toUpperCase()})\nSubjects: ${subjects.join(", ")}\nTotal questions in bank: ${src.questions.length}`;
+      try {
+        const { getPaperDataSource } = await import("@/lib/gate/paper-data");
+        const src = getPaperDataSource(paperId);
+        if (src && src.rawData.length > 0) {
+          const subjects = [...new Set(src.questions.map((q: any) => q.subject))].slice(0, 5);
+          contextBlock = `\n\nPaper context: ${src.paper.name} (${paperId.toUpperCase()})\nSubjects: ${subjects.join(", ")}\nTotal questions in bank: ${src.questions.length}`;
+        }
+      } catch {
+        // Paper data not available
       }
     }
 
     // Retrieve relevant content
-    const ragContext = await retrieveRelevantContent(supabase, session.user.id, question);
+    const ragContext = await retrieveRelevantContent(supabase, user.id, question);
 
     // Build messages
     const messages: ChatMessage[] = [
       { role: "system", content: FREE_SYSTEM_PROMPT + contextBlock + ragContext },
     ];
 
-    // Add conversation history (last 5 turns)
+    // Add conversation history (last 5 turns from doubt_conversations)
     try {
       const { data: history } = await supabase
         .from("doubt_conversations")
         .select("role, content")
-        .eq("user_id", session.user.id)
+        .eq("user_id", user.id)
         .order("created_at", { ascending: false })
         .limit(10);
 
@@ -304,31 +269,36 @@ export async function POST(request: Request) {
         }
       }
     } catch {
-      // No history yet, that's fine
+      // No history yet
     }
 
     messages.push({ role: "user", content: question });
 
     // Call Groq
     const groq = new Groq({ apiKey: groqApiKey });
-    const answer = await chatCompletion(groq, messages);
+    let answer: string;
+    try {
+      answer = await chatCompletion(groq, messages);
+    } catch {
+      return serverError("AI service temporarily unavailable. Please try again.");
+    }
 
     // Increment usage counter
-    const newCount = await incrementDoubtUsage(supabase, session.user.id);
+    const newCount = await incrementDoubtUsage(supabase, user.id);
 
     // Save conversation
     try {
       await supabase.from("doubt_conversations").insert([
-        { user_id: session.user.id, role: "user", content: question, paper_id: paperId || null },
-        { user_id: session.user.id, role: "assistant", content: answer, paper_id: paperId || null },
+        { user_id: user.id, role: "user", content: question, paper_id: paperId || null },
+        { user_id: user.id, role: "assistant", content: answer, paper_id: paperId || null },
       ]);
-    } catch {
+    } catch (err) {
       devLog("Conversation save failed", { error: true });
     }
 
     devLog("Response sent", { usageToday: newCount });
 
-    return NextResponse.json({
+    return ok({
       answer,
       usageToday: newCount,
       limit: FREE_DAILY_LIMIT,
@@ -336,31 +306,35 @@ export async function POST(request: Request) {
     });
   } catch (e: any) {
     devLog("Server error", { error: e?.message });
-    return NextResponse.json(
-      { error: "An error occurred. Please try again." },
-      { status: 500 }
-    );
+    return serverError("An error occurred. Please try again.");
   }
 }
 
 export async function GET() {
-  const supabase = await createServerClient();
+  const user = await getUser();
   let used = 0;
   let remaining = FREE_DAILY_LIMIT;
 
-  if (supabase) {
+  if (user) {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        used = await getDoubtUsageToday(supabase, session.user.id);
-        remaining = FREE_DAILY_LIMIT - used;
+      const supabase = await createServerClient();
+      if (!supabase) {
+        return ok({
+          message: "Free-tier AI Doubt Engine",
+          limit: FREE_DAILY_LIMIT,
+          used: 0,
+          remaining: FREE_DAILY_LIMIT,
+          description: "Free users get 5 AI-powered doubt clarifications per day. Upgrade to Premium for unlimited access.",
+        });
       }
+      used = await getDoubtUsageToday(supabase, user.id);
+      remaining = FREE_DAILY_LIMIT - used;
     } catch {
       // no session
     }
   }
 
-  return NextResponse.json({
+  return ok({
     message: "Free-tier AI Doubt Engine",
     limit: FREE_DAILY_LIMIT,
     used,

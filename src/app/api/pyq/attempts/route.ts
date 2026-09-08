@@ -5,7 +5,10 @@
  */
 
 import { NextResponse } from "next/server";
-import { createServiceClient } from "@/lib/supabase/server";
+import { createServerClient } from "@/lib/supabase/server";
+import { getUser, clientIdentifier } from "@/lib/auth/user";
+import { checkRateLimit } from "@/lib/rate-limit/db";
+import { ok, badRequest, unauthorized, serverError } from "@/lib/api/response";
 
 export async function POST(request: Request) {
   try {
@@ -13,37 +16,45 @@ export async function POST(request: Request) {
     const { questionId, selectedAnswer, practiceMode, sessionId } = body;
 
     if (!questionId || selectedAnswer === undefined) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return badRequest("Missing required fields: questionId and selectedAnswer");
     }
 
-    // In a real implementation, get user ID from auth session
-    // For now, we use a placeholder
-    const supabase = await createServiceClient();
+    const user = await getUser();
+    if (!user) {
+      return unauthorized("Sign in to record your attempt");
+    }
+
+    const supabase = await createServerClient();
     if (!supabase) {
-      return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+      return serverError("Database unavailable");
     }
 
-    // Get question details to check answer
-    const { data: question } = await supabase
+    // Rate limit
+    const rateResult = await checkRateLimit(
+      clientIdentifier(user.id, request),
+      "pyq_attempts",
+      { windowSeconds: 60, maxRequests: 20 }
+    );
+    if (!rateResult.allowed) {
+      return serverError("Too many requests. Please slow down.");
+    }
+
+    // Validate question exists
+    const { data: question, error: questionError } = await supabase
       .from("pyq_questions")
       .select("correct_answer, id")
       .eq("id", questionId)
       .single();
 
-    if (!question) {
-      return NextResponse.json({ error: "Question not found" }, { status: 404 });
+    if (questionError || !question) {
+      return badRequest("Question not found");
     }
 
     const isCorrect = selectedAnswer === question.correct_answer;
 
-    // In production, get user ID from session
-    // const { data: { user } } = await supabase.auth.getUser();
-    // const userId = user?.id;
-    const userId = "anonymous"; // Placeholder
-
     const { error } = await supabase.from("pyq_attempts").insert({
       question_id: questionId,
-      user_id: userId,
+      user_id: user.id,
       selected_answer: selectedAnswer,
       is_correct: isCorrect,
       practice_mode: practiceMode || "practice",
@@ -53,12 +64,12 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("[PYQ] Attempt record error:", error);
-      return NextResponse.json({ error: "Failed to record attempt" }, { status: 500 });
+      return serverError("Failed to record attempt");
     }
 
-    return NextResponse.json({ success: true, isCorrect });
+    return ok({ success: true, isCorrect });
   } catch (error) {
     console.error("[PYQ] Attempt error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return serverError("Internal server error");
   }
 }

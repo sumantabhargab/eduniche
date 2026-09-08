@@ -358,7 +358,7 @@ export async function POST(request: Request) {
     if (!referredBy) {
       const refCookie = getCookieValue(
         cookieHeader,
-        "eduniche_ref"
+        "padhaishuru_ref"
       );
 
       if (refCookie) {

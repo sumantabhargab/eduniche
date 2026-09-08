@@ -1,22 +1,22 @@
 /**
  * POST /api/ai/doubt
  *
- * AI Doubt Engine endpoint.
- * - Validates premium access
- * - Retrieves relevant PadhaiShuru content
- * - Calls Groq API server-side via SDK
- * - Returns grounded response
+ * Premium AI Doubt Engine endpoint.
+ * - Requires premium subscription
+ * - Uses Groq API with RAG
+ * - Persists conversation in ai_messages
  */
 
 import { NextResponse } from "next/server";
 import { Groq } from "groq-sdk";
 import { createServerClient } from "@/lib/supabase/server";
-import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
+import { requirePremium } from "@/lib/entitlements";
+import { rateLimitAI } from "@/lib/rate-limit/db";
+import { getUser, clientIdentifier } from "@/lib/auth/user";
+import { ok, unauthorized, forbidden, serverError, fail } from "@/lib/api/response";
 
 const GROQ_MODEL = "openai/gpt-oss-120b";
 const MAX_QUESTION_LENGTH = 2000;
-const RATE_LIMIT_WINDOW = 60000;
-const RATE_LIMIT_MAX = 20;
 
 interface ChatMessage {
   role: "system" | "user" | "assistant";
@@ -44,11 +44,7 @@ function devLog(message: string, data?: Record<string, unknown>) {
   console.log(`[AI-DOUBT ${ts}] ${message}`, data ?? "");
 }
 
-async function retrieveRelevantContent(
-  supabase: any,
-  userId: string,
-  question: string
-): Promise<string> {
+async function retrieveRelevantContent(supabase: any, userId: string, question: string): Promise<string> {
   try {
     const keywords = question
       .toLowerCase()
@@ -94,49 +90,7 @@ async function retrieveRelevantContent(
   }
 }
 
-async function validatePremium(supabase: any, userId: string): Promise<boolean> {
-  try {
-    // Check plan first (fast, no RPC needed)
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("plan")
-      .eq("id", userId)
-      .maybeSingle();
-
-    const plan = (profile as any)?.plan;
-    if (plan === "monthly_premium" || plan === "weekly_premium") {
-      return true;
-    }
-
-    // Fallback: check active subscription
-    const { data, error } = await supabase.rpc("has_active_subscription", {
-      p_user_id: userId,
-    });
-
-    if (error) {
-      devLog("Premium: RPC error, falling back to direct query", { error: error.message });
-      const { data: subs } = await supabase
-        .from("user_subscriptions")
-        .select("status, expires_at")
-        .eq("user_id", userId)
-        .eq("status", "active")
-        .gte("expires_at", new Date().toISOString())
-        .limit(1);
-
-      return (subs?.length ?? 0) > 0;
-    }
-
-    return data === true;
-  } catch (e: any) {
-    devLog("Premium: validation exception", { error: e?.message });
-    return false;
-  }
-}
-
-async function getConversationHistory(
-  supabase: any,
-  conversationId: string
-): Promise<ChatMessage[]> {
+async function getConversationHistory(supabase: any, conversationId: string): Promise<ChatMessage[]> {
   try {
     const { data: messages } = await supabase
       .from("ai_messages")
@@ -154,128 +108,102 @@ async function getConversationHistory(
   }
 }
 
+async function chatCompletion(groq: Groq, messages: ChatMessage[]): Promise<string> {
+  try {
+    const response = await groq.chat.completions.create({
+      model: GROQ_MODEL,
+      messages: messages.map((m) => ({
+        role: m.role,
+        content: m.content,
+      })),
+      max_tokens: 2048,
+      temperature: 0.7,
+      top_p: 0.9,
+    });
+
+    return response.choices[0]?.message?.content || "I couldn't generate a response. Please try again.";
+  } catch (e: any) {
+    devLog("Groq: API call failed", {
+      message: e?.message,
+      status: e?.status,
+      code: e?.code,
+    });
+
+    if (e?.status === 429) {
+      return "PadhaiShuru is temporarily busy. Please try again in a moment.";
+    }
+    if (e?.status === 401) {
+      devLog("Groq: authentication error — check GROQ_API_KEY");
+      throw new Error("AI service temporarily unavailable");
+    }
+
+    throw e;
+  }
+}
+
 export async function POST(request: Request) {
   try {
-    // --- 0. Server / env check ---
-    const groqApiKey = process.env.GROQ_API_KEY;
-    if (!groqApiKey) {
-      devLog("ERROR: GROQ_API_KEY not configured");
-      return NextResponse.json(
-        { error: "AI engine not configured.", detail: "Missing GROQ_API_KEY" },
-        { status: 500 }
-      );
-    }
-    devLog("GROQ_API_KEY configured: true");
-
-    // --- 1. Auth ---
-    const supabase = await createServerClient();
-    if (!supabase) {
-      return NextResponse.json({ error: "Server not configured." }, { status: 500 });
+    const user = await getUser();
+    if (!user) {
+      return unauthorized("Sign in to use AI Doubt Engine");
     }
 
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session?.user) {
-      devLog("Auth: no session");
-      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
-    }
-    devLog("Auth: user authenticated", { userId: session.user.id });
-
-    // --- 2. Rate limit ---
-    const rl = checkRateLimit(
-      { maxRequests: RATE_LIMIT_MAX, windowMs: RATE_LIMIT_WINDOW },
-      getClientIdentifier(request) + session.user.id
-    );
-    if (!rl.allowed) {
-      devLog("Rate limit: exceeded");
-      return NextResponse.json(
-        { error: "Too many requests. Please try again later." },
-        { status: 429 }
-      );
-    }
-
-    // --- 3. Free tier or Premium check ---
-    let isPremium = false;
-    const doubtUsageLimit = parseInt(process.env.NEXT_PUBLIC_FREE_DOUBT_LIMIT || "5");
-    let usage = 0;
-
+    // Require premium
+    let entitlement;
     try {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("plan")
-        .eq("id", session.user.id)
-        .maybeSingle();
-
-      const plan = (profile as any)?.plan;
-      isPremium = plan === "monthly_premium" || plan === "weekly_premium";
+      entitlement = await requirePremium(user.id);
     } catch {
-      // Fallback below
+      return forbidden("Premium subscription required. Upgrade at /pricing");
     }
 
-    if (!isPremium) {
-      const { data: usageDataVal } = await supabase.rpc("get_doubt_usage_today", {
-        p_user_id: session.user.id,
-      });
-
-      usage = (usageDataVal as number) ?? 0;
-      if (usage >= doubtUsageLimit) {
-        devLog("Free doubt limit reached", { usage, limit: doubtUsageLimit, userId: session.user.id });
-        return NextResponse.json(
-          {
-            error: `Free tier limit reached (${doubtUsageLimit} messages/day). Upgrade to Premium for unlimited access.`,
-            upgradeRequired: true,
-            usage,
-            limit: doubtUsageLimit,
-          },
-          { status: 429 }
-        );
-      }
-
-      // Atomically increment usage
-      await supabase.rpc("increment_doubt_usage", {
-        p_user_id: session.user.id,
-      });
-    }
-    devLog(isPremium ? "Premium: user has active subscription" : "Free: user within doubt limit");
-
-    let remainingMessages = -1;
-    if (!isPremium) {
-      remainingMessages = Math.max(0, doubtUsageLimit - usage - 1);
+    // Rate limit
+    const rateResult = await rateLimitAI(clientIdentifier(user.id, request), entitlement.isPremium);
+    if (!rateResult.allowed) {
+      return NextResponse.json(
+        fail("RATE_LIMITED", "Too many AI requests. Please wait a moment."),
+        { status: 429, headers: { "Retry-After": "60" } }
+      );
     }
 
-    // --- 4. Parse request ---
+    // Parse request
     const body = await request.json().catch(() => ({}));
     const question = typeof body.question === "string" ? body.question.trim() : "";
     const conversationId =
       typeof body.conversationId === "string" ? body.conversationId : null;
 
     if (!question || question.length === 0) {
-      return NextResponse.json({ error: "Please ask a question." }, { status: 400 });
+      return badRequest("Please ask a question.");
     }
     if (question.length > MAX_QUESTION_LENGTH) {
-      return NextResponse.json(
-        { error: `Question too long. Max ${MAX_QUESTION_LENGTH} characters.` },
-        { status: 400 }
-      );
+      return badRequest(`Question too long. Maximum ${MAX_QUESTION_LENGTH} characters.`);
     }
-    devLog("Request: question received", { length: question.length, conversationId });
 
-    // --- 5. RAG / Library retrieval ---
-    const libraryContext = await retrieveRelevantContent(
-      supabase,
-      session.user.id,
-      question
-    );
+    // Check Groq API key
+    const groqApiKey = process.env.GROQ_API_KEY;
+    if (!groqApiKey) {
+      devLog("GROQ_API_KEY not configured");
+      return serverError("AI service temporarily unavailable");
+    }
 
-    // --- 6. Build messages ---
+    const supabase = await createServerClient();
+    if (!supabase) {
+      return serverError("Database unavailable");
+    }
+
+    // RAG retrieval
+    const libraryContext = await retrieveRelevantContent(supabase, user.id, question);
+
+    // Build messages
     const systemPrompt = libraryContext
       ? DEFAULT_SYSTEM_PROMPT + libraryContext
       : DEFAULT_SYSTEM_PROMPT;
 
     const messages: ChatMessage[] = [{ role: "system", content: systemPrompt }];
 
+    // Conversation history
     if (conversationId) {
       const history = await getConversationHistory(supabase, conversationId);
-      messages.push(...history);
+      messages.push(...history.slice(-10)); // Last 10 messages
     }
     messages.push({ role: "user", content: question });
 
@@ -288,65 +216,18 @@ export async function POST(request: Request) {
       });
     }
 
-    let finalConversationId = conversationId;
+    // Call Groq with timeout
+    const groq = new Groq({ apiKey: groqApiKey });
 
-    // --- 7. Call Groq ---
-    devLog("Groq: starting request", { model: GROQ_MODEL, messageCount: messages.length });
-
-    let answer = "";
-    let confidence: "high" | "medium" | "low" = "medium";
-
+    let answer: string;
     try {
-      const groq = new Groq({ apiKey: groqApiKey });
-
-      const completion = await groq.chat.completions.create({
-        model: GROQ_MODEL,
-        messages,
-        max_tokens: 2048,
-        temperature: 0.7,
-        top_p: 0.9,
-      });
-
-      answer = completion.choices?.[0]?.message?.content || "";
-
-      if (!answer) {
-        devLog("Groq: empty response");
-        answer =
-          "I received an empty response. Please try rephrasing your question.";
-        confidence = "low";
-      } else {
-        devLog("Groq: response received", { length: answer.length });
-        confidence = "high";
-      }
-    } catch (groqError: any) {
-      devLog("Groq: API call failed", {
-        message: groqError?.message,
-        status: groqError?.status,
-        code: groqError?.code,
-        type: groqError?.type,
-        name: groqError?.name,
-      });
-
-      if (groqError?.status === 429) {
-        return NextResponse.json(
-          { answer: "PadhaiShuru is temporarily busy. Please try again in a moment.", confidence: "low" },
-          { status: 200 }
-        );
-      }
-      if (groqError?.status === 401) {
-        devLog("Groq: authentication error — check GROQ_API_KEY");
-        return NextResponse.json(
-          { error: "AI authentication failed.", detail: "Invalid API key" },
-          { status: 500 }
-        );
-      }
-
-      answer = "I'm having trouble processing your question right now. Please try again in a moment.";
-      confidence = "low";
+      answer = await chatCompletion(groq, messages);
+    } catch {
+      return serverError("AI service temporarily unavailable. Please try again.");
     }
 
     // Save assistant message
-    if (conversationId && answer) {
+    if (conversationId) {
       await supabase.from("ai_messages").insert({
         conversation_id: conversationId,
         role: "assistant",
@@ -354,23 +235,21 @@ export async function POST(request: Request) {
       });
     }
 
-    return NextResponse.json({
+    devLog("Response sent", { answerLength: answer.length });
+
+    return ok({
       answer,
-      confidence,
+      confidence: "high" as const,
       references: [],
-      conversationId: finalConversationId,
-      isPremium,
-      remainingMessages: remainingMessages,
+      conversationId: conversationId,
+      isPremium: true,
     });
   } catch (e: any) {
     devLog("FATAL: unhandled error", {
       message: e?.message,
       stack: e?.stack?.split("\n").slice(0, 3).join("\n"),
     });
-    return NextResponse.json(
-      { error: "An unexpected server error occurred." },
-      { status: 500 }
-    );
+    return serverError("An unexpected server error occurred.");
   }
 }
 
