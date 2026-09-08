@@ -77,8 +77,8 @@ export function categorizeSource(utmSource: string | null): string {
 /**
  * Storage keys for attribution data.
  */
-const STORAGE_KEY = "eduneuro_attribution";
-const FIRST_TOUCH_KEY = "eduneuro_first_touch";
+const STORAGE_KEY = "padhaishuru_attribution";
+const FIRST_TOUCH_KEY = "padhaishuru_first_touch";
 
 /**
  * Save attribution data to sessionStorage.

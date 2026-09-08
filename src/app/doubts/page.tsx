@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { createBrowserClient } from "@/lib/supabase/client";
-import { EduNeuroLoader, ChatSkeleton } from "@/components/loading";
+import { PadhaiShuruLoader, ChatSkeleton } from "@/components/loading";
 import MarkdownRenderer from "@/modules/virtual-library/features/ai-doubt-engine/components/MarkdownRenderer";
 
 // Icon components replacing emojis
@@ -182,7 +182,7 @@ export default function DoubtsPage() {
   if (loading || checkingPremium) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <EduNeuroLoader size="md" variant="page" />
+        <PadhaiShuruLoader size="md" variant="page" />
       </div>
     );
   }
@@ -218,7 +218,7 @@ export default function DoubtsPage() {
           <div>
             <h1 className="text-2xl font-bold">AI Doubt Engine</h1>
             <p className="text-sm text-muted">
-              Ask any GATE-related question. Powered by EduNeuro&apos;s library.
+              Ask any GATE-related question. Powered by PadhaiShuru&apos;s library.
             </p>
           </div>
           {!isPremium && (
@@ -291,7 +291,7 @@ export default function DoubtsPage() {
                 <IconBot className="w-4 h-4" />
               </div>
               <div className="inline-block px-4 py-3 rounded-xl text-sm bg-accent text-muted">
-                <EduNeuroLoader size="xs" variant="thinking" label="EduNeuro is thinking" />
+                <PadhaiShuruLoader size="xs" variant="thinking" label="PadhaiShuru is thinking" />
               </div>
             </div>
           )}
@@ -322,7 +322,7 @@ export default function DoubtsPage() {
             >
               {sending ? (
                 <>
-                  <EduNeuroLoader size="xs" variant="thinking" />
+                  <PadhaiShuruLoader size="xs" variant="thinking" />
                   <span>Sending</span>
                 </>
               ) : (

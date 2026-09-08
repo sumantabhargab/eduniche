@@ -9,7 +9,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { EduNeuroLoader } from "@/components/loading";
+import { PadhaiShuruLoader } from "@/components/loading";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -397,7 +397,7 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
       >
         {loading && (
           <div className="flex items-center justify-center h-64">
-            <EduNeuroLoader size="md" />
+            <PadhaiShuruLoader size="md" />
           </div>
         )}
 
@@ -443,7 +443,7 @@ export default function PDFViewer({ url, title, filename }: PDFViewerProps) {
           >
             {!loaded && loading && (
               <div className="absolute inset-0 flex items-center justify-center bg-background/50 z-10">
-                <EduNeuroLoader size="md" />
+                <PadhaiShuruLoader size="md" />
               </div>
             )}
             <iframe

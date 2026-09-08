@@ -12,15 +12,15 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { questionId, paperId } = await params;
   const paper = getPaperById(paperId);
-  if (!paper || paper.processingStatus !== "available") return { title: "Question Not Found — Eduneuro" };
+  if (!paper || paper.processingStatus !== "available") return { title: "Question Not Found — PadhaiShuru" };
 
   const data = await fetchPaperData(paperId);
   const q = data.questions.find((x) => x.id === questionId);
-  if (!q) return { title: "Question Not Found — Eduneuro" };
+  if (!q) return { title: "Question Not Found — PadhaiShuru" };
 
   const paperName = paper.shortName;
   return {
-    title: `${q.topic} — GATE ${paperName} ${q.year} — Eduneuro`,
+    title: `${q.topic} — GATE ${paperName} ${q.year} — PadhaiShuru`,
     description: q.question.split("\n")[0],
   };
 }

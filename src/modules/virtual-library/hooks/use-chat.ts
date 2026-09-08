@@ -21,7 +21,7 @@ import {
 } from "@/modules/chat/services/realtime";
 import { getChatSupabase } from "@/modules/chat/services/supabase";
 
-const ROOM_CONV_KEY = "eduneuro_room_conv_v2";
+const ROOM_CONV_KEY = "padhaishuru_room_conv_v2";
 
 interface StoredMap { [roomId: string]: string; }
 function getMap(): StoredMap {

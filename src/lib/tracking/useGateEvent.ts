@@ -4,14 +4,14 @@ import { useCallback, useEffect } from "react";
 
 type EventData = Record<string, unknown>;
 
-const EVENT_BUFFER_KEY = "eduneuro_event_buffer";
+const EVENT_BUFFER_KEY = "padhaishuru_event_buffer";
 
 function getAnonymousId(): string {
-  let id = typeof window !== "undefined" ? sessionStorage.getItem("eduneuro_anon_id") : null;
+  let id = typeof window !== "undefined" ? sessionStorage.getItem("padhaishuru_anon_id") : null;
   if (!id) {
     id = crypto.randomUUID();
     if (typeof window !== "undefined") {
-      sessionStorage.setItem("eduneuro_anon_id", id);
+      sessionStorage.setItem("padhaishuru_anon_id", id);
     }
   }
   return id;

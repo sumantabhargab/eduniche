@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — EduNeuro",
+  title: "Terms of Service — PadhaiShuru",
   description:
-    "EduNeuro terms of service — rules and conditions for using the platform.",
+    "PadhaiShuru terms of service — rules and conditions for using the platform.",
 };
 
 export default function TermsPage() {
@@ -20,7 +20,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-serif text-xl mb-3">1. Acceptance of Terms</h2>
           <p>
-            By accessing or using EduNeuro (the &ldquo;Platform&rdquo;), you
+            By accessing or using PadhaiShuru (the &ldquo;Platform&rdquo;), you
             agree to be bound by these Terms of Service. If you do not agree with
             any part of these terms, you may not use the Platform.
           </p>
@@ -31,7 +31,7 @@ export default function TermsPage() {
             2. Description of the Platform
           </h2>
           <p>
-            EduNeuro is an AI-powered, neuroscience-informed educational platform
+            PadhaiShuru is an AI-powered, neuroscience-informed educational platform
             designed to help students prepare for competitive examinations such
             as GATE. The platform provides:
           </p>
@@ -75,7 +75,7 @@ export default function TermsPage() {
             4. Free and Premium Content
           </h2>
           <p>
-            EduNeuro offers both free and premium (paid) content and features:
+            PadhaiShuru offers both free and premium (paid) content and features:
           </p>
           <ul className="list-disc pl-6 mt-3 space-y-2">
             <li>
@@ -163,16 +163,16 @@ export default function TermsPage() {
             7. Intellectual Property and Content Ownership
           </h2>
           <p>
-            All content provided on EduNeuro — including study notes, practice
+            All content provided on PadhaiShuru — including study notes, practice
             questions, mock papers, and platform design — is the property of
-            EduNeuro or its content contributors. You may not reproduce,
+            PadhaiShuru or its content contributors. You may not reproduce,
             distribute, or create derivative works from this content without
             explicit permission.
           </p>
           <p className="mt-3">
             You retain ownership of any content you create or submit through the
             Platform (such as chat messages). By submitting content, you grant
-            EduNeuro a non-exclusive licence to display and distribute that
+            PadhaiShuru a non-exclusive licence to display and distribute that
             content as part of the normal operation of the Platform.
           </p>
         </section>
@@ -199,7 +199,7 @@ export default function TermsPage() {
           </ul>
           <p className="mt-3">
             Always verify AI-generated answers against authoritative sources.
-            EduNeuro is not liable for any academic decisions made based on
+            PadhaiShuru is not liable for any academic decisions made based on
             AI-generated content.
           </p>
         </section>
@@ -249,9 +249,9 @@ export default function TermsPage() {
             11. Limitation of Liability
           </h2>
           <p>
-            EduNeuro is provided on an &ldquo;as-is&rdquo; basis without
+            PadhaiShuru is provided on an &ldquo;as-is&rdquo; basis without
             warranties of any kind. To the maximum extent permitted by law,
-            EduNeuro and its operators shall not be liable for any indirect,
+            PadhaiShuru and its operators shall not be liable for any indirect,
             incidental, special, consequential, or punitive damages arising from
             your use of or inability to use the Platform.
           </p>

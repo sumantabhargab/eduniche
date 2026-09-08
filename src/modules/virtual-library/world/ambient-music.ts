@@ -23,7 +23,7 @@ export function useAmbientMusic() {
     if (gainRef.current && ctxRef.current && ctxRef.current.state !== "closed") {
       gainRef.current.gain.setTargetAtTime(volumeRef.current * 0.12, ctxRef.current.currentTime, 0.3);
     }
-    localStorage.setItem("eduneuro:library:musicVolume", String(volumeRef.current));
+    localStorage.setItem("padhaishuru:library:musicVolume", String(volumeRef.current));
   }, []);
 
   const createDrone = useCallback((ctx: AudioContext, gain: GainNode) => {

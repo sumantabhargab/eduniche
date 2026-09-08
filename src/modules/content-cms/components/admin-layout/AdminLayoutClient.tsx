@@ -58,7 +58,7 @@ function AdminInner({ admin, children }: AdminLayoutClientProps) {
           </div>
           {!collapsed && (
             <span className="font-serif text-foreground text-sm">
-              {collapsed ? "" : "EduNeuro Admin"}
+              {collapsed ? "" : "PadhaiShuru Admin"}
             </span>
           )}
         </div>

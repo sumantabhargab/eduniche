@@ -12,7 +12,7 @@
 import { useEffect, Suspense, useRef } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createBrowserClient } from "@/lib/supabase/client";
-import { EduNeuroLoader } from "@/components/loading";
+import { PadhaiShuruLoader } from "@/components/loading";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type AuthClient = NonNullable<ReturnType<typeof createBrowserClient>>;
@@ -89,7 +89,7 @@ function AuthCallbackInner() {
 
   return (
     <div className="min-h-[60vh] flex items-center justify-center">
-      <EduNeuroLoader size="md" variant="auth" />
+      <PadhaiShuruLoader size="md" variant="auth" />
     </div>
   );
 }
@@ -98,7 +98,7 @@ export default function AuthCallbackPage() {
   return (
     <Suspense fallback={
       <div className="min-h-[60vh] flex items-center justify-center">
-        <EduNeuroLoader size="md" variant="auth" />
+        <PadhaiShuruLoader size="md" variant="auth" />
       </div>
     }>
       <AuthCallbackInner />

@@ -21,7 +21,7 @@ export default function GATEIntroSection() {
           if (typeof window !== "undefined") {
             try {
               window.dispatchEvent(
-                new CustomEvent("eduneuro:track", {
+                new CustomEvent("padhaishuru:track", {
                   detail: { event: "gate_cta_viewed" },
                 })
               );
@@ -39,7 +39,7 @@ export default function GATEIntroSection() {
   const handleCTAClick = () => {
     try {
       window.dispatchEvent(
-        new CustomEvent("eduneuro:track", {
+        new CustomEvent("padhaishuru:track", {
           detail: { event: "gate_cta_clicked" },
         })
       );

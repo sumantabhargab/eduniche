@@ -27,7 +27,7 @@ import { WORLD_CONFIG } from "./types";
 import type { WorldPlayer, WorldChatMessage, ConnectionState, RoomId, EmojiReaction, SystemNotice } from "./types";
 import { useStudySession } from "../hooks/use-study-session";
 import { getChatSupabase } from "@/modules/chat/services/supabase";
-import { EduNeuroLoader } from "@/components/loading";
+import { PadhaiShuruLoader } from "@/components/loading";
 import { useAmbientMusic } from "./ambient-music";
 import { useProximityVoice } from "./proximity-voice";
 import { MobileControls } from "./MobileControls";
@@ -62,7 +62,7 @@ function LibraryLoading() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <div className="text-center space-y-4">
-        <EduNeuroLoader size="lg" variant="page" label="Entering the library..." />
+        <PadhaiShuruLoader size="lg" variant="page" label="Entering the library..." />
         <p className="text-sm text-muted animate-pulse">
           Preparing your study space...
         </p>
@@ -366,7 +366,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     music.toggle();
     if (musicHintShown) {
       setMusicHintShown(false);
-      localStorage.setItem("eduneuro:library:musicHint", "1");
+      localStorage.setItem("padhaishuru:library:musicHint", "1");
     }
   }, [music, musicHintShown]);
 
@@ -435,7 +435,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
   // Show music hint on first visit
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const seen = localStorage.getItem("eduneuro:library:musicHint");
+    const seen = localStorage.getItem("padhaishuru:library:musicHint");
     if (!seen) {
       setMusicHintShown(true);
     }
@@ -722,7 +722,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       if (!data.user) return;
 
       const channel = supabase
-        .channel("eduneuro:world:chat")
+        .channel("padhaishuru:world:chat")
         .on(
           "postgres_changes",
           {
@@ -1004,7 +1004,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
               </Link>
               <Link href="/">
                 <span className="font-serif text-lg text-foreground-light hover:text-accent transition-colors">
-                  Eduneuro
+                  PadhaiShuru
                 </span>
               </Link>
               <span className="text-muted-light text-xs">/</span>

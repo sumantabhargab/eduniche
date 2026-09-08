@@ -21,7 +21,7 @@ function NavInner() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="font-serif text-xl text-foreground">
-          Eduneuro
+          PadhaiShuru
         </Link>
 
         {/* Desktop nav */}
@@ -252,7 +252,7 @@ export default function Nav() {
     <Suspense fallback={
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="font-serif text-xl text-foreground">Eduneuro</Link>
+          <Link href="/" className="font-serif text-xl text-foreground">PadhaiShuru</Link>
           <div className="hidden md:flex items-center gap-3">
             <Link href="/library" className="text-sm text-muted hover:text-foreground">Library</Link>
             <Link href="/pricing" className="text-sm text-muted hover:text-foreground">Pricing</Link>

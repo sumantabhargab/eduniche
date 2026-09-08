@@ -1,5 +1,5 @@
 /**
- * EduNeuro neural-processing loading animation.
+ * PadhaiShuru neural-processing loading animation.
  *
  * A subtle dark-background animation with amber nodes that suggest
  * a small neural network processing information. An amber pulse
@@ -20,7 +20,7 @@ import * as React from "react";
 type LoaderSize = "xs" | "sm" | "md" | "lg";
 type LoaderVariant = "thinking" | "auth" | "page";
 
-interface EduNeuroLoaderProps {
+interface PadhaiShuruLoaderProps {
   size?: LoaderSize;
   variant?: LoaderVariant;
   label?: string;
@@ -63,17 +63,17 @@ function sizeToBox(size: LoaderSize): { width: number; height: number; nodeR: nu
 }
 
 const LABELS: Record<LoaderVariant, string> = {
-  thinking: "EduNeuro is thinking",
+  thinking: "PadhaiShuru is thinking",
   auth: "Authenticating",
   page: "Loading",
 };
 
-export function EduNeuroLoader({
+export function PadhaiShuruLoader({
   size = "md",
   variant = "thinking",
   label,
   className = "",
-}: EduNeuroLoaderProps) {
+}: PadhaiShuruLoaderProps) {
   const { width, height, nodeR } = sizeToBox(size);
 
   // Derived scale factors from the 100x60 viewBox to the requested pixel size.
@@ -244,4 +244,4 @@ export function EduNeuroLoader({
   );
 }
 
-export default EduNeuroLoader;
+export default PadhaiShuruLoader;

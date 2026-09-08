@@ -173,7 +173,7 @@ export default function WaitlistForm({
             <div className="flex gap-2">
               <a
                 href={`https://wa.me/?text=${encodeURIComponent(
-                  "I just joined Eduneuro's early access waitlist. It's a new way to learn skills — you practice with AI and neuroscience-informed feedback. Join here: " + referralUrl
+                  "I just joined PadhaiShuru's early access waitlist. It's a new way to learn skills — you practice with AI and neuroscience-informed feedback. Join here: " + referralUrl
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -186,8 +186,8 @@ export default function WaitlistForm({
                 onClick={() => {
                   if (navigator.share) {
                     navigator.share({
-                      title: "Eduneuro — Learn skills by doing",
-                      text: "I just joined Eduneuro's early access. Learn practical skills with AI and neuroscience-informed practice.",
+                      title: "PadhaiShuru — Learn skills by doing",
+                      text: "I just joined PadhaiShuru's early access. Learn practical skills with AI and neuroscience-informed practice.",
                       url: referralUrl,
                     }).catch(() => {});
                   } else {

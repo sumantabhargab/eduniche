@@ -1,7 +1,7 @@
 export const metadata = {
-  title: "Skills — Eduneuro",
+  title: "Skills — PadhaiShuru",
   description:
-    "Eduneuro's learning model can adapt across different skills — guitar, fitness, singing, public speaking, coding, and photography.",
+    "PadhaiShuru's learning model can adapt across different skills — guitar, fitness, singing, public speaking, coding, and photography.",
 };
 
 export default function Skills() {
@@ -44,7 +44,7 @@ export default function Skills() {
               Built for practical skills.
             </h2>
             <p className="text-lg text-muted leading-relaxed max-w-2xl mx-auto">
-              Eduneuro&apos;s learning model can adapt across different skills —
+              PadhaiShuru&apos;s learning model can adapt across different skills —
               each one needs its own practice system, feedback, and progression.
             </p>
           </div>

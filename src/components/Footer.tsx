@@ -17,11 +17,10 @@ export default function Footer() {
         <div className="grid md:grid-cols-[1fr_1fr_1fr_1fr] gap-12">
           <div>
             <div className="font-serif text-xl text-foreground mb-4">
-              Eduneuro
+              PadhaiShuru
             </div>
             <p className="text-sm text-muted leading-relaxed max-w-xs">
-              An AI-powered, neuroscience-informed platform for learning real
-              skills through active practice and personalized feedback.
+              A GATE preparation platform — PYQs, AI doubts, study tracking, mock tests, analytics, and mentorship.
             </p>
           </div>
 
@@ -87,7 +86,7 @@ export default function Footer() {
 
         <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-xs text-muted">
-            Eduneuro. All rights reserved.
+            PadhaiShuru. All rights reserved.
           </div>
           <div className="text-xs text-muted">
             Learn. Practice. Get feedback. Improve.

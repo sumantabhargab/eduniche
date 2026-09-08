@@ -71,7 +71,7 @@ export function ProfileHeader({
             </svg>
           </div>
           <span className="font-semibold text-sm sm:text-base text-foreground tracking-tight hidden sm:block">
-            EduNeuro
+            PadhaiShuru
           </span>
           <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-accent text-muted hidden sm:block">
             Library

@@ -1,7 +1,7 @@
 export const metadata = {
-  title: "Neuroscience — Eduneuro",
+  title: "Neuroscience — PadhaiShuru",
   description:
-    "Eduneuro is built around attention, practice, feedback, memory, and adaptation — the processes your brain actually uses to learn.",
+    "PadhaiShuru is built around attention, practice, feedback, memory, and adaptation — the processes your brain actually uses to learn.",
 };
 
 export default function Neuroscience() {
@@ -41,7 +41,7 @@ export default function Neuroscience() {
             </h2>
             <p className="text-lg text-muted leading-relaxed max-w-2xl mx-auto">
               Learning involves attention, practice, feedback, remembering, and
-              repetition. Eduneuro is built around these processes to make
+              repetition. PadhaiShuru is built around these processes to make
               online learning more active and effective.
             </p>
           </div>

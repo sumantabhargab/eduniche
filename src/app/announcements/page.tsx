@@ -55,7 +55,7 @@ export default function AnnouncementsPage() {
           <div className="py-16 text-center">
             <p className="text-sm text-muted">No announcements right now.</p>
             <p className="text-xs text-muted-light mt-1">
-              New announcements from EduNeuro will appear here.
+              New announcements from PadhaiShuru will appear here.
             </p>
           </div>
         ) : (

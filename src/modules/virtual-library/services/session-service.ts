@@ -34,10 +34,10 @@ export function createAnonymousId(): string {
   if (typeof localStorage === "undefined") {
     return `anon-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
   }
-  const stored = localStorage.getItem("eduneuro_library_id");
+  const stored = localStorage.getItem("padhaishuru_library_id");
   if (stored) return stored;
   const id = `anon-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-  localStorage.setItem("eduneuro_library_id", id);
+  localStorage.setItem("padhaishuru_library_id", id);
   return id;
 }
 

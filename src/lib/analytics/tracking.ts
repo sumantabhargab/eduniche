@@ -101,9 +101,9 @@ export type EventName = (typeof ALL_EVENTS)[number];
 
 // ─── Identity helpers ───────────────────────────────────────────────────
 
-const ANONYMOUS_ID_KEY = "eduneuro_anon_id";
-const SESSION_ID_KEY = "eduneuro_session_id";
-const SESSION_START_KEY = "eduneuro_session_start";
+const ANONYMOUS_ID_KEY = "padhaishuru_anon_id";
+const SESSION_ID_KEY = "padhaishuru_session_id";
+const SESSION_START_KEY = "padhaishuru_session_start";
 
 export function getOrCreateAnonymousId(): string {
   if (typeof document === "undefined") return "server-" + Date.now();
@@ -161,7 +161,7 @@ export function track(
   // Emit custom event for the client-side recorder
   try {
     window.dispatchEvent(
-      new CustomEvent("eduneuro:track", { detail: payload })
+      new CustomEvent("padhaishuru:track", { detail: payload })
     );
   } catch {
     // Silently fail if CustomEvent is unavailable
@@ -169,10 +169,10 @@ export function track(
 
   // Also store in memory for batch sending
   const w = window as unknown as Record<string, unknown>;
-  if (typeof w.__eduneuroEvents === "undefined") {
-    w.__eduneuroEvents = [];
+  if (typeof w.__padhaishuruEvents === "undefined") {
+    w.__padhaishuruEvents = [];
   }
-  const events = w.__eduneuroEvents as TrackEvent[];
+  const events = w.__padhaishuruEvents as TrackEvent[];
   events.push(payload);
 }
 
@@ -186,8 +186,8 @@ export function trackPageView(page: string): void {
 
 export function flushEvents(): TrackEvent[] {
   if (typeof window === "undefined") return [];
-  const w = window as unknown as { __eduneuroEvents?: TrackEvent[] };
-  const events = w.__eduneuroEvents || [];
-  w.__eduneuroEvents = [];
+  const w = window as unknown as { __padhaishuruEvents?: TrackEvent[] };
+  const events = w.__padhaishuruEvents || [];
+  w.__padhaishuruEvents = [];
   return events;
 }

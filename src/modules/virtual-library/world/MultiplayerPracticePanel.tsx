@@ -10,7 +10,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const ROOM_CHANNEL = "eduneuro:practice:room";
+const ROOM_CHANNEL = "padhaishuru:practice:room";
 
 type ChatMessage = {
   id: string;

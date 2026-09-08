@@ -2,7 +2,7 @@
  * Anonymous identity — generate and persist pseudonymous user identifiers.
  */
 
-const ANONYMOUS_ID_COOKIE = "eduneuro_anon_id";
+const ANONYMOUS_ID_COOKIE = "padhaishuru_anon_id";
 const ANONYMOUS_ID_LENGTH = 16;
 const CHARS = "abcdefghijklmnopqrstuvwxyz0123456789";
 

@@ -115,7 +115,7 @@ export default function NotificationPanel({
             <div className="px-5 py-8 text-center">
               <p className="text-sm text-muted mb-1">No notifications yet</p>
               <p className="text-xs text-muted-light">
-                Announcements from EduNeuro will appear here.
+                Announcements from PadhaiShuru will appear here.
               </p>
             </div>
           ) : (

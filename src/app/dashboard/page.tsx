@@ -9,7 +9,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { EduNeuroLoader } from "@/components/loading";
+import { PadhaiShuruLoader } from "@/components/loading";
 
 type Period = "today" | "week" | "month" | "all";
 
@@ -201,11 +201,11 @@ export default function DashboardPage() {
       .catch(() => {});
   }, [period]);
 
-  // Loading state — use EduNeuroLoader instead of generic spinner.
+  // Loading state — use PadhaiShuruLoader instead of generic spinner.
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <EduNeuroLoader size="md" variant="page" />
+        <PadhaiShuruLoader size="md" variant="page" />
       </div>
     );
   }
@@ -658,7 +658,7 @@ function StudyTimerDisplay({
             <rect x="6" y="4" width="4" height="16" rx="1" />
             <rect x="14" y="4" width="4" height="16" rx="1" />
           </svg>
-          Timer paused — switch back to EduNeuro to resume
+          Timer paused — switch back to PadhaiShuru to resume
         </div>
       )}
 

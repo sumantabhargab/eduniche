@@ -1,11 +1,11 @@
 /**
- * EduNeuro loading system — barrel export.
+ * PadhaiShuru loading system — barrel export.
  *
  * Use:
- *   import { EduNeuroLoader, Skeleton, StatCardSkeleton, ChatSkeleton, ListRowSkeleton } from "@/components/loading";
+ *   import { PadhaiShuruLoader, Skeleton, StatCardSkeleton, ChatSkeleton, ListRowSkeleton } from "@/components/loading";
  */
 
-export { EduNeuroLoader } from "./EduNeuroLoader";
+export { PadhaiShuruLoader } from "./PadhaiShuruLoader";
 export {
   Skeleton,
   StatCardSkeleton,

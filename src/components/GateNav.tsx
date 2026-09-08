@@ -98,12 +98,12 @@ export default function GateNav() {
             ))}
           </div>
 
-          {/* Back to EduNeuro */}
+          {/* Back to PadhaiShuru */}
           <Link
             href="/"
             className="text-xs text-muted hover:text-foreground transition-colors shrink-0 ml-4"
           >
-            Back to EduNeuro
+            Back to PadhaiShuru
           </Link>
         </div>
       </div>

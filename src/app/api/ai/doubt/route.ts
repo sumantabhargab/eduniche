@@ -3,7 +3,7 @@
  *
  * AI Doubt Engine endpoint.
  * - Validates premium access
- * - Retrieves relevant EduNeuro content
+ * - Retrieves relevant PadhaiShuru content
  * - Calls Groq API server-side via SDK
  * - Returns grounded response
  */
@@ -23,7 +23,7 @@ interface ChatMessage {
   content: string;
 }
 
-const DEFAULT_SYSTEM_PROMPT = `You are EduNeuro AI, an expert academic assistant for GATE (Graduate Aptitude Test in Engineering) preparation.
+const DEFAULT_SYSTEM_PROMPT = `You are PadhaiShuru AI, an expert academic assistant for GATE (Graduate Aptitude Test in Engineering) preparation.
 
 Your core principles:
 - Provide conceptual, step-by-step explanations suitable for GATE aspirants
@@ -36,7 +36,7 @@ Your core principles:
 - Keep responses focused and relevant to the user's question
 - Use markdown formatting for readability
 
-When EduNeuro library context is provided below, use it as your primary reference. Cite relevant sections by name.
+When PadhaiShuru library context is provided below, use it as your primary reference. Cite relevant sections by name.
 If the context doesn't contain enough information, say so clearly rather than guessing.`;
 
 function devLog(message: string, data?: Record<string, unknown>) {
@@ -87,7 +87,7 @@ async function retrieveRelevantContent(
       (r: any) => `[${r.resource_type || "Resource"}] ${r.name} (${r.subject || r.branch || "General"})`
     ).join("\n");
 
-    return `\n\nRelevant EduNeuro Library resources:\n${context}\n`;
+    return `\n\nRelevant PadhaiShuru Library resources:\n${context}\n`;
   } catch (e: any) {
     devLog("RAG: exception", { error: e?.message });
     return "";
@@ -329,7 +329,7 @@ export async function POST(request: Request) {
 
       if (groqError?.status === 429) {
         return NextResponse.json(
-          { answer: "EduNeuro is temporarily busy. Please try again in a moment.", confidence: "low" },
+          { answer: "PadhaiShuru is temporarily busy. Please try again in a moment.", confidence: "low" },
           { status: 200 }
         );
       }

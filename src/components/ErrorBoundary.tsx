@@ -23,7 +23,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: { componentStack: string }) {
-    console.error("EduNeuro error:", error, errorInfo.componentStack);
+    console.error("PadhaiShuru error:", error, errorInfo.componentStack);
   }
 
   render() {

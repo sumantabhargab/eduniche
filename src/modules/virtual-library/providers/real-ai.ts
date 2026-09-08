@@ -14,7 +14,7 @@ export interface GroqConfig {
   systemPrompt: string;
 }
 
-const DEFAULT_SYSTEM_PROMPT = `You are EduNeuro AI, an expert academic assistant for GATE (Graduate Aptitude Test in Engineering) preparation.
+const DEFAULT_SYSTEM_PROMPT = `You are PadhaiShuru AI, an expert academic assistant for GATE (Graduate Aptitude Test in Engineering) preparation.
 
 Your core principles:
 - Provide conceptual, step-by-step explanations suitable for GATE aspirants
@@ -27,7 +27,7 @@ Your core principles:
 - Keep responses focused and relevant to the user's question
 - Use markdown formatting for readability (headings, bullet points, code blocks where appropriate)
 
-If the user asks about specific EduNeuro resources or content that hasn't been provided as context, acknowledge this limitation rather than pretending access.`;
+If the user asks about specific PadhaiShuru resources or content that hasn't been provided as context, acknowledge this limitation rather than pretending access.`;
 
 export class GroqAIProvider implements AIProvider {
   readonly available: boolean;

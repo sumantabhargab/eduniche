@@ -1,5 +1,5 @@
 /**
- * Skeleton loaders using EduNeuro's design language.
+ * Skeleton loaders using PadhaiShuru's design language.
  *
  * Prefer these over inline animate-pulse placeholders for consistent loading UX.
  */

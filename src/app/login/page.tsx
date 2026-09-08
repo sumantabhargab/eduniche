@@ -262,7 +262,7 @@ function LoginInner() {
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold mb-2">Choose Your Username</h1>
             <p className="text-muted text-sm">
-              This will be your public identity on EduNeuro.
+              This will be your public identity on PadhaiShuru.
             </p>
           </div>
 
@@ -308,7 +308,7 @@ function LoginInner() {
     <div className="min-h-[60vh] flex items-center justify-center px-6">
       <div className="max-w-md w-full text-center">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold mb-2">Welcome to EduNeuro</h1>
+          <h1 className="text-2xl font-bold mb-2">Welcome to PadhaiShuru</h1>
           <p className="text-muted">
             Sign in to access your study dashboard, library, and premium features.
           </p>

@@ -134,7 +134,7 @@ export default function WaitlistSection() {
               <div className="flex gap-2">
                 <a
                   href={`https://wa.me/?text=${encodeURIComponent(
-                    "I just joined Eduneuro's early access. Check it out — learn practical skills with AI and neuroscience-informed practice."
+                    "I just joined PadhaiShuru's early access. Check it out — learn practical skills with AI and neuroscience-informed practice."
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -145,8 +145,8 @@ export default function WaitlistSection() {
                 <button
                   onClick={() => {
                     navigator.share?.({
-                      title: "Eduneuro — Learn skills by doing",
-                      text: "I just joined Eduneuro's early access. Learn practical skills with AI and neuroscience-informed practice.",
+                      title: "PadhaiShuru — Learn skills by doing",
+                      text: "I just joined PadhaiShuru's early access. Learn practical skills with AI and neuroscience-informed practice.",
                     }).catch(() => {});
                   }}
                   className="flex-1 py-3 border border-border hover:border-accent hover:text-accent text-muted text-sm transition-colors duration-200"

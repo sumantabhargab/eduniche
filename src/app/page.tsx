@@ -1,7 +1,7 @@
 /**
  * Homepage — GATE-focused product entry point.
  *
- * Conversion-optimized landing page for EduNeuro.
+ * Conversion-optimized landing page for PadhaiShuru.
  */
 
 import Link from "next/link";
@@ -12,13 +12,13 @@ import PersonalizedLearningMockup from "@/components/landing/PersonalizedLearnin
 import BillboardSlot from "@/components/BillboardSlot";
 
 export const metadata = {
-  title: "EduNeuro — AI-Powered GATE Preparation",
+  title: "PadhaiShuru.com — GATE Preparation Platform",
   description:
-    "Start with the free GATE library and AI doubt engine (5 questions/day). Upgrade for unlimited AI, live chat, and advanced analytics.",
+    "Start with the free GATE PYQ library and AI doubt engine (5 questions/day). Upgrade for unlimited AI, mock tests, analytics, and mentorship.",
   openGraph: {
-    title: "EduNeuro — AI-Powered GATE Preparation",
+    title: "PadhaiShuru.com — GATE Preparation Platform",
     description:
-      "Free GATE library, AI doubt engine, study tracker, and leaderboard. Start preparing smarter for GATE today.",
+      "Free GATE PYQ library, AI doubt engine, study tracker, and mentorship. Start preparing smarter for GATE today.",
     type: "website",
   },
 };
@@ -111,7 +111,7 @@ export default function Home() {
               Three steps to better preparation.
             </h2>
             <p className="text-base md:text-lg text-muted leading-relaxed reveal">
-              EduNeuro adapts to how you learn — not the other way around.
+              PadhaiShuru adapts to how you learn — not the other way around.
             </p>
           </div>
 
@@ -223,7 +223,7 @@ export default function Home() {
               Built around how you actually prepare.
             </h2>
             <p className="text-base md:text-lg text-muted leading-relaxed reveal">
-              Every feature in EduNeuro is designed for the GATE preparation workflow —
+              Every feature in PadhaiShuru is designed for the GATE preparation workflow —
               from understanding concepts to analyzing patterns to tracking progress.
             </p>
           </div>
@@ -239,7 +239,7 @@ export default function Home() {
                   Ask any GATE question. Get a conceptual explanation.
                 </h3>
                 <p className="text-sm md:text-base text-muted leading-relaxed mb-6 reveal">
-                  Powered by Groq and grounded in EduNeuro&apos;s library content.
+                  Powered by Groq and grounded in PadhaiShuru&apos;s library content.
                   Free users get 5 questions per day. Premium users get unlimited access.
                   The AI doesn&apos;t just answer — it breaks down the reasoning step by step.
                 </p>
@@ -271,7 +271,7 @@ export default function Home() {
                 </h3>
                 <p className="text-sm md:text-base text-muted leading-relaxed mb-6 reveal">
                   Stop randomly solving PYQs. Understand topic weightage, difficulty
-                  trends, and recurring patterns across papers. EduNeuro processes
+                  trends, and recurring patterns across papers. PadhaiShuru processes
                   historical data so you can focus on what actually matters.
                 </p>
                 <Link
@@ -301,7 +301,7 @@ export default function Home() {
                   Your study plan, adapted to your performance.
                 </h3>
                 <p className="text-sm md:text-base text-muted leading-relaxed mb-6 reveal">
-                  EduNeuro tracks your weak areas and builds a study path around them.
+                  PadhaiShuru tracks your weak areas and builds a study path around them.
                   Practice problems are selected based on your accuracy. Progress is
                   tracked with topic-level mastery — not just a timer.
                 </p>
@@ -414,7 +414,7 @@ export default function Home() {
             </h2>
             <p className="text-base md:text-lg text-muted leading-relaxed reveal">
               GATE isn&apos;t about memorizing everything. It&apos;s about knowing
-              what to study, how deeply, and where to focus. EduNeuro&apos;s GATE
+              what to study, how deeply, and where to focus. PadhaiShuru&apos;s GATE
               Intelligence gives you that clarity — available for free.
             </p>
           </div>
@@ -464,7 +464,7 @@ export default function Home() {
               Start learning without paying anything.
             </h2>
             <p className="text-base md:text-lg text-muted leading-relaxed reveal">
-              You don&apos;t need a subscription to experience EduNeuro&apos;s core
+              You don&apos;t need a subscription to experience PadhaiShuru&apos;s core
               value. The free tier is designed to be genuinely useful.
             </p>
           </div>
@@ -510,7 +510,7 @@ export default function Home() {
               Free to start. Premium when you need it.
             </h2>
             <p className="text-base md:text-lg text-muted leading-relaxed reveal">
-              Use EduNeuro for free with the full GATE library, study tracker, and leaderboard.
+              Use PadhaiShuru for free with the full GATE library, study tracker, and leaderboard.
               Upgrade to Premium for the AI Doubt Engine, live chat, and all premium content.
             </p>
           </div>
@@ -597,7 +597,7 @@ export default function Home() {
             Start preparing smarter.
           </h2>
           <p className="text-base md:text-lg text-muted leading-relaxed max-w-xl mx-auto mb-10 reveal">
-            Join GATE aspirants who use EduNeuro&apos;s AI-powered tools to prepare
+            Join GATE aspirants who use PadhaiShuru&apos;s AI-powered tools to prepare
             more effectively. Free to start — no card required.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center reveal">

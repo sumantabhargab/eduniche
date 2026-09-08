@@ -328,7 +328,7 @@ export default function PYQLibraryPage() {
               </h3>
               <p className="text-muted max-w-lg mx-auto mb-8 text-sm md:text-base">
                 Get topic-wise filtering, heatmaps, trend analysis, smart practice,
-                and personalized recommendations with EduNeuro Premium.
+                and personalized recommendations with PadhaiShuru Premium.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Link

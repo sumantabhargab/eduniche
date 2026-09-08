@@ -23,7 +23,7 @@ interface ChatMessage {
   content: string;
 }
 
-const FREE_SYSTEM_PROMPT = `You are EduNeuro AI, an expert academic assistant for GATE (Graduate Aptitude Test in Engineering) preparation.
+const FREE_SYSTEM_PROMPT = `You are PadhaiShuru AI, an expert academic assistant for GATE (Graduate Aptitude Test in Engineering) preparation.
 
 Your core principles:
 - Provide conceptual, step-by-step explanations suitable for GATE aspirants
@@ -37,7 +37,7 @@ Your core principles:
 - Use markdown formatting for readability
 - Be encouraging and helpful — the user is on the free tier and learning
 
-When EduNeuro library context is provided below, use it as your primary reference. Cite relevant sections by name.
+When PadhaiShuru library context is provided below, use it as your primary reference. Cite relevant sections by name.
 If the context doesn't contain enough information, say so clearly rather than guessing.`;
 
 function devLog(message: string, data?: Record<string, unknown>) {
@@ -135,7 +135,7 @@ async function retrieveRelevantContent(
       .map((r: any) => `[${r.resource_type || "Resource"}] ${r.name} (${r.subject || r.branch || "General"})`)
       .join("\n");
 
-    return `\n\nRelevant EduNeuro Library resources:\n${context}\n`;
+    return `\n\nRelevant PadhaiShuru Library resources:\n${context}\n`;
   } catch (e: any) {
     devLog("RAG: exception", { error: e?.message });
     return "";

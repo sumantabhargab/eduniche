@@ -87,7 +87,7 @@ export default function DoubtEngineDemo() {
                 <div className="w-3 h-3 rounded-full bg-white/10" />
               </div>
               <span className="text-white/40 text-xs font-mono tracking-wider uppercase">
-                EduNeuro — AI Doubt Engine
+                PadhaiShuru — AI Doubt Engine
               </span>
             </div>
             <div className="flex items-center gap-2">

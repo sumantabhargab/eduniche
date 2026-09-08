@@ -34,10 +34,10 @@ class EventTracker {
     if (typeof sessionStorage === "undefined") {
       return this.generateSessionId();
     }
-    const stored = sessionStorage.getItem("eduneuro_session");
+    const stored = sessionStorage.getItem("padhaishuru_session");
     if (stored) return stored;
     const newId = this.generateSessionId();
-    sessionStorage.setItem("eduneuro_session", newId);
+    sessionStorage.setItem("padhaishuru_session", newId);
     return newId;
   }
 

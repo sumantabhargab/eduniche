@@ -94,7 +94,7 @@ export default function PricingPage() {
         return;
       }
 
-      // Populate customer info from the authenticated EduNeuro user.
+      // Populate customer info from the authenticated PadhaiShuru user.
       // Never fabricate information.
       const prefill: Record<string, string> = {};
       if (user.email) prefill.email = user.email;

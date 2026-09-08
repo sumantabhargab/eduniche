@@ -320,7 +320,7 @@ export default function AnalyticsPage() {
               </h3>
               <p className="text-muted max-w-lg mx-auto mb-8 text-sm md:text-base">
                 Get AIR prediction, personalized study recommendations, topic heatmaps,
-                and AI-powered insights with EduNeuro Premium.
+                and AI-powered insights with PadhaiShuru Premium.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Link

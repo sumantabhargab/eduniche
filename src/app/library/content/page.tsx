@@ -7,7 +7,7 @@
 import { LibraryContent } from "@/modules/virtual-library/features/content/LibraryContent";
 
 export const metadata = {
-  title: "Library Content — EduNeuro",
+  title: "Library Content — PadhaiShuru",
   description: "Browse study resources by GATE branch and subject.",
 };
 

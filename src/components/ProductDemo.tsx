@@ -124,7 +124,7 @@ export default function ProductDemo() {
                 Beginner Guitar
               </div>
               <div className="font-serif text-3xl md:text-4xl text-foreground-light leading-snug mb-6 max-w-xl mx-auto">
-                See how Eduneuro
+                See how PadhaiShuru
                 <br />
                 teaches a skill.
               </div>
@@ -169,7 +169,7 @@ export default function ProductDemo() {
                 <div className="w-3 h-3 rounded-full bg-border-light" />
               </div>
               <span className="text-muted-light text-xs font-mono tracking-wider uppercase">
-                Eduneuro — Guitar Learning
+                PadhaiShuru — Guitar Learning
               </span>
             </div>
             <div className="flex items-center gap-3">

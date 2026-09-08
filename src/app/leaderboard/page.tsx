@@ -7,7 +7,7 @@
 
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { EduNeuroLoader } from "@/components/loading";
+import { PadhaiShuruLoader } from "@/components/loading";
 
 interface LeaderboardEntry {
   rank: number;
@@ -60,7 +60,7 @@ export default function LeaderboardPage() {
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <EduNeuroLoader size="md" variant="page" />
+        <PadhaiShuruLoader size="md" variant="page" />
       </div>
     );
   }
@@ -86,7 +86,7 @@ export default function LeaderboardPage() {
 
       {loadingData ? (
         <div className="text-center py-12">
-          <EduNeuroLoader size="sm" variant="page" label="Loading leaderboard" />
+          <PadhaiShuruLoader size="sm" variant="page" label="Loading leaderboard" />
         </div>
       ) : leaderboard.length === 0 ? (
         <div className="text-center py-12 bg-card border border-border rounded-2xl">

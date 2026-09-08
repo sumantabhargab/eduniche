@@ -8,7 +8,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { createBrowserClient } from "@/lib/supabase/client";
-import { EduNeuroLoader } from "@/components/loading";
+import { PadhaiShuruLoader } from "@/components/loading";
 
 // Icon components replacing emojis
 function IconBan({ className = "w-10 h-10" }: { className?: string }) {
@@ -169,7 +169,7 @@ export default function ChatPage() {
   if (loading || checkingPremium) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <EduNeuroLoader size="md" variant="page" />
+        <PadhaiShuruLoader size="md" variant="page" />
       </div>
     );
   }
@@ -305,7 +305,7 @@ export default function ChatPage() {
             >
               {sending ? (
                 <>
-                  <EduNeuroLoader size="xs" variant="thinking" />
+                  <PadhaiShuruLoader size="xs" variant="thinking" />
                   <span>Sending</span>
                 </>
               ) : (

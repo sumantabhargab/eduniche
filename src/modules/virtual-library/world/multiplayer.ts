@@ -12,7 +12,7 @@
 import { getChatSupabase } from "@/modules/chat/services/supabase";
 import type { WorldPlayer, RoomId, EmojiReaction, SystemNotice } from "./types";
 
-const BROADCAST_CHANNEL = "eduneuro:world:positions";
+const BROADCAST_CHANNEL = "padhaishuru:world:positions";
 const UPDATE_INTERVAL = 100; // ms — broadcast 10x/sec
 const CLEANUP_INTERVAL = 2000; // ms — check for stale players
 const INTERPOLATION_FACTOR = 0.18; // lerp factor per frame toward network position

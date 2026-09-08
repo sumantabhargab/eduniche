@@ -11,8 +11,8 @@ import { getChatSupabase } from "@/modules/chat/services/supabase";
 type PresenceHandler = (participants: Participant[]) => void;
 type RoomHandler = (room: StudyRoom) => void;
 
-const PRESENCE_CHANNEL_PREFIX = "eduneuro:presence:";
-const ROOM_CHANNEL_PREFIX = "eduneuro:room:";
+const PRESENCE_CHANNEL_PREFIX = "padhaishuru:presence:";
+const ROOM_CHANNEL_PREFIX = "padhaishuru:room:";
 
 export class RealRealtimeProvider implements RealtimeProvider {
   readonly enabled = true;

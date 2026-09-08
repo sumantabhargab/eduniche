@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — EduNeuro",
+  title: "Privacy Policy — PadhaiShuru",
   description:
-    "EduNeuro privacy policy — how we handle your data, what we collect, and your rights.",
+    "PadhaiShuru privacy policy — how we handle your data, what we collect, and your rights.",
 };
 
 export default function PrivacyPage() {
@@ -18,9 +18,9 @@ export default function PrivacyPage() {
 
       <div className="space-y-12 text-sm text-foreground leading-relaxed">
         <section>
-          <h2 className="font-serif text-xl mb-3">1. About EduNeuro</h2>
+          <h2 className="font-serif text-xl mb-3">1. About PadhaiShuru</h2>
           <p>
-            EduNeuro is an AI-powered, neuroscience-informed educational platform
+            PadhaiShuru is an AI-powered, neuroscience-informed educational platform
             that helps students prepare for competitive examinations such as GATE
             through organised study resources, practice, progress tracking, and
             AI-assisted doubt resolution. This Privacy Policy explains what data
@@ -33,10 +33,10 @@ export default function PrivacyPage() {
             2. Google Sign-In and Information We Receive
           </h2>
           <p>
-            EduNeuro uses{" "}
+            PadhaiShuru uses{" "}
             <strong>Google OAuth (via Supabase Auth)</strong> as its sign-in
             method. When you click &ldquo;Continue with Google,&rdquo; Google
-            shares a limited set of information with EduNeuro solely to create
+            shares a limited set of information with PadhaiShuru solely to create
             and authenticate your account:
           </p>
           <ul className="list-disc pl-6 mt-3 space-y-2">
@@ -45,12 +45,12 @@ export default function PrivacyPage() {
             <li>Your Google account profile picture (avatar)</li>
           </ul>
           <p className="mt-3">
-            EduNeuro does not request — and does not receive — access to your
+            PadhaiShuru does not request — and does not receive — access to your
             Google Drive, Gmail, contacts, calendar, or any other Google
             services beyond the basic identity profile listed above.
           </p>
           <p className="mt-3">
-            This information is used only to populate your EduNeuro account
+            This information is used only to populate your PadhaiShuru account
             (display name and avatar) and for authentication. You are not
             required to use Google Sign-In to use any free features of the
             platform.
@@ -62,7 +62,7 @@ export default function PrivacyPage() {
             3. Account and Profile Information
           </h2>
           <p>
-            When you create an EduNeuro account, we store the following
+            When you create an PadhaiShuru account, we store the following
             information in our database:
           </p>
           <ul className="list-disc pl-6 mt-3 space-y-2">
@@ -101,7 +101,7 @@ export default function PrivacyPage() {
             4. Study Activity and Progress Data
           </h2>
           <p>
-            EduNeuro tracks study-related activity to provide features such as
+            PadhaiShuru tracks study-related activity to provide features such as
             verified study sessions, streaks, goals, and performance analytics.
             This includes:
           </p>
@@ -135,9 +135,9 @@ export default function PrivacyPage() {
             5. Payment and Subscription Information
           </h2>
           <p>
-            EduNeuro uses <strong>Razorpay</strong> as its payment processor for
+            PadhaiShuru uses <strong>Razorpay</strong> as its payment processor for
             subscriptions. Payment and billing details are handled entirely by
-            Razorpay. EduNeuro does not store your full card or bank details.
+            Razorpay. PadhaiShuru does not store your full card or bank details.
           </p>
           <p className="mt-3">
             We receive and store limited subscription information from Razorpay:
@@ -173,7 +173,7 @@ export default function PrivacyPage() {
             6. AI Doubt Engine Data
           </h2>
           <p>
-            EduNeuro&apos;s AI Doubt Engine allows you to ask questions about
+            PadhaiShuru&apos;s AI Doubt Engine allows you to ask questions about
             GATE subjects and receive AI-generated answers grounded in your
             study library. When you use this feature:
           </p>
@@ -204,7 +204,7 @@ export default function PrivacyPage() {
             7. Global Study Chat
           </h2>
           <p>
-            EduNeuro offers a real-time study chat for premium users. Messages
+            PadhaiShuru offers a real-time study chat for premium users. Messages
             you send in the chat are visible to other users and are stored in our
             database (via Supabase) while the chat session is active. Do not
             share personal or sensitive information in chat messages.
@@ -214,7 +214,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="font-serif text-xl mb-3">8. Data Storage</h2>
           <p>
-            All EduNeuro user data — account profiles, study sessions, progress
+            All PadhaiShuru user data — account profiles, study sessions, progress
             records, leaderboard entries, and chat messages — is stored using{" "}
             <strong>Supabase</strong>, a PostgreSQL-based cloud platform. Supabase
             provides encrypted data storage and transport. Our database
@@ -228,7 +228,7 @@ export default function PrivacyPage() {
             9. Security Practices
           </h2>
           <p>
-            EduNeuro takes the security of your data seriously. Measures we
+            PadhaiShuru takes the security of your data seriously. Measures we
             implement include:
           </p>
           <ul className="list-disc pl-6 mt-3 space-y-2">
@@ -261,7 +261,7 @@ export default function PrivacyPage() {
             10. Third-Party Services
           </h2>
           <p>
-            EduNeuro integrates with the following third-party services, each
+            PadhaiShuru integrates with the following third-party services, each
             with its own privacy practices:
           </p>
           <ul className="list-disc pl-6 mt-3 space-y-2">
@@ -320,7 +320,7 @@ export default function PrivacyPage() {
             <li>Request deletion of your account and data</li>
             <li>Withdraw consent for data processing where applicable</li>
             <li>
-              Disconnect Google Sign-In from your EduNeuro account at any time
+              Disconnect Google Sign-In from your PadhaiShuru account at any time
               through your Google Account settings
             </li>
           </ul>
@@ -339,7 +339,7 @@ export default function PrivacyPage() {
         <section>
           <h2 className="font-serif text-xl mb-3">13. Children&apos;s Privacy</h2>
           <p>
-            EduNeuro is intended for students and adult learners. We do not
+            PadhaiShuru is intended for students and adult learners. We do not
             knowingly collect personal information from children under the age of
             13. If you believe a child has provided us with personal information,
             please contact us so we can take appropriate action.

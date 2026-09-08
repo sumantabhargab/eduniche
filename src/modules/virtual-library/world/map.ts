@@ -394,7 +394,7 @@ export const ROOM_ZONES: RoomZone[] = [
     entryPoint: [20, 2],
     voiceEnabled: false,
     videoEnabled: false,
-    description: "Welcome to the EduNeuro Virtual Library.",
+    description: "Welcome to the PadhaiShuru Virtual Library.",
   },
   {
     id: "main-reading",

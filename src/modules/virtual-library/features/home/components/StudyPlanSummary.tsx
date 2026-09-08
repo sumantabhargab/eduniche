@@ -13,12 +13,12 @@ import Link from "next/link";
 export function StudyPlanSummary() {
   const participantId = useMemo(() => {
     const stored = typeof localStorage !== "undefined"
-      ? localStorage.getItem("eduneuro_library_id")
+      ? localStorage.getItem("padhaishuru_library_id")
       : null;
     if (stored) return stored;
     const id = `anon-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
     if (typeof localStorage !== "undefined") {
-      localStorage.setItem("eduneuro_library_id", id);
+      localStorage.setItem("padhaishuru_library_id", id);
     }
     return id;
   }, []);

@@ -1,7 +1,7 @@
 /**
  * PYQ Branch Registry
  *
- * Canonical branch definitions. Every branch supported by EduNeuro.
+ * Canonical branch definitions. Every branch supported by PadhaiShuru.
  * Used for both the GATE questions system and the game/leaderboard system.
  *
  * DO NOT manually add branches without also adding corresponding

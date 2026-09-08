@@ -23,13 +23,13 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Eduneuro — Learn skills by doing, not just watching",
+  title: "PadhaiShuru.com — GATE Preparation Platform",
   description:
-    "Eduneuro is an AI-powered, neuroscience-informed platform that helps you learn real-world skills through active practice, personalized feedback, and adaptive challenges.",
+    "Free GATE PYQ library, AI doubt engine, study tracker, mock tests, analytics, and mentorship — everything a GATE aspirant needs.",
   openGraph: {
-    title: "Eduneuro — Learn skills by doing",
+    title: "PadhaiShuru.com — GATE Preparation Platform",
     description:
-      "An AI and neuroscience-informed platform for learning real skills through active practice and personalized feedback.",
+      "Free GATE PYQ library, AI doubt engine, study tracker, mock tests, analytics, and mentorship — everything a GATE aspirant needs.",
     type: "website",
   },
 };

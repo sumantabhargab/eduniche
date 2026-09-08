@@ -1,7 +1,7 @@
 import ProductDemo from "@/components/ProductDemo";
 
 export const metadata = {
-  title: "How it works — Eduneuro",
+  title: "How it works — PadhaiShuru",
   description:
     "Learn, practice, get feedback, adapt, repeat, and improve — the loop that builds real skills.",
 };
@@ -136,7 +136,7 @@ export default function HowItWorks() {
                 mistakes. They know when you&apos;re ready for the next level.
               </p>
               <p className="text-lg text-muted leading-relaxed">
-                Eduneuro uses AI to bring more of that adaptive learning
+                PadhaiShuru uses AI to bring more of that adaptive learning
                 experience into online skill development. Not to replace
                 instructors — but to make learning more responsive, available,
                 and personalized.
