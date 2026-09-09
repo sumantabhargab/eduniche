@@ -30,8 +30,14 @@ const ACTIVE_SUBSCRIPTION_STATUSES = ['active'] as const
  * @param userId — Supabase auth user ID
  */
 export async function getEntitlement(userId: string): Promise<EntitlementResult> {
-  const supabase = createServerClient()
-
+  const supabase = await createServerClient()
+  if (!supabase) {
+    return {
+      isPremium: false,
+      plan: 'free' as PlanId,
+      subscription: null,
+    }
+  }
   // Parallel-fetch profile and subscription
   const [{ data: profile }, { data: subRows }] = await Promise.all([
     supabase.from('profiles').select('plan').eq('id', userId).maybeSingle(),

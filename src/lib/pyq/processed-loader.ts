@@ -9,7 +9,7 @@
 import { readFileSync, existsSync, readdirSync } from "fs";
 import { join } from "path";
 
-const PROCESSED_DIR = join(process.cwd(), "..", "data", "pyq", "processed");
+const PROCESSED_DIR = join(process.cwd(), "data", "pyq", "processed");
 
 export interface ProcessedQuestion {
   id: string;

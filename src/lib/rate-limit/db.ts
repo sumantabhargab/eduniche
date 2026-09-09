@@ -33,7 +33,10 @@ export async function checkRateLimit(
   config: RateLimitConfig
 ): Promise<RateLimitResult> {
   try {
-    const supabase = createServerClient()
+    const supabase = await createServerClient()
+    if (!supabase) {
+      return buildOpenResult(config)
+    }
     const { data, error } = await supabase.rpc('rate_limit_check', {
       p_identifier: identifier,
       p_endpoint: endpoint,

@@ -8,7 +8,10 @@ import type { User } from '@supabase/supabase-js'
 
 export async function getUser(): Promise<User | null> {
   try {
-    const supabase = createServerClient()
+    const supabase = await createServerClient()
+    if (!supabase) {
+      return null
+    }
     const {
       data: { user },
     } = await supabase.auth.getUser()

@@ -157,18 +157,25 @@ export default function SubjectPracticeSession({ branch, subject }: SubjectPract
 
   const current = questions[currentIndex];
 
+  const isAnswerCorrect = (letter: string): boolean => {
+    if (!current) return false;
+    const idx = letter.charCodeAt(0) - 65;
+    const optionText = current.options[idx];
+    return letter === current.correctAnswer || optionText === current.correctAnswer;
+  };
+
   const handleSelectAnswer = (answer: string) => {
     if (answerState !== "unanswered" || !current) return;
     if (mode === "browse") {
       // In browse mode, just show the answer immediately
       setSelectedAnswer(answer);
-      const isCorrect = answer === current.correctAnswer;
+      const isCorrect = isAnswerCorrect(answer);
       setAnswerState(isCorrect ? "correct" : "incorrect");
       setShowExplanation(true);
     } else {
       // Quiz mode: record selection but don't reveal until user clicks reveal
       setSelectedAnswer(answer);
-      const isCorrect = answer === current.correctAnswer;
+      const isCorrect = isAnswerCorrect(answer);
       setAnswerState(isCorrect ? "correct" : "incorrect");
       setShowExplanation(true);
     }
@@ -183,7 +190,7 @@ export default function SubjectPracticeSession({ branch, subject }: SubjectPract
           branch,
           subject,
           selectedAnswer: answer,
-          isCorrect: answer === current.correctAnswer,
+          isCorrect: isAnswerCorrect(answer),
           timeSpent: 0,
         }),
       }).catch(() => {});
@@ -418,11 +425,12 @@ export default function SubjectPracticeSession({ branch, subject }: SubjectPract
                 <div className="space-y-3">
                   {current.options.map((option, idx) => {
                     const letter = String.fromCharCode(65 + idx);
+                    const matchesAnswer = option === current.correctAnswer || letter === current.correctAnswer;
                     let stateClass = "border-border hover:border-muted-foreground/30";
                     if (answerState !== "unanswered") {
-                      if (letter === current.correctAnswer) {
+                      if (matchesAnswer) {
                         stateClass = "border-green-500 bg-green-50 dark:bg-green-950/30";
-                      } else if (letter === selectedAnswer && letter !== current.correctAnswer) {
+                      } else if (letter === selectedAnswer && !matchesAnswer) {
                         stateClass = "border-red-500 bg-red-50 dark:bg-red-950/30";
                       }
                     } else if (selectedAnswer === letter) {

@@ -199,7 +199,7 @@ async function ingestBranch(file: ProcessedFile): { inserted: number; skipped: n
           negative_marks: q.negative_marks,
           question_text: q.question_text,
           options: optionsJson,
-          correct_answer: q.answer,
+          correct_answer: q.answer ?? "",
           difficulty: q.difficulty,
           source_primary: `GATE ${q.year} Official`,
           source_type: "official",

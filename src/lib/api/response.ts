@@ -31,8 +31,9 @@ export type ApiResponse<T> = ApiSuccess<T> | ApiError
 
 // ---------- Helpers ----------
 
-export function ok<T>(data: T, meta?: Record<string, unknown>): ApiSuccess<T> {
-  return { success: true, data, error: null, ...(meta ? { meta } : {}) }
+export function ok<T>(data: T, meta?: Record<string, unknown>): Response {
+  const body: ApiSuccess<T> = { success: true, data, error: null, ...(meta ? { meta } : {}) }
+  return Response.json(body)
 }
 
 export function fail(code: string, message: string, details?: unknown): ApiError {

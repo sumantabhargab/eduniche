@@ -12,7 +12,7 @@ import { createServerClient } from "@/lib/supabase/server";
 import { requirePremium } from "@/lib/entitlements";
 import { rateLimitAI } from "@/lib/rate-limit/db";
 import { getUser, clientIdentifier } from "@/lib/auth/user";
-import { ok, unauthorized, badRequest, forbidden, serverError } from "@/lib/api/response";
+import { ok, unauthorized, badRequest, forbidden, serverError, fail } from "@/lib/api/response";
 
 const GROQ_MODEL = "openai/gpt-oss-120b";
 const MAX_QUESTION_LENGTH = 2000;
@@ -185,8 +185,7 @@ export async function POST(request: Request) {
       const entitlement = await requirePremium(user.id);
       // Premium user on free endpoint — return clear response telling them to use premium endpoint
       return forbidden(
-        "You have Premium access. Use /api/ai/doubt for the full experience.",
-        { upgradeUrl: "/api/ai/doubt" }
+        "You have Premium access. Use /api/ai/doubt for the full experience."
       );
     } catch {
       // Not premium — proceed with free-tier logic
@@ -216,8 +215,7 @@ export async function POST(request: Request) {
     const usageToday = await getDoubtUsageToday(supabase, user.id);
     if (usageToday >= FREE_DAILY_LIMIT) {
       return forbidden(
-        `Daily limit reached. Free users get ${FREE_DAILY_LIMIT} doubts per day. Upgrade to Premium for unlimited access.`,
-        { limit: FREE_DAILY_LIMIT, used: usageToday, upgradeUrl: "/pricing" }
+        `Daily limit reached. Free users get ${FREE_DAILY_LIMIT} doubts per day. Upgrade to Premium for unlimited access.`
       );
     }
 
