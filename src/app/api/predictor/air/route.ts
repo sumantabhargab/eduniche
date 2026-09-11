@@ -200,7 +200,8 @@ function interpolateAIR(marks: number, branchData: Record<number, { air_100: num
       const t = (marks - data.air_1000) / (data.air_500 - data.air_1000);
       air = 1000 - t * 500;
     } else {
-      air = 1000 + (data.air_1000 - marks) * 5;
+      // Below air_1000 anchor — use inverse-power model
+      air = Math.round(1000 * Math.pow(data.air_1000 / Math.max(marks, 1), 1.5));
     }
     air = Math.max(1, Math.round(air));
     totalWeight += weight;
