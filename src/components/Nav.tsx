@@ -59,6 +59,14 @@ function NavInner() {
             Cutoffs
           </Link>
           <Link
+            href="/predictor"
+            className={`text-sm transition-colors ${
+              isActive("/predictor", true) ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            Predictor
+          </Link>
+          <Link
             href="/doubts"
             className={`text-sm transition-colors ${
               isActive("/doubts") ? "text-accent" : "text-muted hover:text-foreground"
@@ -195,6 +203,7 @@ function NavInner() {
             <Link href="/pyqs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">PYQs</Link>
             <Link href="/formulas" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Formulas</Link>
             <Link href="/cutoffs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Cutoffs</Link>
+            <Link href="/predictor" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">AIR Predictor</Link>
             <Link href="/doubts" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Doubt Engine</Link>
             <Link href="/library" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Library</Link>
             {isAuthenticated && (

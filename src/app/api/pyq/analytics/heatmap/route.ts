@@ -6,16 +6,31 @@
  */
 
 import { NextResponse } from "next/server";
+import { ok, paymentRequired, serverError } from "@/lib/api/response";
+import { requireUser } from "@/lib/auth/user";
+import { requirePremium, PremiumRequiredError } from "@/lib/entitlements";
 import { createServiceClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
   try {
+    const authResult = await requireUser();
+    if (!authResult.ok) {
+      return NextResponse.json(ok({ heatmap: {}, years: [] }));
+    }
+
+    try {
+      await requirePremium(authResult.user.id);
+    } catch (e) {
+      if (e instanceof PremiumRequiredError) return paymentRequired();
+      throw e;
+    }
+
     const { searchParams } = new URL(request.url);
     const branch = searchParams.get("branch");
 
     const supabase = await createServiceClient();
     if (!supabase) {
-      return NextResponse.json({ error: "Database unavailable" }, { status: 503 });
+      return serverError("Database unavailable");
     }
 
     // Build query
@@ -31,7 +46,7 @@ export async function GET(request: Request) {
 
     if (error) {
       console.error("[PYQ] Heatmap query error:", error);
-      return NextResponse.json({ error: "Failed to fetch analytics" }, { status: 500 });
+      return serverError("Failed to fetch analytics");
     }
 
     // Build heatmap: topic -> year -> count
@@ -46,12 +61,12 @@ export async function GET(request: Request) {
       heatmap[q.topic_name][q.year] = (heatmap[q.topic_name][q.year] || 0) + 1;
     }
 
-    return NextResponse.json({
+    return NextResponse.json(ok({
       heatmap,
       years: Array.from(years).sort(),
-    });
+    }));
   } catch (error) {
     console.error("[PYQ] Heatmap error:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return serverError("Internal server error");
   }
 }

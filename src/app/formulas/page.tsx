@@ -17,10 +17,11 @@ import {
   Lock,
   Search,
   ChevronRight,
-  Sparkles,
-  Calculator,
-  BookOpen,
   Zap,
+  Printer,
+  RotateCcw,
+  MessageCircle,
+  Calculator,
 } from "@/components/pyq/PYQIcons";
 
 type FormulaSheet = {
@@ -43,6 +44,20 @@ const BRANCH_DATA: Record<string, { name: string; icon: string }> = {
   ME: { name: "Mechanical Engineering", icon: "⚙️" },
   CE: { name: "Civil Engineering", icon: "🏗️" },
   IN: { name: "Instrumentation", icon: "🔬" },
+  PI: { name: "Production & Industrial", icon: "🏭" },
+  CH: { name: "Chemical Engineering", icon: "🧪" },
+  BT: { name: "Biotechnology", icon: "🧬" },
+  MT: { name: "Metallurgy", icon: "🔩" },
+  XE: { name: "Engineering Sciences", icon: "🔬" },
+  XL: { name: "Life Sciences", icon: "🧫" },
+  TF: { name: "Textile Engineering", icon: "🧵" },
+  PE: { name: "Petroleum Engineering", icon: "🛢️" },
+  EY: { name: "Ecology & Environment", icon: "🌿" },
+  MA: { name: "Mathematics", icon: "📐" },
+  PH: { name: "Physics", icon: "⚛️" },
+  AR: { name: "Architecture & Planning", icon: "🏛️" },
+  AG: { name: "Agricultural Engineering", icon: "🌾" },
+  GG: { name: "Geomatics", icon: "🗺️" },
 };
 
 export default function FormulaSheetsPage() {

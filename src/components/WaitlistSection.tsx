@@ -2,6 +2,7 @@
 
 import WaitlistForm from "@/components/WaitlistForm";
 import Leaderboard from "@/components/Leaderboard";
+import { shareOnWhatsApp } from "@/lib/share/whatsapp";
 
 export default function WaitlistSection() {
   return (
@@ -132,16 +133,16 @@ export default function WaitlistSection() {
               </div>
 
               <div className="flex gap-2">
-                <a
-                  href={`https://wa.me/?text=${encodeURIComponent(
-                    "I just joined PadhaiShuru's early access. Check it out — learn practical skills with AI and neuroscience-informed practice."
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 py-3 border border-border hover:border-success hover:text-success text-muted text-sm text-center transition-colors duration-200"
+                <button
+                  onClick={() =>
+                    shareOnWhatsApp(
+                      "I just joined PadhaiShuru's early access. Check it out — learn practical skills with AI and neuroscience-informed practice."
+                    )
+                  }
+                  className="flex-1 py-3 border border-border hover:border-success hover:text-success text-muted text-sm transition-colors duration-200"
                 >
                   WhatsApp
-                </a>
+                </button>
                 <button
                   onClick={() => {
                     navigator.share?.({
