@@ -192,7 +192,7 @@ function interpolateAIR(marks: number, branchData: Record<number, { air_100: num
     // Interpolate AIR for given marks using the 3 anchor points (AIR 100, 500, 1000)
     let air: number;
     if (marks >= data.air_100) {
-      air = 100 + (100 - marks) * 2;
+      air = 100 - (marks - data.air_100) * 5;
     } else if (marks >= data.air_500) {
       const t = (marks - data.air_500) / (data.air_100 - data.air_500);
       air = 500 - t * 400;
@@ -200,7 +200,7 @@ function interpolateAIR(marks: number, branchData: Record<number, { air_100: num
       const t = (marks - data.air_1000) / (data.air_500 - data.air_1000);
       air = 1000 - t * 500;
     } else {
-      air = 1000 + (1000 - marks) * 5;
+      air = 1000 + (data.air_1000 - marks) * 5;
     }
     air = Math.max(1, Math.round(air));
     totalWeight += weight;
