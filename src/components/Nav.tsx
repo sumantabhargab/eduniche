@@ -206,6 +206,7 @@ function NavInner() {
             <Link href="/predictor" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">AIR Predictor</Link>
             <Link href="/doubts" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Doubt Engine</Link>
             <Link href="/library" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Library</Link>
+            <Link href="/gate-arcade" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Gate Arcade</Link>
             {isAuthenticated && (
               <>
                 <Link href="/leaderboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Leaderboard</Link>
