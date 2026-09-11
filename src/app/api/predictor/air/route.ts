@@ -6,7 +6,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { ok, badRequest, serverError, fail } from "@/lib/api/response";
+import { badRequest, serverError } from "@/lib/api/response";
 
 interface CutoffRow {
   year: number;
@@ -246,29 +246,31 @@ export async function GET(request: Request) {
     const { predictedAIR, rangeLow, rangeHigh } = interpolateAIR(marks, branchData, category);
 
     // Get cutoff for the branch
-    let cutoff = 30;
-    const branchLower = branch.toLowerCase();
     const cutoffMap: Record<string, number> = {
       cs: 27.5, ec: 25.3, ee: 29.1, me: 32.4, ce: 33.8, in: 31.2,
       pi: 35.6, ch: 37.8, bt: 28.5, mt: 30.2, xe: 32.0, xl: 33.5,
       tf: 29.8, pe: 31.2, ey: 27.5, ma: 34.0, ph: 30.8, ar: 31.5,
       ag: 29.2, gg: 32.8,
     };
-    cutoff = cutoffMap[branchLower] || 30;
+    const cutoff = cutoffMap[branch.toLowerCase()] ?? 30;
 
     const qualifies = marks >= cutoff;
 
-    return NextResponse.json(ok({
-      predictedAIR,
-      rangeLow,
-      rangeHigh,
-      qualifies,
-      cutoff,
-      message: getMotivationalMessage(predictedAIR, cutoff),
-      branch,
-      category,
-      marks,
-    }));
+    return NextResponse.json({
+      success: true,
+      data: {
+        predictedAIR,
+        rangeLow,
+        rangeHigh,
+        qualifies,
+        cutoff,
+        message: getMotivationalMessage(predictedAIR, cutoff),
+        branch,
+        category,
+        marks,
+      },
+      error: null,
+    });
   } catch (error) {
     console.error("[Predictor] Error:", error);
     return NextResponse.json(serverError("Prediction failed"));
