@@ -6,7 +6,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { badRequest, serverError } from "@/lib/api/response";
+import { serverError } from "@/lib/api/response";
 
 interface CutoffRow {
   year: number;
@@ -235,11 +235,11 @@ export async function GET(request: Request) {
     const category = (url.searchParams.get("category") || "general").toLowerCase();
 
     if (isNaN(marks) || marks < 0 || marks > 100) {
-      return NextResponse.json(fail("BAD_REQUEST", "Marks must be between 0 and 100"), { status: 400 });
+      return Response.json({ success: false, data: null, error: { code: 'BAD_REQUEST', message: 'Marks must be between 0 and 100' } }, { status: 400 });
     }
 
     if (!AIR_DATA[branch]) {
-      return NextResponse.json(fail("BAD_REQUEST", `Branch "${branch}" not supported. Available: ${Object.keys(AIR_DATA).join(", ")}`), { status: 400 });
+      return Response.json({ success: false, data: null, error: { code: 'BAD_REQUEST', message: `Branch "${branch}" not supported. Available: ${Object.keys(AIR_DATA).join(", ")}` } }, { status: 400 });
     }
 
     const branchData = AIR_DATA[branch];
