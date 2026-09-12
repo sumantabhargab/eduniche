@@ -23,7 +23,27 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: { componentStack: string }) {
-    console.error("PadhaiShuru error:", error, errorInfo.componentStack);
+    console.error("[ErrorBoundary]", error.message, error.stack, errorInfo.componentStack);
+
+    // Send to analytics/logging service in production
+    if (typeof window !== "undefined" && process.env.NODE_ENV === "production") {
+      try {
+        fetch("/api/errors", {
+          method: "POST",
+          body: JSON.stringify({
+            message: error.message,
+            stack: error.stack,
+            componentStack: errorInfo.componentStack,
+            url: window.location.href,
+            userAgent: navigator.userAgent,
+          }),
+          headers: { "Content-Type": "application/json" },
+          keepalive: true,
+        }).catch(() => {});
+      } catch {
+        // ignore logging failures
+      }
+    }
   }
 
   render() {
@@ -45,6 +65,9 @@ export default class ErrorBoundary extends Component<Props, State> {
                 <p className="font-mono text-red-500 mb-2">{error.message}</p>
                 <pre className="text-muted whitespace-pre-wrap break-words">{error.stack}</pre>
               </div>
+            )}
+            {!isDev && (
+              <p className="text-xs text-muted mb-6">Error ID: {btoa(error?.message || "unknown").slice(0, 8)}</p>
             )}
             <div className="flex gap-3 justify-center">
               <button
