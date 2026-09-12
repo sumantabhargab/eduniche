@@ -14,7 +14,7 @@ import { rateLimitAI } from "@/lib/rate-limit/db";
 import { getUser, clientIdentifier } from "@/lib/auth/user";
 import { ok, unauthorized, badRequest, forbidden, serverError, fail } from "@/lib/api/response";
 
-const GROQ_MODEL = "openai/gpt-oss-120b";
+const GROQ_MODEL = process.env.GROQ_MODEL || "llama-3.3-70b-versatile";
 const MAX_QUESTION_LENGTH = 2000;
 const FREE_DAILY_LIMIT = 5;
 
