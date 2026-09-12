@@ -45,3 +45,11 @@ next-env.d.ts
 supabase/.temp/
 
 .vercel
+
+# Personal/scratch files (not repo content)
+ASSAM_GRANT_APPLICATION_DRAFT.md
+CANVA_PROMPTS.md
+PITCH_DECK_PROMPT.md
+build_brief_doc.py
+PADHAISHURU_EXECUTIVE_BRIEF.md
+eduniche/
