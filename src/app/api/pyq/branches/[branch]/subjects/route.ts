@@ -89,11 +89,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ bran
       });
 
       // Also build a fuzzy topic map from the branches registry — match by subject name
-      const registryTopics = new Map<string, { topicName: string; displayName: string }[]>();
+      const registryTopics = new Map<string, { topicName: string; displayName: string; questionCount: number }[]>();
       getSubjectsForBranch(branch.branchCode).forEach(s => {
         registryTopics.set(s.subjectName, s.topics.map(t => ({
           topicName: t.topicName,
           displayName: t.displayName || t.topicName,
+          questionCount: t.questionCount || 0,
         })));
       });
 
