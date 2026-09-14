@@ -2,8 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "Eduniche (existing)",
-      "url": "http://localhost:3000",
+      "name": "Eduniche",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
       "port": 3000
     }
   ]

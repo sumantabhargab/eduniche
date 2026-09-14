@@ -154,7 +154,7 @@ export default function BranchPage() {
           </motion.div>
 
           {/* Premium promo */}
-          {!isPremium && (
+          {!isPremium && !loading && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

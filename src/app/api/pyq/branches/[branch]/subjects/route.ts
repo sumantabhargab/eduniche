@@ -36,7 +36,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ bran
       }
     }
 
-    // If DB has data, build from DB; otherwise fall back to static bank
+    // If DB has data, build from DB; merge with static topics if DB topics are sparse
     if (dbSubjects.length > 0) {
       const subjectMap = new Map<string, {
         subjectName: string;
@@ -63,16 +63,52 @@ export async function GET(request: Request, { params }: { params: Promise<{ bran
         const subject = subjectMap.get(subjectName)!;
         subject.questionCount++;
 
-        if (q.topic_name && !subject.topics.find((t) => t.topicName === q.topic_name)) {
+        if (q.topic_name && q.topic_name.trim() && !subject.topics.find((t) => t.topicName === q.topic_name)) {
           subject.topics.push({
             topicName: q.topic_name,
             displayName: q.topic_name,
             questionCount: 1,
           });
           subject.topicCount++;
-        } else if (q.topic_name) {
+        } else if (q.topic_name && q.topic_name.trim()) {
           const topic = subject.topics.find((t) => t.topicName === q.topic_name);
           if (topic) topic.questionCount++;
+        }
+      }
+
+      // If any subject has 0 topics but DB has questions, try to get topic info from static bank
+      // Merge static topic data for subjects where DB has questions but no topics
+      const staticSubjects = getStaticSubjectsForBranch(branch.branchCode);
+      const staticTopicMap = new Map<string, { topicName: string; displayName: string; questionCount: number }[]>();
+      staticSubjects.forEach(s => {
+        staticTopicMap.set(s.subjectName, s.topics.map(t => ({
+          topicName: t.topicName,
+          displayName: t.displayName || t.topicName,
+          questionCount: t.questionCount || 0,
+        })));
+      });
+
+      // Also build a fuzzy topic map from the branches registry — match by subject name
+      const registryTopics = new Map<string, { topicName: string; displayName: string }[]>();
+      getSubjectsForBranch(branch.branchCode).forEach(s => {
+        registryTopics.set(s.subjectName, s.topics.map(t => ({
+          topicName: t.topicName,
+          displayName: t.displayName || t.topicName,
+        })));
+      });
+
+      for (const subject of subjectMap.values()) {
+        // Replace generic/empty topics with registry topics when available
+        const hasOnlyGenericTopics = subject.topics.length <= 1 &&
+          (!subject.topics[0]?.topicName || subject.topics[0].topicName.trim() === "" || subject.topics[0].topicName.toLowerCase() === "general");
+        if (subject.topicCount === 0 || hasOnlyGenericTopics) {
+          const staticTopics = staticTopicMap.get(subject.subjectName);
+          const registryTopicList = registryTopics.get(subject.subjectName);
+          const mergedTopics = (staticTopics && staticTopics.length > 0) ? staticTopics : registryTopicList;
+          if (mergedTopics && mergedTopics.length > 0) {
+            subject.topics = mergedTopics.map(t => ({ ...t, questionCount: t.questionCount || 0 }));
+            subject.topicCount = mergedTopics.length;
+          }
         }
       }
 
