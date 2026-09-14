@@ -2,11 +2,11 @@
   "branch": "XE",
   "papers": [
     {
-      "id": "XE-P1",
+      "id": "XE-M1",
       "branch": "XE",
-      "title": "GATE XE 2026 Predicted Paper 1",
-      "description": "Section A (Engg Math) + Section B (Fluid Mechanics) + Section C (Materials Science). Comprehensive coverage.",
-      "createdAt": "2026-09-14T11:43:29.198Z",
+      "title": "GATE XE 2026 Trend-Based Mock Paper 1",
+      "description": "Section A (Engg Math) + Section B (Fluid Mechanics) + Section C (Materials). Comprehensive coverage across engineering fundamentals.",
+      "createdAt": "2026-09-14T16:01:33.978Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -21,19 +21,24 @@
           "questions": 13
         },
         {
-          "subject": "Thermodynamics",
-          "marks": 14,
-          "questions": 9
-        },
-        {
           "subject": "General Aptitude",
           "marks": 14,
           "questions": 8
         },
         {
           "subject": "Environmental Science",
-          "marks": 12,
-          "questions": 9
+          "marks": 13,
+          "questions": 10
+        },
+        {
+          "subject": "Thermodynamics",
+          "marks": 13,
+          "questions": 8
+        },
+        {
+          "subject": "Basic Electrical",
+          "marks": 10,
+          "questions": 8
         },
         {
           "subject": "Fluid Mechanics",
@@ -42,23 +47,18 @@
         },
         {
           "subject": "Computers and Programming",
-          "marks": 10,
-          "questions": 7
+          "marks": 9,
+          "questions": 6
         },
         {
           "subject": "Solid Mechanics",
-          "marks": 7,
-          "questions": 4
-        },
-        {
-          "subject": "Basic Electrical",
-          "marks": 7,
-          "questions": 5
+          "marks": 6,
+          "questions": 3
         },
         {
           "subject": "Basic Electronics",
-          "marks": 3,
-          "questions": 2
+          "marks": 2,
+          "questions": 1
         },
         {
           "subject": "Engineering Mathematics",
@@ -66,126 +66,11 @@
           "questions": 1
         }
       ],
-      "predictionRationale": "Section A (Engg Math) covers Linear Algebra, Calculus ODEs, and Vector Calculus — the core mathematical foundation. Section B (Fluid Mechanics) tests fluid statics, Bernoulli applications, and boundary layer theory. Section C (Materials Science) covers crystal structures, phase diagrams, and mechanical properties. Ideal for students choosing B+C combination.",
+      "predictionRationale": "Section A (Engineering Mathematics) covers Linear Algebra, Calculus ODEs, and Vector Calculus — the core mathematical foundation. Section B (Fluid Mechanics) tests fluid statics, Bernoulli applications, and boundary layer theory. Section C (Materials Science) covers crystal structures, phase diagrams, and mechanical properties. Ideal for students choosing B+C combination.",
       "questions": [
         {
-          "id": "XE-P1-Q001",
+          "id": "XE-M1-Q001",
           "questionNumber": 1,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [
-            "2 and 3",
-            "1 and 4",
-            "3 and 3",
-            "2 and 4"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P1-Q002",
-          "questionNumber": 2,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Tensile stress formula:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
-        },
-        {
-          "id": "XE-P1-Q003",
-          "questionNumber": 3,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Bernoulli assumes:",
-          "options": [
-            "Viscous",
-            "Inviscid",
-            "Compressible",
-            "Turbulent"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P1-Q004",
-          "questionNumber": 4,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "difficult",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P1-Q005",
-          "questionNumber": 5,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P1-Q006",
-          "questionNumber": 6,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Diode used as:",
-          "options": [
-            "Amplifier",
-            "Rectifier",
-            "Oscillator",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
-        },
-        {
-          "id": "XE-P1-Q007",
-          "questionNumber": 7,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
           "questionType": "1MCQ",
@@ -204,29 +89,69 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P1-Q008",
-          "questionNumber": 8,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
+          "id": "XE-M1-Q002",
+          "questionNumber": 2,
+          "subject": "Environmental Science",
+          "topic": "Pollution",
           "questionType": "1NAT",
           "marks": 1,
           "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Binary search complexity:",
+          "difficulty": "moderate",
+          "questionText": "PM2.5 particle size:",
           "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P1-Q009",
-          "questionNumber": 9,
+          "id": "XE-M1-Q003",
+          "questionNumber": 3,
+          "subject": "Engineering Mathematics",
+          "topic": "Linear Algebra",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
+          "options": [
+            "2 and 3",
+            "1 and 4",
+            "3 and 3",
+            "2 and 4"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q1"
+        },
+        {
+          "id": "XE-M1-Q004",
+          "questionNumber": 4,
+          "subject": "Material Science",
+          "topic": "Polymers",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "difficult",
+          "questionText": "Thermoplastics:",
+          "options": [
+            "Thermoset",
+            "Remoldable",
+            "Crosslinked",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q5"
+        },
+        {
+          "id": "XE-M1-Q005",
+          "questionNumber": 5,
           "subject": "Environmental Science",
           "topic": "Pollution",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
-          "difficulty": "easy",
+          "difficulty": "moderate",
           "questionText": "PM2.5 particle size:",
           "options": [
             "<2.5μm",
@@ -239,14 +164,34 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P1-Q010",
-          "questionNumber": 10,
+          "id": "XE-M1-Q006",
+          "questionNumber": 6,
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "V =:",
+          "options": [
+            "IR",
+            "I/R",
+            "R/I",
+            "I^2R"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
+        },
+        {
+          "id": "XE-M1-Q007",
+          "questionNumber": 7,
           "subject": "General Aptitude",
           "topic": "Quantitative",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
-          "difficulty": "difficult",
+          "difficulty": "moderate",
           "questionText": "If x^2=16, x =:",
           "options": [
             "4",
@@ -259,7 +204,62 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P1-Q011",
+          "id": "XE-M1-Q008",
+          "questionNumber": 8,
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "V =:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
+        },
+        {
+          "id": "XE-M1-Q009",
+          "questionNumber": 9,
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "V =:",
+          "options": [
+            "IR",
+            "I/R",
+            "R/I",
+            "I^2R"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
+        },
+        {
+          "id": "XE-M1-Q010",
+          "questionNumber": 10,
+          "subject": "Fluid Mechanics",
+          "topic": "Bernoulli",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "difficult",
+          "questionText": "Bernoulli assumes:",
+          "options": [
+            "Viscous",
+            "Inviscid",
+            "Compressible",
+            "Turbulent"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q3"
+        },
+        {
+          "id": "XE-M1-Q011",
           "questionNumber": 11,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -274,7 +274,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P1-Q012",
+          "id": "XE-M1-Q012",
           "questionNumber": 12,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -289,7 +289,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q013",
+          "id": "XE-M1-Q013",
           "questionNumber": 13,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -309,7 +309,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P1-Q014",
+          "id": "XE-M1-Q014",
           "questionNumber": 14,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -329,7 +329,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P1-Q015",
+          "id": "XE-M1-Q015",
           "questionNumber": 15,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -349,7 +349,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P1-Q016",
+          "id": "XE-M1-Q016",
           "questionNumber": 16,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -369,7 +369,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P1-Q017",
+          "id": "XE-M1-Q017",
           "questionNumber": 17,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -389,7 +389,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P1-Q018",
+          "id": "XE-M1-Q018",
           "questionNumber": 18,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -409,7 +409,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P1-Q019",
+          "id": "XE-M1-Q019",
           "questionNumber": 19,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -424,7 +424,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P1-Q020",
+          "id": "XE-M1-Q020",
           "questionNumber": 20,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -444,7 +444,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P1-Q021",
+          "id": "XE-M1-Q021",
           "questionNumber": 21,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -464,7 +464,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P1-Q022",
+          "id": "XE-M1-Q022",
           "questionNumber": 22,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -484,7 +484,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P1-Q023",
+          "id": "XE-M1-Q023",
           "questionNumber": 23,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -499,7 +499,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P1-Q024",
+          "id": "XE-M1-Q024",
           "questionNumber": 24,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -519,7 +519,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q025",
+          "id": "XE-M1-Q025",
           "questionNumber": 25,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -539,7 +539,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P1-Q026",
+          "id": "XE-M1-Q026",
           "questionNumber": 26,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -554,7 +554,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P1-Q027",
+          "id": "XE-M1-Q027",
           "questionNumber": 27,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -574,7 +574,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P1-Q028",
+          "id": "XE-M1-Q028",
           "questionNumber": 28,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -594,7 +594,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P1-Q029",
+          "id": "XE-M1-Q029",
           "questionNumber": 29,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -614,7 +614,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q030",
+          "id": "XE-M1-Q030",
           "questionNumber": 30,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -629,7 +629,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P1-Q031",
+          "id": "XE-M1-Q031",
           "questionNumber": 31,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -644,7 +644,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q032",
+          "id": "XE-M1-Q032",
           "questionNumber": 32,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -664,7 +664,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q033",
+          "id": "XE-M1-Q033",
           "questionNumber": 33,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -684,7 +684,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P1-Q034",
+          "id": "XE-M1-Q034",
           "questionNumber": 34,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -704,7 +704,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P1-Q035",
+          "id": "XE-M1-Q035",
           "questionNumber": 35,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -724,7 +724,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P1-Q036",
+          "id": "XE-M1-Q036",
           "questionNumber": 36,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -744,7 +744,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P1-Q037",
+          "id": "XE-M1-Q037",
           "questionNumber": 37,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -759,7 +759,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P1-Q038",
+          "id": "XE-M1-Q038",
           "questionNumber": 38,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -774,7 +774,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P1-Q039",
+          "id": "XE-M1-Q039",
           "questionNumber": 39,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -794,7 +794,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P1-Q040",
+          "id": "XE-M1-Q040",
           "questionNumber": 40,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -814,7 +814,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P1-Q041",
+          "id": "XE-M1-Q041",
           "questionNumber": 41,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -834,7 +834,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P1-Q042",
+          "id": "XE-M1-Q042",
           "questionNumber": 42,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -854,7 +854,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P1-Q043",
+          "id": "XE-M1-Q043",
           "questionNumber": 43,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -869,7 +869,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q044",
+          "id": "XE-M1-Q044",
           "questionNumber": 44,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -884,7 +884,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P1-Q045",
+          "id": "XE-M1-Q045",
           "questionNumber": 45,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -904,7 +904,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P1-Q046",
+          "id": "XE-M1-Q046",
           "questionNumber": 46,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -924,7 +924,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q047",
+          "id": "XE-M1-Q047",
           "questionNumber": 47,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -944,7 +944,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P1-Q048",
+          "id": "XE-M1-Q048",
           "questionNumber": 48,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -964,7 +964,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P1-Q049",
+          "id": "XE-M1-Q049",
           "questionNumber": 49,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -984,7 +984,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P1-Q050",
+          "id": "XE-M1-Q050",
           "questionNumber": 50,
           "subject": "Basic Electronics",
           "topic": "Semiconductors",
@@ -999,7 +999,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q6"
         },
         {
-          "id": "XE-P1-Q051",
+          "id": "XE-M1-Q051",
           "questionNumber": 51,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -1019,7 +1019,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P1-Q052",
+          "id": "XE-M1-Q052",
           "questionNumber": 52,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -1039,7 +1039,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q053",
+          "id": "XE-M1-Q053",
           "questionNumber": 53,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -1059,7 +1059,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P1-Q054",
+          "id": "XE-M1-Q054",
           "questionNumber": 54,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -1074,7 +1074,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P1-Q055",
+          "id": "XE-M1-Q055",
           "questionNumber": 55,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -1094,7 +1094,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q056",
+          "id": "XE-M1-Q056",
           "questionNumber": 56,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -1114,7 +1114,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P1-Q057",
+          "id": "XE-M1-Q057",
           "questionNumber": 57,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -1129,7 +1129,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P1-Q058",
+          "id": "XE-M1-Q058",
           "questionNumber": 58,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -1149,7 +1149,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q059",
+          "id": "XE-M1-Q059",
           "questionNumber": 59,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -1164,7 +1164,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q060",
+          "id": "XE-M1-Q060",
           "questionNumber": 60,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -1179,7 +1179,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P1-Q061",
+          "id": "XE-M1-Q061",
           "questionNumber": 61,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -1199,7 +1199,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P1-Q062",
+          "id": "XE-M1-Q062",
           "questionNumber": 62,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -1219,7 +1219,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P1-Q063",
+          "id": "XE-M1-Q063",
           "questionNumber": 63,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -1239,7 +1239,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P1-Q064",
+          "id": "XE-M1-Q064",
           "questionNumber": 64,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -1259,7 +1259,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P1-Q065",
+          "id": "XE-M1-Q065",
           "questionNumber": 65,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -1281,11 +1281,11 @@
       ]
     },
     {
-      "id": "XE-P2",
+      "id": "XE-M2",
       "branch": "XE",
-      "title": "GATE XE 2026 Predicted Paper 2",
-      "description": "Section A + Section D (Solid Mechanics) + Section E (Thermodynamics). Mechanics-focused paper.",
-      "createdAt": "2026-09-14T11:43:29.198Z",
+      "title": "GATE XE 2026 Trend-Based Mock Paper 2",
+      "description": "Section A + Section D (Solid Mechanics) + Section E (Thermodynamics). Mechanics-focused paper with strong math foundation.",
+      "createdAt": "2026-09-14T16:01:33.978Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -1296,36 +1296,31 @@
       "subjectBreakdown": [
         {
           "subject": "Thermodynamics",
-          "marks": 15,
-          "questions": 9
+          "marks": 16,
+          "questions": 10
+        },
+        {
+          "subject": "Basic Electrical",
+          "marks": 14,
+          "questions": 10
         },
         {
           "subject": "Material Science",
-          "marks": 14,
-          "questions": 9
-        },
-        {
-          "subject": "Solid Mechanics",
           "marks": 13,
           "questions": 8
         },
         {
-          "subject": "Basic Electrical",
-          "marks": 11,
+          "subject": "Solid Mechanics",
+          "marks": 12,
           "questions": 7
         },
         {
           "subject": "General Aptitude",
-          "marks": 10,
-          "questions": 7
-        },
-        {
-          "subject": "Engineering Mathematics",
           "marks": 9,
           "questions": 6
         },
         {
-          "subject": "Fluid Mechanics",
+          "subject": "Environmental Science",
           "marks": 8,
           "questions": 6
         },
@@ -1335,126 +1330,26 @@
           "questions": 5
         },
         {
-          "subject": "Environmental Science",
-          "marks": 7,
+          "subject": "Fluid Mechanics",
+          "marks": 8,
+          "questions": 6
+        },
+        {
+          "subject": "Engineering Mathematics",
+          "marks": 8,
           "questions": 5
         },
         {
           "subject": "Computers and Programming",
-          "marks": 5,
-          "questions": 3
+          "marks": 4,
+          "questions": 2
         }
       ],
       "predictionRationale": "Section A Engineering Mathematics paired with Section D (Solid Mechanics) stress-strain, bending, torsion, and buckling problems. Section E (Thermodynamics) laws, entropy, and thermodynamic cycles complete this mechanics-focused paper. Best for students choosing D+E combination.",
       "questions": [
         {
-          "id": "XE-P2-Q001",
+          "id": "XE-M2-Q001",
           "questionNumber": 1,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [
-            "2 and 3",
-            "1 and 4",
-            "3 and 3",
-            "2 and 4"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P2-Q002",
-          "questionNumber": 2,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Tensile stress formula:",
-          "options": [
-            "F/A",
-            "F*A",
-            "F/A^2",
-            "A/F"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
-        },
-        {
-          "id": "XE-P2-Q003",
-          "questionNumber": 3,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Bernoulli assumes:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P2-Q004",
-          "questionNumber": 4,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P2-Q005",
-          "questionNumber": 5,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P2-Q006",
-          "questionNumber": 6,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Diode used as:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
-        },
-        {
-          "id": "XE-P2-Q007",
-          "questionNumber": 7,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
           "questionType": "1MCQ",
@@ -1473,29 +1368,14 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P2-Q008",
-          "questionNumber": 8,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Binary search complexity:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P2-Q009",
-          "questionNumber": 9,
+          "id": "XE-M2-Q002",
+          "questionNumber": 2,
           "subject": "Environmental Science",
           "topic": "Pollution",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
-          "difficulty": "moderate",
+          "difficulty": "easy",
           "questionText": "PM2.5 particle size:",
           "options": [
             "<2.5μm",
@@ -1508,27 +1388,147 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P2-Q010",
-          "questionNumber": 10,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
+          "id": "XE-M2-Q003",
+          "questionNumber": 3,
+          "subject": "Basic Electronics",
+          "topic": "Semiconductors",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Diode used as:",
+          "options": [],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q6"
+        },
+        {
+          "id": "XE-M2-Q004",
+          "questionNumber": 4,
+          "subject": "Thermodynamics",
+          "topic": "First Law",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "First law:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q4"
+        },
+        {
+          "id": "XE-M2-Q005",
+          "questionNumber": 5,
+          "subject": "Environmental Science",
+          "topic": "Pollution",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "PM2.5 particle size:",
+          "options": [
+            "<2.5μm",
+            "<5μm",
+            "<10μm",
+            "<1μm"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q9"
+        },
+        {
+          "id": "XE-M2-Q006",
+          "questionNumber": 6,
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "V =:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
+        },
+        {
+          "id": "XE-M2-Q007",
+          "questionNumber": 7,
+          "subject": "Thermodynamics",
+          "topic": "First Law",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
           "difficulty": "moderate",
-          "questionText": "If x^2=16, x =:",
+          "questionText": "First law:",
           "options": [
-            "4",
-            "-4",
-            "±4",
-            "0"
+            "Energy conservation",
+            "Entropy",
+            "Enthalpy",
+            "Gibbs"
           ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 XE Session 1 Q10"
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P2-Q011",
+          "id": "XE-M2-Q008",
+          "questionNumber": 8,
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "V =:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
+        },
+        {
+          "id": "XE-M2-Q009",
+          "questionNumber": 9,
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "V =:",
+          "options": [
+            "IR",
+            "I/R",
+            "R/I",
+            "I^2R"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
+        },
+        {
+          "id": "XE-M2-Q010",
+          "questionNumber": 10,
+          "subject": "Fluid Mechanics",
+          "topic": "Bernoulli",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "Bernoulli assumes:",
+          "options": [
+            "Viscous",
+            "Inviscid",
+            "Compressible",
+            "Turbulent"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q3"
+        },
+        {
+          "id": "XE-M2-Q011",
           "questionNumber": 11,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -1548,7 +1548,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P2-Q012",
+          "id": "XE-M2-Q012",
           "questionNumber": 12,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -1568,7 +1568,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P2-Q013",
+          "id": "XE-M2-Q013",
           "questionNumber": 13,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -1588,7 +1588,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P2-Q014",
+          "id": "XE-M2-Q014",
           "questionNumber": 14,
           "subject": "Basic Electronics",
           "topic": "Semiconductors",
@@ -1608,7 +1608,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q6"
         },
         {
-          "id": "XE-P2-Q015",
+          "id": "XE-M2-Q015",
           "questionNumber": 15,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -1623,7 +1623,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P2-Q016",
+          "id": "XE-M2-Q016",
           "questionNumber": 16,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -1643,7 +1643,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P2-Q017",
+          "id": "XE-M2-Q017",
           "questionNumber": 17,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -1663,7 +1663,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P2-Q018",
+          "id": "XE-M2-Q018",
           "questionNumber": 18,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -1683,7 +1683,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P2-Q019",
+          "id": "XE-M2-Q019",
           "questionNumber": 19,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -1703,7 +1703,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P2-Q020",
+          "id": "XE-M2-Q020",
           "questionNumber": 20,
           "subject": "Engineering Mathematics",
           "topic": "Linear Algebra",
@@ -1723,7 +1723,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P2-Q021",
+          "id": "XE-M2-Q021",
           "questionNumber": 21,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -1743,7 +1743,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P2-Q022",
+          "id": "XE-M2-Q022",
           "questionNumber": 22,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -1763,7 +1763,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P2-Q023",
+          "id": "XE-M2-Q023",
           "questionNumber": 23,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -1783,7 +1783,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P2-Q024",
+          "id": "XE-M2-Q024",
           "questionNumber": 24,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -1803,7 +1803,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P2-Q025",
+          "id": "XE-M2-Q025",
           "questionNumber": 25,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -1823,7 +1823,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P2-Q026",
+          "id": "XE-M2-Q026",
           "questionNumber": 26,
           "subject": "Engineering Mathematics",
           "topic": "Linear Algebra",
@@ -1838,7 +1838,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P2-Q027",
+          "id": "XE-M2-Q027",
           "questionNumber": 27,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -1858,7 +1858,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P2-Q028",
+          "id": "XE-M2-Q028",
           "questionNumber": 28,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -1878,7 +1878,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P2-Q029",
+          "id": "XE-M2-Q029",
           "questionNumber": 29,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -1893,7 +1893,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P2-Q030",
+          "id": "XE-M2-Q030",
           "questionNumber": 30,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -1908,7 +1908,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P2-Q031",
+          "id": "XE-M2-Q031",
           "questionNumber": 31,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -1928,7 +1928,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P2-Q032",
+          "id": "XE-M2-Q032",
           "questionNumber": 32,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -1948,7 +1948,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P2-Q033",
+          "id": "XE-M2-Q033",
           "questionNumber": 33,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -1968,7 +1968,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P2-Q034",
+          "id": "XE-M2-Q034",
           "questionNumber": 34,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -1988,7 +1988,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P2-Q035",
+          "id": "XE-M2-Q035",
           "questionNumber": 35,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -2003,7 +2003,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P2-Q036",
+          "id": "XE-M2-Q036",
           "questionNumber": 36,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -2023,7 +2023,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P2-Q037",
+          "id": "XE-M2-Q037",
           "questionNumber": 37,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -2043,7 +2043,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P2-Q038",
+          "id": "XE-M2-Q038",
           "questionNumber": 38,
           "subject": "Basic Electronics",
           "topic": "Semiconductors",
@@ -2058,7 +2058,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q6"
         },
         {
-          "id": "XE-P2-Q039",
+          "id": "XE-M2-Q039",
           "questionNumber": 39,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -2073,7 +2073,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P2-Q040",
+          "id": "XE-M2-Q040",
           "questionNumber": 40,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -2093,7 +2093,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P2-Q041",
+          "id": "XE-M2-Q041",
           "questionNumber": 41,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -2108,7 +2108,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P2-Q042",
+          "id": "XE-M2-Q042",
           "questionNumber": 42,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -2123,7 +2123,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P2-Q043",
+          "id": "XE-M2-Q043",
           "questionNumber": 43,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -2143,7 +2143,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P2-Q044",
+          "id": "XE-M2-Q044",
           "questionNumber": 44,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -2163,7 +2163,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P2-Q045",
+          "id": "XE-M2-Q045",
           "questionNumber": 45,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -2183,7 +2183,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P2-Q046",
+          "id": "XE-M2-Q046",
           "questionNumber": 46,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -2203,7 +2203,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P2-Q047",
+          "id": "XE-M2-Q047",
           "questionNumber": 47,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -2223,7 +2223,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P2-Q048",
+          "id": "XE-M2-Q048",
           "questionNumber": 48,
           "subject": "Basic Electronics",
           "topic": "Semiconductors",
@@ -2238,7 +2238,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q6"
         },
         {
-          "id": "XE-P2-Q049",
+          "id": "XE-M2-Q049",
           "questionNumber": 49,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -2253,7 +2253,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P2-Q050",
+          "id": "XE-M2-Q050",
           "questionNumber": 50,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -2273,7 +2273,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P2-Q051",
+          "id": "XE-M2-Q051",
           "questionNumber": 51,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -2293,7 +2293,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P2-Q052",
+          "id": "XE-M2-Q052",
           "questionNumber": 52,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -2308,7 +2308,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P2-Q053",
+          "id": "XE-M2-Q053",
           "questionNumber": 53,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -2328,7 +2328,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P2-Q054",
+          "id": "XE-M2-Q054",
           "questionNumber": 54,
           "subject": "Engineering Mathematics",
           "topic": "Linear Algebra",
@@ -2348,7 +2348,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P2-Q055",
+          "id": "XE-M2-Q055",
           "questionNumber": 55,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -2368,7 +2368,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P2-Q056",
+          "id": "XE-M2-Q056",
           "questionNumber": 56,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -2388,7 +2388,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P2-Q057",
+          "id": "XE-M2-Q057",
           "questionNumber": 57,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -2408,7 +2408,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P2-Q058",
+          "id": "XE-M2-Q058",
           "questionNumber": 58,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -2423,7 +2423,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P2-Q059",
+          "id": "XE-M2-Q059",
           "questionNumber": 59,
           "subject": "Engineering Mathematics",
           "topic": "Linear Algebra",
@@ -2438,7 +2438,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P2-Q060",
+          "id": "XE-M2-Q060",
           "questionNumber": 60,
           "subject": "Basic Electronics",
           "topic": "Semiconductors",
@@ -2458,7 +2458,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q6"
         },
         {
-          "id": "XE-P2-Q061",
+          "id": "XE-M2-Q061",
           "questionNumber": 61,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -2478,7 +2478,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P2-Q062",
+          "id": "XE-M2-Q062",
           "questionNumber": 62,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -2498,7 +2498,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P2-Q063",
+          "id": "XE-M2-Q063",
           "questionNumber": 63,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -2513,7 +2513,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P2-Q064",
+          "id": "XE-M2-Q064",
           "questionNumber": 64,
           "subject": "Engineering Mathematics",
           "topic": "Linear Algebra",
@@ -2533,7 +2533,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P2-Q065",
+          "id": "XE-M2-Q065",
           "questionNumber": 65,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -2550,11 +2550,11 @@
       ]
     },
     {
-      "id": "XE-P3",
+      "id": "XE-M3",
       "branch": "XE",
-      "title": "GATE XE 2026 Predicted Paper 3",
-      "description": "Section A + Section B + Section D. Fluid + Solid mechanics combo with strong math foundation.",
-      "createdAt": "2026-09-14T11:43:29.198Z",
+      "title": "GATE XE 2026 Trend-Based Mock Paper 3",
+      "description": "Section A + Section B + Section D. Fluid + Solid mechanics combo with compulsory engineering mathematics. Balanced engineering sciences paper.",
+      "createdAt": "2026-09-14T16:01:33.978Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -2565,8 +2565,13 @@
       "subjectBreakdown": [
         {
           "subject": "Fluid Mechanics",
-          "marks": 17,
-          "questions": 11
+          "marks": 16,
+          "questions": 10
+        },
+        {
+          "subject": "Computers and Programming",
+          "marks": 14,
+          "questions": 9
         },
         {
           "subject": "Thermodynamics",
@@ -2574,24 +2579,19 @@
           "questions": 9
         },
         {
-          "subject": "Material Science",
-          "marks": 14,
-          "questions": 8
-        },
-        {
-          "subject": "Computers and Programming",
+          "subject": "Environmental Science",
           "marks": 13,
           "questions": 8
         },
         {
-          "subject": "Environmental Science",
-          "marks": 12,
+          "subject": "Material Science",
+          "marks": 13,
           "questions": 7
         },
         {
           "subject": "Basic Electrical",
-          "marks": 8,
-          "questions": 5
+          "marks": 9,
+          "questions": 6
         },
         {
           "subject": "Solid Mechanics",
@@ -2610,15 +2610,50 @@
         },
         {
           "subject": "General Aptitude",
-          "marks": 4,
-          "questions": 3
+          "marks": 3,
+          "questions": 2
         }
       ],
-      "predictionRationale": "Fluid Mechanics (Section B) and Solid Mechanics (Section D) combined with compulsory Engineering Mathematics. Boundary layer theory and dimensional analysis pair with beam deflection and column buckling. Strong engineering mechanics foundation paper.",
+      "predictionRationale": "Section A + Section B + Section D. Fluid Mechanics boundary layer theory and dimensional analysis pair with Solid Mechanics beam deflection and column buckling. Strong engineering mechanics foundation paper with compulsory math.",
       "questions": [
         {
-          "id": "XE-P3-Q001",
+          "id": "XE-M3-Q001",
           "questionNumber": 1,
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "V =:",
+          "options": [
+            "IR",
+            "I/R",
+            "R/I",
+            "I^2R"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
+        },
+        {
+          "id": "XE-M3-Q002",
+          "questionNumber": 2,
+          "subject": "Environmental Science",
+          "topic": "Pollution",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "PM2.5 particle size:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q9"
+        },
+        {
+          "id": "XE-M3-Q003",
+          "questionNumber": 3,
           "subject": "Engineering Mathematics",
           "topic": "Linear Algebra",
           "questionType": "1MCQ",
@@ -2637,8 +2672,8 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P3-Q002",
-          "questionNumber": 2,
+          "id": "XE-M3-Q004",
+          "questionNumber": 4,
           "subject": "Solid Mechanics",
           "topic": "Stress",
           "questionType": "1NAT",
@@ -2652,62 +2687,27 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P3-Q003",
-          "questionNumber": 3,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Bernoulli assumes:",
-          "options": [
-            "Viscous",
-            "Inviscid",
-            "Compressible",
-            "Turbulent"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P3-Q004",
-          "questionNumber": 4,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P3-Q005",
+          "id": "XE-M3-Q005",
           "questionNumber": 5,
-          "subject": "Material Science",
-          "topic": "Polymers",
+          "subject": "Environmental Science",
+          "topic": "Pollution",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
           "difficulty": "difficult",
-          "questionText": "Thermoplastics:",
+          "questionText": "PM2.5 particle size:",
           "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
+            "<2.5μm",
+            "<5μm",
+            "<10μm",
+            "<1μm"
           ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P3-Q006",
+          "id": "XE-M3-Q006",
           "questionNumber": 6,
           "subject": "Basic Electronics",
           "topic": "Semiconductors",
@@ -2727,29 +2727,14 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q6"
         },
         {
-          "id": "XE-P3-Q007",
+          "id": "XE-M3-Q007",
           "questionNumber": 7,
-          "subject": "Basic Electrical",
-          "topic": "Ohm's Law",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "V =:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q7"
-        },
-        {
-          "id": "XE-P3-Q008",
-          "questionNumber": 8,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
           "questionType": "1NAT",
           "marks": 1,
           "negativeMarks": 0,
-          "difficulty": "difficult",
+          "difficulty": "easy",
           "questionText": "Binary search complexity:",
           "options": [],
           "correctAnswer": "B",
@@ -2757,42 +2742,57 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P3-Q009",
+          "id": "XE-M3-Q008",
+          "questionNumber": 8,
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "difficult",
+          "questionText": "V =:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
+        },
+        {
+          "id": "XE-M3-Q009",
           "questionNumber": 9,
-          "subject": "Environmental Science",
-          "topic": "Pollution",
+          "subject": "Computers and Programming",
+          "topic": "Algorithms",
           "questionType": "1NAT",
           "marks": 1,
           "negativeMarks": 0,
           "difficulty": "moderate",
-          "questionText": "PM2.5 particle size:",
+          "questionText": "Binary search complexity:",
           "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q9"
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P3-Q010",
+          "id": "XE-M3-Q010",
           "questionNumber": 10,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
+          "subject": "Thermodynamics",
+          "topic": "First Law",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
           "difficulty": "moderate",
-          "questionText": "If x^2=16, x =:",
+          "questionText": "First law:",
           "options": [
-            "4",
-            "-4",
-            "±4",
-            "0"
+            "Energy conservation",
+            "Entropy",
+            "Enthalpy",
+            "Gibbs"
           ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 XE Session 1 Q10"
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P3-Q011",
+          "id": "XE-M3-Q011",
           "questionNumber": 11,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -2807,7 +2807,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P3-Q012",
+          "id": "XE-M3-Q012",
           "questionNumber": 12,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -2827,7 +2827,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P3-Q013",
+          "id": "XE-M3-Q013",
           "questionNumber": 13,
           "subject": "Basic Electronics",
           "topic": "Semiconductors",
@@ -2847,7 +2847,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q6"
         },
         {
-          "id": "XE-P3-Q014",
+          "id": "XE-M3-Q014",
           "questionNumber": 14,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -2862,7 +2862,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P3-Q015",
+          "id": "XE-M3-Q015",
           "questionNumber": 15,
           "subject": "Basic Electronics",
           "topic": "Semiconductors",
@@ -2882,7 +2882,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q6"
         },
         {
-          "id": "XE-P3-Q016",
+          "id": "XE-M3-Q016",
           "questionNumber": 16,
           "subject": "Engineering Mathematics",
           "topic": "Linear Algebra",
@@ -2902,7 +2902,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P3-Q017",
+          "id": "XE-M3-Q017",
           "questionNumber": 17,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -2917,7 +2917,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P3-Q018",
+          "id": "XE-M3-Q018",
           "questionNumber": 18,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -2937,7 +2937,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P3-Q019",
+          "id": "XE-M3-Q019",
           "questionNumber": 19,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -2957,7 +2957,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P3-Q020",
+          "id": "XE-M3-Q020",
           "questionNumber": 20,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -2977,7 +2977,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P3-Q021",
+          "id": "XE-M3-Q021",
           "questionNumber": 21,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -2992,7 +2992,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P3-Q022",
+          "id": "XE-M3-Q022",
           "questionNumber": 22,
           "subject": "Engineering Mathematics",
           "topic": "Linear Algebra",
@@ -3012,7 +3012,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P3-Q023",
+          "id": "XE-M3-Q023",
           "questionNumber": 23,
           "subject": "Engineering Mathematics",
           "topic": "Linear Algebra",
@@ -3032,7 +3032,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P3-Q024",
+          "id": "XE-M3-Q024",
           "questionNumber": 24,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -3052,7 +3052,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P3-Q025",
+          "id": "XE-M3-Q025",
           "questionNumber": 25,
           "subject": "Engineering Mathematics",
           "topic": "Linear Algebra",
@@ -3072,7 +3072,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P3-Q026",
+          "id": "XE-M3-Q026",
           "questionNumber": 26,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -3087,7 +3087,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P3-Q027",
+          "id": "XE-M3-Q027",
           "questionNumber": 27,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -3107,7 +3107,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P3-Q028",
+          "id": "XE-M3-Q028",
           "questionNumber": 28,
           "subject": "Basic Electronics",
           "topic": "Semiconductors",
@@ -3127,7 +3127,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q6"
         },
         {
-          "id": "XE-P3-Q029",
+          "id": "XE-M3-Q029",
           "questionNumber": 29,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -3147,7 +3147,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P3-Q030",
+          "id": "XE-M3-Q030",
           "questionNumber": 30,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -3162,7 +3162,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P3-Q031",
+          "id": "XE-M3-Q031",
           "questionNumber": 31,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -3177,7 +3177,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P3-Q032",
+          "id": "XE-M3-Q032",
           "questionNumber": 32,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -3192,7 +3192,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P3-Q033",
+          "id": "XE-M3-Q033",
           "questionNumber": 33,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -3207,7 +3207,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P3-Q034",
+          "id": "XE-M3-Q034",
           "questionNumber": 34,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -3227,7 +3227,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P3-Q035",
+          "id": "XE-M3-Q035",
           "questionNumber": 35,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -3247,7 +3247,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P3-Q036",
+          "id": "XE-M3-Q036",
           "questionNumber": 36,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -3267,7 +3267,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P3-Q037",
+          "id": "XE-M3-Q037",
           "questionNumber": 37,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -3282,7 +3282,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P3-Q038",
+          "id": "XE-M3-Q038",
           "questionNumber": 38,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -3302,7 +3302,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P3-Q039",
+          "id": "XE-M3-Q039",
           "questionNumber": 39,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -3322,7 +3322,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P3-Q040",
+          "id": "XE-M3-Q040",
           "questionNumber": 40,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -3342,7 +3342,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P3-Q041",
+          "id": "XE-M3-Q041",
           "questionNumber": 41,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -3357,7 +3357,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P3-Q042",
+          "id": "XE-M3-Q042",
           "questionNumber": 42,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -3377,7 +3377,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P3-Q043",
+          "id": "XE-M3-Q043",
           "questionNumber": 43,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -3392,7 +3392,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P3-Q044",
+          "id": "XE-M3-Q044",
           "questionNumber": 44,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -3412,7 +3412,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P3-Q045",
+          "id": "XE-M3-Q045",
           "questionNumber": 45,
           "subject": "Basic Electronics",
           "topic": "Semiconductors",
@@ -3432,7 +3432,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q6"
         },
         {
-          "id": "XE-P3-Q046",
+          "id": "XE-M3-Q046",
           "questionNumber": 46,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -3452,7 +3452,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P3-Q047",
+          "id": "XE-M3-Q047",
           "questionNumber": 47,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -3472,7 +3472,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P3-Q048",
+          "id": "XE-M3-Q048",
           "questionNumber": 48,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -3492,7 +3492,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P3-Q049",
+          "id": "XE-M3-Q049",
           "questionNumber": 49,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -3512,7 +3512,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P3-Q050",
+          "id": "XE-M3-Q050",
           "questionNumber": 50,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -3532,7 +3532,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P3-Q051",
+          "id": "XE-M3-Q051",
           "questionNumber": 51,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -3547,7 +3547,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P3-Q052",
+          "id": "XE-M3-Q052",
           "questionNumber": 52,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -3562,7 +3562,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P3-Q053",
+          "id": "XE-M3-Q053",
           "questionNumber": 53,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -3582,7 +3582,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P3-Q054",
+          "id": "XE-M3-Q054",
           "questionNumber": 54,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -3597,7 +3597,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P3-Q055",
+          "id": "XE-M3-Q055",
           "questionNumber": 55,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -3612,7 +3612,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P3-Q056",
+          "id": "XE-M3-Q056",
           "questionNumber": 56,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -3632,7 +3632,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P3-Q057",
+          "id": "XE-M3-Q057",
           "questionNumber": 57,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -3652,7 +3652,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P3-Q058",
+          "id": "XE-M3-Q058",
           "questionNumber": 58,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -3667,7 +3667,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P3-Q059",
+          "id": "XE-M3-Q059",
           "questionNumber": 59,
           "subject": "Basic Electrical",
           "topic": "Ohm's Law",
@@ -3687,7 +3687,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P3-Q060",
+          "id": "XE-M3-Q060",
           "questionNumber": 60,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -3707,7 +3707,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P3-Q061",
+          "id": "XE-M3-Q061",
           "questionNumber": 61,
           "subject": "Thermodynamics",
           "topic": "First Law",
@@ -3727,7 +3727,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P3-Q062",
+          "id": "XE-M3-Q062",
           "questionNumber": 62,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -3747,7 +3747,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P3-Q063",
+          "id": "XE-M3-Q063",
           "questionNumber": 63,
           "subject": "Environmental Science",
           "topic": "Pollution",
@@ -3762,7 +3762,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P3-Q064",
+          "id": "XE-M3-Q064",
           "questionNumber": 64,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
@@ -3782,7 +3782,7 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P3-Q065",
+          "id": "XE-M3-Q065",
           "questionNumber": 65,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -3804,11 +3804,11 @@
       ]
     },
     {
-      "id": "XE-P4",
+      "id": "XE-M4",
       "branch": "XE",
-      "title": "GATE XE 2026 Predicted Paper 4",
-      "description": "Section A + Section C + Section E. Materials + Thermodynamics with compulsory engineering mathematics.",
-      "createdAt": "2026-09-14T11:43:29.198Z",
+      "title": "GATE XE 2026 Trend-Based Mock Paper 4",
+      "description": "All sections represented. Mix of easy and moderate questions across all XE subjects. Best for final readiness check with realistic exam conditions.",
+      "createdAt": "2026-09-14T16:01:33.978Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -3824,32 +3824,27 @@
         },
         {
           "subject": "Computers and Programming",
-          "marks": 14,
-          "questions": 8
-        },
-        {
-          "subject": "Engineering Mathematics",
-          "marks": 11,
-          "questions": 7
-        },
-        {
-          "subject": "Basic Electronics",
-          "marks": 11,
+          "marks": 13,
           "questions": 7
         },
         {
           "subject": "General Aptitude",
-          "marks": 11,
+          "marks": 12,
+          "questions": 9
+        },
+        {
+          "subject": "Basic Electronics",
+          "marks": 12,
           "questions": 8
         },
         {
           "subject": "Environmental Science",
-          "marks": 10,
-          "questions": 7
+          "marks": 11,
+          "questions": 8
         },
         {
-          "subject": "Material Science",
-          "marks": 9,
+          "subject": "Engineering Mathematics",
+          "marks": 10,
           "questions": 6
         },
         {
@@ -3858,1401 +3853,67 @@
           "questions": 5
         },
         {
-          "subject": "Solid Mechanics",
-          "marks": 5,
-          "questions": 4
-        },
-        {
-          "subject": "Basic Electrical",
-          "marks": 5,
-          "questions": 3
-        }
-      ],
-      "predictionRationale": "Materials Science (Section C) crystal structures and phase diagrams combined with Thermodynamics (Section E) laws and cycles. Engineering Mathematics probability and linear algebra provide the mathematical backbone. Ideal for material science and thermal engineering aspirants.",
-      "questions": [
-        {
-          "id": "XE-P4-Q001",
-          "questionNumber": 1,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P4-Q002",
-          "questionNumber": 2,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Tensile stress formula:",
-          "options": [
-            "F/A",
-            "F*A",
-            "F/A^2",
-            "A/F"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
-        },
-        {
-          "id": "XE-P4-Q003",
-          "questionNumber": 3,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Bernoulli assumes:",
-          "options": [
-            "Viscous",
-            "Inviscid",
-            "Compressible",
-            "Turbulent"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P4-Q004",
-          "questionNumber": 4,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P4-Q005",
-          "questionNumber": 5,
           "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P4-Q006",
-          "questionNumber": 6,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Diode used as:",
-          "options": [
-            "Amplifier",
-            "Rectifier",
-            "Oscillator",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
-        },
-        {
-          "id": "XE-P4-Q007",
-          "questionNumber": 7,
-          "subject": "Basic Electrical",
-          "topic": "Ohm's Law",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "V =:",
-          "options": [
-            "IR",
-            "I/R",
-            "R/I",
-            "I^2R"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q7"
-        },
-        {
-          "id": "XE-P4-Q008",
-          "questionNumber": 8,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Binary search complexity:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P4-Q009",
-          "questionNumber": 9,
-          "subject": "Environmental Science",
-          "topic": "Pollution",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "PM2.5 particle size:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q9"
-        },
-        {
-          "id": "XE-P4-Q010",
-          "questionNumber": 10,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "If x^2=16, x =:",
-          "options": [],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 XE Session 1 Q10"
-        },
-        {
-          "id": "XE-P4-Q011",
-          "questionNumber": 11,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "If x^2=16, x =:",
-          "options": [
-            "4",
-            "-4",
-            "±4",
-            "0"
-          ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 XE Session 1 Q10"
-        },
-        {
-          "id": "XE-P4-Q012",
-          "questionNumber": 12,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "difficult",
-          "questionText": "If x^2=16, x =:",
-          "options": [
-            "4",
-            "-4",
-            "±4",
-            "0"
-          ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 XE Session 1 Q10"
-        },
-        {
-          "id": "XE-P4-Q013",
-          "questionNumber": 13,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P4-Q014",
-          "questionNumber": 14,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [
-            "2 and 3",
-            "1 and 4",
-            "3 and 3",
-            "2 and 4"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P4-Q015",
-          "questionNumber": 15,
-          "subject": "Environmental Science",
-          "topic": "Pollution",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "PM2.5 particle size:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q9"
-        },
-        {
-          "id": "XE-P4-Q016",
-          "questionNumber": 16,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "difficult",
-          "questionText": "Diode used as:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
-        },
-        {
-          "id": "XE-P4-Q017",
-          "questionNumber": 17,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Tensile stress formula:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
-        },
-        {
-          "id": "XE-P4-Q018",
-          "questionNumber": 18,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "If x^2=16, x =:",
-          "options": [
-            "4",
-            "-4",
-            "±4",
-            "0"
-          ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 XE Session 1 Q10"
-        },
-        {
-          "id": "XE-P4-Q019",
-          "questionNumber": 19,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "difficult",
-          "questionText": "Bernoulli assumes:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P4-Q020",
-          "questionNumber": 20,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P4-Q021",
-          "questionNumber": 21,
-          "subject": "Environmental Science",
-          "topic": "Pollution",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "difficult",
-          "questionText": "PM2.5 particle size:",
-          "options": [
-            "<2.5μm",
-            "<5μm",
-            "<10μm",
-            "<1μm"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q9"
-        },
-        {
-          "id": "XE-P4-Q022",
-          "questionNumber": 22,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Tensile stress formula:",
-          "options": [
-            "F/A",
-            "F*A",
-            "F/A^2",
-            "A/F"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
-        },
-        {
-          "id": "XE-P4-Q023",
-          "questionNumber": 23,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "difficult",
-          "questionText": "Binary search complexity:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P4-Q024",
-          "questionNumber": 24,
-          "subject": "Environmental Science",
-          "topic": "Pollution",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "PM2.5 particle size:",
-          "options": [
-            "<2.5μm",
-            "<5μm",
-            "<10μm",
-            "<1μm"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q9"
-        },
-        {
-          "id": "XE-P4-Q025",
-          "questionNumber": 25,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "difficult",
-          "questionText": "If x^2=16, x =:",
-          "options": [],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 XE Session 1 Q10"
-        },
-        {
-          "id": "XE-P4-Q026",
-          "questionNumber": 26,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Thermoplastics:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P4-Q027",
-          "questionNumber": 27,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Diode used as:",
-          "options": [
-            "Amplifier",
-            "Rectifier",
-            "Oscillator",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
-        },
-        {
-          "id": "XE-P4-Q028",
-          "questionNumber": 28,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [
-            "2 and 3",
-            "1 and 4",
-            "3 and 3",
-            "2 and 4"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P4-Q029",
-          "questionNumber": 29,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P4-Q030",
-          "questionNumber": 30,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Thermoplastics:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P4-Q031",
-          "questionNumber": 31,
-          "subject": "Basic Electrical",
-          "topic": "Ohm's Law",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "difficult",
-          "questionText": "V =:",
-          "options": [
-            "IR",
-            "I/R",
-            "R/I",
-            "I^2R"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q7"
-        },
-        {
-          "id": "XE-P4-Q032",
-          "questionNumber": 32,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Binary search complexity:",
-          "options": [
-            "O(n)",
-            "O(log n)",
-            "O(n^2)",
-            "O(1)"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P4-Q033",
-          "questionNumber": 33,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "difficult",
-          "questionText": "Binary search complexity:",
-          "options": [
-            "O(n)",
-            "O(log n)",
-            "O(n^2)",
-            "O(1)"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P4-Q034",
-          "questionNumber": 34,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P4-Q035",
-          "questionNumber": 35,
-          "subject": "Basic Electrical",
-          "topic": "Ohm's Law",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "V =:",
-          "options": [
-            "IR",
-            "I/R",
-            "R/I",
-            "I^2R"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q7"
-        },
-        {
-          "id": "XE-P4-Q036",
-          "questionNumber": 36,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P4-Q037",
-          "questionNumber": 37,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "difficult",
-          "questionText": "Binary search complexity:",
-          "options": [
-            "O(n)",
-            "O(log n)",
-            "O(n^2)",
-            "O(1)"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P4-Q038",
-          "questionNumber": 38,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Binary search complexity:",
-          "options": [
-            "O(n)",
-            "O(log n)",
-            "O(n^2)",
-            "O(1)"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P4-Q039",
-          "questionNumber": 39,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Bernoulli assumes:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P4-Q040",
-          "questionNumber": 40,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P4-Q041",
-          "questionNumber": 41,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P4-Q042",
-          "questionNumber": 42,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Diode used as:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
-        },
-        {
-          "id": "XE-P4-Q043",
-          "questionNumber": 43,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P4-Q044",
-          "questionNumber": 44,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Diode used as:",
-          "options": [
-            "Amplifier",
-            "Rectifier",
-            "Oscillator",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
-        },
-        {
-          "id": "XE-P4-Q045",
-          "questionNumber": 45,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Binary search complexity:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P4-Q046",
-          "questionNumber": 46,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Bernoulli assumes:",
-          "options": [
-            "Viscous",
-            "Inviscid",
-            "Compressible",
-            "Turbulent"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P4-Q047",
-          "questionNumber": 47,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "If x^2=16, x =:",
-          "options": [],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 XE Session 1 Q10"
-        },
-        {
-          "id": "XE-P4-Q048",
-          "questionNumber": 48,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "If x^2=16, x =:",
-          "options": [
-            "4",
-            "-4",
-            "±4",
-            "0"
-          ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 XE Session 1 Q10"
-        },
-        {
-          "id": "XE-P4-Q049",
-          "questionNumber": 49,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [
-            "2 and 3",
-            "1 and 4",
-            "3 and 3",
-            "2 and 4"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P4-Q050",
-          "questionNumber": 50,
-          "subject": "Environmental Science",
-          "topic": "Pollution",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "PM2.5 particle size:",
-          "options": [
-            "<2.5μm",
-            "<5μm",
-            "<10μm",
-            "<1μm"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q9"
-        },
-        {
-          "id": "XE-P4-Q051",
-          "questionNumber": 51,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Binary search complexity:",
-          "options": [
-            "O(n)",
-            "O(log n)",
-            "O(n^2)",
-            "O(1)"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P4-Q052",
-          "questionNumber": 52,
-          "subject": "Environmental Science",
-          "topic": "Pollution",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "PM2.5 particle size:",
-          "options": [
-            "<2.5μm",
-            "<5μm",
-            "<10μm",
-            "<1μm"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q9"
-        },
-        {
-          "id": "XE-P4-Q053",
-          "questionNumber": 53,
-          "subject": "Environmental Science",
-          "topic": "Pollution",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "PM2.5 particle size:",
-          "options": [
-            "<2.5μm",
-            "<5μm",
-            "<10μm",
-            "<1μm"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q9"
-        },
-        {
-          "id": "XE-P4-Q054",
-          "questionNumber": 54,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P4-Q055",
-          "questionNumber": 55,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "difficult",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P4-Q056",
-          "questionNumber": 56,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [
-            "2 and 3",
-            "1 and 4",
-            "3 and 3",
-            "2 and 4"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P4-Q057",
-          "questionNumber": 57,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "difficult",
-          "questionText": "If x^2=16, x =:",
-          "options": [
-            "4",
-            "-4",
-            "±4",
-            "0"
-          ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 XE Session 1 Q10"
-        },
-        {
-          "id": "XE-P4-Q058",
-          "questionNumber": 58,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "difficult",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P4-Q059",
-          "questionNumber": 59,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "difficult",
-          "questionText": "Tensile stress formula:",
-          "options": [
-            "F/A",
-            "F*A",
-            "F/A^2",
-            "A/F"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
-        },
-        {
-          "id": "XE-P4-Q060",
-          "questionNumber": 60,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [
-            "2 and 3",
-            "1 and 4",
-            "3 and 3",
-            "2 and 4"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P4-Q061",
-          "questionNumber": 61,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Bernoulli assumes:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P4-Q062",
-          "questionNumber": 62,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Diode used as:",
-          "options": [
-            "Amplifier",
-            "Rectifier",
-            "Oscillator",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
-        },
-        {
-          "id": "XE-P4-Q063",
-          "questionNumber": 63,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Diode used as:",
-          "options": [
-            "Amplifier",
-            "Rectifier",
-            "Oscillator",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
-        },
-        {
-          "id": "XE-P4-Q064",
-          "questionNumber": 64,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P4-Q065",
-          "questionNumber": 65,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        }
-      ]
-    },
-    {
-      "id": "XE-P5",
-      "branch": "XE",
-      "title": "GATE XE 2026 Predicted Paper 5",
-      "description": "All sections represented. Mix of easy and moderate questions across all 9 XE subjects. Best for final readiness check with realistic exam conditions.",
-      "createdAt": "2026-09-14T11:43:29.198Z",
-      "totalQuestions": 65,
-      "totalMarks": 100,
-      "difficultyDistribution": {
-        "easy": 15,
-        "moderate": 40,
-        "difficult": 10
-      },
-      "subjectBreakdown": [
-        {
-          "subject": "Thermodynamics",
-          "marks": 15,
-          "questions": 9
-        },
-        {
-          "subject": "Solid Mechanics",
-          "marks": 14,
-          "questions": 10
-        },
-        {
-          "subject": "Fluid Mechanics",
-          "marks": 14,
-          "questions": 8
-        },
-        {
-          "subject": "Material Science",
-          "marks": 14,
-          "questions": 9
-        },
-        {
-          "subject": "Computers and Programming",
-          "marks": 11,
-          "questions": 7
-        },
-        {
-          "subject": "Basic Electrical",
-          "marks": 9,
-          "questions": 6
-        },
-        {
-          "subject": "Engineering Mathematics",
-          "marks": 7,
+          "marks": 8,
           "questions": 5
         },
         {
-          "subject": "Basic Electronics",
+          "subject": "Basic Electrical",
           "marks": 6,
           "questions": 4
         },
         {
-          "subject": "Environmental Science",
-          "marks": 5,
+          "subject": "Solid Mechanics",
+          "marks": 4,
           "questions": 3
-        },
-        {
-          "subject": "General Aptitude",
-          "marks": 5,
-          "questions": 4
         }
       ],
       "predictionRationale": "All XE sections represented in realistic exam proportions. Easy math questions test calculus and linear algebra basics. Moderate questions from Fluid and Solid Mechanics test core competence. Difficult questions from Materials and Thermodynamics simulate the real exam's analytical challenges. Ideal for timed practice.",
       "questions": [
         {
-          "id": "XE-P5-Q001",
+          "id": "XE-M4-Q001",
           "questionNumber": 1,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [
-            "2 and 3",
-            "1 and 4",
-            "3 and 3",
-            "2 and 4"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P5-Q002",
-          "questionNumber": 2,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
           "questionType": "1NAT",
           "marks": 1,
           "negativeMarks": 0,
           "difficulty": "moderate",
-          "questionText": "Tensile stress formula:",
+          "questionText": "V =:",
           "options": [],
           "correctAnswer": "A",
           "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P5-Q003",
+          "id": "XE-M4-Q002",
+          "questionNumber": 2,
+          "subject": "General Aptitude",
+          "topic": "Quantitative",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "If x^2=16, x =:",
+          "options": [
+            "4",
+            "-4",
+            "±4",
+            "0"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 XE Session 1 Q10"
+        },
+        {
+          "id": "XE-M4-Q003",
           "questionNumber": 3,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Bernoulli assumes:",
-          "options": [
-            "Viscous",
-            "Inviscid",
-            "Compressible",
-            "Turbulent"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P5-Q004",
-          "questionNumber": 4,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P5-Q005",
-          "questionNumber": 5,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P5-Q006",
-          "questionNumber": 6,
           "subject": "Basic Electronics",
           "topic": "Semiconductors",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
-          "difficulty": "moderate",
+          "difficulty": "easy",
           "questionText": "Diode used as:",
           "options": [
             "Amplifier",
@@ -5265,48 +3926,28 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q6"
         },
         {
-          "id": "XE-P5-Q007",
-          "questionNumber": 7,
-          "subject": "Basic Electrical",
-          "topic": "Ohm's Law",
+          "id": "XE-M4-Q004",
+          "questionNumber": 4,
+          "subject": "General Aptitude",
+          "topic": "Quantitative",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
           "difficulty": "moderate",
-          "questionText": "V =:",
+          "questionText": "If x^2=16, x =:",
           "options": [
-            "IR",
-            "I/R",
-            "R/I",
-            "I^2R"
+            "4",
+            "-4",
+            "±4",
+            "0"
           ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q7"
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P5-Q008",
-          "questionNumber": 8,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Binary search complexity:",
-          "options": [
-            "O(n)",
-            "O(log n)",
-            "O(n^2)",
-            "O(1)"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P5-Q009",
-          "questionNumber": 9,
+          "id": "XE-M4-Q005",
+          "questionNumber": 5,
           "subject": "Environmental Science",
           "topic": "Pollution",
           "questionType": "1MCQ",
@@ -5325,8 +3966,113 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P5-Q010",
+          "id": "XE-M4-Q006",
+          "questionNumber": 6,
+          "subject": "Basic Electronics",
+          "topic": "Semiconductors",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "Diode used as:",
+          "options": [
+            "Amplifier",
+            "Rectifier",
+            "Oscillator",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q6"
+        },
+        {
+          "id": "XE-M4-Q007",
+          "questionNumber": 7,
+          "subject": "Fluid Mechanics",
+          "topic": "Bernoulli",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "Bernoulli assumes:",
+          "options": [
+            "Viscous",
+            "Inviscid",
+            "Compressible",
+            "Turbulent"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q3"
+        },
+        {
+          "id": "XE-M4-Q008",
+          "questionNumber": 8,
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "V =:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
+        },
+        {
+          "id": "XE-M4-Q009",
+          "questionNumber": 9,
+          "subject": "Environmental Science",
+          "topic": "Pollution",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "PM2.5 particle size:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q9"
+        },
+        {
+          "id": "XE-M4-Q010",
           "questionNumber": 10,
+          "subject": "Thermodynamics",
+          "topic": "First Law",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "First law:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q4"
+        },
+        {
+          "id": "XE-M4-Q011",
+          "questionNumber": 11,
+          "subject": "General Aptitude",
+          "topic": "Quantitative",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "If x^2=16, x =:",
+          "options": [
+            "4",
+            "-4",
+            "±4",
+            "0"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 XE Session 1 Q10"
+        },
+        {
+          "id": "XE-M4-Q012",
+          "questionNumber": 12,
           "subject": "General Aptitude",
           "topic": "Quantitative",
           "questionType": "1MCQ",
@@ -5345,34 +4091,34 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P5-Q011",
-          "questionNumber": 11,
-          "subject": "Material Science",
-          "topic": "Polymers",
+          "id": "XE-M4-Q013",
+          "questionNumber": 13,
+          "subject": "Thermodynamics",
+          "topic": "First Law",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
           "difficulty": "moderate",
-          "questionText": "Thermoplastics:",
+          "questionText": "First law:",
           "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
+            "Energy conservation",
+            "Entropy",
+            "Enthalpy",
+            "Gibbs"
           ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P5-Q012",
-          "questionNumber": 12,
+          "id": "XE-M4-Q014",
+          "questionNumber": 14,
           "subject": "Engineering Mathematics",
           "topic": "Linear Algebra",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
-          "difficulty": "easy",
+          "difficulty": "moderate",
           "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
           "options": [
             "2 and 3",
@@ -5385,8 +4131,73 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P5-Q013",
-          "questionNumber": 13,
+          "id": "XE-M4-Q015",
+          "questionNumber": 15,
+          "subject": "Environmental Science",
+          "topic": "Pollution",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "PM2.5 particle size:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q9"
+        },
+        {
+          "id": "XE-M4-Q016",
+          "questionNumber": 16,
+          "subject": "Basic Electronics",
+          "topic": "Semiconductors",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "difficult",
+          "questionText": "Diode used as:",
+          "options": [],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q6"
+        },
+        {
+          "id": "XE-M4-Q017",
+          "questionNumber": 17,
+          "subject": "Solid Mechanics",
+          "topic": "Stress",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Tensile stress formula:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q2"
+        },
+        {
+          "id": "XE-M4-Q018",
+          "questionNumber": 18,
+          "subject": "General Aptitude",
+          "topic": "Quantitative",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "If x^2=16, x =:",
+          "options": [
+            "4",
+            "-4",
+            "±4",
+            "0"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 XE Session 1 Q10"
+        },
+        {
+          "id": "XE-M4-Q019",
+          "questionNumber": 19,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
           "questionType": "1NAT",
@@ -5400,162 +4211,47 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P5-Q014",
-          "questionNumber": 14,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Binary search complexity:",
-          "options": [
-            "O(n)",
-            "O(log n)",
-            "O(n^2)",
-            "O(1)"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P5-Q015",
-          "questionNumber": 15,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Tensile stress formula:",
-          "options": [
-            "F/A",
-            "F*A",
-            "F/A^2",
-            "A/F"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
-        },
-        {
-          "id": "XE-P5-Q016",
-          "questionNumber": 16,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "difficult",
-          "questionText": "Tensile stress formula:",
-          "options": [
-            "F/A",
-            "F*A",
-            "F/A^2",
-            "A/F"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
-        },
-        {
-          "id": "XE-P5-Q017",
-          "questionNumber": 17,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Tensile stress formula:",
-          "options": [
-            "F/A",
-            "F*A",
-            "F/A^2",
-            "A/F"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
-        },
-        {
-          "id": "XE-P5-Q018",
-          "questionNumber": 18,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "If x^2=16, x =:",
-          "options": [],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 XE Session 1 Q10"
-        },
-        {
-          "id": "XE-P5-Q019",
-          "questionNumber": 19,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Binary search complexity:",
-          "options": [
-            "O(n)",
-            "O(log n)",
-            "O(n^2)",
-            "O(1)"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P5-Q020",
+          "id": "XE-M4-Q020",
           "questionNumber": 20,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "difficult",
-          "questionText": "Diode used as:",
-          "options": [
-            "Amplifier",
-            "Rectifier",
-            "Oscillator",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
-        },
-        {
-          "id": "XE-P5-Q021",
-          "questionNumber": 21,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
+          "subject": "Thermodynamics",
+          "topic": "First Law",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
           "difficulty": "moderate",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
+          "questionText": "First law:",
           "options": [
-            "2 and 3",
-            "1 and 4",
-            "3 and 3",
-            "2 and 4"
+            "Energy conservation",
+            "Entropy",
+            "Enthalpy",
+            "Gibbs"
           ],
           "correctAnswer": "A",
           "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
+          "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P5-Q022",
+          "id": "XE-M4-Q021",
+          "questionNumber": 21,
+          "subject": "Environmental Science",
+          "topic": "Pollution",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "difficult",
+          "questionText": "PM2.5 particle size:",
+          "options": [
+            "<2.5μm",
+            "<5μm",
+            "<10μm",
+            "<1μm"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q9"
+        },
+        {
+          "id": "XE-M4-Q022",
           "questionNumber": 22,
           "subject": "Solid Mechanics",
           "topic": "Stress",
@@ -5575,139 +4271,64 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P5-Q023",
+          "id": "XE-M4-Q023",
           "questionNumber": 23,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "difficult",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P5-Q024",
-          "questionNumber": 24,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
+          "subject": "Computers and Programming",
+          "topic": "Algorithms",
           "questionType": "1NAT",
           "marks": 1,
           "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "First law:",
+          "difficulty": "difficult",
+          "questionText": "Binary search complexity:",
           "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P5-Q025",
-          "questionNumber": 25,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
+          "id": "XE-M4-Q024",
+          "questionNumber": 24,
+          "subject": "Environmental Science",
+          "topic": "Pollution",
           "questionType": "1MCQ",
           "marks": 1,
           "negativeMarks": 0.33,
           "difficulty": "moderate",
-          "questionText": "If x^2=16, x =:",
+          "questionText": "PM2.5 particle size:",
           "options": [
-            "4",
-            "-4",
-            "±4",
-            "0"
+            "<2.5μm",
+            "<5μm",
+            "<10μm",
+            "<1μm"
           ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q9"
+        },
+        {
+          "id": "XE-M4-Q025",
+          "questionNumber": 25,
+          "subject": "General Aptitude",
+          "topic": "Quantitative",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "difficult",
+          "questionText": "If x^2=16, x =:",
+          "options": [],
           "correctAnswer": "C",
           "explanation": "Correct Answer: C",
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P5-Q026",
+          "id": "XE-M4-Q026",
           "questionNumber": 26,
-          "subject": "Basic Electrical",
-          "topic": "Ohm's Law",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "V =:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q7"
-        },
-        {
-          "id": "XE-P5-Q027",
-          "questionNumber": 27,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "difficult",
-          "questionText": "Tensile stress formula:",
-          "options": [
-            "F/A",
-            "F*A",
-            "F/A^2",
-            "A/F"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
-        },
-        {
-          "id": "XE-P5-Q028",
-          "questionNumber": 28,
-          "subject": "Basic Electrical",
-          "topic": "Ohm's Law",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "V =:",
-          "options": [
-            "IR",
-            "I/R",
-            "R/I",
-            "I^2R"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q7"
-        },
-        {
-          "id": "XE-P5-Q029",
-          "questionNumber": 29,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P5-Q030",
-          "questionNumber": 30,
           "subject": "Material Science",
           "topic": "Polymers",
           "questionType": "1NAT",
           "marks": 1,
           "negativeMarks": 0,
-          "difficulty": "moderate",
+          "difficulty": "easy",
           "questionText": "Thermoplastics:",
           "options": [],
           "correctAnswer": "B",
@@ -5715,14 +4336,54 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P5-Q031",
-          "questionNumber": 31,
+          "id": "XE-M4-Q027",
+          "questionNumber": 27,
+          "subject": "Basic Electronics",
+          "topic": "Semiconductors",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "Diode used as:",
+          "options": [
+            "Amplifier",
+            "Rectifier",
+            "Oscillator",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q6"
+        },
+        {
+          "id": "XE-M4-Q028",
+          "questionNumber": 28,
+          "subject": "Engineering Mathematics",
+          "topic": "Linear Algebra",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
+          "options": [
+            "2 and 3",
+            "1 and 4",
+            "3 and 3",
+            "2 and 4"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q1"
+        },
+        {
+          "id": "XE-M4-Q029",
+          "questionNumber": 29,
           "subject": "Thermodynamics",
           "topic": "First Law",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
           "questionText": "First law:",
           "options": [
             "Energy conservation",
@@ -5735,28 +4396,43 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P5-Q032",
-          "questionNumber": 32,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
+          "id": "XE-M4-Q030",
+          "questionNumber": 30,
+          "subject": "Material Science",
+          "topic": "Polymers",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
           "difficulty": "easy",
-          "questionText": "Tensile stress formula:",
+          "questionText": "Thermoplastics:",
+          "options": [],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q5"
+        },
+        {
+          "id": "XE-M4-Q031",
+          "questionNumber": 31,
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
+          "questionType": "2MSQ",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "difficult",
+          "questionText": "V =:",
           "options": [
-            "F/A",
-            "F*A",
-            "F/A^2",
-            "A/F"
+            "IR",
+            "I/R",
+            "R/I",
+            "I^2R"
           ],
           "correctAnswer": "A",
           "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P5-Q033",
-          "questionNumber": 33,
+          "id": "XE-M4-Q032",
+          "questionNumber": 32,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
           "questionType": "2MCQ",
@@ -5775,123 +4451,28 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P5-Q034",
-          "questionNumber": 34,
-          "subject": "Environmental Science",
-          "topic": "Pollution",
+          "id": "XE-M4-Q033",
+          "questionNumber": 33,
+          "subject": "Computers and Programming",
+          "topic": "Algorithms",
           "questionType": "2MSQ",
           "marks": 2,
           "negativeMarks": 0,
           "difficulty": "difficult",
-          "questionText": "PM2.5 particle size:",
+          "questionText": "Binary search complexity:",
           "options": [
-            "<2.5μm",
-            "<5μm",
-            "<10μm",
-            "<1μm"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q9"
-        },
-        {
-          "id": "XE-P5-Q035",
-          "questionNumber": 35,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
+            "O(n)",
+            "O(log n)",
+            "O(n^2)",
+            "O(1)"
           ],
           "correctAnswer": "B",
           "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
+          "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P5-Q036",
-          "questionNumber": 36,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Bernoulli assumes:",
-          "options": [
-            "Viscous",
-            "Inviscid",
-            "Compressible",
-            "Turbulent"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P5-Q037",
-          "questionNumber": 37,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P5-Q038",
-          "questionNumber": 38,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P5-Q039",
-          "questionNumber": 39,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P5-Q040",
-          "questionNumber": 40,
+          "id": "XE-M4-Q034",
+          "questionNumber": 34,
           "subject": "Thermodynamics",
           "topic": "First Law",
           "questionType": "2MCQ",
@@ -5910,42 +4491,157 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P5-Q041",
-          "questionNumber": 41,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
-          "questionType": "2NAT",
+          "id": "XE-M4-Q035",
+          "questionNumber": 35,
+          "subject": "Basic Electrical",
+          "topic": "Ohm's Law",
+          "questionType": "2MSQ",
           "marks": 2,
           "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Tensile stress formula:",
-          "options": [],
+          "difficulty": "easy",
+          "questionText": "V =:",
+          "options": [
+            "IR",
+            "I/R",
+            "R/I",
+            "I^2R"
+          ],
           "correctAnswer": "A",
           "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
+          "source": "Adapted from GATE 2024 XE Session 1 Q7"
         },
         {
-          "id": "XE-P5-Q042",
-          "questionNumber": 42,
-          "subject": "Solid Mechanics",
-          "topic": "Stress",
+          "id": "XE-M4-Q036",
+          "questionNumber": 36,
+          "subject": "Thermodynamics",
+          "topic": "First Law",
+          "questionType": "2MSQ",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "First law:",
+          "options": [
+            "Energy conservation",
+            "Entropy",
+            "Enthalpy",
+            "Gibbs"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q4"
+        },
+        {
+          "id": "XE-M4-Q037",
+          "questionNumber": 37,
+          "subject": "Computers and Programming",
+          "topic": "Algorithms",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "difficult",
+          "questionText": "Binary search complexity:",
+          "options": [
+            "O(n)",
+            "O(log n)",
+            "O(n^2)",
+            "O(1)"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q8"
+        },
+        {
+          "id": "XE-M4-Q038",
+          "questionNumber": 38,
+          "subject": "Computers and Programming",
+          "topic": "Algorithms",
           "questionType": "2MCQ",
           "marks": 2,
           "negativeMarks": 0.66,
           "difficulty": "moderate",
-          "questionText": "Tensile stress formula:",
+          "questionText": "Binary search complexity:",
           "options": [
-            "F/A",
-            "F*A",
-            "F/A^2",
-            "A/F"
+            "O(n)",
+            "O(log n)",
+            "O(n^2)",
+            "O(1)"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q8"
+        },
+        {
+          "id": "XE-M4-Q039",
+          "questionNumber": 39,
+          "subject": "Fluid Mechanics",
+          "topic": "Bernoulli",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Bernoulli assumes:",
+          "options": [],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q3"
+        },
+        {
+          "id": "XE-M4-Q040",
+          "questionNumber": 40,
+          "subject": "Thermodynamics",
+          "topic": "First Law",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "First law:",
+          "options": [
+            "Energy conservation",
+            "Entropy",
+            "Enthalpy",
+            "Gibbs"
           ],
           "correctAnswer": "A",
           "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q2"
+          "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P5-Q043",
+          "id": "XE-M4-Q041",
+          "questionNumber": 41,
+          "subject": "Thermodynamics",
+          "topic": "First Law",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "First law:",
+          "options": [
+            "Energy conservation",
+            "Entropy",
+            "Enthalpy",
+            "Gibbs"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q4"
+        },
+        {
+          "id": "XE-M4-Q042",
+          "questionNumber": 42,
+          "subject": "Basic Electronics",
+          "topic": "Semiconductors",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Diode used as:",
+          "options": [],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q6"
+        },
+        {
+          "id": "XE-M4-Q043",
           "questionNumber": 43,
           "subject": "Material Science",
           "topic": "Polymers",
@@ -5965,47 +4661,42 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q5"
         },
         {
-          "id": "XE-P5-Q044",
+          "id": "XE-M4-Q044",
           "questionNumber": 44,
+          "subject": "Basic Electronics",
+          "topic": "Semiconductors",
+          "questionType": "2MSQ",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Diode used as:",
+          "options": [
+            "Amplifier",
+            "Rectifier",
+            "Oscillator",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q6"
+        },
+        {
+          "id": "XE-M4-Q045",
+          "questionNumber": 45,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
-          "questionType": "2MCQ",
+          "questionType": "2NAT",
           "marks": 2,
-          "negativeMarks": 0.66,
+          "negativeMarks": 0,
           "difficulty": "easy",
           "questionText": "Binary search complexity:",
-          "options": [
-            "O(n)",
-            "O(log n)",
-            "O(n^2)",
-            "O(1)"
-          ],
+          "options": [],
           "correctAnswer": "B",
           "explanation": "Correct Answer: B",
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P5-Q045",
-          "questionNumber": 45,
-          "subject": "Engineering Mathematics",
-          "topic": "Linear Algebra",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
-          "options": [
-            "2 and 3",
-            "1 and 4",
-            "3 and 3",
-            "2 and 4"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q1"
-        },
-        {
-          "id": "XE-P5-Q046",
+          "id": "XE-M4-Q046",
           "questionNumber": 46,
           "subject": "Fluid Mechanics",
           "topic": "Bernoulli",
@@ -6025,138 +4716,23 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q3"
         },
         {
-          "id": "XE-P5-Q047",
+          "id": "XE-M4-Q047",
           "questionNumber": 47,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "2MCQ",
+          "subject": "General Aptitude",
+          "topic": "Quantitative",
+          "questionType": "2NAT",
           "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "difficult",
-          "questionText": "Diode used as:",
-          "options": [
-            "Amplifier",
-            "Rectifier",
-            "Oscillator",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "If x^2=16, x =:",
+          "options": [],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P5-Q048",
+          "id": "XE-M4-Q048",
           "questionNumber": 48,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Bernoulli assumes:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P5-Q049",
-          "questionNumber": 49,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P5-Q050",
-          "questionNumber": 50,
-          "subject": "Basic Electrical",
-          "topic": "Ohm's Law",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "difficult",
-          "questionText": "V =:",
-          "options": [
-            "IR",
-            "I/R",
-            "R/I",
-            "I^2R"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q7"
-        },
-        {
-          "id": "XE-P5-Q051",
-          "questionNumber": 51,
-          "subject": "Computers and Programming",
-          "topic": "Algorithms",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Binary search complexity:",
-          "options": [
-            "O(n)",
-            "O(log n)",
-            "O(n^2)",
-            "O(1)"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q8"
-        },
-        {
-          "id": "XE-P5-Q052",
-          "questionNumber": 52,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Bernoulli assumes:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
-        },
-        {
-          "id": "XE-P5-Q053",
-          "questionNumber": 53,
-          "subject": "Material Science",
-          "topic": "Polymers",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Thermoplastics:",
-          "options": [
-            "Thermoset",
-            "Remoldable",
-            "Crosslinked",
-            "None"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q5"
-        },
-        {
-          "id": "XE-P5-Q054",
-          "questionNumber": 54,
           "subject": "General Aptitude",
           "topic": "Quantitative",
           "questionType": "2MCQ",
@@ -6175,79 +4751,54 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P5-Q055",
-          "questionNumber": 55,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
-          "questionType": "2NAT",
+          "id": "XE-M4-Q049",
+          "questionNumber": 49,
+          "subject": "Engineering Mathematics",
+          "topic": "Linear Algebra",
+          "questionType": "2MCQ",
           "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Bernoulli assumes:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
+          "negativeMarks": 0.66,
+          "difficulty": "easy",
+          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
+          "options": [
+            "2 and 3",
+            "1 and 4",
+            "3 and 3",
+            "2 and 4"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q1"
         },
         {
-          "id": "XE-P5-Q056",
-          "questionNumber": 56,
+          "id": "XE-M4-Q050",
+          "questionNumber": 50,
           "subject": "Environmental Science",
           "topic": "Pollution",
-          "questionType": "2NAT",
+          "questionType": "2MCQ",
           "marks": 2,
-          "negativeMarks": 0,
+          "negativeMarks": 0.66,
           "difficulty": "moderate",
           "questionText": "PM2.5 particle size:",
-          "options": [],
+          "options": [
+            "<2.5μm",
+            "<5μm",
+            "<10μm",
+            "<1μm"
+          ],
           "correctAnswer": "A",
           "explanation": "Correct Answer: A",
           "source": "Adapted from GATE 2024 XE Session 1 Q9"
         },
         {
-          "id": "XE-P5-Q057",
-          "questionNumber": 57,
-          "subject": "Basic Electronics",
-          "topic": "Semiconductors",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Diode used as:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q6"
-        },
-        {
-          "id": "XE-P5-Q058",
-          "questionNumber": 58,
-          "subject": "Thermodynamics",
-          "topic": "First Law",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "First law:",
-          "options": [
-            "Energy conservation",
-            "Entropy",
-            "Enthalpy",
-            "Gibbs"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q4"
-        },
-        {
-          "id": "XE-P5-Q059",
-          "questionNumber": 59,
+          "id": "XE-M4-Q051",
+          "questionNumber": 51,
           "subject": "Computers and Programming",
           "topic": "Algorithms",
           "questionType": "2MCQ",
           "marks": 2,
           "negativeMarks": 0.66,
-          "difficulty": "easy",
+          "difficulty": "moderate",
           "questionText": "Binary search complexity:",
           "options": [
             "O(n)",
@@ -6260,8 +4811,48 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q8"
         },
         {
-          "id": "XE-P5-Q060",
-          "questionNumber": 60,
+          "id": "XE-M4-Q052",
+          "questionNumber": 52,
+          "subject": "Environmental Science",
+          "topic": "Pollution",
+          "questionType": "2MSQ",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "PM2.5 particle size:",
+          "options": [
+            "<2.5μm",
+            "<5μm",
+            "<10μm",
+            "<1μm"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q9"
+        },
+        {
+          "id": "XE-M4-Q053",
+          "questionNumber": 53,
+          "subject": "Environmental Science",
+          "topic": "Pollution",
+          "questionType": "2MSQ",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "PM2.5 particle size:",
+          "options": [
+            "<2.5μm",
+            "<5μm",
+            "<10μm",
+            "<1μm"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q9"
+        },
+        {
+          "id": "XE-M4-Q054",
+          "questionNumber": 54,
           "subject": "Thermodynamics",
           "topic": "First Law",
           "questionType": "2MCQ",
@@ -6280,54 +4871,69 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P5-Q061",
-          "questionNumber": 61,
-          "subject": "Fluid Mechanics",
-          "topic": "Bernoulli",
+          "id": "XE-M4-Q055",
+          "questionNumber": 55,
+          "subject": "Engineering Mathematics",
+          "topic": "Linear Algebra",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "difficult",
+          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q1"
+        },
+        {
+          "id": "XE-M4-Q056",
+          "questionNumber": 56,
+          "subject": "Engineering Mathematics",
+          "topic": "Linear Algebra",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
+          "options": [
+            "2 and 3",
+            "1 and 4",
+            "3 and 3",
+            "2 and 4"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q1"
+        },
+        {
+          "id": "XE-M4-Q057",
+          "questionNumber": 57,
+          "subject": "General Aptitude",
+          "topic": "Quantitative",
           "questionType": "2MCQ",
           "marks": 2,
           "negativeMarks": 0.66,
           "difficulty": "difficult",
-          "questionText": "Bernoulli assumes:",
+          "questionText": "If x^2=16, x =:",
           "options": [
-            "Viscous",
-            "Inviscid",
-            "Compressible",
-            "Turbulent"
+            "4",
+            "-4",
+            "±4",
+            "0"
           ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 XE Session 1 Q3"
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 XE Session 1 Q10"
         },
         {
-          "id": "XE-P5-Q062",
-          "questionNumber": 62,
-          "subject": "Basic Electrical",
-          "topic": "Ohm's Law",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "V =:",
-          "options": [
-            "IR",
-            "I/R",
-            "R/I",
-            "I^2R"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q7"
-        },
-        {
-          "id": "XE-P5-Q063",
-          "questionNumber": 63,
+          "id": "XE-M4-Q058",
+          "questionNumber": 58,
           "subject": "Thermodynamics",
           "topic": "First Law",
           "questionType": "2MCQ",
           "marks": 2,
           "negativeMarks": 0.66,
-          "difficulty": "moderate",
+          "difficulty": "difficult",
           "questionText": "First law:",
           "options": [
             "Energy conservation",
@@ -6340,34 +4946,139 @@
           "source": "Adapted from GATE 2024 XE Session 1 Q4"
         },
         {
-          "id": "XE-P5-Q064",
-          "questionNumber": 64,
+          "id": "XE-M4-Q059",
+          "questionNumber": 59,
           "subject": "Solid Mechanics",
           "topic": "Stress",
-          "questionType": "2NAT",
+          "questionType": "2MCQ",
           "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
+          "negativeMarks": 0.66,
+          "difficulty": "difficult",
           "questionText": "Tensile stress formula:",
-          "options": [],
+          "options": [
+            "F/A",
+            "F*A",
+            "F/A^2",
+            "A/F"
+          ],
           "correctAnswer": "A",
           "explanation": "Correct Answer: A",
           "source": "Adapted from GATE 2024 XE Session 1 Q2"
         },
         {
-          "id": "XE-P5-Q065",
-          "questionNumber": 65,
-          "subject": "Basic Electrical",
-          "topic": "Ohm's Law",
+          "id": "XE-M4-Q060",
+          "questionNumber": 60,
+          "subject": "Engineering Mathematics",
+          "topic": "Linear Algebra",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "easy",
+          "questionText": "If A is 2x2 with trace 5 and det 6, eigenvalues:",
+          "options": [
+            "2 and 3",
+            "1 and 4",
+            "3 and 3",
+            "2 and 4"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 XE Session 1 Q1"
+        },
+        {
+          "id": "XE-M4-Q061",
+          "questionNumber": 61,
+          "subject": "Fluid Mechanics",
+          "topic": "Bernoulli",
           "questionType": "2NAT",
           "marks": 2,
           "negativeMarks": 0,
           "difficulty": "moderate",
-          "questionText": "V =:",
+          "questionText": "Bernoulli assumes:",
           "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 XE Session 1 Q7"
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q3"
+        },
+        {
+          "id": "XE-M4-Q062",
+          "questionNumber": 62,
+          "subject": "Basic Electronics",
+          "topic": "Semiconductors",
+          "questionType": "2MSQ",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Diode used as:",
+          "options": [
+            "Amplifier",
+            "Rectifier",
+            "Oscillator",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q6"
+        },
+        {
+          "id": "XE-M4-Q063",
+          "questionNumber": 63,
+          "subject": "Basic Electronics",
+          "topic": "Semiconductors",
+          "questionType": "2MSQ",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Diode used as:",
+          "options": [
+            "Amplifier",
+            "Rectifier",
+            "Oscillator",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q6"
+        },
+        {
+          "id": "XE-M4-Q064",
+          "questionNumber": 64,
+          "subject": "Material Science",
+          "topic": "Polymers",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Thermoplastics:",
+          "options": [
+            "Thermoset",
+            "Remoldable",
+            "Crosslinked",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q5"
+        },
+        {
+          "id": "XE-M4-Q065",
+          "questionNumber": 65,
+          "subject": "Material Science",
+          "topic": "Polymers",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "easy",
+          "questionText": "Thermoplastics:",
+          "options": [
+            "Thermoset",
+            "Remoldable",
+            "Crosslinked",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 XE Session 1 Q5"
         }
       ]
     }

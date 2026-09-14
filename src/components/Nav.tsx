@@ -27,14 +27,6 @@ function NavInner() {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6">
           <Link
-            href="/gate"
-            className={`text-sm transition-colors ${
-              isActive("/gate", true) ? "text-accent" : "text-muted hover:text-foreground"
-            }`}
-          >
-            GATE
-          </Link>
-          <Link
             href="/pyqs"
             className={`text-sm transition-colors ${
               isActive("/pyqs", true) ? "text-accent" : "text-muted hover:text-foreground"
@@ -43,28 +35,12 @@ function NavInner() {
             PYQs
           </Link>
           <Link
-            href="/formulas"
+            href="/predicted-papers"
             className={`text-sm transition-colors ${
-              isActive("/formulas", true) ? "text-accent" : "text-muted hover:text-foreground"
+              isActive("/predicted-papers", true) ? "text-accent" : "text-muted hover:text-foreground"
             }`}
           >
-            Formulas
-          </Link>
-          <Link
-            href="/cutoffs"
-            className={`text-sm transition-colors ${
-              isActive("/cutoffs", true) ? "text-accent" : "text-muted hover:text-foreground"
-            }`}
-          >
-            Cutoffs
-          </Link>
-          <Link
-            href="/predictor"
-            className={`text-sm transition-colors ${
-              isActive("/predictor", true) ? "text-accent" : "text-muted hover:text-foreground"
-            }`}
-          >
-            Predictor
+            Mock Papers
           </Link>
           <Link
             href="/doubts"
@@ -72,7 +48,15 @@ function NavInner() {
               isActive("/doubts") ? "text-accent" : "text-muted hover:text-foreground"
             }`}
           >
-            Doubts
+            AI Tutor
+          </Link>
+          <Link
+            href="/dashboard"
+            className={`text-sm transition-colors ${
+              isActive("/dashboard") ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            Dashboard
           </Link>
         </div>
 
@@ -199,18 +183,13 @@ function NavInner() {
       {mobileOpen && (
         <div className="md:hidden border-t border-border bg-background">
           <div className="px-6 py-4 space-y-3">
-            <Link href="/gate" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">GATE</Link>
-            <Link href="/pyqs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">PYQs</Link>
-            <Link href="/formulas" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Formulas</Link>
-            <Link href="/cutoffs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Cutoffs</Link>
-            <Link href="/predictor" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">AIR Predictor</Link>
-            <Link href="/doubts" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Doubt Engine</Link>
-            <Link href="/library" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Library</Link>
-            <Link href="/gate-arcade" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Gate Arcade</Link>
+            <Link href="/pyqs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">PYQ Library</Link>
+            <Link href="/predicted-papers" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Mock Papers</Link>
+            <Link href="/doubts" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">AI Tutor</Link>
+            <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Dashboard</Link>
             {isAuthenticated && (
               <>
                 <Link href="/leaderboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Leaderboard</Link>
-                <Link href="/chat" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Chat</Link>
                 {user?.role === "admin" && (
                   <Link href="/admin" onClick={() => setMobileOpen(false)} className="block text-sm text-accent font-medium">Admin</Link>
                 )}

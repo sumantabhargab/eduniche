@@ -10,11 +10,25 @@ import { join } from "path";
 const PAPERS_DIR = join(process.cwd(), "data", "predicted-papers");
 const BRANCH_META: Record<string, { name: string; icon: string }> = {
   CS: { name: "Computer Science & Engineering", icon: "💻" },
+  EC: { name: "Electronics & Communication Engineering", icon: "📡" },
   EE: { name: "Electrical Engineering", icon: "⚡" },
-  CE: { name: "Civil Engineering", icon: "🏗️" },
   ME: { name: "Mechanical Engineering", icon: "⚙️" },
+  CE: { name: "Civil Engineering", icon: "🏗️" },
+  IN: { name: "Instrumentation Engineering", icon: "📊" },
+  PI: { name: "Production & Industrial Engineering", icon: "🏭" },
+  CH: { name: "Chemical Engineering", icon: "🧪" },
+  BT: { name: "Biotechnology", icon: "🧬" },
+  MT: { name: "Metallurgical Engineering", icon: "🔩" },
+  TF: { name: "Textile Engineering & Fibre Science", icon: "🧵" },
+  PE: { name: "Petroleum Engineering", icon: "🛢️" },
+  EY: { name: "Ecology & Evolution", icon: "🌿" },
+  MA: { name: "Mathematics", icon: "📐" },
+  AR: { name: "Architecture & Planning", icon: "🏛️" },
+  AG: { name: "Agricultural Engineering", icon: "🌾" },
+  GG: { name: "Geology & Geophysics", icon: "🌍" },
+  PH: { name: "Engineering Physics", icon: "⚛️" },
   XE: { name: "Engineering Sciences", icon: "🔬" },
-  XL: { name: "Life Sciences", icon: "🧬" },
+  XL: { name: "Life Sciences", icon: "🧫" },
 };
 
 export const dynamic = "force-dynamic";

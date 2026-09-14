@@ -1,7 +1,7 @@
 /**
- * Predicted Papers — Branch Page
+ * Trend-Based Mock Papers — Branch Page
  *
- * Lists all 5 predicted papers for a specific branch — free for all logged-in users.
+ * Lists all mock exam papers built from PYQ trend analysis for a specific branch — free for all users.
  */
 
 "use client";
@@ -13,7 +13,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import {
-  FileText, Target, BarChart3, TrendingUp, ArrowRight, Eye, X as XIcon
+  FileText, Target, BarChart3, TrendingUp, ArrowRight, Eye, X as XIcon, Printer
 } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
 
@@ -27,15 +27,30 @@ interface PaperMeta {
   subjectBreakdown: { subject: string; marks: number; questions: number }[];
   predictionRationale: string;
   questions?: { id: string; questionNumber: number; subject: string; marks: number; questionText: string; options: string[] }[];
+  rationale?: string;
 }
 
 const BRANCH_NAMES: Record<string, string> = {
   CS: "Computer Science & Engineering",
+  EC: "Electronics & Communication Engineering",
   EE: "Electrical Engineering",
-  CE: "Civil Engineering",
   ME: "Mechanical Engineering",
+  CE: "Civil Engineering",
+  IN: "Instrumentation Engineering",
+  PI: "Production & Industrial Engineering",
+  CH: "Chemical Engineering",
+  BT: "Biotechnology",
+  MT: "Metallurgical Engineering",
   XE: "Engineering Sciences",
   XL: "Life Sciences",
+  TF: "Textile Engineering & Fibre Science",
+  PE: "Petroleum Engineering",
+  EY: "Ecology & Evolution",
+  MA: "Mathematics (MA)",
+  AR: "Architecture & Planning",
+  AG: "Agricultural Engineering",
+  GG: "Geology & Geophysics",
+  PH: "Engineering Physics",
 };
 
 export default function BranchPapersPage() {
@@ -90,7 +105,7 @@ export default function BranchPapersPage() {
             transition={{ delay: 0.1 }}
             className="font-serif text-4xl sm:text-5xl leading-[1.08] tracking-tight mb-4"
           >
-            GATE {branch} Predicted Papers
+            GATE {branch} Trend-Based Mock Papers
           </motion.h1>
 
           <motion.p
@@ -99,8 +114,10 @@ export default function BranchPapersPage() {
             transition={{ delay: 0.2 }}
             className="text-muted max-w-xl mx-auto text-sm md:text-base"
           >
-            {branchName} — 5 carefully crafted papers based on 2021–2025 PYQ analysis.
-            Each paper: 65 questions, 100 marks, 3-hour timed exam.
+            {branchName} — {papers.length} mock exam papers built from GATE PYQ trend analysis.
+            {papers.length > 0 && (
+              <span> Each paper: {papers[0].totalQuestions} questions, {papers[0].totalMarks} marks. These are practice simulations based on historical patterns, not predictions of future exam questions.</span>
+            )}
           </motion.p>
         </div>
       </section>
@@ -118,7 +135,7 @@ export default function BranchPapersPage() {
             >
               <div className="mb-3">
                 <span className="text-xs font-mono text-accent mb-1 block">
-                  Paper {idx + 1} of 5
+                  Paper {idx + 1} of {papers.length}
                 </span>
                 <h3 className="font-serif text-lg">{paper.title}</h3>
                 <p className="text-sm text-muted mt-1">{paper.description}</p>
@@ -176,6 +193,16 @@ export default function BranchPapersPage() {
                   <Eye className="w-4 h-4" />
                   Preview (10 Qs)
                 </button>
+
+                <a
+                  href={`/api/predicted-papers/${branch.toLowerCase()}/${paper.id}/pdf`}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted rounded-xl text-sm font-medium hover:border-accent hover:text-accent transition-all"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Printer className="w-4 h-4" />
+                  Download PDF
+                </a>
               </div>
             </motion.div>
           ))}

@@ -1,7 +1,7 @@
 /**
- * Predicted Papers Hub — /predicted-papers
+ * Trend-Based Mock Papers Hub — /predicted-papers
  *
- * Lists all branches with predicted papers — free for all authenticated users.
+ * Lists all branches with mock exam papers built from PYQ trend analysis — free for all users.
  */
 
 "use client";
@@ -21,7 +21,7 @@ interface BranchInfo {
   paperCount: number;
 }
 
-export default function PredictedPapersPage() {
+export default function TrendBasedMockPapersPage() {
   const [branches, setBranches] = useState<BranchInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
@@ -59,7 +59,7 @@ export default function PredictedPapersPage() {
             transition={{ delay: 0.1 }}
             className="font-serif text-4xl sm:text-5xl leading-[1.08] tracking-tight mb-6"
           >
-            Predicted GATE Papers
+            Trend-Based Mock Papers
           </motion.h1>
 
           <motion.p
@@ -68,8 +68,8 @@ export default function PredictedPapersPage() {
             transition={{ delay: 0.2 }}
             className="text-muted max-w-xl mx-auto mb-12 text-sm md:text-base"
           >
-            Five carefully crafted papers per branch, designed by analyzing 2021–2025 PYQ trends.
-            Each paper mirrors the actual GATE exam pattern — 65 questions, 100 marks, 3 hours.
+            Five mock exam papers per branch, built by analyzing GATE PYQ trends.
+            Each paper mirrors the actual GATE exam pattern. These are practice simulations based on historical patterns, not predictions of future exam questions.
           </motion.p>
         </div>
       </section>
@@ -102,7 +102,7 @@ export default function PredictedPapersPage() {
 
                 <div className="flex items-center gap-2 text-xs text-muted">
                   <FileText className="w-3.5 h-3.5" />
-                  <span>5 predicted papers · 65 questions each</span>
+                  <span>Mock exam papers</span>
                 </div>
 
                 <div className="flex items-center gap-2 text-xs text-accent mt-3 font-medium">
@@ -123,7 +123,7 @@ export default function PredictedPapersPage() {
             <TrendingUp className="w-8 h-8 text-green-500 mx-auto mb-4" />
             <h3 className="font-serif text-xl mb-2">Free to Practice</h3>
             <p className="text-sm text-muted mb-6">
-              All predicted papers are free for logged-in users. Practice exams, download PDFs,
+              All trend-based mock papers are free for logged-in users. Practice exams, download PDFs,
               and test your preparation — no subscription required.
             </p>
             <Link

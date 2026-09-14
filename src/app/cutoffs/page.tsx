@@ -325,7 +325,7 @@ export default function CutoffsPage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <Calendar className="w-5 h-5 text-muted" />
-            <h2 className="font-semibold text-sm">Latest Cutoff Marks (GATE 2024) — {selectedCategory === "ob" ? "OBC-NCL" : selectedCategory === "sc" ? "SC" : selectedCategory === "st" ? "ST" : "General"}</h2>
+            <h2 className="font-semibold text-sm">Latest Cutoff Marks — {selectedCategory === "ob" ? "OBC-NCL" : selectedCategory === "sc" ? "SC" : selectedCategory === "st" ? "ST" : "General"}</h2>
           </div>
 
           <div className="bg-card border border-border rounded-2xl overflow-hidden">
@@ -335,7 +335,7 @@ export default function CutoffsPage() {
                   <tr className="border-b border-border bg-foreground/5">
                     <th className="text-left p-4 text-xs text-muted font-medium">Branch</th>
                     <th className="text-center p-4 text-xs text-muted font-medium">Cutoff</th>
-                    <th className="text-center p-4 text-xs text-muted font-medium">Predicted 2025</th>
+                    <th className="text-center p-4 text-xs text-muted font-medium">Predicted Cutoff</th>
                     <th className="text-center p-4 text-xs text-muted font-medium">Trend</th>
                     <th className="text-center p-4 text-xs text-muted font-medium">Applicants</th>
                     <th className="text-center p-4 text-xs text-muted font-medium">Qualified</th>
@@ -456,9 +456,9 @@ export default function CutoffsPage() {
 
                     {predicted !== null && (
                       <div className="mt-4 p-4 bg-accent/5 border border-accent/10 rounded-xl">
-                        <div className="text-xs text-muted mb-1">Predicted Cutoff for 2025</div>
+                        <div className="text-xs text-muted mb-1">Predicted Cutoff (trend-based)</div>
                         <div className="text-xl font-bold font-mono text-accent">{predicted.toFixed(1)} / 100</div>
-                        <div className="text-xs text-muted mt-1">Based on linear trend from 2020–2024</div>
+                        <div className="text-xs text-muted mt-1">Based on historical cutoff trend</div>
                       </div>
                     )}
 

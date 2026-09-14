@@ -3,11 +3,11 @@
 import Link from "next/link";
 
 const footerLinks = [
+  { href: "/pyqs", label: "PYQ Library" },
+  { href: "/predicted-papers", label: "Mock Papers" },
+  { href: "/doubts", label: "AI Tutor" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/how-it-works", label: "How it works" },
-  { href: "/skills", label: "Skills" },
-  { href: "/neuroscience", label: "Neuroscience" },
-  { href: "/library", label: "Library" },
-  { href: "/gate", label: "GATE" },
 ];
 
 export default function Footer() {

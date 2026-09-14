@@ -1,16 +1,22 @@
 /**
  * SubjectPracticeSession — practice mode within a subject
+ *
+ * Supports browse mode (instant reveal) and quiz mode (hide until reveal).
  */
 
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Bookmark, ArrowLeft, CheckCircle, XCircle, Lock, Search } from "@/components/pyq/PYQIcons";
+import { motion } from "framer-motion";
+import {
+  ChevronLeft, ChevronRight, Bookmark, ArrowLeft, CheckCircle, XCircle, Search,
+  Eye, RefreshCw, AlertCircle
+} from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import PadhaiShuruLoader from "@/components/loading/PadhaiShuruLoader";
 
 interface Question {
   id: string;
@@ -73,17 +79,17 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [answerState, setAnswerState] = useState<"unanswered" | "correct" | "incorrect">("unanswered");
-  const [showExplanation, setShowExplanation] = useState(false);
+  const [answerRevealed, setAnswerRevealed] = useState(false);
+  const [answerIsCorrect, setAnswerIsCorrect] = useState(false);
   const [mode, setMode] = useState<Mode>("browse");
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(new Set());
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Question[]>([]);
-  const [pagination, setPagination] = useState({ totalCount: 0, totalPages: 0, hasMore: false });
-  const [allLoaded, setAllLoaded] = useState(false);
+  const [searching, setSearching] = useState(false);
 
   // Load bookmarks
   useEffect(() => {
@@ -101,13 +107,12 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
   // Load ALL questions for the subject (browse mode shows everything)
   useEffect(() => {
     setLoading(true);
+    setError(false);
     setSelectedAnswer(null);
-    setAnswerState("unanswered");
-    setShowExplanation(false);
+    setAnswerRevealed(false);
+    setAnswerIsCorrect(false);
     setCurrentIndex(0);
-    setAllLoaded(false);
 
-    // Fetch ALL questions by paginating through until exhausted
     const fetchAll = async () => {
       try {
         const allQs: Question[] = [];
@@ -141,14 +146,9 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
         }
 
         setQuestions(allQs);
-        setPagination({
-          totalCount,
-          totalPages: Math.ceil(totalCount / pageSize),
-          hasMore: false,
-        });
-        setAllLoaded(true);
         setLoading(false);
       } catch {
+        setError(true);
         setLoading(false);
       }
     };
@@ -156,9 +156,25 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
     fetchAll();
   }, [branch, subject, topicParam, yearParam]);
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        goToQuestion(currentIndex - 1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        goToQuestion(currentIndex + 1);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentIndex, questions.length]);
+
   const current = questions[currentIndex];
 
-  const isAnswerCorrect = (letter: string): boolean => {
+  const checkIsAnswerCorrect = (letter: string): boolean => {
     if (!current) return false;
     const idx = letter.charCodeAt(0) - 65;
     const optionText = current.options[idx];
@@ -166,20 +182,16 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
   };
 
   const handleSelectAnswer = (answer: string) => {
-    if (answerState !== "unanswered" || !current) return;
-    if (mode === "browse") {
-      // In browse mode, just show the answer immediately
-      setSelectedAnswer(answer);
-      const isCorrect = isAnswerCorrect(answer);
-      setAnswerState(isCorrect ? "correct" : "incorrect");
-      setShowExplanation(true);
-    } else {
-      // Quiz mode: record selection but don't reveal until user clicks reveal
-      setSelectedAnswer(answer);
-      const isCorrect = isAnswerCorrect(answer);
-      setAnswerState(isCorrect ? "correct" : "incorrect");
-      setShowExplanation(true);
-    }
+    if (answerRevealed || !current) return;
+    setSelectedAnswer(answer);
+  };
+
+  const handleRevealAnswer = () => {
+    if (!current || answerRevealed || !selectedAnswer) return;
+    const correct = checkIsAnswerCorrect(selectedAnswer);
+    setAnswerIsCorrect(correct);
+    setAnswerIsCorrect(correct);
+    setAnswerRevealed(true);
 
     // Record attempt
     if (user?.id) {
@@ -190,9 +202,10 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
           questionId: current.id,
           branch,
           subject,
-          selectedAnswer: answer,
-          isCorrect: isAnswerCorrect(answer),
+          selectedAnswer,
+          isCorrect: correct,
           timeSpent: 0,
+          practiceMode: mode,
         }),
       }).catch(() => {});
     }
@@ -226,6 +239,7 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
       return;
     }
 
+    setSearching(true);
     try {
       const params = new URLSearchParams({
         branch,
@@ -238,9 +252,13 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
       const data = await res.json();
       if (data.questions) {
         setSearchResults(data.questions);
+      } else if (data.results) {
+        setSearchResults(data.results);
       }
     } catch {
-      // Silently fail
+      setSearchResults([]);
+    } finally {
+      setSearching(false);
     }
   };
 
@@ -248,22 +266,73 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
     if (index >= 0 && index < questions.length) {
       setCurrentIndex(index);
       setSelectedAnswer(null);
-      setAnswerState("unanswered");
-      setShowExplanation(false);
+      setAnswerRevealed(false);
+      setAnswerIsCorrect(false);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
+  const retryLoad = () => {
+    setError(false);
+    setLoading(true);
+    setSelectedAnswer(null);
+    setAnswerRevealed(false);
+    setAnswerIsCorrect(false);
+    setCurrentIndex(0);
+
+    const fetchAll = async () => {
+      try {
+        const allQs: Question[] = [];
+        let page = 1;
+        const pageSize = 100;
+        let totalCount = 0;
+
+        while (true) {
+          const params = new URLSearchParams({
+            branch,
+            subject,
+            pageSize: pageSize.toString(),
+            sortBy: "year",
+            sortDir: "desc",
+            page: page.toString(),
+          });
+          if (topicParam) params.set("topic", topicParam);
+          if (yearParam) params.set("year", yearParam);
+
+          const r = await fetch(`/api/pyq/questions?${params.toString()}`);
+          const data = await r.json();
+          if (data.data && data.data.length > 0) {
+            allQs.push(...data.data);
+            totalCount = data.pagination?.totalCount || allQs.length;
+            if (!data.pagination?.hasMore || allQs.length >= totalCount) break;
+            page++;
+            if (page > 50) break;
+          } else {
+            break;
+          }
+        }
+
+        setQuestions(allQs);
+        setLoading(false);
+      } catch {
+        setError(true);
+        setLoading(false);
+      }
+    };
+
+    fetchAll();
+  };
+
   const meta = BRANCH_META[branch] || { name: branch, icon: "📚" };
 
+  // Loading state
   if (loading) {
     return (
       <main className="min-h-screen bg-background">
         <Nav />
         <div className="pt-24 flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-sm text-muted">Loading questions…</p>
+            <PadhaiShuruLoader size="md" variant="page" label="Loading Questions" />
           </div>
         </div>
         <Footer />
@@ -271,6 +340,33 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
     );
   }
 
+  // Error state
+  if (error) {
+    return (
+      <main className="min-h-screen bg-background">
+        <Nav />
+        <div className="pt-24 flex items-center justify-center min-h-[60vh] px-6">
+          <div className="text-center max-w-md">
+            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <h2 className="font-serif text-2xl mb-2">Something Went Wrong</h2>
+            <p className="text-sm text-muted mb-6">
+              We couldn't load questions for {subject}. Please check your connection and try again.
+            </p>
+            <button
+              onClick={retryLoad}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Try Again
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
+
+  // Empty state
   if (questions.length === 0) {
     return (
       <main className="min-h-screen bg-background">
@@ -280,7 +376,7 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
             <div className="text-5xl mb-4">📝</div>
             <h2 className="font-serif text-2xl mb-2">No Questions Found</h2>
             <p className="text-sm text-muted mb-6">
-              No questions available for {subject} in {branch}. Try a different subject or check back later.
+              No questions available for {subject} in {meta.name}. Try a different subject or check back later.
             </p>
             <button
               onClick={() => router.push(`/pyqs/${branch}`)}
@@ -295,6 +391,8 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
       </main>
     );
   }
+
+  const progress = ((currentIndex + 1) / questions.length) * 100;
 
   return (
     <main className="min-h-screen bg-background">
@@ -323,7 +421,7 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
             {/* Mode toggle */}
             <div className="flex items-center gap-1 bg-foreground/5 rounded-lg p-0.5">
               <button
-                onClick={() => setMode("browse")}
+                onClick={() => { setMode("browse"); setAnswerRevealed(false); setSelectedAnswer(null); }}
                 className={`text-[11px] px-2.5 py-1 rounded-md transition-colors ${
                   mode === "browse" ? "bg-background text-foreground shadow-sm" : "text-muted hover:text-foreground"
                 }`}
@@ -331,7 +429,7 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
                 Browse
               </button>
               <button
-                onClick={() => setMode("quiz")}
+                onClick={() => { setMode("quiz"); setAnswerRevealed(false); setSelectedAnswer(null); }}
                 className={`text-[11px] px-2.5 py-1 rounded-md transition-colors ${
                   mode === "quiz" ? "bg-background text-foreground shadow-sm" : "text-muted hover:text-foreground"
                 }`}
@@ -342,6 +440,16 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
           </div>
         </div>
 
+        {/* Progress bar */}
+        <div className="h-0.5 bg-border">
+          <motion.div
+            className="h-full bg-accent"
+            initial={{ width: 0 }}
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 0.3 }}
+          />
+        </div>
+
         {/* Search bar */}
         {showSearch && (
           <div className="border-t border-border px-6 py-3">
@@ -349,21 +457,36 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              placeholder="Search in this subject…"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSearch();
+                if (e.key === "Escape") {
+                  setShowSearch(false);
+                  setSearchQuery("");
+                  setSearchResults([]);
+                }
+              }}
+              placeholder="Search in this subject… (Enter to search, Esc to close)"
               className="w-full max-w-md px-3 py-2 bg-secondary border border-border rounded-lg text-sm focus:outline-none focus:border-accent"
               autoFocus
             />
-            {searchResults.length > 0 && (
+            {searching && (
+              <p className="text-xs text-muted mt-2">Searching…</p>
+            )}
+            {!searching && searchResults.length === 0 && searchQuery.trim().length >= 2 && (
+              <p className="text-xs text-muted mt-2">No results found for &ldquo;{searchQuery}&rdquo;</p>
+            )}
+            {!searching && searchResults.length > 0 && (
               <div className="max-w-md mt-2 max-h-40 overflow-y-auto">
+                <p className="text-xs text-muted mb-1">{searchResults.length} result{searchResults.length !== 1 ? "s" : ""}</p>
                 {searchResults.map((q) => (
                   <button
                     key={q.id}
                     onClick={() => {
                       const idx = questions.findIndex((x) => x.id === q.id);
                       if (idx >= 0) goToQuestion(idx);
-                      setSearchResults([]);
+                      setShowSearch(false);
                       setSearchQuery("");
+                      setSearchResults([]);
                     }}
                     className="block w-full text-left px-3 py-2 text-xs hover:bg-secondary rounded mb-1"
                   >
@@ -399,6 +522,9 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
                 {!current.answerVerified && (
                   <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded">Unverified</span>
                 )}
+                {mode === "quiz" && !answerRevealed && selectedAnswer && (
+                  <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded animate-pulse">Answer selected</span>
+                )}
               </div>
 
               {/* Topic info */}
@@ -428,11 +554,15 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
                     const letter = String.fromCharCode(65 + idx);
                     const matchesAnswer = option === current.correctAnswer || letter === current.correctAnswer;
                     let stateClass = "border-border hover:border-muted-foreground/30";
-                    if (answerState !== "unanswered") {
+                    let iconEl = null;
+
+                    if (answerRevealed) {
                       if (matchesAnswer) {
                         stateClass = "border-green-500 bg-green-50 dark:bg-green-950/30";
+                        iconEl = <CheckCircle className="w-4 h-4 text-green-600 ml-2 flex-shrink-0" />;
                       } else if (letter === selectedAnswer && !matchesAnswer) {
                         stateClass = "border-red-500 bg-red-50 dark:bg-red-950/30";
+                        iconEl = <XCircle className="w-4 h-4 text-red-600 ml-2 flex-shrink-0" />;
                       }
                     } else if (selectedAnswer === letter) {
                       stateClass = "border-accent bg-accent/5";
@@ -442,42 +572,61 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
                       <button
                         key={idx}
                         onClick={() => handleSelectAnswer(letter)}
-                        disabled={answerState !== "unanswered"}
-                        className={`w-full text-left p-4 rounded-xl border-2 transition-all ${stateClass} ${
-                          answerState !== "unanswered" ? "cursor-default" : "cursor-pointer"
+                        disabled={answerRevealed || (mode === "quiz" && answerRevealed)}
+                        className={`w-full text-left p-4 rounded-xl border-2 transition-all flex items-start gap-2 ${
+                          stateClass} ${
+                          answerRevealed ? "cursor-default" : "cursor-pointer hover:shadow-sm"
                         }`}
                       >
-                        <span className="font-medium mr-3">{letter}.</span>
-                        <span>{option}</span>
+                        <span className="font-medium flex-shrink-0">{letter}.</span>
+                        <span className="flex-1">{option}</span>
+                        {iconEl}
                       </button>
                     );
                   })}
                 </div>
               )}
 
+              {/* Reveal button (quiz mode only) */}
+              {mode === "quiz" && selectedAnswer && !answerRevealed && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex justify-center"
+                >
+                  <button
+                    onClick={handleRevealAnswer}
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white text-sm font-medium rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-accent/20"
+                  >
+                    <Eye className="w-4 h-4" />
+                    Reveal Answer
+                  </button>
+                </motion.div>
+              )}
+
               {/* Answer feedback */}
-              {answerState !== "unanswered" && (
+              {answerRevealed && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className={`p-5 rounded-xl border ${
-                    answerState === "correct"
+                    answerIsCorrect
                       ? "bg-green-50 border-green-200 dark:bg-green-950/30 dark:border-green-800"
                       : "bg-red-50 border-red-200 dark:bg-red-950/30 dark:border-red-800"
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-3">
-                    {answerState === "correct" ? (
+                    {answerIsCorrect ? (
                       <CheckCircle className="w-5 h-5 text-green-600" />
                     ) : (
                       <XCircle className="w-5 h-5 text-red-600" />
                     )}
                     <span className="font-medium">
-                      {answerState === "correct" ? "Correct!" : `Incorrect — Correct Answer: ${current.correctAnswer}`}
+                      {answerIsCorrect ? "Correct!" : `Incorrect — Correct Answer: ${current.correctAnswer}`}
                     </span>
                   </div>
 
-                  {showExplanation && current.answerExplanation && (
+                  {current.answerExplanation && (
                     <div className="mt-3 pt-3 border-t border-black/5 dark:border-white/10">
                       <p className="text-xs font-medium text-muted uppercase tracking-wider mb-2">Explanation</p>
                       <p className="text-sm leading-relaxed">{current.answerExplanation}</p>
@@ -521,6 +670,7 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
                         ? "text-accent"
                         : "text-muted hover:text-foreground"
                     }`}
+                    title={bookmarkedIds.has(current.id) ? "Remove bookmark" : "Bookmark this question"}
                   >
                     <Bookmark className={`w-5 h-5 ${bookmarkedIds.has(current.id) ? "fill-current" : ""}`} />
                   </button>
@@ -538,7 +688,9 @@ export default function SubjectPracticeSession({ branch, subject, topic, year }:
 
               {/* Question counter */}
               <div className="text-center text-xs text-muted pt-4">
-                Showing {currentIndex + 1} of {questions.length} questions
+                Question {currentIndex + 1} of {questions.length} &nbsp;·&nbsp;
+                {Math.round(progress)}% complete &nbsp;·&nbsp;
+                Use ← → arrow keys to navigate
               </div>
             </motion.div>
           )}

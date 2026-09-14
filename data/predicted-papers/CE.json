@@ -2,11 +2,11 @@
   "branch": "CE",
   "papers": [
     {
-      "id": "CE-P1",
+      "id": "CE-M1",
       "branch": "CE",
-      "title": "GATE CE 2026 Predicted Paper 1",
+      "title": "GATE CE 2026 Trend-Based Mock Paper 1",
       "description": "Heavy Structural Engineering focus with Geotechnical and Water Resources combo. Realistic mix of design and analysis problems.",
-      "createdAt": "2026-09-14T11:43:29.196Z",
+      "createdAt": "2026-09-14T16:01:33.972Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -46,7 +46,7 @@
           "questions": 6
         },
         {
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "marks": 9,
           "questions": 6
         },
@@ -56,7 +56,7 @@
           "questions": 5
         },
         {
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "marks": 6,
           "questions": 5
         }
@@ -64,7 +64,7 @@
       "predictionRationale": "Structural Engineering dominates (~22 marks) with SFD/BMD, deflection, and RCC design questions. Geotechnical Engineering permeability and shear strength problems follow. Water Resources Engineering unit hydrograph and canal design questions test application skills. Complex problems combine structural analysis with design — matching 2024's trend.",
       "questions": [
         {
-          "id": "CE-P1-Q001",
+          "id": "CE-M1-Q001",
           "questionNumber": 1,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -84,7 +84,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q10"
         },
         {
-          "id": "CE-P1-Q002",
+          "id": "CE-M1-Q002",
           "questionNumber": 2,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -99,7 +99,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
         },
         {
-          "id": "CE-P1-Q003",
+          "id": "CE-M1-Q003",
           "questionNumber": 3,
           "subject": "Engineering Mathematics",
           "topic": "Differential Equations",
@@ -114,7 +114,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q1"
         },
         {
-          "id": "CE-P1-Q004",
+          "id": "CE-M1-Q004",
           "questionNumber": 4,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -134,7 +134,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P1-Q005",
+          "id": "CE-M1-Q005",
           "questionNumber": 5,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -154,7 +154,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P1-Q006",
+          "id": "CE-M1-Q006",
           "questionNumber": 6,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -174,7 +174,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P1-Q007",
+          "id": "CE-M1-Q007",
           "questionNumber": 7,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -194,7 +194,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P1-Q008",
+          "id": "CE-M1-Q008",
           "questionNumber": 8,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -214,7 +214,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P1-Q009",
+          "id": "CE-M1-Q009",
           "questionNumber": 9,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -234,7 +234,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P1-Q010",
+          "id": "CE-M1-Q010",
           "questionNumber": 10,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -254,7 +254,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P1-Q011",
+          "id": "CE-M1-Q011",
           "questionNumber": 11,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -274,7 +274,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P1-Q012",
+          "id": "CE-M1-Q012",
           "questionNumber": 12,
           "subject": "Water Resources Engineering",
           "topic": "Flood",
@@ -294,7 +294,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q8"
         },
         {
-          "id": "CE-P1-Q013",
+          "id": "CE-M1-Q013",
           "questionNumber": 13,
           "subject": "Environmental Engineering",
           "topic": "Sewage",
@@ -309,7 +309,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q6"
         },
         {
-          "id": "CE-P1-Q014",
+          "id": "CE-M1-Q014",
           "questionNumber": 14,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -329,7 +329,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P1-Q015",
+          "id": "CE-M1-Q015",
           "questionNumber": 15,
           "subject": "Transportation Engineering",
           "topic": "Traffic",
@@ -349,7 +349,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q7"
         },
         {
-          "id": "CE-P1-Q016",
+          "id": "CE-M1-Q016",
           "questionNumber": 16,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -369,9 +369,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P1-Q017",
+          "id": "CE-M1-Q017",
           "questionNumber": 17,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "1NAT",
           "marks": 1,
@@ -384,9 +384,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P1-Q018",
+          "id": "CE-M1-Q018",
           "questionNumber": 18,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "1NAT",
           "marks": 1,
@@ -399,9 +399,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P1-Q019",
+          "id": "CE-M1-Q019",
           "questionNumber": 19,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "1MCQ",
           "marks": 1,
@@ -419,9 +419,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P1-Q020",
+          "id": "CE-M1-Q020",
           "questionNumber": 20,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Cement",
           "questionType": "1MCQ",
           "marks": 1,
@@ -439,7 +439,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q4"
         },
         {
-          "id": "CE-P1-Q021",
+          "id": "CE-M1-Q021",
           "questionNumber": 21,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -454,9 +454,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P1-Q022",
+          "id": "CE-M1-Q022",
           "questionNumber": 22,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "1NAT",
           "marks": 1,
@@ -469,9 +469,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P1-Q023",
+          "id": "CE-M1-Q023",
           "questionNumber": 23,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Cement",
           "questionType": "1MCQ",
           "marks": 1,
@@ -489,7 +489,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q4"
         },
         {
-          "id": "CE-P1-Q024",
+          "id": "CE-M1-Q024",
           "questionNumber": 24,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -509,9 +509,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P1-Q025",
+          "id": "CE-M1-Q025",
           "questionNumber": 25,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "1MCQ",
           "marks": 1,
@@ -529,7 +529,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P1-Q026",
+          "id": "CE-M1-Q026",
           "questionNumber": 26,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -544,7 +544,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P1-Q027",
+          "id": "CE-M1-Q027",
           "questionNumber": 27,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -564,7 +564,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P1-Q028",
+          "id": "CE-M1-Q028",
           "questionNumber": 28,
           "subject": "Engineering Mathematics",
           "topic": "Differential Equations",
@@ -579,7 +579,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q1"
         },
         {
-          "id": "CE-P1-Q029",
+          "id": "CE-M1-Q029",
           "questionNumber": 29,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -594,7 +594,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P1-Q030",
+          "id": "CE-M1-Q030",
           "questionNumber": 30,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -614,9 +614,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P1-Q031",
+          "id": "CE-M1-Q031",
           "questionNumber": 31,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "2MCQ",
           "marks": 2,
@@ -634,9 +634,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P1-Q032",
+          "id": "CE-M1-Q032",
           "questionNumber": 32,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "2NAT",
           "marks": 2,
@@ -649,7 +649,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P1-Q033",
+          "id": "CE-M1-Q033",
           "questionNumber": 33,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -669,7 +669,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P1-Q034",
+          "id": "CE-M1-Q034",
           "questionNumber": 34,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -689,7 +689,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P1-Q035",
+          "id": "CE-M1-Q035",
           "questionNumber": 35,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -709,7 +709,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P1-Q036",
+          "id": "CE-M1-Q036",
           "questionNumber": 36,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -729,7 +729,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q10"
         },
         {
-          "id": "CE-P1-Q037",
+          "id": "CE-M1-Q037",
           "questionNumber": 37,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -749,9 +749,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P1-Q038",
+          "id": "CE-M1-Q038",
           "questionNumber": 38,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "2MSQ",
           "marks": 2,
@@ -769,7 +769,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P1-Q039",
+          "id": "CE-M1-Q039",
           "questionNumber": 39,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -789,7 +789,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P1-Q040",
+          "id": "CE-M1-Q040",
           "questionNumber": 40,
           "subject": "Engineering Mathematics",
           "topic": "Differential Equations",
@@ -809,7 +809,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q1"
         },
         {
-          "id": "CE-P1-Q041",
+          "id": "CE-M1-Q041",
           "questionNumber": 41,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -829,7 +829,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
         },
         {
-          "id": "CE-P1-Q042",
+          "id": "CE-M1-Q042",
           "questionNumber": 42,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -849,7 +849,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P1-Q043",
+          "id": "CE-M1-Q043",
           "questionNumber": 43,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -869,7 +869,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P1-Q044",
+          "id": "CE-M1-Q044",
           "questionNumber": 44,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -889,7 +889,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q10"
         },
         {
-          "id": "CE-P1-Q045",
+          "id": "CE-M1-Q045",
           "questionNumber": 45,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -904,7 +904,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P1-Q046",
+          "id": "CE-M1-Q046",
           "questionNumber": 46,
           "subject": "Engineering Mathematics",
           "topic": "Differential Equations",
@@ -924,7 +924,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q1"
         },
         {
-          "id": "CE-P1-Q047",
+          "id": "CE-M1-Q047",
           "questionNumber": 47,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -944,7 +944,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P1-Q048",
+          "id": "CE-M1-Q048",
           "questionNumber": 48,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -964,7 +964,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P1-Q049",
+          "id": "CE-M1-Q049",
           "questionNumber": 49,
           "subject": "Engineering Mathematics",
           "topic": "Differential Equations",
@@ -984,7 +984,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q1"
         },
         {
-          "id": "CE-P1-Q050",
+          "id": "CE-M1-Q050",
           "questionNumber": 50,
           "subject": "Water Resources Engineering",
           "topic": "Flood",
@@ -1004,7 +1004,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q8"
         },
         {
-          "id": "CE-P1-Q051",
+          "id": "CE-M1-Q051",
           "questionNumber": 51,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -1024,7 +1024,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P1-Q052",
+          "id": "CE-M1-Q052",
           "questionNumber": 52,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -1039,7 +1039,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P1-Q053",
+          "id": "CE-M1-Q053",
           "questionNumber": 53,
           "subject": "Water Resources Engineering",
           "topic": "Flood",
@@ -1059,7 +1059,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q8"
         },
         {
-          "id": "CE-P1-Q054",
+          "id": "CE-M1-Q054",
           "questionNumber": 54,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -1074,7 +1074,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P1-Q055",
+          "id": "CE-M1-Q055",
           "questionNumber": 55,
           "subject": "Transportation Engineering",
           "topic": "Traffic",
@@ -1094,7 +1094,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q7"
         },
         {
-          "id": "CE-P1-Q056",
+          "id": "CE-M1-Q056",
           "questionNumber": 56,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -1114,7 +1114,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
         },
         {
-          "id": "CE-P1-Q057",
+          "id": "CE-M1-Q057",
           "questionNumber": 57,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -1129,7 +1129,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P1-Q058",
+          "id": "CE-M1-Q058",
           "questionNumber": 58,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -1144,7 +1144,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P1-Q059",
+          "id": "CE-M1-Q059",
           "questionNumber": 59,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -1164,7 +1164,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P1-Q060",
+          "id": "CE-M1-Q060",
           "questionNumber": 60,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -1184,7 +1184,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P1-Q061",
+          "id": "CE-M1-Q061",
           "questionNumber": 61,
           "subject": "Environmental Engineering",
           "topic": "Sewage",
@@ -1204,7 +1204,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q6"
         },
         {
-          "id": "CE-P1-Q062",
+          "id": "CE-M1-Q062",
           "questionNumber": 62,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -1224,7 +1224,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P1-Q063",
+          "id": "CE-M1-Q063",
           "questionNumber": 63,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -1244,9 +1244,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P1-Q064",
+          "id": "CE-M1-Q064",
           "questionNumber": 64,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2MCQ",
           "marks": 2,
@@ -1264,7 +1264,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P1-Q065",
+          "id": "CE-M1-Q065",
           "questionNumber": 65,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -1286,11 +1286,11 @@
       ]
     },
     {
-      "id": "CE-P2",
+      "id": "CE-M2",
       "branch": "CE",
-      "title": "GATE CE 2026 Predicted Paper 2",
+      "title": "GATE CE 2026 Trend-Based Mock Paper 2",
       "description": "Environmental + Transportation emphasis with core Structural coverage. Scoring topics prioritized for quick marks.",
-      "createdAt": "2026-09-14T11:43:29.196Z",
+      "createdAt": "2026-09-14T16:01:33.972Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -1315,7 +1315,7 @@
           "questions": 8
         },
         {
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "marks": 11,
           "questions": 8
         },
@@ -1325,7 +1325,7 @@
           "questions": 6
         },
         {
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "marks": 10,
           "questions": 7
         },
@@ -1348,7 +1348,7 @@
       "predictionRationale": "Environmental Engineering water treatment and wastewater questions are emphasized based on rising weightage. Transportation highway geometric design and pavement problems follow. Core Structural questions ensure baseline coverage. Surveying and Construction Management provide easy scoring opportunities.",
       "questions": [
         {
-          "id": "CE-P2-Q001",
+          "id": "CE-M2-Q001",
           "questionNumber": 1,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -1363,7 +1363,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q10"
         },
         {
-          "id": "CE-P2-Q002",
+          "id": "CE-M2-Q002",
           "questionNumber": 2,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -1383,7 +1383,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
         },
         {
-          "id": "CE-P2-Q003",
+          "id": "CE-M2-Q003",
           "questionNumber": 3,
           "subject": "Engineering Mathematics",
           "topic": "Differential Equations",
@@ -1403,7 +1403,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q1"
         },
         {
-          "id": "CE-P2-Q004",
+          "id": "CE-M2-Q004",
           "questionNumber": 4,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -1418,7 +1418,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P2-Q005",
+          "id": "CE-M2-Q005",
           "questionNumber": 5,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -1438,7 +1438,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P2-Q006",
+          "id": "CE-M2-Q006",
           "questionNumber": 6,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -1458,7 +1458,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P2-Q007",
+          "id": "CE-M2-Q007",
           "questionNumber": 7,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -1478,7 +1478,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P2-Q008",
+          "id": "CE-M2-Q008",
           "questionNumber": 8,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -1498,7 +1498,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P2-Q009",
+          "id": "CE-M2-Q009",
           "questionNumber": 9,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -1518,7 +1518,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P2-Q010",
+          "id": "CE-M2-Q010",
           "questionNumber": 10,
           "subject": "Water Resources Engineering",
           "topic": "Flood",
@@ -1533,7 +1533,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q8"
         },
         {
-          "id": "CE-P2-Q011",
+          "id": "CE-M2-Q011",
           "questionNumber": 11,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -1553,7 +1553,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P2-Q012",
+          "id": "CE-M2-Q012",
           "questionNumber": 12,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -1573,7 +1573,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P2-Q013",
+          "id": "CE-M2-Q013",
           "questionNumber": 13,
           "subject": "Environmental Engineering",
           "topic": "Sewage",
@@ -1593,7 +1593,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q6"
         },
         {
-          "id": "CE-P2-Q014",
+          "id": "CE-M2-Q014",
           "questionNumber": 14,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -1608,7 +1608,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P2-Q015",
+          "id": "CE-M2-Q015",
           "questionNumber": 15,
           "subject": "Transportation Engineering",
           "topic": "Traffic",
@@ -1628,7 +1628,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q7"
         },
         {
-          "id": "CE-P2-Q016",
+          "id": "CE-M2-Q016",
           "questionNumber": 16,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -1643,9 +1643,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P2-Q017",
+          "id": "CE-M2-Q017",
           "questionNumber": 17,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "1NAT",
           "marks": 1,
@@ -1658,9 +1658,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P2-Q018",
+          "id": "CE-M2-Q018",
           "questionNumber": 18,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "1NAT",
           "marks": 1,
@@ -1673,9 +1673,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P2-Q019",
+          "id": "CE-M2-Q019",
           "questionNumber": 19,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "1NAT",
           "marks": 1,
@@ -1688,9 +1688,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P2-Q020",
+          "id": "CE-M2-Q020",
           "questionNumber": 20,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Cement",
           "questionType": "1NAT",
           "marks": 1,
@@ -1703,9 +1703,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q4"
         },
         {
-          "id": "CE-P2-Q021",
+          "id": "CE-M2-Q021",
           "questionNumber": 21,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "1MCQ",
           "marks": 1,
@@ -1723,9 +1723,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P2-Q022",
+          "id": "CE-M2-Q022",
           "questionNumber": 22,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "1NAT",
           "marks": 1,
@@ -1738,7 +1738,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P2-Q023",
+          "id": "CE-M2-Q023",
           "questionNumber": 23,
           "subject": "Water Resources Engineering",
           "topic": "Flood",
@@ -1758,7 +1758,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q8"
         },
         {
-          "id": "CE-P2-Q024",
+          "id": "CE-M2-Q024",
           "questionNumber": 24,
           "subject": "Environmental Engineering",
           "topic": "Sewage",
@@ -1778,9 +1778,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q6"
         },
         {
-          "id": "CE-P2-Q025",
+          "id": "CE-M2-Q025",
           "questionNumber": 25,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "1MCQ",
           "marks": 1,
@@ -1798,7 +1798,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P2-Q026",
+          "id": "CE-M2-Q026",
           "questionNumber": 26,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -1813,7 +1813,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P2-Q027",
+          "id": "CE-M2-Q027",
           "questionNumber": 27,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -1833,9 +1833,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P2-Q028",
+          "id": "CE-M2-Q028",
           "questionNumber": 28,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "1NAT",
           "marks": 1,
@@ -1848,7 +1848,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P2-Q029",
+          "id": "CE-M2-Q029",
           "questionNumber": 29,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -1868,9 +1868,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P2-Q030",
+          "id": "CE-M2-Q030",
           "questionNumber": 30,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "1MCQ",
           "marks": 1,
@@ -1888,7 +1888,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P2-Q031",
+          "id": "CE-M2-Q031",
           "questionNumber": 31,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -1908,9 +1908,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P2-Q032",
+          "id": "CE-M2-Q032",
           "questionNumber": 32,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "2MCQ",
           "marks": 2,
@@ -1928,7 +1928,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P2-Q033",
+          "id": "CE-M2-Q033",
           "questionNumber": 33,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -1943,9 +1943,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P2-Q034",
+          "id": "CE-M2-Q034",
           "questionNumber": 34,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2NAT",
           "marks": 2,
@@ -1958,7 +1958,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P2-Q035",
+          "id": "CE-M2-Q035",
           "questionNumber": 35,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -1978,7 +1978,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P2-Q036",
+          "id": "CE-M2-Q036",
           "questionNumber": 36,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -1998,7 +1998,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P2-Q037",
+          "id": "CE-M2-Q037",
           "questionNumber": 37,
           "subject": "Engineering Mathematics",
           "topic": "Differential Equations",
@@ -2013,7 +2013,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q1"
         },
         {
-          "id": "CE-P2-Q038",
+          "id": "CE-M2-Q038",
           "questionNumber": 38,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -2028,7 +2028,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P2-Q039",
+          "id": "CE-M2-Q039",
           "questionNumber": 39,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -2043,7 +2043,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P2-Q040",
+          "id": "CE-M2-Q040",
           "questionNumber": 40,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -2063,7 +2063,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P2-Q041",
+          "id": "CE-M2-Q041",
           "questionNumber": 41,
           "subject": "Transportation Engineering",
           "topic": "Traffic",
@@ -2083,9 +2083,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q7"
         },
         {
-          "id": "CE-P2-Q042",
+          "id": "CE-M2-Q042",
           "questionNumber": 42,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "2MCQ",
           "marks": 2,
@@ -2103,9 +2103,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P2-Q043",
+          "id": "CE-M2-Q043",
           "questionNumber": 43,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2MSQ",
           "marks": 2,
@@ -2123,7 +2123,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P2-Q044",
+          "id": "CE-M2-Q044",
           "questionNumber": 44,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -2143,7 +2143,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P2-Q045",
+          "id": "CE-M2-Q045",
           "questionNumber": 45,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -2163,7 +2163,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P2-Q046",
+          "id": "CE-M2-Q046",
           "questionNumber": 46,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -2183,7 +2183,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
         },
         {
-          "id": "CE-P2-Q047",
+          "id": "CE-M2-Q047",
           "questionNumber": 47,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -2203,9 +2203,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P2-Q048",
+          "id": "CE-M2-Q048",
           "questionNumber": 48,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "2NAT",
           "marks": 2,
@@ -2218,7 +2218,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P2-Q049",
+          "id": "CE-M2-Q049",
           "questionNumber": 49,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -2238,7 +2238,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P2-Q050",
+          "id": "CE-M2-Q050",
           "questionNumber": 50,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -2258,7 +2258,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P2-Q051",
+          "id": "CE-M2-Q051",
           "questionNumber": 51,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -2273,7 +2273,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P2-Q052",
+          "id": "CE-M2-Q052",
           "questionNumber": 52,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -2288,7 +2288,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P2-Q053",
+          "id": "CE-M2-Q053",
           "questionNumber": 53,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -2303,7 +2303,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P2-Q054",
+          "id": "CE-M2-Q054",
           "questionNumber": 54,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -2318,7 +2318,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
         },
         {
-          "id": "CE-P2-Q055",
+          "id": "CE-M2-Q055",
           "questionNumber": 55,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -2333,7 +2333,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P2-Q056",
+          "id": "CE-M2-Q056",
           "questionNumber": 56,
           "subject": "Environmental Engineering",
           "topic": "Sewage",
@@ -2353,7 +2353,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q6"
         },
         {
-          "id": "CE-P2-Q057",
+          "id": "CE-M2-Q057",
           "questionNumber": 57,
           "subject": "Environmental Engineering",
           "topic": "Sewage",
@@ -2368,7 +2368,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q6"
         },
         {
-          "id": "CE-P2-Q058",
+          "id": "CE-M2-Q058",
           "questionNumber": 58,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -2388,7 +2388,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P2-Q059",
+          "id": "CE-M2-Q059",
           "questionNumber": 59,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -2408,7 +2408,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P2-Q060",
+          "id": "CE-M2-Q060",
           "questionNumber": 60,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -2428,7 +2428,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P2-Q061",
+          "id": "CE-M2-Q061",
           "questionNumber": 61,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -2443,7 +2443,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P2-Q062",
+          "id": "CE-M2-Q062",
           "questionNumber": 62,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -2463,7 +2463,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P2-Q063",
+          "id": "CE-M2-Q063",
           "questionNumber": 63,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -2478,7 +2478,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
         },
         {
-          "id": "CE-P2-Q064",
+          "id": "CE-M2-Q064",
           "questionNumber": 64,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -2498,9 +2498,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P2-Q065",
+          "id": "CE-M2-Q065",
           "questionNumber": 65,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2MCQ",
           "marks": 2,
@@ -2520,11 +2520,11 @@
       ]
     },
     {
-      "id": "CE-P3",
+      "id": "CE-M3",
       "branch": "CE",
-      "title": "GATE CE 2026 Predicted Paper 3",
+      "title": "GATE CE 2026 Trend-Based Mock Paper 3",
       "description": "Balanced across all major CE subjects. Includes recent trend questions from Hydrology and Surveying.",
-      "createdAt": "2026-09-14T11:43:29.197Z",
+      "createdAt": "2026-09-14T16:01:33.972Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -2544,7 +2544,7 @@
           "questions": 9
         },
         {
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "marks": 15,
           "questions": 10
         },
@@ -2554,7 +2554,7 @@
           "questions": 9
         },
         {
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "marks": 14,
           "questions": 8
         },
@@ -2582,7 +2582,7 @@
       "predictionRationale": "Balanced paper covering all major CE subjects proportionally. Structural analysis indeterminate structures (moment distribution) challenge analytical skills. Geotechnical consolidation and earth pressure problems test depth. Hydrology flood routing appears in the NAT section.",
       "questions": [
         {
-          "id": "CE-P3-Q001",
+          "id": "CE-M3-Q001",
           "questionNumber": 1,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -2602,7 +2602,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q10"
         },
         {
-          "id": "CE-P3-Q002",
+          "id": "CE-M3-Q002",
           "questionNumber": 2,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -2617,7 +2617,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
         },
         {
-          "id": "CE-P3-Q003",
+          "id": "CE-M3-Q003",
           "questionNumber": 3,
           "subject": "Engineering Mathematics",
           "topic": "Differential Equations",
@@ -2632,7 +2632,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q1"
         },
         {
-          "id": "CE-P3-Q004",
+          "id": "CE-M3-Q004",
           "questionNumber": 4,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -2652,7 +2652,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P3-Q005",
+          "id": "CE-M3-Q005",
           "questionNumber": 5,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -2672,7 +2672,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P3-Q006",
+          "id": "CE-M3-Q006",
           "questionNumber": 6,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -2692,7 +2692,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P3-Q007",
+          "id": "CE-M3-Q007",
           "questionNumber": 7,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -2707,7 +2707,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P3-Q008",
+          "id": "CE-M3-Q008",
           "questionNumber": 8,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -2727,7 +2727,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P3-Q009",
+          "id": "CE-M3-Q009",
           "questionNumber": 9,
           "subject": "Water Resources Engineering",
           "topic": "Flood",
@@ -2747,7 +2747,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q8"
         },
         {
-          "id": "CE-P3-Q010",
+          "id": "CE-M3-Q010",
           "questionNumber": 10,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -2767,7 +2767,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P3-Q011",
+          "id": "CE-M3-Q011",
           "questionNumber": 11,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -2787,7 +2787,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P3-Q012",
+          "id": "CE-M3-Q012",
           "questionNumber": 12,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -2807,7 +2807,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P3-Q013",
+          "id": "CE-M3-Q013",
           "questionNumber": 13,
           "subject": "Environmental Engineering",
           "topic": "Sewage",
@@ -2827,7 +2827,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q6"
         },
         {
-          "id": "CE-P3-Q014",
+          "id": "CE-M3-Q014",
           "questionNumber": 14,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -2847,7 +2847,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P3-Q015",
+          "id": "CE-M3-Q015",
           "questionNumber": 15,
           "subject": "Transportation Engineering",
           "topic": "Traffic",
@@ -2867,7 +2867,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q7"
         },
         {
-          "id": "CE-P3-Q016",
+          "id": "CE-M3-Q016",
           "questionNumber": 16,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -2887,9 +2887,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P3-Q017",
+          "id": "CE-M3-Q017",
           "questionNumber": 17,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "1MCQ",
           "marks": 1,
@@ -2907,9 +2907,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P3-Q018",
+          "id": "CE-M3-Q018",
           "questionNumber": 18,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "1MCQ",
           "marks": 1,
@@ -2927,9 +2927,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P3-Q019",
+          "id": "CE-M3-Q019",
           "questionNumber": 19,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Cement",
           "questionType": "1MCQ",
           "marks": 1,
@@ -2947,9 +2947,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q4"
         },
         {
-          "id": "CE-P3-Q020",
+          "id": "CE-M3-Q020",
           "questionNumber": 20,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "1NAT",
           "marks": 1,
@@ -2962,7 +2962,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P3-Q021",
+          "id": "CE-M3-Q021",
           "questionNumber": 21,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -2982,7 +2982,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q10"
         },
         {
-          "id": "CE-P3-Q022",
+          "id": "CE-M3-Q022",
           "questionNumber": 22,
           "subject": "Environmental Engineering",
           "topic": "Sewage",
@@ -3002,7 +3002,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q6"
         },
         {
-          "id": "CE-P3-Q023",
+          "id": "CE-M3-Q023",
           "questionNumber": 23,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -3017,9 +3017,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P3-Q024",
+          "id": "CE-M3-Q024",
           "questionNumber": 24,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "1MCQ",
           "marks": 1,
@@ -3037,7 +3037,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P3-Q025",
+          "id": "CE-M3-Q025",
           "questionNumber": 25,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -3057,9 +3057,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P3-Q026",
+          "id": "CE-M3-Q026",
           "questionNumber": 26,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "1NAT",
           "marks": 1,
@@ -3072,9 +3072,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P3-Q027",
+          "id": "CE-M3-Q027",
           "questionNumber": 27,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "1MCQ",
           "marks": 1,
@@ -3092,7 +3092,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P3-Q028",
+          "id": "CE-M3-Q028",
           "questionNumber": 28,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -3107,7 +3107,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P3-Q029",
+          "id": "CE-M3-Q029",
           "questionNumber": 29,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -3127,7 +3127,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P3-Q030",
+          "id": "CE-M3-Q030",
           "questionNumber": 30,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -3147,9 +3147,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P3-Q031",
+          "id": "CE-M3-Q031",
           "questionNumber": 31,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Cement",
           "questionType": "2MCQ",
           "marks": 2,
@@ -3167,7 +3167,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q4"
         },
         {
-          "id": "CE-P3-Q032",
+          "id": "CE-M3-Q032",
           "questionNumber": 32,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -3182,9 +3182,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P3-Q033",
+          "id": "CE-M3-Q033",
           "questionNumber": 33,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "2MCQ",
           "marks": 2,
@@ -3202,7 +3202,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P3-Q034",
+          "id": "CE-M3-Q034",
           "questionNumber": 34,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -3217,7 +3217,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P3-Q035",
+          "id": "CE-M3-Q035",
           "questionNumber": 35,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -3237,7 +3237,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P3-Q036",
+          "id": "CE-M3-Q036",
           "questionNumber": 36,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -3252,7 +3252,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P3-Q037",
+          "id": "CE-M3-Q037",
           "questionNumber": 37,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -3267,7 +3267,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P3-Q038",
+          "id": "CE-M3-Q038",
           "questionNumber": 38,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -3282,7 +3282,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P3-Q039",
+          "id": "CE-M3-Q039",
           "questionNumber": 39,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -3302,7 +3302,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P3-Q040",
+          "id": "CE-M3-Q040",
           "questionNumber": 40,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -3317,7 +3317,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P3-Q041",
+          "id": "CE-M3-Q041",
           "questionNumber": 41,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -3337,7 +3337,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P3-Q042",
+          "id": "CE-M3-Q042",
           "questionNumber": 42,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -3357,9 +3357,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P3-Q043",
+          "id": "CE-M3-Q043",
           "questionNumber": 43,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2NAT",
           "marks": 2,
@@ -3372,7 +3372,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P3-Q044",
+          "id": "CE-M3-Q044",
           "questionNumber": 44,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -3392,9 +3392,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P3-Q045",
+          "id": "CE-M3-Q045",
           "questionNumber": 45,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2MCQ",
           "marks": 2,
@@ -3412,7 +3412,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P3-Q046",
+          "id": "CE-M3-Q046",
           "questionNumber": 46,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -3432,7 +3432,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P3-Q047",
+          "id": "CE-M3-Q047",
           "questionNumber": 47,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -3447,7 +3447,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P3-Q048",
+          "id": "CE-M3-Q048",
           "questionNumber": 48,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -3467,9 +3467,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P3-Q049",
+          "id": "CE-M3-Q049",
           "questionNumber": 49,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "2NAT",
           "marks": 2,
@@ -3482,7 +3482,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P3-Q050",
+          "id": "CE-M3-Q050",
           "questionNumber": 50,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -3502,7 +3502,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q10"
         },
         {
-          "id": "CE-P3-Q051",
+          "id": "CE-M3-Q051",
           "questionNumber": 51,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -3522,7 +3522,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P3-Q052",
+          "id": "CE-M3-Q052",
           "questionNumber": 52,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -3542,7 +3542,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
         },
         {
-          "id": "CE-P3-Q053",
+          "id": "CE-M3-Q053",
           "questionNumber": 53,
           "subject": "Engineering Mathematics",
           "topic": "Differential Equations",
@@ -3557,9 +3557,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q1"
         },
         {
-          "id": "CE-P3-Q054",
+          "id": "CE-M3-Q054",
           "questionNumber": 54,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2MCQ",
           "marks": 2,
@@ -3577,9 +3577,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P3-Q055",
+          "id": "CE-M3-Q055",
           "questionNumber": 55,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "2MSQ",
           "marks": 2,
@@ -3597,7 +3597,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P3-Q056",
+          "id": "CE-M3-Q056",
           "questionNumber": 56,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -3612,7 +3612,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P3-Q057",
+          "id": "CE-M3-Q057",
           "questionNumber": 57,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -3632,9 +3632,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P3-Q058",
+          "id": "CE-M3-Q058",
           "questionNumber": 58,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2MCQ",
           "marks": 2,
@@ -3652,9 +3652,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P3-Q059",
+          "id": "CE-M3-Q059",
           "questionNumber": 59,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "2MCQ",
           "marks": 2,
@@ -3672,7 +3672,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P3-Q060",
+          "id": "CE-M3-Q060",
           "questionNumber": 60,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -3692,9 +3692,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P3-Q061",
+          "id": "CE-M3-Q061",
           "questionNumber": 61,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2MCQ",
           "marks": 2,
@@ -3712,7 +3712,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P3-Q062",
+          "id": "CE-M3-Q062",
           "questionNumber": 62,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -3732,9 +3732,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q10"
         },
         {
-          "id": "CE-P3-Q063",
+          "id": "CE-M3-Q063",
           "questionNumber": 63,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "2MCQ",
           "marks": 2,
@@ -3752,7 +3752,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P3-Q064",
+          "id": "CE-M3-Q064",
           "questionNumber": 64,
           "subject": "Engineering Mathematics",
           "topic": "Differential Equations",
@@ -3772,7 +3772,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q1"
         },
         {
-          "id": "CE-P3-Q065",
+          "id": "CE-M3-Q065",
           "questionNumber": 65,
           "subject": "Transportation Engineering",
           "topic": "Traffic",
@@ -3789,11 +3789,11 @@
       ]
     },
     {
-      "id": "CE-P4",
+      "id": "CE-M4",
       "branch": "CE",
-      "title": "GATE CE 2026 Predicted Paper 4",
-      "description": "Structural + Geotechnical intensive. Challenging RCC and Foundation problems. Realistic complex problems.",
-      "createdAt": "2026-09-14T11:43:29.197Z",
+      "title": "GATE CE 2026 Trend-Based Mock Paper 4",
+      "description": "Full-syllabus mock paper. Covers all major CE subjects in GATE proportions. Mix of formula-based and conceptual questions for complete exam simulation.",
+      "createdAt": "2026-09-14T16:01:33.972Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -3818,7 +3818,7 @@
           "questions": 8
         },
         {
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "marks": 12,
           "questions": 7
         },
@@ -3828,7 +3828,7 @@
           "questions": 6
         },
         {
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "marks": 9,
           "questions": 6
         },
@@ -3851,7 +3851,7 @@
       "predictionRationale": "Structural + Geotechnical intensive. RCC beam design, steel design, and soil bearing capacity form the complex challenge questions. Fluid mechanics open channel flow and boundary layer provide scoring opportunities. Transportation traffic engineering problems test applied knowledge.",
       "questions": [
         {
-          "id": "CE-P4-Q001",
+          "id": "CE-M4-Q001",
           "questionNumber": 1,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -3871,7 +3871,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q10"
         },
         {
-          "id": "CE-P4-Q002",
+          "id": "CE-M4-Q002",
           "questionNumber": 2,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -3891,7 +3891,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
         },
         {
-          "id": "CE-P4-Q003",
+          "id": "CE-M4-Q003",
           "questionNumber": 3,
           "subject": "Engineering Mathematics",
           "topic": "Differential Equations",
@@ -3911,7 +3911,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q1"
         },
         {
-          "id": "CE-P4-Q004",
+          "id": "CE-M4-Q004",
           "questionNumber": 4,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -3931,7 +3931,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P4-Q005",
+          "id": "CE-M4-Q005",
           "questionNumber": 5,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -3951,7 +3951,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P4-Q006",
+          "id": "CE-M4-Q006",
           "questionNumber": 6,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -3971,7 +3971,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P4-Q007",
+          "id": "CE-M4-Q007",
           "questionNumber": 7,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -3991,7 +3991,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P4-Q008",
+          "id": "CE-M4-Q008",
           "questionNumber": 8,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -4006,7 +4006,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P4-Q009",
+          "id": "CE-M4-Q009",
           "questionNumber": 9,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -4021,7 +4021,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P4-Q010",
+          "id": "CE-M4-Q010",
           "questionNumber": 10,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -4041,7 +4041,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P4-Q011",
+          "id": "CE-M4-Q011",
           "questionNumber": 11,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -4061,7 +4061,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P4-Q012",
+          "id": "CE-M4-Q012",
           "questionNumber": 12,
           "subject": "Water Resources Engineering",
           "topic": "Flood",
@@ -4076,7 +4076,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q8"
         },
         {
-          "id": "CE-P4-Q013",
+          "id": "CE-M4-Q013",
           "questionNumber": 13,
           "subject": "Environmental Engineering",
           "topic": "Sewage",
@@ -4096,7 +4096,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q6"
         },
         {
-          "id": "CE-P4-Q014",
+          "id": "CE-M4-Q014",
           "questionNumber": 14,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -4116,7 +4116,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P4-Q015",
+          "id": "CE-M4-Q015",
           "questionNumber": 15,
           "subject": "Transportation Engineering",
           "topic": "Traffic",
@@ -4136,7 +4136,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q7"
         },
         {
-          "id": "CE-P4-Q016",
+          "id": "CE-M4-Q016",
           "questionNumber": 16,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -4151,9 +4151,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P4-Q017",
+          "id": "CE-M4-Q017",
           "questionNumber": 17,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "1MCQ",
           "marks": 1,
@@ -4171,9 +4171,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P4-Q018",
+          "id": "CE-M4-Q018",
           "questionNumber": 18,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "1MCQ",
           "marks": 1,
@@ -4191,9 +4191,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P4-Q019",
+          "id": "CE-M4-Q019",
           "questionNumber": 19,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Cement",
           "questionType": "1MCQ",
           "marks": 1,
@@ -4211,9 +4211,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q4"
         },
         {
-          "id": "CE-P4-Q020",
+          "id": "CE-M4-Q020",
           "questionNumber": 20,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "1NAT",
           "marks": 1,
@@ -4226,7 +4226,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P4-Q021",
+          "id": "CE-M4-Q021",
           "questionNumber": 21,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -4246,7 +4246,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P4-Q022",
+          "id": "CE-M4-Q022",
           "questionNumber": 22,
           "subject": "Water Resources Engineering",
           "topic": "Flood",
@@ -4266,7 +4266,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q8"
         },
         {
-          "id": "CE-P4-Q023",
+          "id": "CE-M4-Q023",
           "questionNumber": 23,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -4286,9 +4286,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P4-Q024",
+          "id": "CE-M4-Q024",
           "questionNumber": 24,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "1MCQ",
           "marks": 1,
@@ -4306,7 +4306,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P4-Q025",
+          "id": "CE-M4-Q025",
           "questionNumber": 25,
           "subject": "General Aptitude",
           "topic": "Quantitative",
@@ -4321,7 +4321,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q10"
         },
         {
-          "id": "CE-P4-Q026",
+          "id": "CE-M4-Q026",
           "questionNumber": 26,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -4341,7 +4341,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P4-Q027",
+          "id": "CE-M4-Q027",
           "questionNumber": 27,
           "subject": "Transportation Engineering",
           "topic": "Highways",
@@ -4361,7 +4361,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q7"
         },
         {
-          "id": "CE-P4-Q028",
+          "id": "CE-M4-Q028",
           "questionNumber": 28,
           "subject": "Environmental Engineering",
           "topic": "Sewage",
@@ -4381,7 +4381,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q6"
         },
         {
-          "id": "CE-P4-Q029",
+          "id": "CE-M4-Q029",
           "questionNumber": 29,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -4396,7 +4396,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P4-Q030",
+          "id": "CE-M4-Q030",
           "questionNumber": 30,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -4416,7 +4416,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P4-Q031",
+          "id": "CE-M4-Q031",
           "questionNumber": 31,
           "subject": "Water Resources Engineering",
           "topic": "Flood",
@@ -4431,7 +4431,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q8"
         },
         {
-          "id": "CE-P4-Q032",
+          "id": "CE-M4-Q032",
           "questionNumber": 32,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -4451,7 +4451,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P4-Q033",
+          "id": "CE-M4-Q033",
           "questionNumber": 33,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -4471,9 +4471,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P4-Q034",
+          "id": "CE-M4-Q034",
           "questionNumber": 34,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2MSQ",
           "marks": 2,
@@ -4491,7 +4491,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P4-Q035",
+          "id": "CE-M4-Q035",
           "questionNumber": 35,
           "subject": "Structural Engineering",
           "topic": "Deflection",
@@ -4511,7 +4511,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q9"
         },
         {
-          "id": "CE-P4-Q036",
+          "id": "CE-M4-Q036",
           "questionNumber": 36,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -4531,7 +4531,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P4-Q037",
+          "id": "CE-M4-Q037",
           "questionNumber": 37,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -4551,9 +4551,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P4-Q038",
+          "id": "CE-M4-Q038",
           "questionNumber": 38,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Cement",
           "questionType": "2NAT",
           "marks": 2,
@@ -4566,7 +4566,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q4"
         },
         {
-          "id": "CE-P4-Q039",
+          "id": "CE-M4-Q039",
           "questionNumber": 39,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -4586,9 +4586,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P4-Q040",
+          "id": "CE-M4-Q040",
           "questionNumber": 40,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Cement",
           "questionType": "2MCQ",
           "marks": 2,
@@ -4606,7 +4606,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q4"
         },
         {
-          "id": "CE-P4-Q041",
+          "id": "CE-M4-Q041",
           "questionNumber": 41,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -4626,7 +4626,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P4-Q042",
+          "id": "CE-M4-Q042",
           "questionNumber": 42,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -4646,9 +4646,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
         },
         {
-          "id": "CE-P4-Q043",
+          "id": "CE-M4-Q043",
           "questionNumber": 43,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2MCQ",
           "marks": 2,
@@ -4666,7 +4666,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P4-Q044",
+          "id": "CE-M4-Q044",
           "questionNumber": 44,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -4686,7 +4686,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P4-Q045",
+          "id": "CE-M4-Q045",
           "questionNumber": 45,
           "subject": "Water Resources Engineering",
           "topic": "Flood",
@@ -4706,7 +4706,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q8"
         },
         {
-          "id": "CE-P4-Q046",
+          "id": "CE-M4-Q046",
           "questionNumber": 46,
           "subject": "Water Resources Engineering",
           "topic": "Flood",
@@ -4721,7 +4721,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q8"
         },
         {
-          "id": "CE-P4-Q047",
+          "id": "CE-M4-Q047",
           "questionNumber": 47,
           "subject": "Water Resources Engineering",
           "topic": "Pipe Flow",
@@ -4741,7 +4741,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q4"
         },
         {
-          "id": "CE-P4-Q048",
+          "id": "CE-M4-Q048",
           "questionNumber": 48,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -4756,7 +4756,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P4-Q049",
+          "id": "CE-M4-Q049",
           "questionNumber": 49,
           "subject": "Geotechnical Engineering",
           "topic": "Soil Mechanics",
@@ -4771,9 +4771,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q3"
         },
         {
-          "id": "CE-P4-Q050",
+          "id": "CE-M4-Q050",
           "questionNumber": 50,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "2MCQ",
           "marks": 2,
@@ -4791,7 +4791,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P4-Q051",
+          "id": "CE-M4-Q051",
           "questionNumber": 51,
           "subject": "Environmental Engineering",
           "topic": "Water",
@@ -4806,7 +4806,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q8"
         },
         {
-          "id": "CE-P4-Q052",
+          "id": "CE-M4-Q052",
           "questionNumber": 52,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -4821,7 +4821,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P4-Q053",
+          "id": "CE-M4-Q053",
           "questionNumber": 53,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -4841,9 +4841,9 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P4-Q054",
+          "id": "CE-M4-Q054",
           "questionNumber": 54,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Levelling",
           "questionType": "2MCQ",
           "marks": 2,
@@ -4861,7 +4861,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q6"
         },
         {
-          "id": "CE-P4-Q055",
+          "id": "CE-M4-Q055",
           "questionNumber": 55,
           "subject": "Structural Engineering",
           "topic": "Trusses",
@@ -4881,7 +4881,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q1"
         },
         {
-          "id": "CE-P4-Q056",
+          "id": "CE-M4-Q056",
           "questionNumber": 56,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -4901,7 +4901,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P4-Q057",
+          "id": "CE-M4-Q057",
           "questionNumber": 57,
           "subject": "Structural Engineering",
           "topic": "Beams",
@@ -4916,9 +4916,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q2"
         },
         {
-          "id": "CE-P4-Q058",
+          "id": "CE-M4-Q058",
           "questionNumber": 58,
-          "subject": "Construction Materials and Management",
+          "subject": "Construction Materials",
           "topic": "Mix Design",
           "questionType": "2MCQ",
           "marks": 2,
@@ -4936,7 +4936,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q3"
         },
         {
-          "id": "CE-P4-Q059",
+          "id": "CE-M4-Q059",
           "questionNumber": 59,
           "subject": "Transportation Engineering",
           "topic": "Traffic",
@@ -4956,7 +4956,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q7"
         },
         {
-          "id": "CE-P4-Q060",
+          "id": "CE-M4-Q060",
           "questionNumber": 60,
           "subject": "Water Resources Engineering",
           "topic": "Open Channel",
@@ -4976,7 +4976,7 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q5"
         },
         {
-          "id": "CE-P4-Q061",
+          "id": "CE-M4-Q061",
           "questionNumber": 61,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -4996,7 +4996,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P4-Q062",
+          "id": "CE-M4-Q062",
           "questionNumber": 62,
           "subject": "Geotechnical Engineering",
           "topic": "Foundation",
@@ -5011,7 +5011,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q2"
         },
         {
-          "id": "CE-P4-Q063",
+          "id": "CE-M4-Q063",
           "questionNumber": 63,
           "subject": "Water Resources Engineering",
           "topic": "Precipitation",
@@ -5031,9 +5031,9 @@
           "source": "Adapted from GATE 2024 CE Session 1 Q9"
         },
         {
-          "id": "CE-P4-Q064",
+          "id": "CE-M4-Q064",
           "questionNumber": 64,
-          "subject": "Surveying",
+          "subject": "Surveying & Geomatics",
           "topic": "Theodolite",
           "questionType": "2NAT",
           "marks": 2,
@@ -5046,7 +5046,7 @@
           "source": "Adapted from GATE 2023 CE Session 1 Q5"
         },
         {
-          "id": "CE-P4-Q065",
+          "id": "CE-M4-Q065",
           "questionNumber": 65,
           "subject": "General Aptitude",
           "topic": "Verbal",
@@ -5059,1260 +5059,6 @@
           "correctAnswer": "B",
           "explanation": "Correct Answer: B",
           "source": "Adapted from GATE 2023 CE Session 1 Q10"
-        }
-      ]
-    },
-    {
-      "id": "CE-P5",
-      "branch": "CE",
-      "title": "GATE CE 2026 Predicted Paper 5",
-      "description": "Full-syllabus mock paper. Covers all 9 major CE subjects in GATE proportions. Mix of formula-based and conceptual questions for complete exam simulation.",
-      "createdAt": "2026-09-14T11:43:29.197Z",
-      "totalQuestions": 65,
-      "totalMarks": 100,
-      "difficultyDistribution": {
-        "easy": 24,
-        "moderate": 31,
-        "difficult": 10
-      },
-      "subjectBreakdown": [
-        {
-          "subject": "Environmental Engineering",
-          "marks": 18,
-          "questions": 11
-        },
-        {
-          "subject": "Water Resources Engineering",
-          "marks": 17,
-          "questions": 12
-        },
-        {
-          "subject": "Geotechnical Engineering",
-          "marks": 15,
-          "questions": 9
-        },
-        {
-          "subject": "Construction Materials and Management",
-          "marks": 12,
-          "questions": 7
-        },
-        {
-          "subject": "General Aptitude",
-          "marks": 10,
-          "questions": 7
-        },
-        {
-          "subject": "Structural Engineering",
-          "marks": 9,
-          "questions": 7
-        },
-        {
-          "subject": "Surveying",
-          "marks": 8,
-          "questions": 5
-        },
-        {
-          "subject": "Transportation Engineering",
-          "marks": 6,
-          "questions": 4
-        },
-        {
-          "subject": "Engineering Mathematics",
-          "marks": 5,
-          "questions": 3
-        }
-      ],
-      "predictionRationale": "This comprehensive mock covers all 9 CE subjects in GATE proportions. Easy questions from Surveying and Construction Management provide quick marks. Moderate questions from Structural Analysis and Geotechnical test core competence. Difficult NAT questions from Environmental Engineering and Transportation simulate the real exam's difficulty curve.",
-      "questions": [
-        {
-          "id": "CE-P5-Q001",
-          "questionNumber": 1,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Volume of sphere r:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 CE Session 1 Q10"
-        },
-        {
-          "id": "CE-P5-Q002",
-          "questionNumber": 2,
-          "subject": "General Aptitude",
-          "topic": "Verbal",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Choose similar to 'diligent':",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q10"
-        },
-        {
-          "id": "CE-P5-Q003",
-          "questionNumber": 3,
-          "subject": "Engineering Mathematics",
-          "topic": "Differential Equations",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Order of dy/dx=y:",
-          "options": [
-            "0",
-            "1",
-            "2",
-            "3"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q1"
-        },
-        {
-          "id": "CE-P5-Q004",
-          "questionNumber": 4,
-          "subject": "Structural Engineering",
-          "topic": "Trusses",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Method of joints gives:",
-          "options": [
-            "Forces only",
-            "Moments",
-            "Both",
-            "None"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2023 CE Session 1 Q1"
-        },
-        {
-          "id": "CE-P5-Q005",
-          "questionNumber": 5,
-          "subject": "Structural Engineering",
-          "topic": "Beams",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Bending moment in UDL simply supported:",
-          "options": [
-            "wL^2/8",
-            "wL^2/12",
-            "wL/2",
-            "wL^2"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 CE Session 1 Q2"
-        },
-        {
-          "id": "CE-P5-Q006",
-          "questionNumber": 6,
-          "subject": "Structural Engineering",
-          "topic": "Deflection",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Moment-area method gives:",
-          "options": [],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2023 CE Session 1 Q9"
-        },
-        {
-          "id": "CE-P5-Q007",
-          "questionNumber": 7,
-          "subject": "Geotechnical Engineering",
-          "topic": "Soil Mechanics",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Atterberg limits:",
-          "options": [
-            "Liquid limit",
-            "Plastic limit",
-            "Shrinkage",
-            "All"
-          ],
-          "correctAnswer": "D",
-          "explanation": "Correct Answer: D",
-          "source": "Adapted from GATE 2024 CE Session 1 Q3"
-        },
-        {
-          "id": "CE-P5-Q008",
-          "questionNumber": 8,
-          "subject": "Geotechnical Engineering",
-          "topic": "Foundation",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Bearing capacity of footing:",
-          "options": [],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2023 CE Session 1 Q2"
-        },
-        {
-          "id": "CE-P5-Q009",
-          "questionNumber": 9,
-          "subject": "Water Resources Engineering",
-          "topic": "Flood",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Gumbel distribution used for:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q8"
-        },
-        {
-          "id": "CE-P5-Q010",
-          "questionNumber": 10,
-          "subject": "Water Resources Engineering",
-          "topic": "Open Channel",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "difficult",
-          "questionText": "Manning's equation for:",
-          "options": [
-            "Pipe",
-            "Open channel",
-            "Laminar",
-            "Turbulent"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q5"
-        },
-        {
-          "id": "CE-P5-Q011",
-          "questionNumber": 11,
-          "subject": "Water Resources Engineering",
-          "topic": "Precipitation",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Rainfall measured by:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q9"
-        },
-        {
-          "id": "CE-P5-Q012",
-          "questionNumber": 12,
-          "subject": "Water Resources Engineering",
-          "topic": "Pipe Flow",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Darcy-Weisbach for:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q4"
-        },
-        {
-          "id": "CE-P5-Q013",
-          "questionNumber": 13,
-          "subject": "Environmental Engineering",
-          "topic": "Water",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Sedimentation removes:",
-          "options": [
-            "Dissolved",
-            "Suspended",
-            "Colloids",
-            "Gases"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q8"
-        },
-        {
-          "id": "CE-P5-Q014",
-          "questionNumber": 14,
-          "subject": "Environmental Engineering",
-          "topic": "Sewage",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "BOD stands for:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2023 CE Session 1 Q6"
-        },
-        {
-          "id": "CE-P5-Q015",
-          "questionNumber": 15,
-          "subject": "Transportation Engineering",
-          "topic": "Traffic",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "PCU stands for:",
-          "options": [
-            "A",
-            "B",
-            "C",
-            "D"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2023 CE Session 1 Q7"
-        },
-        {
-          "id": "CE-P5-Q016",
-          "questionNumber": 16,
-          "subject": "Transportation Engineering",
-          "topic": "Highways",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Camber provided for:",
-          "options": [
-            "Strength",
-            "Drainage",
-            "Smoothness",
-            "Aesthetics"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q7"
-        },
-        {
-          "id": "CE-P5-Q017",
-          "questionNumber": 17,
-          "subject": "Surveying",
-          "topic": "Theodolite",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "difficult",
-          "questionText": "Theodolite measures:",
-          "options": [
-            "Distance",
-            "Angle",
-            "Level",
-            "All"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q5"
-        },
-        {
-          "id": "CE-P5-Q018",
-          "questionNumber": 18,
-          "subject": "Surveying",
-          "topic": "Levelling",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Dumpy level used for:",
-          "options": [
-            "Angle",
-            "Distance",
-            "Levelling",
-            "All"
-          ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2024 CE Session 1 Q6"
-        },
-        {
-          "id": "CE-P5-Q019",
-          "questionNumber": 19,
-          "subject": "Construction Materials and Management",
-          "topic": "Cement",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Initial setting time OPC:",
-          "options": [
-            "30 min",
-            "45 min",
-            "60 min",
-            "24 hr"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 CE Session 1 Q4"
-        },
-        {
-          "id": "CE-P5-Q020",
-          "questionNumber": 20,
-          "subject": "Construction Materials and Management",
-          "topic": "Mix Design",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Water-cement ratio affects:",
-          "options": [],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2023 CE Session 1 Q3"
-        },
-        {
-          "id": "CE-P5-Q021",
-          "questionNumber": 21,
-          "subject": "Water Resources Engineering",
-          "topic": "Flood",
-          "questionType": "1NAT",
-          "marks": 1,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Gumbel distribution used for:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q8"
-        },
-        {
-          "id": "CE-P5-Q022",
-          "questionNumber": 22,
-          "subject": "General Aptitude",
-          "topic": "Verbal",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Choose similar to 'diligent':",
-          "options": [
-            "Lazy",
-            "Industrious",
-            "Careless",
-            "Ignorant"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q10"
-        },
-        {
-          "id": "CE-P5-Q023",
-          "questionNumber": 23,
-          "subject": "Structural Engineering",
-          "topic": "Deflection",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Moment-area method gives:",
-          "options": [
-            "Slope",
-            "Deflection",
-            "Both",
-            "None"
-          ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2023 CE Session 1 Q9"
-        },
-        {
-          "id": "CE-P5-Q024",
-          "questionNumber": 24,
-          "subject": "Water Resources Engineering",
-          "topic": "Open Channel",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Manning's equation for:",
-          "options": [
-            "Pipe",
-            "Open channel",
-            "Laminar",
-            "Turbulent"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q5"
-        },
-        {
-          "id": "CE-P5-Q025",
-          "questionNumber": 25,
-          "subject": "Water Resources Engineering",
-          "topic": "Precipitation",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Rainfall measured by:",
-          "options": [
-            "Hygrometer",
-            "Rain gauge",
-            "Anemometer",
-            "Barometer"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q9"
-        },
-        {
-          "id": "CE-P5-Q026",
-          "questionNumber": 26,
-          "subject": "Geotechnical Engineering",
-          "topic": "Soil Mechanics",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Atterberg limits:",
-          "options": [
-            "Liquid limit",
-            "Plastic limit",
-            "Shrinkage",
-            "All"
-          ],
-          "correctAnswer": "D",
-          "explanation": "Correct Answer: D",
-          "source": "Adapted from GATE 2024 CE Session 1 Q3"
-        },
-        {
-          "id": "CE-P5-Q027",
-          "questionNumber": 27,
-          "subject": "Structural Engineering",
-          "topic": "Deflection",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "moderate",
-          "questionText": "Moment-area method gives:",
-          "options": [
-            "Slope",
-            "Deflection",
-            "Both",
-            "None"
-          ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2023 CE Session 1 Q9"
-        },
-        {
-          "id": "CE-P5-Q028",
-          "questionNumber": 28,
-          "subject": "Environmental Engineering",
-          "topic": "Water",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Sedimentation removes:",
-          "options": [
-            "Dissolved",
-            "Suspended",
-            "Colloids",
-            "Gases"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q8"
-        },
-        {
-          "id": "CE-P5-Q029",
-          "questionNumber": 29,
-          "subject": "Environmental Engineering",
-          "topic": "Water",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "difficult",
-          "questionText": "Sedimentation removes:",
-          "options": [
-            "Dissolved",
-            "Suspended",
-            "Colloids",
-            "Gases"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q8"
-        },
-        {
-          "id": "CE-P5-Q030",
-          "questionNumber": 30,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "1MCQ",
-          "marks": 1,
-          "negativeMarks": 0.33,
-          "difficulty": "easy",
-          "questionText": "Volume of sphere r:",
-          "options": [
-            "4/3 πr^3",
-            "πr^3",
-            "πr^2",
-            "2πr"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 CE Session 1 Q10"
-        },
-        {
-          "id": "CE-P5-Q031",
-          "questionNumber": 31,
-          "subject": "Geotechnical Engineering",
-          "topic": "Foundation",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "difficult",
-          "questionText": "Bearing capacity of footing:",
-          "options": [],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2023 CE Session 1 Q2"
-        },
-        {
-          "id": "CE-P5-Q032",
-          "questionNumber": 32,
-          "subject": "General Aptitude",
-          "topic": "Verbal",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Choose similar to 'diligent':",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q10"
-        },
-        {
-          "id": "CE-P5-Q033",
-          "questionNumber": 33,
-          "subject": "Construction Materials and Management",
-          "topic": "Cement",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Initial setting time OPC:",
-          "options": [
-            "30 min",
-            "45 min",
-            "60 min",
-            "24 hr"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 CE Session 1 Q4"
-        },
-        {
-          "id": "CE-P5-Q034",
-          "questionNumber": 34,
-          "subject": "Geotechnical Engineering",
-          "topic": "Soil Mechanics",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "Atterberg limits:",
-          "options": [
-            "Liquid limit",
-            "Plastic limit",
-            "Shrinkage",
-            "All"
-          ],
-          "correctAnswer": "D",
-          "explanation": "Correct Answer: D",
-          "source": "Adapted from GATE 2024 CE Session 1 Q3"
-        },
-        {
-          "id": "CE-P5-Q035",
-          "questionNumber": 35,
-          "subject": "Environmental Engineering",
-          "topic": "Sewage",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "BOD stands for:",
-          "options": [
-            "Biological Oxygen Demand",
-            "Basic Oxygen Demand",
-            "Bacterial Oxygen Demand",
-            "None"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2023 CE Session 1 Q6"
-        },
-        {
-          "id": "CE-P5-Q036",
-          "questionNumber": 36,
-          "subject": "Environmental Engineering",
-          "topic": "Water",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Sedimentation removes:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q8"
-        },
-        {
-          "id": "CE-P5-Q037",
-          "questionNumber": 37,
-          "subject": "Engineering Mathematics",
-          "topic": "Differential Equations",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "difficult",
-          "questionText": "Order of dy/dx=y:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q1"
-        },
-        {
-          "id": "CE-P5-Q038",
-          "questionNumber": 38,
-          "subject": "Environmental Engineering",
-          "topic": "Sewage",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "BOD stands for:",
-          "options": [],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2023 CE Session 1 Q6"
-        },
-        {
-          "id": "CE-P5-Q039",
-          "questionNumber": 39,
-          "subject": "Water Resources Engineering",
-          "topic": "Open Channel",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "Manning's equation for:",
-          "options": [
-            "Pipe",
-            "Open channel",
-            "Laminar",
-            "Turbulent"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q5"
-        },
-        {
-          "id": "CE-P5-Q040",
-          "questionNumber": 40,
-          "subject": "Water Resources Engineering",
-          "topic": "Open Channel",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "Manning's equation for:",
-          "options": [
-            "Pipe",
-            "Open channel",
-            "Laminar",
-            "Turbulent"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q5"
-        },
-        {
-          "id": "CE-P5-Q041",
-          "questionNumber": 41,
-          "subject": "Environmental Engineering",
-          "topic": "Water",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Sedimentation removes:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q8"
-        },
-        {
-          "id": "CE-P5-Q042",
-          "questionNumber": 42,
-          "subject": "Geotechnical Engineering",
-          "topic": "Foundation",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "difficult",
-          "questionText": "Bearing capacity of footing:",
-          "options": [
-            "Depends on soil",
-            "Depends on load",
-            "Both",
-            "None"
-          ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2023 CE Session 1 Q2"
-        },
-        {
-          "id": "CE-P5-Q043",
-          "questionNumber": 43,
-          "subject": "Construction Materials and Management",
-          "topic": "Mix Design",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Water-cement ratio affects:",
-          "options": [],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2023 CE Session 1 Q3"
-        },
-        {
-          "id": "CE-P5-Q044",
-          "questionNumber": 44,
-          "subject": "Transportation Engineering",
-          "topic": "Highways",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Camber provided for:",
-          "options": [
-            "Strength",
-            "Drainage",
-            "Smoothness",
-            "Aesthetics"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q7"
-        },
-        {
-          "id": "CE-P5-Q045",
-          "questionNumber": 45,
-          "subject": "Geotechnical Engineering",
-          "topic": "Soil Mechanics",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Atterberg limits:",
-          "options": [
-            "Liquid limit",
-            "Plastic limit",
-            "Shrinkage",
-            "All"
-          ],
-          "correctAnswer": "D",
-          "explanation": "Correct Answer: D",
-          "source": "Adapted from GATE 2024 CE Session 1 Q3"
-        },
-        {
-          "id": "CE-P5-Q046",
-          "questionNumber": 46,
-          "subject": "Transportation Engineering",
-          "topic": "Traffic",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "difficult",
-          "questionText": "PCU stands for:",
-          "options": [
-            "A",
-            "B",
-            "C",
-            "D"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2023 CE Session 1 Q7"
-        },
-        {
-          "id": "CE-P5-Q047",
-          "questionNumber": 47,
-          "subject": "Construction Materials and Management",
-          "topic": "Cement",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "difficult",
-          "questionText": "Initial setting time OPC:",
-          "options": [
-            "30 min",
-            "45 min",
-            "60 min",
-            "24 hr"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 CE Session 1 Q4"
-        },
-        {
-          "id": "CE-P5-Q048",
-          "questionNumber": 48,
-          "subject": "Environmental Engineering",
-          "topic": "Water",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Sedimentation removes:",
-          "options": [
-            "Dissolved",
-            "Suspended",
-            "Colloids",
-            "Gases"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q8"
-        },
-        {
-          "id": "CE-P5-Q049",
-          "questionNumber": 49,
-          "subject": "General Aptitude",
-          "topic": "Quantitative",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "difficult",
-          "questionText": "Volume of sphere r:",
-          "options": [
-            "4/3 πr^3",
-            "πr^3",
-            "πr^2",
-            "2πr"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 CE Session 1 Q10"
-        },
-        {
-          "id": "CE-P5-Q050",
-          "questionNumber": 50,
-          "subject": "Engineering Mathematics",
-          "topic": "Differential Equations",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Order of dy/dx=y:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q1"
-        },
-        {
-          "id": "CE-P5-Q051",
-          "questionNumber": 51,
-          "subject": "Environmental Engineering",
-          "topic": "Water",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "difficult",
-          "questionText": "Sedimentation removes:",
-          "options": [
-            "Dissolved",
-            "Suspended",
-            "Colloids",
-            "Gases"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q8"
-        },
-        {
-          "id": "CE-P5-Q052",
-          "questionNumber": 52,
-          "subject": "Water Resources Engineering",
-          "topic": "Flood",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Gumbel distribution used for:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q8"
-        },
-        {
-          "id": "CE-P5-Q053",
-          "questionNumber": 53,
-          "subject": "Construction Materials and Management",
-          "topic": "Cement",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "Initial setting time OPC:",
-          "options": [
-            "30 min",
-            "45 min",
-            "60 min",
-            "24 hr"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 CE Session 1 Q4"
-        },
-        {
-          "id": "CE-P5-Q054",
-          "questionNumber": 54,
-          "subject": "General Aptitude",
-          "topic": "Verbal",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "easy",
-          "questionText": "Choose similar to 'diligent':",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q10"
-        },
-        {
-          "id": "CE-P5-Q055",
-          "questionNumber": 55,
-          "subject": "Surveying",
-          "topic": "Theodolite",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Theodolite measures:",
-          "options": [],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q5"
-        },
-        {
-          "id": "CE-P5-Q056",
-          "questionNumber": 56,
-          "subject": "Water Resources Engineering",
-          "topic": "Open Channel",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Manning's equation for:",
-          "options": [
-            "Pipe",
-            "Open channel",
-            "Laminar",
-            "Turbulent"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q5"
-        },
-        {
-          "id": "CE-P5-Q057",
-          "questionNumber": 57,
-          "subject": "Surveying",
-          "topic": "Theodolite",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "Theodolite measures:",
-          "options": [
-            "Distance",
-            "Angle",
-            "Level",
-            "All"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q5"
-        },
-        {
-          "id": "CE-P5-Q058",
-          "questionNumber": 58,
-          "subject": "Geotechnical Engineering",
-          "topic": "Foundation",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "Bearing capacity of footing:",
-          "options": [
-            "Depends on soil",
-            "Depends on load",
-            "Both",
-            "None"
-          ],
-          "correctAnswer": "C",
-          "explanation": "Correct Answer: C",
-          "source": "Adapted from GATE 2023 CE Session 1 Q2"
-        },
-        {
-          "id": "CE-P5-Q059",
-          "questionNumber": 59,
-          "subject": "Environmental Engineering",
-          "topic": "Water",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Sedimentation removes:",
-          "options": [
-            "Dissolved",
-            "Suspended",
-            "Colloids",
-            "Gases"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q8"
-        },
-        {
-          "id": "CE-P5-Q060",
-          "questionNumber": 60,
-          "subject": "Structural Engineering",
-          "topic": "Trusses",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "Method of joints gives:",
-          "options": [
-            "Forces only",
-            "Moments",
-            "Both",
-            "None"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2023 CE Session 1 Q1"
-        },
-        {
-          "id": "CE-P5-Q061",
-          "questionNumber": 61,
-          "subject": "Structural Engineering",
-          "topic": "Trusses",
-          "questionType": "2MSQ",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Method of joints gives:",
-          "options": [
-            "Forces only",
-            "Moments",
-            "Both",
-            "None"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2023 CE Session 1 Q1"
-        },
-        {
-          "id": "CE-P5-Q062",
-          "questionNumber": 62,
-          "subject": "Surveying",
-          "topic": "Theodolite",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Theodolite measures:",
-          "options": [
-            "Distance",
-            "Angle",
-            "Level",
-            "All"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2023 CE Session 1 Q5"
-        },
-        {
-          "id": "CE-P5-Q063",
-          "questionNumber": 63,
-          "subject": "Construction Materials and Management",
-          "topic": "Cement",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "easy",
-          "questionText": "Initial setting time OPC:",
-          "options": [
-            "30 min",
-            "45 min",
-            "60 min",
-            "24 hr"
-          ],
-          "correctAnswer": "A",
-          "explanation": "Correct Answer: A",
-          "source": "Adapted from GATE 2024 CE Session 1 Q4"
-        },
-        {
-          "id": "CE-P5-Q064",
-          "questionNumber": 64,
-          "subject": "Water Resources Engineering",
-          "topic": "Precipitation",
-          "questionType": "2MCQ",
-          "marks": 2,
-          "negativeMarks": 0.66,
-          "difficulty": "moderate",
-          "questionText": "Rainfall measured by:",
-          "options": [
-            "Hygrometer",
-            "Rain gauge",
-            "Anemometer",
-            "Barometer"
-          ],
-          "correctAnswer": "B",
-          "explanation": "Correct Answer: B",
-          "source": "Adapted from GATE 2024 CE Session 1 Q9"
-        },
-        {
-          "id": "CE-P5-Q065",
-          "questionNumber": 65,
-          "subject": "Geotechnical Engineering",
-          "topic": "Soil Mechanics",
-          "questionType": "2NAT",
-          "marks": 2,
-          "negativeMarks": 0,
-          "difficulty": "moderate",
-          "questionText": "Atterberg limits:",
-          "options": [],
-          "correctAnswer": "D",
-          "explanation": "Correct Answer: D",
-          "source": "Adapted from GATE 2024 CE Session 1 Q3"
         }
       ]
     }

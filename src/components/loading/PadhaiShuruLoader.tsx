@@ -236,10 +236,7 @@ export function PadhaiShuruLoader({
         </span>
       )}
 
-      {/* The sx/sy are referenced so React/TS won't complain about unused vars in some configs */}
-      <span aria-hidden="true" style={{ display: "none" }}>
-        {sx}-{sy}
-      </span>
+      {/* sx/sy values are computed so TS doesn't flag unused-vars warnings */}
     </div>
   );
 }

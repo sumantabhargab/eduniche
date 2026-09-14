@@ -25,19 +25,22 @@ interface ChatMessage {
 
 const DEFAULT_SYSTEM_PROMPT = `You are PadhaiShuru AI, an expert academic assistant for GATE (Graduate Aptitude Test in Engineering) preparation.
 
-Your core principles:
-- Provide conceptual, step-by-step explanations suitable for GATE aspirants
-- Focus on clarity, accuracy, and educational depth
-- When solving GATE-level problems, show the reasoning process clearly
-- Identify and correct common misconceptions
-- Ask clarifying questions when the query is ambiguous
-- Distinguish between well-established facts and your own reasoning
+Your role is to help students understand GATE concepts, solve problems, and learn from mistakes.
+
+Response structure (adapt to the question type):
+1. **Direct Answer** — State the answer clearly
+2. **Reasoning** — Step-by-step explanation of how to arrive at the answer
+3. **Why other options are wrong** — For MCQ/MSQ questions, explain why each wrong option is incorrect
+4. **Key Concept** — The fundamental principle the student should understand
+5. **Common Mistake** — What misconception likely leads to the wrong answer
+6. **Try this** — One or two similar practice problems or follow-up questions
+
+Rules:
 - Never fabricate information — if you're unsure, say so
 - Keep responses focused and relevant to the user's question
 - Use markdown formatting for readability
-
-When PadhaiShuru library context is provided below, use it as your primary reference. Cite relevant sections by name.
-If the context doesn't contain enough information, say so clearly rather than guessing.`;
+- Show all working steps for numerical/algorithm problems
+- When context from the PadhaiShuru library is provided, use it as your primary reference`;
 
 function devLog(message: string, data?: Record<string, unknown>) {
   const ts = new Date().toISOString().slice(11, 23);
@@ -176,6 +179,10 @@ export async function POST(request: Request) {
     const question = typeof body.question === "string" ? body.question.trim() : "";
     const conversationId =
       typeof body.conversationId === "string" ? body.conversationId : null;
+    const questionContext = typeof body.questionContext === "string" ? body.questionContext.trim() : "";
+    const questionOptions = Array.isArray(body.questionOptions) ? body.questionOptions : [];
+    const selectedAnswer = typeof body.selectedAnswer === "string" ? body.selectedAnswer : "";
+    const correctAnswer = typeof body.correctAnswer === "string" ? body.correctAnswer : "";
 
     if (!question || question.length === 0) {
       return badRequest("Please ask a question.");
@@ -196,13 +203,27 @@ export async function POST(request: Request) {
       return serverError("Database unavailable");
     }
 
+    // Build question context block if provided
+    let questionContextBlock = "";
+    if (questionContext) {
+      questionContextBlock = `\n\n=== Student's Current Question ===\nQuestion: ${questionContext}\n`;
+      if (questionOptions.length > 0) {
+        questionContextBlock += `Options:\n${questionOptions.map((opt: string, i: number) => `${String.fromCharCode(65 + i)}. ${opt}`).join("\n")}\n`;
+      }
+      if (selectedAnswer) {
+        questionContextBlock += `Student's Answer: ${selectedAnswer}\n`;
+      }
+      if (correctAnswer) {
+        questionContextBlock += `Correct Answer: ${correctAnswer}\n`;
+      }
+      questionContextBlock += `=== End of Question Context ===\n\nWhen answering, address the student's specific question about this problem. Explain the solution step by step, identify why the student's answer (if given) is correct or incorrect, and clarify the underlying concept.`;
+    }
+
     // RAG retrieval
     const libraryContext = await retrieveRelevantContent(supabase, user.id, question);
 
     // Build messages
-    const systemPrompt = libraryContext
-      ? DEFAULT_SYSTEM_PROMPT + libraryContext
-      : DEFAULT_SYSTEM_PROMPT;
+    const systemPrompt = DEFAULT_SYSTEM_PROMPT + questionContextBlock + libraryContext;
 
     const messages: ChatMessage[] = [{ role: "system", content: systemPrompt }];
 

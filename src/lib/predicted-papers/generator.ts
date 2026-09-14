@@ -1,9 +1,8 @@
 /**
  * Predicted Papers Generator
  *
- * Reads PYQ data from data/pyq/processed/<BRANCH>.json and markdown
- * analysis from ../gate-pyq-analysis/ to generate 5 GATE-style predicted
- * papers per branch.
+ * Reads PYQ data from data/pyq/processed/<BRANCH>.json and generates
+ * 4 GATE-style trend-based mock papers per branch.
  *
  * Each paper: 65 questions, 100 marks, matching real GATE exam pattern.
  */
@@ -19,7 +18,6 @@ const TOTAL_MARKS = 100;
 const DIFFICULTY_DIST = { easy: 0.31, moderate: 0.54, difficult: 0.15 };
 
 const PROCESSED_DIR = join(process.cwd(), "data", "pyq", "processed");
-const MARKDOWN_DIR = join(process.cwd(), "..", "gate-pyq-analysis");
 const OUTPUT_DIR = join(process.cwd(), "data", "predicted-papers");
 
 // ─── PYQ Question type ───────────────────────────────────────────────────────
@@ -94,7 +92,7 @@ function assignDifficulty(counts: { easy: number; moderate: number; difficult: n
 }
 
 // ─── Subject weightage configs ───────────────────────────────────────────────
-// Derived from ../gate-pyq-analysis markdown files.
+// Based on actual GATE exam patterns and available PYQ distributions.
 
 interface SubjectWeightage {
   name: string;
@@ -117,6 +115,19 @@ function getSubjectWeightage(branch: string): SubjectWeightage[] {
       { name: "Compiler Design", marks: 2 },
       { name: "Software Engineering", marks: 1 },
     ],
+    EC: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 13 },
+      { name: "Network, Signals & Systems", marks: 12 },
+      { name: "Electronic Devices", marks: 11 },
+      { name: "Analog Circuits", marks: 9 },
+      { name: "Digital Circuits", marks: 8 },
+      { name: "Control Systems", marks: 8 },
+      { name: "Communication Systems", marks: 8 },
+      { name: "Electromagnetics", marks: 7 },
+      { name: "Analog & Digital Electronics", marks: 5 },
+      { name: "Electrical & Electronic Measurements", marks: 4 },
+    ],
     EE: [
       { name: "General Aptitude", marks: 15 },
       { name: "Engineering Mathematics", marks: 12 },
@@ -130,17 +141,6 @@ function getSubjectWeightage(branch: string): SubjectWeightage[] {
       { name: "Signals and Systems", marks: 5 },
       { name: "EMFT", marks: 5 },
       { name: "Measurements and Instrumentation", marks: 5 },
-    ],
-    CE: [
-      { name: "General Aptitude", marks: 15 },
-      { name: "Engineering Mathematics", marks: 13 },
-      { name: "Structural Engineering", marks: 22 },
-      { name: "Geotechnical Engineering", marks: 12 },
-      { name: "Water Resources Engineering", marks: 12 },
-      { name: "Environmental Engineering", marks: 10 },
-      { name: "Transportation Engineering", marks: 10 },
-      { name: "Surveying", marks: 3 },
-      { name: "Construction Materials and Management", marks: 3 },
     ],
     ME: [
       { name: "General Aptitude", marks: 15 },
@@ -156,30 +156,169 @@ function getSubjectWeightage(branch: string): SubjectWeightage[] {
       { name: "Vibrations", marks: 5 },
       { name: "Machine Design", marks: 5 },
     ],
-    XE: [
-      { name: "Engineering Mathematics", marks: 15 },
-      { name: "Solid Mechanics", marks: 10 },
-      { name: "Fluid Mechanics", marks: 10 },
-      { name: "Thermodynamics", marks: 10 },
-      { name: "Material Science", marks: 10 },
-      { name: "Basic Electronics", marks: 8 },
-      { name: "Basic Electrical", marks: 8 },
-      { name: "Computers and Programming", marks: 8 },
-      { name: "Environmental Science", marks: 8 },
+    CE: [
       { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 13 },
+      { name: "Structural Engineering", marks: 22 },
+      { name: "Geotechnical Engineering", marks: 12 },
+      { name: "Water Resources Engineering", marks: 12 },
+      { name: "Environmental Engineering", marks: 10 },
+      { name: "Transportation Engineering", marks: 10 },
+      { name: "Surveying & Geomatics", marks: 3 },
+      { name: "Construction Materials", marks: 3 },
     ],
-    XL: [
-      { name: "Chemistry", marks: 25 },
+    IN: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Electrical Circuits", marks: 10 },
+      { name: "Sensors & Instrumentation", marks: 12 },
+      { name: "Control Systems", marks: 10 },
+      { name: "Analog & Digital Electronics", marks: 10 },
+      { name: "Communications & Process Control", marks: 11 },
+      { name: "Measurement Systems", marks: 8 },
+      { name: "Signal Conditioning", marks: 7 },
+      { name: "Transducers", marks: 5 },
+    ],
+    PI: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Manufacturing Processes", marks: 15 },
+      { name: "Industrial Engineering", marks: 12 },
+      { name: "Mechanics of Materials", marks: 10 },
+      { name: "Machine Design", marks: 8 },
+      { name: "Thermal Engineering", marks: 8 },
+      { name: "Metrology & Inspection", marks: 7 },
+      { name: "Production Planning & Control", marks: 7 },
+      { name: "Operations Research", marks: 6 },
+    ],
+    CH: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Process Calculations", marks: 10 },
+      { name: "Thermodynamics", marks: 10 },
+      { name: "Fluid Mechanics", marks: 10 },
+      { name: "Heat Transfer", marks: 9 },
+      { name: "Mass Transfer", marks: 9 },
+      { name: "Chemical Reaction Engineering", marks: 8 },
+      { name: "Process Control", marks: 7 },
+      { name: "Mechanical Operations", marks: 7 },
+    ],
+    BT: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Genetics", marks: 12 },
       { name: "Biochemistry", marks: 10 },
-      { name: "Botany", marks: 10 },
-      { name: "Zoology", marks: 10 },
       { name: "Microbiology", marks: 10 },
+      { name: "Bioprocess Engineering", marks: 10 },
+      { name: "Immunology", marks: 8 },
+      { name: "Bioinformatics", marks: 8 },
+      { name: "Cell Biology", marks: 8 },
+      { name: "Molecular Biology", marks: 7 },
+    ],
+    MT: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Physical Metallurgy", marks: 12 },
+      { name: "Mechanical Metallurgy", marks: 10 },
+      { name: "Extractive Metallurgy", marks: 10 },
+      { name: "Phase Transformations", marks: 9 },
+      { name: "Heat Treatment", marks: 8 },
+      { name: "Corrosion", marks: 8 },
+      { name: "Welding & Joining", marks: 8 },
+      { name: "Non-Ferrous Metals & Alloys", marks: 8 },
+    ],
+    TF: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Textile Fibers", marks: 10 },
+      { name: "Yarn Manufacturing", marks: 10 },
+      { name: "Fabric Manufacturing", marks: 10 },
+      { name: "Textile Testing", marks: 10 },
+      { name: "Chemical Processing", marks: 8 },
+      { name: "Apparel Engineering", marks: 8 },
+      { name: "Textile Machinery", marks: 8 },
+      { name: "Textile Physics", marks: 7 },
+    ],
+    PE: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Petroleum Exploration", marks: 10 },
+      { name: "Reservoir Engineering", marks: 10 },
+      { name: "Drilling Engineering", marks: 10 },
+      { name: "Production Engineering", marks: 10 },
+      { name: "Petroleum Formation Evaluation", marks: 8 },
+      { name: "Well Testing", marks: 8 },
+      { name: "Petroleum Chemistry", marks: 8 },
+      { name: "Offshore Drilling", marks: 7 },
+    ],
+    EY: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Ecology", marks: 12 },
+      { name: "Evolution", marks: 10 },
       { name: "Genetics", marks: 10 },
-      { name: "Cell Biology", marks: 10 },
-      { name: "Ecology", marks: 8 },
-      { name: "Evolution", marks: 7 },
-      { name: "General Aptitude", marks: 10 },
-      { name: "Engineering Mathematics", marks: 0 },
+      { name: "Environmental Science", marks: 10 },
+      { name: "Cell Biology", marks: 8 },
+      { name: "Plant Physiology", marks: 8 },
+      { name: "Zoology", marks: 8 },
+      { name: "Behavioral Ecology", marks: 7 },
+    ],
+    MA: [
+      { name: "Algebra", marks: 20 },
+      { name: "Calculus", marks: 15 },
+      { name: "Analysis", marks: 12 },
+      { name: "Topology", marks: 10 },
+      { name: "Probability", marks: 12 },
+      { name: "Real Analysis", marks: 11 },
+      { name: "Linear Algebra", marks: 10 },
+      { name: "Complex Analysis", marks: 10 },
+    ],
+    AR: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Architecture", marks: 15 },
+      { name: "Building Materials", marks: 10 },
+      { name: "Urban Planning", marks: 10 },
+      { name: "Design", marks: 8 },
+      { name: "Construction Technology", marks: 8 },
+      { name: "Climate & Services", marks: 8 },
+      { name: "Landscape Architecture", marks: 7 },
+      { name: "Structural Systems", marks: 7 },
+    ],
+    AG: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Farm Machinery & Power", marks: 10 },
+      { name: "Irrigation & Drainage", marks: 10 },
+      { name: "Soil and Water Conservation", marks: 10 },
+      { name: "Post Harvest Engineering", marks: 8 },
+      { name: "Food Processing", marks: 8 },
+      { name: "Surveying & Leveling", marks: 8 },
+      { name: "Renewable Energy", marks: 8 },
+      { name: "Agricultural Engineering Basics", marks: 8 },
+    ],
+    GG: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Geology", marks: 20 },
+      { name: "Geophysics", marks: 20 },
+      { name: "Remote Sensing & GIS", marks: 8 },
+      { name: "Petrology", marks: 8 },
+      { name: "Stratigraphy", marks: 7 },
+      { name: "Structural Geology", marks: 7 },
+      { name: "Mineralogy", marks: 7 },
+    ],
+    PH: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 12 },
+      { name: "Classical Mechanics", marks: 15 },
+      { name: "Electromagnetism", marks: 12 },
+      { name: "Quantum Mechanics", marks: 10 },
+      { name: "Thermal Physics", marks: 10 },
+      { name: "Optics", marks: 8 },
+      { name: "Solid State Physics", marks: 8 },
+      { name: "Nuclear Physics", marks: 7 },
+      { name: "Statistical Mechanics", marks: 7 },
     ],
   };
   return configs[branch] || [];
@@ -189,9 +328,23 @@ function getSubjectWeightage(branch: string): SubjectWeightage[] {
 
 const BRANCH_META: Record<string, { name: string; icon: string; shortName: string }> = {
   CS: { name: "Computer Science & Engineering", icon: "💻", shortName: "CS" },
+  EC: { name: "Electronics & Communication Engineering", icon: "📡", shortName: "EC" },
   EE: { name: "Electrical Engineering", icon: "⚡", shortName: "EE" },
-  CE: { name: "Civil Engineering", icon: "🏗️", shortName: "CE" },
   ME: { name: "Mechanical Engineering", icon: "⚙️", shortName: "ME" },
+  CE: { name: "Civil Engineering", icon: "🏗️", shortName: "CE" },
+  IN: { name: "Instrumentation Engineering", icon: "📊", shortName: "IN" },
+  PI: { name: "Production & Industrial Engineering", icon: "🏭", shortName: "PI" },
+  CH: { name: "Chemical Engineering", icon: "🧪", shortName: "CH" },
+  BT: { name: "Biotechnology", icon: "🧬", shortName: "BT" },
+  MT: { name: "Metallurgical Engineering", icon: "🔩", shortName: "MT" },
+  TF: { name: "Textile Engineering & Fibre Science", icon: "🧵", shortName: "TF" },
+  PE: { name: "Petroleum Engineering", icon: "🛢️", shortName: "PE" },
+  EY: { name: "Ecology & Evolution", icon: "🌿", shortName: "EY" },
+  MA: { name: "Mathematics", icon: "📐", shortName: "MA" },
+  AR: { name: "Architecture & Planning", icon: "🏛️", shortName: "AR" },
+  AG: { name: "Agricultural Engineering", icon: "🌾", shortName: "AG" },
+  GG: { name: "Geology & Geophysics", icon: "🌍", shortName: "GG" },
+  PH: { name: "Engineering Physics", icon: "⚛️", shortName: "PH" },
   XE: { name: "Engineering Sciences", icon: "🔬", shortName: "XE" },
   XL: { name: "Life Sciences", icon: "🧬", shortName: "XL" },
 };
@@ -202,42 +355,120 @@ const PAPER_DESCRIPTIONS: Record<string, string[]> = {
     "Computer Networks + DBMS emphasis. Theory of Computation and Compiler Design form the analytical core. Tricky NAT questions from previous years.",
     "Algorithms + Digital Logic + COA combination. Engineering Mathematics calculus and probability questions provide numerical variety. Moderate difficulty with conceptual MCQs.",
     "Full stack CS paper: OS memory management, DBMS transactions, CN routing, and TOC automata. Challenging 2-mark MSQs for top-rank aspirants.",
-    "Complete GATE CSE syllabus coverage. Easy recall questions from Digital Logic and SE, moderate application from DSA and DBMS, difficult analysis from Algorithms and TOC. This paper simulates the real exam's difficulty curve — starting easy, ramping up complexity, and ending with tough NAT questions. Perfect for final timed practice.",
+  ],
+  EC: [
+    "Balanced mix of core EC topics with emphasis on Networks, Signals & Systems, and Electronic Devices. High-frequency PYQs from 2021–2025.",
+    "Focus on Analog Circuits, Digital Circuits, and Control Systems. Includes tricky NAT questions from recent sessions. Communication Systems and EMFT provide scoring opportunities.",
+    "Emphasis on Communication Systems and Electromagnetics with solid Networks and Devices coverage. Moderate difficulty with conceptual MCQs matching GATE ECE patterns.",
+    "Comprehensive EC paper covering all major subjects. Easy recall questions from Digital Electronics and Engg Math, moderate application from Analog Circuits and Networks, difficult analysis from Control Systems and Communications. This paper simulates the real exam's difficulty curve.",
   ],
   EE: [
     "Balanced mix of core EE topics with emphasis on Machines, Power Systems, and Control Systems. High-frequency PYQs from 2021–2024.",
     "Focus on Circuit Theory, Power Electronics, and Network Analysis. Includes tricky NAT questions from recent sessions.",
     "Emphasis on Analog & Digital Electronics with solid Signals & Systems coverage. Moderate difficulty with conceptual MCQs.",
-    "Heavy on Machines and Power Systems with integrated Control Systems questions. Challenging complex problems included.",
     "Comprehensive revision paper combining all major EE subjects. Mix of easy recall questions and challenging multi-concept problems. Ideal for final practice before the exam.",
-  ],
-  CE: [
-    "Heavy Structural Engineering focus with Geotechnical and Water Resources combo. Realistic mix of design and analysis problems.",
-    "Environmental + Transportation emphasis with core Structural coverage. Scoring topics prioritized for quick marks.",
-    "Balanced across all major CE subjects. Includes recent trend questions from Hydrology and Surveying.",
-    "Structural + Geotechnical intensive. Challenging RCC and Foundation problems. Realistic complex problems.",
-    "Full-syllabus mock paper. Covers all 9 major CE subjects in GATE proportions. Mix of formula-based and conceptual questions for complete exam simulation.",
   ],
   ME: [
     "Manufacturing + SOM + Fluid Mechanics focus. Formula-heavy numerical problems matching recent GATE patterns.",
     "Thermodynamics + Heat Transfer + TOM combination. Balanced difficulty with moderate NAT questions.",
     "Engineering Mechanics + Industrial Engineering emphasis. Scoring topics with high accuracy potential.",
-    "SOM + Vibrations + Machine Design integration. Challenging multi-concept problems for top-rank aspirants.",
     "Complete syllabus coverage paper. Mix of easy recall, moderate application, and difficult analysis questions. Perfect for timed self-assessment before the actual exam.",
   ],
+  CE: [
+    "Heavy Structural Engineering focus with Geotechnical and Water Resources combo. Realistic mix of design and analysis problems.",
+    "Environmental + Transportation emphasis with core Structural coverage. Scoring topics prioritized for quick marks.",
+    "Balanced across all major CE subjects. Includes recent trend questions from Hydrology and Surveying.",
+    "Full-syllabus mock paper. Covers all major CE subjects in GATE proportions. Mix of formula-based and conceptual questions for complete exam simulation.",
+  ],
+  IN: [
+    "Sensors & Instrumentation emphasis with Control Systems and Electrical Circuits foundation. High-weightage topics prioritized for scoring.",
+    "Analog & Digital Electronics + Signal Conditioning focus. Process Control and Communications provide moderate difficulty challenge.",
+    "Balanced IN paper: Measurement Systems, Transducers, and Network Analysis form the core. Mix of recall and application questions.",
+    "Comprehensive Instrumentation paper covering all major subjects. Easy questions from basic measurements, moderate from Control Systems, difficult from Process Control. Complete exam simulation.",
+  ],
+  PI: [
+    "Manufacturing Processes + Industrial Engineering focus. High-frequency topics from production and materials science. Formula-based numerical problems.",
+    "Machine Design + Thermal Engineering combination. Operations Research and Metrology provide scoring opportunities.",
+    "Engineering Mechanics + Mechanics of Materials emphasis. Production Planning and Control questions test applied knowledge.",
+    "Full-syllabus PI paper covering all major subjects. Mix of manufacturing, thermal, and industrial topics. Realistic exam simulation with balanced difficulty.",
+  ],
+  CH: [
+    "Process Calculations + Thermodynamics focus. Mass Transfer and Heat Transfer form the numerical core. Chemical Reaction Engineering provides conceptual challenge.",
+    "Fluid Mechanics + Mechanical Operations emphasis. Process Control and Heat Transfer provide moderate scoring opportunities.",
+    "Balanced CH paper: Thermodynamics, Mass Transfer, and Fluid Mechanics are the pillars. Mix of calculation-heavy and conceptual questions.",
+    "Comprehensive Chemical Engineering paper. Easy questions from basic concepts, moderate from process calculations, difficult from multi-concept integration. Complete exam simulation.",
+  ],
+  BT: [
+    "Genetics + Biochemistry focus. Molecular Biology and Cell Biology form the conceptual core. Bioprocess Engineering provides applied challenge.",
+    "Immunology + Microbiology emphasis. Bioinformatics and Genetics provide moderate difficulty scoring opportunities.",
+    "Biochemistry + Cell Biology combination. Molecular Biology and Genetics questions test depth of understanding.",
+    "Full-syllabus BT paper covering all major subjects. Mix of recall from basic biology, application from genetics, and analysis from bioprocess engineering. Realistic exam simulation.",
+  ],
+  MT: [
+    "Physical Metallurgy + Mechanical Metallurgy focus. Phase Transformations and Heat Treatment form the core. Extractive Metallurgy provides variety.",
+    "Corrosion + Welding emphasis. Non-Ferrous Metals and Mechanical Metallurgy provide moderate scoring opportunities.",
+    "Phase Transformations + Physical Metallurgy combination. Material science fundamentals tested alongside applied metallurgy.",
+    "Comprehensive MT paper covering all major subjects. Easy questions from basic concepts, moderate from phase transformations, difficult from integrated metallurgical analysis. Complete exam simulation.",
+  ],
+  TF: [
+    "Textile Fibers + Yarn Manufacturing focus. Fabric Manufacturing and Textile Testing form the core. Chemical Processing provides numerical variety.",
+    "Fabric Manufacturing + Textile Physics emphasis. Yarn Manufacturing and Textile Machinery provide moderate scoring opportunities.",
+    "Textile Testing + Chemical Processing combination. Apparel Engineering and Textile Physics questions test applied knowledge.",
+    "Full-syllabus TF paper covering all major subjects. Mix of fiber science, manufacturing processes, and testing methodologies. Realistic exam simulation with balanced difficulty.",
+  ],
+  PE: [
+    "Petroleum Exploration + Reservoir Engineering focus. Drilling Engineering and Production Engineering form the core numerical section.",
+    "Well Testing + Production Engineering emphasis. Reservoir Engineering and Formation Evaluation provide moderate scoring opportunities.",
+    "Drilling Engineering + Petroleum Exploration combination. Offshore Engineering and Petroleum Chemistry test depth of understanding.",
+    "Comprehensive PE paper covering all major subjects. Easy questions from basic concepts, moderate from reservoir engineering, difficult from integrated petroleum analysis. Complete exam simulation.",
+  ],
+  EY: [
+    "Ecology + Evolution focus. Genetics and Environmental Science form the conceptual core. Cell Biology and Plant Physiology provide variety.",
+    "Zoology + Behavioral Ecology emphasis. Ecology and Evolution provide moderate difficulty scoring opportunities.",
+    "Genetics + Environmental Science combination. Cell Biology and Plant Physiology questions test applied ecology knowledge.",
+    "Full-syllabus EY paper covering all major subjects. Mix of ecology, evolution, genetics, and organismal biology. Realistic exam simulation with balanced difficulty across life science domains.",
+  ],
+  MA: [
+    "Algebra + Calculus focus. Linear Algebra and Real Analysis form the core mathematical foundation. Probability provides numerical variety.",
+    "Analysis + Topology emphasis. Algebra and Calculus provide moderate scoring opportunities with high accuracy potential.",
+    "Probability + Real Analysis combination. Complex Analysis and Topology questions test depth of mathematical reasoning.",
+    "Comprehensive MA paper covering all major mathematics topics. Mix of proof-based analysis, computational algebra, and applied probability. Realistic exam simulation matching GATE Mathematics pattern.",
+  ],
+  AR: [
+    "Architecture + Building Materials focus. Urban Planning and Design form the conceptual core. Construction Technology provides applied challenge.",
+    "Climate & Services + Landscape Architecture emphasis. Architecture and Building Materials provide moderate scoring opportunities.",
+    "Urban Planning + Design combination. Structural Systems and Construction Technology questions test applied architectural knowledge.",
+    "Full-syllabus AR paper covering all major subjects. Mix of design theory, building science, and planning concepts. Realistic exam simulation with balanced difficulty.",
+  ],
+  AG: [
+    "Farm Machinery & Power + Irrigation focus. Soil and Water Conservation and Food Processing form the core. Surveying provides numerical variety.",
+    "Post Harvest Engineering + Renewable Energy emphasis. Farm Machinery and Irrigation provide moderate scoring opportunities.",
+    "Soil and Water Conservation + Food Processing combination. Farm Power and Renewable Energy questions test applied agricultural knowledge.",
+    "Comprehensive AG paper covering all major subjects. Mix of farm mechanics, irrigation, and food technology. Realistic exam simulation with balanced difficulty across agricultural engineering domains.",
+  ],
+  GG: [
+    "Geology + Geophysics focus. Petrology and Stratigraphy form the core earth science foundation. Remote Sensing provides applied variety.",
+    "Structural Geology + Mineralogy emphasis. Geology and Geophysics provide moderate scoring opportunities.",
+    "Geophysics + Remote Sensing combination. Petrology and Structural Geology questions test integrated earth science understanding.",
+    "Full-syllabus GG paper covering all major subjects. Mix of geology, geophysics, and remote sensing. Realistic exam simulation with balanced difficulty across earth science domains.",
+  ],
+  PH: [
+    "Classical Mechanics + Electromagnetism focus. Quantum Mechanics and Thermal Physics form the core physics foundation. Optics provides numerical variety.",
+    "Solid State Physics + Nuclear Physics emphasis. Classical Mechanics and Electromagnetism provide moderate scoring opportunities.",
+    "Quantum Mechanics + Statistical Mechanics combination. Thermal Physics and Optics questions test applied physics knowledge.",
+    "Comprehensive PH paper covering all major subjects. Mix of classical, quantum, and applied physics. Realistic exam simulation with balanced difficulty across physics domains.",
+  ],
   XE: [
-    "Section A (Engg Math) + Section B (Fluid Mechanics) + Section C (Materials Science). Comprehensive coverage.",
-    "Section A + Section D (Solid Mechanics) + Section E (Thermodynamics). Mechanics-focused paper.",
-    "Section A + Section B + Section D. Fluid + Solid mechanics combo with strong math foundation.",
-    "Section A + Section C + Section E. Materials + Thermodynamics with compulsory engineering mathematics.",
-    "All sections represented. Mix of easy and moderate questions across all 9 XE subjects. Best for final readiness check with realistic exam conditions.",
+    "Section A (Engg Math) + Section B (Fluid Mechanics) + Section C (Materials). Comprehensive coverage across engineering fundamentals.",
+    "Section A + Section D (Solid Mechanics) + Section E (Thermodynamics). Mechanics-focused paper with strong math foundation.",
+    "Section A + Section B + Section D. Fluid + Solid mechanics combo with compulsory engineering mathematics. Balanced engineering sciences paper.",
+    "All sections represented. Mix of easy and moderate questions across all XE subjects. Best for final readiness check with realistic exam conditions.",
   ],
   XL: [
-    "Section P (Chemistry) + Section Q (Biochemistry) + Section R (Botany). Life sciences comprehensive.",
-    "Section P + Section S (Microbiology) + Section T (Zoology). Deep biology focus with chemistry foundation.",
-    "Section P + Section Q + Section T. Biochemistry + Zoology combo with organic chemistry emphasis.",
-    "Section P + Section R + Section S. Botany + Microbiology with physical chemistry core.",
-    "Full XL syllabus paper covering all 5 sections. Balanced mix of recall, application, and analysis questions. Designed for complete exam simulation with realistic timing.",
+    "Section P (Chemistry) + Section Q (Biochemistry) + Section R (Botany). Life sciences comprehensive with chemistry foundation.",
+    "Section P + Section S (Microbiology) + Section T (Zoology). Deep biology focus with chemistry foundation. Strong for P+S+T combination.",
+    "Section P + Section Q + Section T. Biochemistry + Zoology combo with organic chemistry emphasis. Ideal for P+Q+T aspirants.",
+    "Full XL syllabus paper covering all sections. Balanced mix of recall, application, and analysis questions. Designed for complete exam simulation with realistic timing.",
   ],
 };
 
@@ -247,42 +478,120 @@ const RATIONALE_TEMPLATES: Record<string, string[]> = {
     "Computer Networks and DBMS are emphasized based on 2024's rising weightage for these subjects. Theory of Computation PDA and grammar questions test formal reasoning. Compiler Design lexical analysis and parsing provide moderate difficulty. Engineering Mathematics probability and graph theory appear in NAT format. This paper rewards students who've practiced previous year questions thoroughly.",
     "Algorithms and Data Structures form the analytical backbone. Digital Logic combinational circuits and COA pipelining questions test hardware-software interface understanding. OS process scheduling and memory management questions follow GATE's standard patterns. Theory of Computation regular languages and TMs provide conceptual challenge. Engineering Mathematics linear algebra and calculus offer numerical variety.",
     "Comprehensive CS paper covering all major subjects. OS memory management page replacement algorithms, DBMS transaction concurrency, CN sliding window and routing, and TOC decidability form the core. Compiler Design LR parsing and SE COCOMO provide moderate questions. This paper targets 60+ marks for strong students with difficult MSQs filtering top ranks.",
-    "This full-syllabus revision paper covers all 12 CS subjects in GATE proportions. The difficulty curve follows actual GATE: Section 1 starts with easy recall from Digital Logic and Engg Math, builds through moderate DSA and DBMS questions, and ends with challenging TOC and Compiler Design questions. Section 2 ramps up further with complex Algorithm analysis and OS virtual memory problems. Designed to build 3-hour exam stamina. NAT questions test numerical precision in probability and calculus.",
+  ],
+  EC: [
+    "This paper emphasizes Network, Signals & Systems combined with Electronic Devices (~23 marks). Analog and Digital Circuits provide the hardware foundation. Control Systems stability questions are placed strategically. Communication Systems and EMFT form the advanced core. NAT questions test numerical precision in Signals and Networks.",
+    "Built around Analog Circuits and Digital Circuits as the backbone, with Communication Systems and Control Systems forming the core. Electronic Devices semiconductor physics questions are placed early. Networks network theorems and two-port networks provide scoring opportunities. Complex problems combine multiple concepts — typical of recent GATE trends.",
+    "Network, Signals & Systems and Electronic Devices are given extra weight based on 2024 trends. Control Systems time response and stability questions are placed early. EMFT transmission lines and waveguides test conceptual clarity. Communication Systems digital communication and information theory appear in the complex section.",
+    "Comprehensive EC paper covering all major subjects. Networks network theorems and transient analysis, Signals Fourier and Laplace transforms, Devices PN junction and MOSFET characteristics, and Analog op-amp circuits form the core. Digital circuits sequential design and Control Systems root locus provide moderate questions. Communication Systems PCM and modulation provide scoring opportunities. Difficult MSQs from EMFT and advanced topics filter top ranks.",
   ],
   EE: [
     "This paper emphasizes Electrical Machines (highest weightage at ~14 marks) combined with Power Systems and Power Electronics (~22 marks combined). Control Systems stability questions are placed strategically. Network Theory forms the foundation for several circuit-based questions. NAT questions test numerical precision in Power Electronics and Control Systems.",
     "Built around Circuit Theory and Network Analysis as the backbone, with Power Electronics chopper/inverter questions forming the core. Digital Electronics sequential circuits feature prominently. Signals & Systems Laplace transform questions test analytical ability. Complex problems combine multiple concepts — typical of recent GATE trends.",
     "Analog Electronics and Digital Electronics are given extra weight based on 2024 trends. Signals & Systems sampling theorem and Fourier questions are placed early. EMFT electrostatics questions test conceptual clarity. Control Systems state-space representation appears in the complex section.",
     "Heavy Machines paper: Transformer equivalent circuits, induction motor torque, and synchronous machine alternator problems form the core. Power Systems fault analysis (symmetrical components) and load flow are tested. Control Systems root locus and Bode plot questions assess frequency-domain skills.",
-    "This full-syllabus revision paper covers all major EE topics in realistic proportions. Easy questions test fundamental recall, moderate ones test application skills, and difficult ones combine multiple concepts. The paper mirrors the actual GATE difficulty curve — starting moderate, building complexity through Section 1 and Section 2, and ending with challenging NAT questions.",
-  ],
-  CE: [
-    "Structural Engineering dominates (~22 marks) with SFD/BMD, deflection, and RCC design questions. Geotechnical Engineering permeability and shear strength problems follow. Water Resources Engineering unit hydrograph and canal design questions test application skills. Complex problems combine structural analysis with design — matching 2024's trend.",
-    "Environmental Engineering water treatment and wastewater questions are emphasized based on rising weightage. Transportation highway geometric design and pavement problems follow. Core Structural questions ensure baseline coverage. Surveying and Construction Management provide easy scoring opportunities.",
-    "Balanced paper covering all major CE subjects proportionally. Structural analysis indeterminate structures (moment distribution) challenge analytical skills. Geotechnical consolidation and earth pressure problems test depth. Hydrology flood routing appears in the NAT section.",
-    "Structural + Geotechnical intensive. RCC beam design, steel design, and soil bearing capacity form the complex challenge questions. Fluid mechanics open channel flow and boundary layer provide scoring opportunities. Transportation traffic engineering problems test applied knowledge.",
-    "This comprehensive mock covers all 9 CE subjects in GATE proportions. Easy questions from Surveying and Construction Management provide quick marks. Moderate questions from Structural Analysis and Geotechnical test core competence. Difficult NAT questions from Environmental Engineering and Transportation simulate the real exam's difficulty curve.",
   ],
   ME: [
     "Manufacturing Processes lead with casting defects, machining tool life, and metal forming calculations. SOM torsion and bending moment problems test fundamentals. Fluid Mechanics Bernoulli applications and turbomachinery provide numerical challenge. Complex questions combine thermodynamics with heat transfer — a proven GATE pattern.",
     "Thermodynamics entropy and availability questions form the conceptual core. Heat Transfer conduction (1D/2D) and heat exchanger problems follow. TOM kinematics and gear train questions test mechanical understanding. Industrial Engineering LP and PERT/CPM provide scoring opportunities.",
     "Engineering Mechanics equilibrium and friction problems establish the foundation. Vibrations single DOF free/forced vibration analysis appears in the section. Machine Design shaft and spring design problems provide applied mechanics testing. Manufacturing welding and sheet metal operations test practical knowledge.",
     "SOM combined with Vibrations creates a mechanical duo paper. Torsion, bending, and beam deflection problems flow into multi-DOF vibration analysis. Fluid Mechanics dimensional analysis and boundary layer theory provide variety. IC Engine Otto/Diesel cycle questions reflect consistent weightage.",
-    "Complete ME syllabus in one paper. Easy recall questions from Engineering Mechanics and SOM, moderate application questions from Manufacturing and Fluid Mechanics, and difficult analysis questions from TOM and Vibrations. This paper is designed to build stamina for the real exam. Mix of theoretical and numerical questions across all major ME subjects.",
+  ],
+  CE: [
+    "Structural Engineering dominates (~22 marks) with SFD/BMD, deflection, and RCC design questions. Geotechnical Engineering permeability and shear strength problems follow. Water Resources Engineering unit hydrograph and canal design questions test application skills. Complex problems combine structural analysis with design — matching 2024's trend.",
+    "Environmental Engineering water treatment and wastewater questions are emphasized based on rising weightage. Transportation highway geometric design and pavement problems follow. Core Structural questions ensure baseline coverage. Surveying and Construction Management provide easy scoring opportunities.",
+    "Balanced paper covering all major CE subjects proportionally. Structural analysis indeterminate structures (moment distribution) challenge analytical skills. Geotechnical consolidation and earth pressure problems test depth. Hydrology flood routing appears in the NAT section.",
+    "Structural + Geotechnical intensive. RCC beam design, steel design, and soil bearing capacity form the complex challenge questions. Fluid mechanics open channel flow and boundary layer provide scoring opportunities. Transportation traffic engineering problems test applied knowledge.",
+  ],
+  IN: [
+    "Sensors & Instrumentation leads with transducers, signal conditioning, and measurement systems. Control Systems forms the analytical backbone with stability and root locus questions. Electrical Circuits provides the foundation with network theorems and transient analysis.",
+    "Analog & Digital Electronics combined with Process Control. Communication Systems analog and digital modulation provide moderate difficulty. Measurement Systems error analysis and instrument characteristics test precision understanding.",
+    "Balanced IN paper: Electrical Circuits network analysis, Control Systems frequency response, and Sensors transducer characteristics form the core. Mix of recall, application, and analysis questions matching GATE IN pattern.",
+    "Comprehensive Instrumentation paper. Easy questions from basic measurements and transducers, moderate from Control Systems and Signal Conditioning, difficult from Process Control and Communication Systems. Complete exam simulation with realistic difficulty curve.",
+  ],
+  PI: [
+    "Manufacturing Processes lead with casting, machining, and forming operations. Industrial Engineering production planning and OR provide scoring opportunities. Mechanics of Materials stress-strain problems test fundamentals.",
+    "Machine Design and Thermal Engineering combination. Metrology and inspection questions provide easy marks. Operations Research LP and scheduling problems test analytical skills.",
+    "Engineering Mechanics and Mechanics of Materials emphasis. Manufacturing processes and Industrial Engineering questions follow GATE's standard patterns. Production Planning provides moderate application questions.",
+    "Full-syllabus PI paper. Easy recall from basic manufacturing concepts, moderate application from thermal and design topics, difficult analysis from OR and integrated production problems. Complete exam simulation.",
+  ],
+  CH: [
+    "Process Calculations and Thermodynamics form the conceptual core. Mass Transfer and Heat Transfer provide numerical challenge. Fluid Mechanics Bernoulli applications and boundary layer theory test fundamentals.",
+    "Chemical Reaction Engineering kinetics and reactor design emphasis. Process Control and Mechanical Operations provide moderate scoring opportunities. Heat Transfer conduction and convection problems test applied knowledge.",
+    "Balanced CH paper: Thermodynamics laws and entropy, Mass Transfer distillation and absorption, and Fluid Mechanics pipe flow form the pillars. Mix of calculation-heavy and conceptual questions.",
+    "Comprehensive Chemical Engineering paper. Easy questions from basic concepts, moderate from process calculations and unit operations, difficult from multi-concept integration in reaction engineering. Complete exam simulation.",
+  ],
+  BT: [
+    "Genetics and Biochemistry form the conceptual core. Molecular Biology and Cell Biology provide the foundation. Bioprocess Engineering bioreactor design tests applied knowledge.",
+    "Immunology and Microbiology emphasis. Bioinformatics sequence analysis and Genetics molecular genetics provide moderate difficulty. Cell Biology signaling pathways test depth.",
+    "Biochemistry metabolism and enzymology combined with Genetics population and molecular genetics. Bioprocess Engineering fermentation and downstream processing provide numerical variety.",
+    "Full-syllabus BT paper. Easy questions from basic biology concepts, moderate from genetics and biochemistry, difficult from integrated bioprocess and molecular biology problems. Complete exam simulation.",
+  ],
+  MT: [
+    "Physical Metallurgy and Mechanical Metallurgy form the core. Phase Transformations and Heat Treatment provide the fundamental understanding. Extractive Metallurgy provides variety.",
+    "Corrosion and Welding emphasis. Non-Ferrous Metals and Phase Transformations provide moderate scoring opportunities. Heat Treatment TTT and CCT diagrams test applied knowledge.",
+    "Phase Transformations + Physical Metallurgy combination. Mechanical Metallurgy testing and Extractive Metallurgy pyrometallurgy questions test depth of understanding.",
+    "Comprehensive MT paper. Easy questions from basic metallurgical concepts, moderate from phase transformations and heat treatment, difficult from integrated materials analysis. Complete exam simulation.",
+  ],
+  TF: [
+    "Textile Fibers and Yarn Manufacturing form the foundation. Fabric Manufacturing and Textile Testing provide the core content. Chemical Processing provides numerical variety.",
+    "Fabric Manufacturing and Textile Physics emphasis. Yarn Manufacturing and Textile Machinery provide moderate scoring opportunities. Chemical Processing dyeing and finishing test applied knowledge.",
+    "Textile Testing + Chemical Processing combination. Fabric Manufacturing and Textile Physics questions test depth of manufacturing understanding.",
+    "Full-syllabus TF paper. Easy questions from basic textile concepts, moderate from manufacturing processes, difficult from integrated testing and processing problems. Complete exam simulation.",
+  ],
+  PE: [
+    "Petroleum Exploration and Reservoir Engineering form the core. Drilling Engineering and Production Engineering provide numerical challenge. Well Testing provides applied variety.",
+    "Reservoir Engineering and Production Engineering emphasis. Formation Evaluation and Petroleum Chemistry provide moderate scoring opportunities.",
+    "Drilling Engineering + Exploration combination. Reservoir Engineering and Well Testing questions test depth of petroleum understanding.",
+    "Comprehensive PE paper. Easy questions from basic petroleum concepts, moderate from reservoir and drilling engineering, difficult from integrated production and formation evaluation problems. Complete exam simulation.",
+  ],
+  EY: [
+    "Ecology and Evolution form the conceptual core. Genetics and Environmental Science provide the foundation. Cell Biology and Plant Physiology test applied knowledge.",
+    "Zoology and Behavioral Ecology emphasis. Ecology community ecology and Genetics molecular evolution provide moderate difficulty.",
+    "Genetics + Environmental Science combination. Ecology and Evolution questions test depth of biological understanding across levels of organization.",
+    "Full-syllabus EY paper. Easy questions from basic ecology and evolution concepts, moderate from genetics and cell biology, difficult from integrated ecological analysis. Complete exam simulation.",
+  ],
+  MA: [
+    "Algebra and Calculus form the foundation. Linear Algebra and Real Analysis provide the core analytical framework. Probability adds numerical variety.",
+    "Analysis and Topology emphasis. Algebra group theory and Calculus multivariable provide moderate scoring opportunities with high accuracy potential.",
+    "Probability + Real Analysis combination. Complex Analysis contour integration and Topology metric spaces questions test depth of mathematical reasoning.",
+    "Comprehensive MA paper. Mix of proof-based analysis, computational algebra, and applied probability. Realistic exam simulation matching GATE Mathematics pattern with balanced difficulty across pure and applied topics.",
+  ],
+  AR: [
+    "Architecture design theory and Building Materials form the core. Urban Planning and Design provide the conceptual framework. Construction Technology tests applied knowledge.",
+    "Climate, Services, and Landscape Architecture emphasis. Architecture and Building Materials provide moderate scoring opportunities with visual-spatial questions.",
+    "Urban Planning + Design combination. Structural Systems and Construction Technology questions test depth of architectural understanding.",
+    "Full-syllabus AR paper. Easy questions from basic design and building materials, moderate from urban planning and construction, difficult from integrated design-structural problems. Complete exam simulation.",
+  ],
+  AG: [
+    "Farm Machinery & Power and Irrigation form the core engineering domains. Soil and Water Conservation and Food Processing provide applied variety. Surveying adds numerical precision testing.",
+    "Post Harvest Engineering and Renewable Energy emphasis. Farm Machinery and Irrigation provide moderate scoring opportunities with practical applications.",
+    "Soil and Water Conservation + Food Processing combination. Farm Power and Renewable Energy questions test applied agricultural engineering knowledge.",
+    "Comprehensive AG paper. Easy questions from basic agricultural concepts, moderate from machinery and irrigation design, difficult from integrated farm system problems. Complete exam simulation.",
+  ],
+  GG: [
+    "Geology and Geophysics form the dual core. Petrology and Stratigraphy provide the earth science foundation. Remote Sensing adds applied variety with GIS questions.",
+    "Structural Geology and Mineralogy emphasis. Geology mineral identification and Geophysics seismic methods provide moderate scoring opportunities.",
+    "Geophysics + Remote Sensing combination. Petrology and Structural Geology questions test integrated earth science understanding across scales.",
+    "Full-syllabus GG paper. Easy questions from basic geology and geophysics, moderate from structural geology and mineralogy, difficult from integrated remote sensing and geophysical interpretation. Complete exam simulation.",
+  ],
+  PH: [
+    "Classical Mechanics and Electromagnetism form the dual core. Quantum Mechanics and Thermal Physics provide the advanced physics foundation. Optics adds applied variety.",
+    "Solid State Physics and Nuclear Physics emphasis. Classical Mechanics Lagrangian mechanics and Electromagnetism Maxwell equations provide moderate scoring opportunities.",
+    "Quantum Mechanics + Statistical Mechanics combination. Thermal Physics and Optics questions test depth of physics understanding across classical and quantum regimes.",
+    "Comprehensive PH paper. Easy questions from basic physics concepts, moderate from classical mechanics and electromagnetism, difficult from integrated quantum and statistical mechanics problems. Complete exam simulation.",
   ],
   XE: [
-    "Section A (Engg Math) covers Linear Algebra, Calculus ODEs, and Vector Calculus — the core mathematical foundation. Section B (Fluid Mechanics) tests fluid statics, Bernoulli applications, and boundary layer theory. Section C (Materials Science) covers crystal structures, phase diagrams, and mechanical properties. Ideal for students choosing B+C combination.",
+    "Section A (Engineering Mathematics) covers Linear Algebra, Calculus ODEs, and Vector Calculus — the core mathematical foundation. Section B (Fluid Mechanics) tests fluid statics, Bernoulli applications, and boundary layer theory. Section C (Materials Science) covers crystal structures, phase diagrams, and mechanical properties. Ideal for students choosing B+C combination.",
     "Section A Engineering Mathematics paired with Section D (Solid Mechanics) stress-strain, bending, torsion, and buckling problems. Section E (Thermodynamics) laws, entropy, and thermodynamic cycles complete this mechanics-focused paper. Best for students choosing D+E combination.",
-    "Fluid Mechanics (Section B) and Solid Mechanics (Section D) combined with compulsory Engineering Mathematics. Boundary layer theory and dimensional analysis pair with beam deflection and column buckling. Strong engineering mechanics foundation paper.",
-    "Materials Science (Section C) crystal structures and phase diagrams combined with Thermodynamics (Section E) laws and cycles. Engineering Mathematics probability and linear algebra provide the mathematical backbone. Ideal for material science and thermal engineering aspirants.",
+    "Section A + Section B + Section D. Fluid Mechanics boundary layer theory and dimensional analysis pair with Solid Mechanics beam deflection and column buckling. Strong engineering mechanics foundation paper with compulsory math.",
     "All XE sections represented in realistic exam proportions. Easy math questions test calculus and linear algebra basics. Moderate questions from Fluid and Solid Mechanics test core competence. Difficult questions from Materials and Thermodynamics simulate the real exam's analytical challenges. Ideal for timed practice.",
   ],
   XL: [
     "Section P (Chemistry) Organic reaction mechanisms, Physical Chemistry thermodynamics/kinetics, and Inorganic coordination compounds. Section Q (Biochemistry) proteins, enzymes, metabolism. Section R (Botany) plant physiology, genetics. Comprehensive for P+Q+R combination students.",
-    "Chemistry section emphasizes organic stereochemistry and named reactions. Microbiology microbial physiology and genetics form Section S. Zoology animal physiology and developmental biology (Section T) complete this biology-heavy paper. Ideal for P+S+T combination.",
-    "Organic Chemistry named reactions and aromatic substitution dominate Section P. Biochemistry metabolism and molecular biology (Section Q) pair with Zoology genetics and ecology (Section T). Strong biochemistry focus for P+Q+T aspirants.",
-    "Physical Chemistry quantum basics and electrochemistry balanced with Organic polymer chemistry. Botany plant systematics and ecology (Section R) combined with Microbiology applied aspects (Section S). Well-rounded for P+R+S combination.",
-    "Full XL syllabus paper covering all 5 sections. Balanced mix of recall, application, and analysis questions. Designed for complete exam simulation with realistic timing. Easy chemistry questions provide quick marks, moderate biology questions test depth, and difficult multi-concept questions challenge even prepared students.",
+    "Section P + Section S (Microbiology) + Section T (Zoology). Deep biology focus with chemistry foundation. Microbiology microbial physiology and genetics form Section S. Zoology animal physiology and developmental biology (Section T) complete this biology-heavy paper.",
+    "Section P + Section Q + Section T. Biochemistry metabolism and molecular biology (Section Q) pair with Zoology genetics and ecology (Section T). Strong biochemistry focus for P+Q+T aspirants with organic chemistry emphasis.",
+    "Full XL syllabus paper covering all sections. Balanced mix of recall, application, and analysis questions. Designed for complete exam simulation with realistic timing. Easy chemistry questions provide quick marks, moderate biology questions test depth, and difficult multi-concept questions challenge even prepared students.",
   ],
 };
 
@@ -314,6 +623,31 @@ function normalizeSubject(name: string, branch: string): string {
       "Software Engineering": "Software Engineering",
       "SE": "Software Engineering",
     },
+    EC: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Network, Signals & Systems": "Network, Signals & Systems",
+      "Network Theorems": "Network, Signals & Systems",
+      "Signals and Systems": "Network, Signals & Systems",
+      "Signals & Systems": "Network, Signals & Systems",
+      "Networks": "Network, Signals & Systems",
+      "Electronic Devices": "Electronic Devices",
+      "ED": "Electronic Devices",
+      "Analog Circuits": "Analog Circuits",
+      "Digital Circuits": "Digital Circuits",
+      "Control Systems": "Control Systems",
+      "CS": "Control Systems",
+      "Communication Systems": "Communication Systems",
+      "Communications": "Communication Systems",
+      "Electromagnetics": "Electromagnetics",
+      "EMFT": "Electromagnetics",
+      "Electromagnetic Field Theory": "Electromagnetics",
+      "Analog & Digital Electronics": "Analog & Digital Electronics",
+      "ADE": "Analog & Digital Electronics",
+      "Electrical & Electronic Measurements": "Electrical & Electronic Measurements",
+      "Measurements": "Electrical & Electronic Measurements",
+      "EC": "Network, Signals & Systems",
+    },
     EE: {
       "General Aptitude": "General Aptitude",
       "Engineering Mathematics": "Engineering Mathematics",
@@ -331,22 +665,6 @@ function normalizeSubject(name: string, branch: string): string {
       "Electromagnetic Field Theory": "EMFT",
       "Measurements and Instrumentation": "Measurements and Instrumentation",
       "Measurements": "Measurements and Instrumentation",
-    },
-    CE: {
-      "General Aptitude": "General Aptitude",
-      "Engineering Mathematics": "Engineering Mathematics",
-      "Structural Analysis": "Structural Engineering",
-      "Structural Engineering": "Structural Engineering",
-      "Geotechnical Engineering": "Geotechnical Engineering",
-      "Soil Mechanics": "Geotechnical Engineering",
-      "Water Resources Engineering": "Water Resources Engineering",
-      "Hydrology": "Water Resources Engineering",
-      "Fluid Mechanics": "Water Resources Engineering",
-      "Environmental Engineering": "Environmental Engineering",
-      "Transportation Engineering": "Transportation Engineering",
-      "Surveying": "Surveying",
-      "Concrete Technology": "Construction Materials and Management",
-      "Construction Materials and Management": "Construction Materials and Management",
     },
     ME: {
       "General Aptitude": "General Aptitude",
@@ -366,6 +684,205 @@ function normalizeSubject(name: string, branch: string): string {
       "Manufacturing": "Manufacturing Processes",
       "Manufacturing Processes": "Manufacturing Processes",
       "IC Engine": "IC Engine",
+    },
+    CE: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Structural Analysis": "Structural Engineering",
+      "Structural Engineering": "Structural Engineering",
+      "Geotechnical Engineering": "Geotechnical Engineering",
+      "Soil Mechanics": "Geotechnical Engineering",
+      "Water Resources Engineering": "Water Resources Engineering",
+      "Hydrology": "Water Resources Engineering",
+      "Fluid Mechanics": "Water Resources Engineering",
+      "Environmental Engineering": "Environmental Engineering",
+      "Transportation Engineering": "Transportation Engineering",
+      "Surveying": "Surveying & Geomatics",
+      "Surveying & Geomatics": "Surveying & Geomatics",
+      "Concrete Technology": "Construction Materials",
+      "Construction Materials and Management": "Construction Materials",
+      "Construction Materials": "Construction Materials",
+    },
+    IN: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Electrical Circuits": "Electrical Circuits",
+      "Network Analysis": "Electrical Circuits",
+      "Sensors & Instrumentation": "Sensors & Instrumentation",
+      "Sensors": "Sensors & Instrumentation",
+      "Transducers": "Sensors & Instrumentation",
+      "Control Systems": "Control Systems",
+      "Analog & Digital Electronics": "Analog & Digital Electronics",
+      "Analog Electronics": "Analog & Digital Electronics",
+      "Digital Electronics": "Analog & Digital Electronics",
+      "Communications & Process Control": "Communications & Process Control",
+      "Communication Systems": "Communications & Process Control",
+      "Process Control": "Communications & Process Control",
+      "Measurement Systems": "Measurement Systems",
+      "Signal Conditioning": "Signal Conditioning",
+      "Electrical and Electronics Measurements": "Measurement Systems",
+    },
+    PI: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Manufacturing Processes": "Manufacturing Processes",
+      "Manufacturing": "Manufacturing Processes",
+      "Machine Design": "Machine Design",
+      "Thermal Engineering": "Thermal Engineering",
+      "Industrial Engineering": "Industrial Engineering",
+      "Mechanics of Materials": "Mechanics of Materials",
+      "Metrology": "Metrology & Inspection",
+      "Metrology & Inspection": "Metrology & Inspection",
+      "Production Planning & Control": "Production Planning & Control",
+      "Operations Research": "Operations Research",
+      "OR": "Operations Research",
+    },
+    CH: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Process Calculations": "Process Calculations",
+      "Thermodynamics": "Thermodynamics",
+      "Fluid Mechanics": "Fluid Mechanics",
+      "Heat Transfer": "Heat Transfer",
+      "Mass Transfer": "Mass Transfer",
+      "Chemical Reaction Engineering": "Chemical Reaction Engineering",
+      "CRE": "Chemical Reaction Engineering",
+      "Process Control": "Process Control",
+      "Mechanical Operations": "Mechanical Operations",
+    },
+    BT: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Genetics": "Genetics",
+      "Biochemistry": "Biochemistry",
+      "Microbiology": "Microbiology",
+      "Bioprocess Engineering": "Bioprocess Engineering",
+      "Immunology": "Immunology",
+      "Bioinformatics": "Bioinformatics",
+      "Cell Biology": "Cell Biology",
+      "Molecular Biology": "Molecular Biology",
+    },
+    MT: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Physical Metallurgy": "Physical Metallurgy",
+      "Extractive Metallurgy": "Extractive Metallurgy",
+      "Mechanical Metallurgy": "Mechanical Metallurgy",
+      "Phase Transformations": "Phase Transformations",
+      "Heat Treatment": "Heat Treatment",
+      "Corrosion": "Corrosion",
+      "Welding & Joining": "Welding & Joining",
+      "Welding": "Welding & Joining",
+      "Non-Ferrous Metals & Alloys": "Non-Ferrous Metals & Alloys",
+      "Non-Ferrous Metals": "Non-Ferrous Metals & Alloys",
+    },
+    TF: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Textile Fibers": "Textile Fibers",
+      "Yarn Manufacturing": "Yarn Manufacturing",
+      "Fabric Manufacturing": "Fabric Manufacturing",
+      "Textile Testing": "Textile Testing",
+      "Chemical Processing": "Chemical Processing",
+      "Apparel Engineering": "Apparel Engineering",
+      "Textile Machinery": "Textile Machinery",
+      "Textile Physics": "Textile Physics",
+    },
+    PE: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Petroleum Exploration": "Petroleum Exploration",
+      "Drilling Engineering": "Drilling Engineering",
+      "Reservoir Engineering": "Reservoir Engineering",
+      "Production Engineering": "Production Engineering",
+      "Petroleum Formation Evaluation": "Petroleum Formation Evaluation",
+      "Offshore Drilling": "Offshore Drilling",
+      "Well Testing": "Well Testing",
+      "Petroleum Chemistry": "Petroleum Chemistry",
+    },
+    EY: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Ecology": "Ecology",
+      "Evolution": "Evolution",
+      "Genetics": "Genetics",
+      "Environmental Science": "Environmental Science",
+      "Cell Biology": "Cell Biology",
+      "Plant Physiology": "Plant Physiology",
+      "Zoology": "Zoology",
+      "Behavioral Ecology": "Behavioral Ecology",
+    },
+    MA: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Algebra": "Algebra",
+      "Calculus": "Calculus",
+      "Analysis": "Analysis",
+      "Topology": "Topology",
+      "Probability": "Probability",
+      "Real Analysis": "Real Analysis",
+      "Linear Algebra": "Linear Algebra",
+      "Complex Analysis": "Complex Analysis",
+    },
+    AR: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Architecture": "Architecture",
+      "Building Materials": "Building Materials",
+      "Urban Planning": "Urban Planning",
+      "Design": "Design",
+      "Construction": "Construction Technology",
+      "Construction Technology": "Construction Technology",
+      "Climate": "Climate & Services",
+      "Services": "Climate & Services",
+      "Climate & Services": "Climate & Services",
+      "Landscape": "Landscape Architecture",
+      "Landscape Architecture": "Landscape Architecture",
+      "Structural Systems": "Structural Systems",
+    },
+    AG: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Farm Machinery": "Farm Machinery & Power",
+      "Farm Power": "Farm Machinery & Power",
+      "Farm Machinery & Power": "Farm Machinery & Power",
+      "Irrigation": "Irrigation & Drainage",
+      "Irrigation & Drainage": "Irrigation & Drainage",
+      "Soil and Water": "Soil and Water Conservation",
+      "Soil and Water Conservation": "Soil and Water Conservation",
+      "Post Harvest": "Post Harvest Engineering",
+      "Post Harvest Engineering": "Post Harvest Engineering",
+      "Food Processing": "Food Processing",
+      "Surveying": "Surveying & Leveling",
+      "Surveying & Leveling": "Surveying & Leveling",
+      "Green Energy": "Renewable Energy",
+      "Renewable Energy": "Renewable Energy",
+      "Agricultural Engineering Basics": "Agricultural Engineering Basics",
+    },
+    GG: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Geology": "Geology",
+      "Geophysics": "Geophysics",
+      "Remote Sensing": "Remote Sensing & GIS",
+      "Remote Sensing & GIS": "Remote Sensing & GIS",
+      "Petrology": "Petrology",
+      "Stratigraphy": "Stratigraphy",
+      "Structural Geology": "Structural Geology",
+      "Mineralogy": "Mineralogy",
+    },
+    PH: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Classical Mechanics": "Classical Mechanics",
+      "Electromagnetism": "Electromagnetism",
+      "Quantum Mechanics": "Quantum Mechanics",
+      "Thermal Physics": "Thermal Physics",
+      "Optics": "Optics",
+      "Solid State": "Solid State Physics",
+      "Solid State Physics": "Solid State Physics",
+      "Nuclear Physics": "Nuclear Physics",
+      "Statistical Mechanics": "Statistical Mechanics",
     },
     XE: {
       "General Aptitude": "General Aptitude",
@@ -405,7 +922,7 @@ function generatePaper(
   rand: () => number
 ): PredictedPaper {
   const weightage = getSubjectWeightage(branch);
-  const paperId = `${branch}-P${paperIndex + 1}`;
+  const paperId = `${branch}-M${paperIndex + 1}`;
 
   // Group questions by normalized subject
   const bySubject: Record<string, RawQuestion[]> = {};
@@ -439,12 +956,14 @@ function generatePaper(
     }
   }
 
-  // Select questions per subject (roughly 1.5 marks per question)
+  // Select questions per subject
   const selectedQuestions: { q: RawQuestion; subject: string }[] = [];
   const usageCount: Record<string, number> = {};
 
   for (const sw of scaledWeightage) {
     const pool = bySubject[sw.name] || [];
+    if (pool.length === 0) continue;
+    // Roughly 1.5 marks per question, minimum 1
     const qCount = Math.max(1, Math.round(sw.marks / 1.5));
     const unused = pool.filter((q) => (usageCount[q.id] || 0) < 3);
     const sourcePool = unused.length >= qCount ? unused : pool;
@@ -459,18 +978,18 @@ function generatePaper(
   // Pad if needed
   while (selectedQuestions.length < TOTAL_QUESTIONS) {
     const fallback = allQuestions[Math.floor(rand() * allQuestions.length)];
-    selectedQuestions.push({ q: fallback, subject: normalizeSubject(fallback.subject, branch) });
+    const norm = normalizeSubject(fallback.subject, branch);
+    selectedQuestions.push({ q: fallback, subject: norm });
   }
 
   selectedQuestions.length = TOTAL_QUESTIONS;
 
-  // Assign marks: scale source marks to sum to exactly 100
+  // Assign marks: scale to sum to exactly 100
   const rawMarks = selectedQuestions.map((sq) => sq.q.marks || 1);
   const rawTotal = rawMarks.reduce((s, m) => s + m, 0);
   const markScale = TOTAL_MARKS / rawTotal;
   let adjustedMarks = rawMarks.map((m) => Math.round(m * markScale));
 
-  // Fix rounding to exactly 100
   let adjustedTotal = adjustedMarks.reduce((s, m) => s + m, 0);
   let fixIdx = 0;
   while (adjustedTotal !== TOTAL_MARKS && fixIdx < adjustedMarks.length * 3) {
@@ -533,7 +1052,7 @@ function generatePaper(
       difficulty: difficulty as "easy" | "moderate" | "difficult",
       questionText: sq.q.question_text,
       options,
-      correctAnswer: sq.q.answer,
+      correctAnswer: sq.q.answer || "",
       explanation: explanationText,
       source: `Adapted from GATE ${sq.q.year} ${branch} Session ${sq.q.session || "1"} Q${sq.q.question_number}`,
     };
@@ -562,8 +1081,8 @@ function generatePaper(
   return {
     id: paperId,
     branch,
-    title: `GATE ${branch} 2026 Predicted Paper ${paperIndex + 1}`,
-    description: PAPER_DESCRIPTIONS[branch]?.[paperIndex] || `Predicted Paper ${paperIndex + 1} for GATE ${branch}`,
+    title: `GATE ${branch} Trend-Based Mock Paper ${paperIndex + 1}`,
+    description: PAPER_DESCRIPTIONS[branch]?.[paperIndex] || `Trend-Based Mock Paper ${paperIndex + 1} for GATE ${branch}`,
     createdAt: new Date().toISOString(),
     totalQuestions: questions.length,
     totalMarks: finalMarks,
@@ -576,7 +1095,8 @@ function generatePaper(
 
 // ─── Public API ──────────────────────────────────────────────────────────────
 
-const BRANCHES = ["CS", "EE", "CE", "ME", "XE", "XL"];
+const BRANCHES = ["CS", "EC", "EE", "ME", "CE", "IN", "PI", "CH", "BT", "MT", "XE", "XL", "TF", "PE", "EY", "MA", "AR", "AG", "GG", "PH"];
+const PAPERS_PER_BRANCH = 4;
 
 export function generateAllPapers(): AllPapers {
   const branches: BranchPapers[] = [];
@@ -598,7 +1118,7 @@ export function generateAllPapers(): AllPapers {
     }
 
     const papers: PredictedPaper[] = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < PAPERS_PER_BRANCH; i++) {
       const seed = (branch.charCodeAt(0) * 1000) + (i * 137) + 42;
       const rand = seededRandom(seed);
       const paper = generatePaper(branch, i, questions, rand);

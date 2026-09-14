@@ -53,7 +53,7 @@ export default function Home() {
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start">
               <Link
-                href="/library"
+                href="/pyqs"
                 className="inline-flex items-center px-7 py-3.5 bg-foreground text-background font-medium text-sm rounded-xl transition-all duration-200 hover:opacity-90 group"
               >
                 <span>Start Learning Free</span>
@@ -72,10 +72,10 @@ export default function Home() {
                 </svg>
               </Link>
               <Link
-                href="/gate"
+                href="/predicted-papers"
                 className="inline-flex items-center px-7 py-3.5 border border-border hover:border-foreground/40 text-foreground font-medium text-sm rounded-xl transition-all duration-200"
               >
-                Explore GATE Papers
+                Try Mock Papers
               </Link>
             </div>
 
@@ -105,35 +105,35 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
           <div className="max-w-3xl mx-auto text-center">
             <div className="font-mono text-xs tracking-[0.2em] text-accent uppercase mb-4 reveal">
-              GATE CSE 2026
+              GATE Mock Papers
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight mb-4 reveal">
-              Predicted Papers
+              Trend-Based Mock Papers
             </h2>
             <p className="text-base md:text-lg text-muted leading-relaxed mb-8 reveal">
-              Four carefully predicted GATE CSE 2026 papers based on trend analysis, topic-wise
-              weightage, and previous year patterns. Practice with the predicted papers, download
-              PDFs, and test your preparation — free for everyone.
+              Five carefully designed mock papers per branch, built from analyzing historical PYQ trends —
+              topic weightage, difficulty distribution, and recurring patterns. Practice with realistic exam
+              simulations and test your preparation — free for everyone.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center reveal">
               <Link
                 href="/predicted-papers/cs"
                 className="inline-flex items-center px-7 py-3.5 bg-accent text-white font-medium text-sm rounded-xl transition-all duration-200 hover:opacity-90"
               >
-                View Predicted Papers
+                View Trend-Based Mock Papers
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </Link>
               <Link
-                href="/predicted-papers/cs/CS-PRED-2026-P1"
+                href="/predicted-papers/cs"
                 className="inline-flex items-center px-7 py-3.5 border border-border hover:border-foreground/40 text-foreground font-medium text-sm rounded-xl transition-all duration-200"
               >
-                Start Practice Now
+                Browse All Branches
               </Link>
             </div>
             <p className="text-xs text-muted mt-4 reveal">
-              5 papers · 65 questions each · 3 hours each · Free to practice
+              5 papers · Free to practice
             </p>
           </div>
         </div>
@@ -391,7 +391,7 @@ export default function Home() {
               },
               {
                 title: "Study Library",
-                desc: "Organized PYQ analysis, predicted papers, subject-wise notes, and resources structured by branch.",
+                desc: "Organized PYQ analysis, trend-based mock papers, subject-wise notes, and resources structured by branch.",
                 tier: "free",
               },
               {
@@ -510,7 +510,7 @@ export default function Home() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {[
-              { title: "Full GATE Library", desc: "Browse 20+ branches, 18 years of question analysis, subject-wise notes, and predicted papers." },
+              { title: "Full GATE Library", desc: "Browse 20+ branches, 18 years of question analysis, subject-wise notes, and trend-based mock papers." },
               { title: "AI Doubt Engine", desc: "5 questions per day, powered by Groq. Get step-by-step explanations grounded in the library." },
               { title: "Study Tracker", desc: "Timer with page-visibility detection, daily goals, verified sessions, and streak tracking." },
               { title: "Global Leaderboard", desc: "Ranked by verified study time. See how you compare with fellow aspirants." },
@@ -605,7 +605,7 @@ export default function Home() {
                   "Unlimited AI Doubt Engine",
                   "Live global study chat",
                   "All premium library content",
-                  "Predicted mock papers",
+                  "Trend-based mock papers",
                   "Advanced analytics & insights",
                   "All Free features included",
                 ].map((item) => (
