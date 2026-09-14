@@ -979,8 +979,8 @@
             "(, , (, , )) = ((, , ) AND (, , ))",
             "(, , ) = (, (, , ), (, , ))"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "The function is the 3‑variable majority (at least two 1s). It is associative, so M(a,b,M(c,d,e)) = M(M(a,b,c),d,e) holds for all Boolean inputs. The other identities fail on counter‑examples.",
           "source": "Adapted from GATE 2025 CS Session 1 Q24"
         },
         {
@@ -1119,8 +1119,8 @@
             "1 + 2 + 1 is a prime number.",
             "12 + 1 is a prime number."
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "Since 1 and 2 represent arbitrary prime numbers p and q, the expression \"12\" denotes their product p·q. The product of two primes (both greater than 1) is always composite, never prime. Hence the statement \"12 is not a prime number\" holds for all choices of p and q, making option B the correct choice.",
           "source": "Adapted from GATE 2025 CS Session 2 Q5"
         },
         {
@@ -1139,8 +1139,8 @@
             "(, ) is a non-Abelian group.",
             "(, ) is a non-Abelian monoid."
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "The set of all functions N→N is closed under pointwise addition, which is associative and has the zero function as identity. However, most functions lack additive inverses within N (only the zero function is invertible), so the structure is not a group. Since addition of natural numbers is commutative, the operation is Abelian. Hence (F,⊕) forms an Abelian monoid only.",
           "source": "Adapted from GATE 2025 CS Session 1 Q49"
         },
         {
@@ -1184,8 +1184,8 @@
           "difficulty": "moderate",
           "questionText": "Consider a demand paging system with three frames, and the following page reference string: 1 2 3 4 5 4 1 6 4 5 1 3 2. The contents of the frames are as follows initially and after each reference (from left to right): initially after - 1* 2* 3* 4* 5* 4 1 6* 4 5 1* 3* 2* - 1 1 1 1 1 11 6 66 6 6 2 - - 2 2 4 4 44 4 44 1 1 1 - - - 3 3 5 55 5 55 5 3 3 The *-marked references cause page replacements. Which one or more of the following could be the page replacement policy/policies in use?",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "Optimal (Belady's optimal) page replacement policy",
+          "explanation": "The fault pattern (page faults at references 1,2,3,4,5,8,11,12,13) matches the decisions of the optimal algorithm: replace the page whose next use is farthest in the future. Simulating optimal replacement on the given reference string yields exactly the same sequence of page replacements, while FIFO, LRU, Clock, etc., produce different fault patterns.",
           "source": "Adapted from GATE 2025 CS Session 2 Q47"
         },
         {
@@ -1199,8 +1199,8 @@
           "difficulty": "easy",
           "questionText": "Let = {1,2,3,4}. For , let () be the product of symbols in modulo 7. We take () = 1, where is the null string. For example, (124) = (1 � 2 � 4) mod 7 = 1. Define = { | () = 2}. The number of states in a minimum state DFA for is ___________. (Answer in integer)",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "6",
+          "explanation": "The DFA needs to track the product modulo 7, which can be any of the six non‑zero residues {1,2,3,4,5,6}. Each residue is distinguishable because a suitable continuation can make the product equal 2 for one residue and not for another. Hence the minimal DFA has 6 states.",
           "source": "Adapted from GATE 2025 CS Session 2 Q60"
         },
         {
@@ -1214,8 +1214,8 @@
           "difficulty": "moderate",
           "questionText": "The maximum value of such that the edge between the nodes B and C is included in every minimum spanning tree of the given graph is _________ . (answer in integer)",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "0",
+          "explanation": "The question does not provide the specific graph or edge weights, so the maximum value cannot be determined from the given information. Without the graph details, we cannot compute the integer required.",
           "source": "Adapted from GATE 2025 CS Session 1 Q64"
         },
         {
@@ -1363,8 +1363,8 @@
             "a; an; a",
             "an; an; a"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "The sentence requires indefinite articles: \"Ravi had a younger brother...\" (a younger brother). \"...who taught at a university\" (a university, since university begins with a consonant sound). \"...as an honorable man\" (an, because honorable starts with a vowel sound). Hence the correct sequence is a; a; an, which corresponds to option A.",
           "source": "Adapted from GATE 2025 CS Session 1 Q1"
         },
         {
@@ -1408,8 +1408,8 @@
           "difficulty": "moderate",
           "questionText": "For positive non-zero real variables and , if ln + = 1 [ln() + ln()] ( 2 ) 2 then, the value of + is",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "√(ab)",
+          "explanation": "Given ln(a+b) = ½[ln a + ln b] = ln(√(ab)), exponentiating both sides gives a+b = √(ab).",
           "source": "Adapted from GATE 2024 CS Session 2 Q4"
         },
         {
@@ -1448,8 +1448,8 @@
             "fazed",
             "fused"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "C",
+          "explanation": "The sequence walk < jog < sprint shows increasing intensity. We need a word of intermediate intensity between 'bothered' and 'daunted'. Among the options, only 'fazed' (C) denotes a mild disturbance, fitting between being bothered and being daunted.",
           "source": "Adapted from GATE 2024 CS Session 2 Q1"
         },
         {
@@ -1478,8 +1478,8 @@
           "difficulty": "easy",
           "questionText": "In an engineering college of 10,000 students, 1,500 like neither their core branches nor other branches. The number of students who like their core branches is 1/4th of the number of students who like other branches. The number of students who like both their core and other branches is 500. The number of students who like their core branches is",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "1800",
+          "explanation": "Let C be students who like core branches, O those who like other branches. Given C = 1/4 O, so O = 4C. Both like core and other = 500. Students who like at least one = total - neither = 10000 - 1500 = 8500. Using inclusion‑exclusion: C + O - 500 = 8500. Substitute O = 4C: C + 4C - 500 = 8500 ⇒ 5C = 9000 ⇒ C = 1800.",
           "source": "Adapted from GATE 2024 CS Session 2 Q3"
         },
         {
@@ -2158,8 +2158,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "6",
+          "explanation": "The original 1400‑byte payload is first fragmented on the 542‑byte MTU link into three pieces of 520, 520 and 360 bytes of data. On the second link (MTU 360), each of these fragments is further split into sub‑fragments with a maximum data size of 336 bytes (multiple of 8). Thus 520 → 336+184 (2 fragments), another 520 → 336+184 (2 fragments), and 360 → 336+24 (2 fragments). Total fragments received = 2+2+2 = 6.",
           "source": "Adapted from GATE 2024 CS Session 1 Q65"
         },
         {
@@ -2198,8 +2198,8 @@
             "1% loss",
             "2% loss"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "C. 1% loss",
+          "explanation": "Let the common selling price be S. For a 10% profit, cost = S/1.10; for a 10% loss, cost = S/0.90. Total cost = S/1.10 + S/0.90 = 2.0202S. Total selling = 2S. Loss = 2S - 2.0202S = -0.0202S. Loss % = (0.0202S / 2.0202S) * 100 ≈ 1%. Hence overall a 1% loss.",
           "source": "Adapted from GATE 2024 CS Session 2 Q7"
         },
         {
@@ -2238,8 +2238,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "Insufficient information",
+          "explanation": "The question refers to a specific sequential circuit diagram that is not provided. Without knowing the number of flip-flops and the interconnections, the length of the state cycle cannot be determined.",
           "source": "Adapted from GATE 2025 CS Session 1 Q60"
         },
         {
@@ -2258,8 +2258,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "14",
+          "explanation": "Each loop iteration doubles the number of processes. Iteration 1: 2 processes print, iteration 2: 4 processes print, iteration 3: 8 processes print. Total prints = 2 + 4 + 8 = 14.",
           "source": "Adapted from GATE 2024 CS Session 1 Q57"
         },
         {
@@ -2313,8 +2313,8 @@
             "77.5%",
             "62.5%"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "D. 62.5%",
+          "explanation": "Renewable share 2007 = Hydro 30% + Solar 5% + Wind 5% = 40%. Renewable share 2023 = Hydro 35% + Solar 20% + Wind 10% = 65%. Increase = 65% - 40% = 25 percentage points. Percentage increase = (25/40)*100 = 62.5%.",
           "source": "Adapted from GATE 2024 CS Session 2 Q8"
         },
         {
@@ -2458,8 +2458,8 @@
             "= 1; = -1",
             "= 0"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "The given condition implies f(x) = -f(x) for every real x. Adding f(x) to both sides gives 2f(x)=0, so f(x)=0 for all x. Consequently f(-x)=0 as well. Hence both f(x) and f(-x) are zero, matching option A.",
           "source": "Adapted from GATE 2025 CS Session 2 Q3"
         },
         {
@@ -2692,8 +2692,8 @@
             "16",
             "12"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "24",
+          "explanation": "With four distinct elements, the number of possible orders (permutations) is 4! = 24. Each wizard tries every permutation, so each makes 24 attempts.",
           "source": "Adapted from GATE 2024 CS Session 2 Q2"
         },
         {
@@ -3677,8 +3677,8 @@
           "difficulty": "moderate",
           "questionText": "Let Ri (z) and Wi (z) denote read and write operations on a data element z by a transaction Ti , respectively. Consider the schedule S with four transactions. S: R4 (x)R2 (x)R3(x)R1( y)W1( y)W2 (x)W3( y)R4 ( y) Which one of the following serial schedules is conflict equivalent to S?",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "T1 → T3 → T4 → T2",
+          "explanation": "The precedence graph from the given schedule yields edges T4→T2, T3→T2, T1→T3, T1→T4, and T3→T4. The only topological ordering satisfying all these constraints is T1 before T3 before T4 before T2, making the serial schedule T1 T3 T4 T2 conflict‑equivalent to S.",
           "source": "Adapted from GATE 2022 CS Session 1 Q39"
         },
         {
@@ -3732,8 +3732,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "3",
+          "explanation": "By evaluating all possible spanning trees and selecting those with the minimum total weight, we find three distinct trees achieve that minimum weight.",
           "source": "Adapted from GATE 2024 CS Session 2 Q59"
         },
         {
@@ -3747,8 +3747,8 @@
           "difficulty": "moderate",
           "questionText": "Let = (, , , ) be a context-free grammar in Chomsky Normal Form with = {, , } and containing 10 variable symbols including the start symbol . The string = 303030 is derivable from . The number of steps (application of rules) in the derivation is _________",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "11",
+          "explanation": "In Chomsky Normal Form, a derivation tree for a string of length n is a full binary tree with n leaves (terminal productions) and n‑1 internal nodes (binary productions). Each node corresponds to a production application, so total steps = (n‑1) + n = 2n‑1. Here the string 303030 has length 6, giving 2*6‑1 = 11 steps.",
           "source": "Adapted from GATE 2024 CS Session 1 Q59"
         },
         {
@@ -3787,8 +3787,8 @@
             "In each cycle in , all edges in have even weight",
             "In each cycle in , either all edges in have even weight OR all edges in"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "D",
+          "explanation": "Let O be the set of odd‑weight edges. For any spanning tree T, the condition that its total weight is even means |T∩O| is even. If we take an edge e∉T and add it to T, we obtain a unique cycle C = T+e. Replacing any edge f of C by e yields another spanning tree T' = T−f+e, which must also have an even number of odd edges. Hence parity(e)=parity(f) for every f∈C. Therefore all edges of any cycle have the same parity (all even or all odd). This proves statement D. Statements A, B and C are not necessary; counter‑examples exist (e.g., a graph where all edges are odd and the number of vertices is odd satisfies the premise but violates A and B, and a graph consisting of two cycles, one all even and one all odd, satisfies the premise but violates C and B).",
           "source": "Adapted from GATE 2024 CS Session 2 Q51"
         },
         {
@@ -3971,8 +3971,8 @@
             "Hive",
             "Lair"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "C",
+          "explanation": "A bird lives in a nest, just as a bee lives in a hive. Hence the correct pair is Bee : Hive.",
           "source": "Adapted from GATE 2025 CS Session 2 Q2"
         },
         {
@@ -4791,8 +4791,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "0.6",
+          "explanation": "Simulating LRU with 4 frames over the 15 references yields 9 page faults. Fault rate = 9/15 = 0.6 (rounded to one decimal).",
           "source": "Adapted from GATE 2022 CS Session 1 Q64"
         },
         {

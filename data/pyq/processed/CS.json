@@ -9,7 +9,7 @@
     "2",
     "1"
   ],
-  "generatedAt": "2026-09-07T14:23:22.926Z",
+  "generatedAt": "2026-09-14T16:28:27.250Z",
   "questions": [
     {
       "id": "GATE-CS-0001",
@@ -4487,6 +4487,31 @@
     },
     {
       "id": "GATE-CS-0190",
+      "question_number": 60,
+      "question_text": "The chromatic number of a graph is the minimum number of colours used in a proper colouring of the graph. The chromatic number of the following graph is _________",
+      "subject": "CS",
+      "topic": "",
+      "options": [
+        "contains a complete subgraph with vertices",
+        "contains an independent set of size at least /",
+        "contains at least ( - 1)/2 edges",
+        "contains a vertex of degree at least"
+      ],
+      "answer": null,
+      "question_type": "MCQ",
+      "marks": 2,
+      "negative_marks": 0.33,
+      "branch": "CS",
+      "year": 2024,
+      "session": "2",
+      "difficulty": "medium",
+      "tags": [],
+      "explanation": "",
+      "source": "extracted-text",
+      "source_file": "CS_2024_s2.json"
+    },
+    {
+      "id": "GATE-CS-0191",
       "question_number": 61,
       "question_text": "A processor uses a 32-bit instruction format and supports byte-addressable memory access. The ISA of the processor has 150 distinct instructions. The instructions are equally divided into two types, namely R-type and I-type, whose formats are shown below. R-type Instruction Format: OPCODE UNUSED DST Register SRC Register1 SRC Register 2 I-type Instruction Format: OPCODE DST Register SRC Register # Immediate value/address In the OPCODE, 1 bit is used to distinguish between I-type and R-type instructions and the remaining bits indicate the operation. The processor has 50 architectural registers, and all register fields in the instructions are of equal size. Let be the number of bits used to encode the UNUSED field, be the number of bits used to encode the OPCODE field, and be the number of bits used to encode the immediate value/address field. The value of + 2 + is ________",
       "subject": "CS",
@@ -4506,7 +4531,7 @@
       "source_file": "CS_2024_s2.json"
     },
     {
-      "id": "GATE-CS-0191",
+      "id": "GATE-CS-0192",
       "question_number": 62,
       "question_text": "Let 1 be the language represented by the regular expression () and 2 = { ( + )||| 4}, where || denotes the length of string . The number of strings in 2 which are also in 1 is ___________",
       "subject": "CS",
@@ -4526,7 +4551,7 @@
       "source_file": "CS_2024_s2.json"
     },
     {
-      "id": "GATE-CS-0192",
+      "id": "GATE-CS-0193",
       "question_number": 63,
       "question_text": "Let be the group of integers {0, 1, 2, ... , - 1} with addition modulo as the group operation. The number of elements in the group 2 � 3 � 4 that are their own inverses is ________",
       "subject": "CS",
@@ -4546,7 +4571,7 @@
       "source_file": "CS_2024_s2.json"
     },
     {
-      "id": "GATE-CS-0193",
+      "id": "GATE-CS-0194",
       "question_number": 64,
       "question_text": "Consider a 32-bit system with 4 KB page size and page table entries of size 4 bytes each. Assume 1 KB = 210 bytes. The OS uses a 2-level page table for memory management, with the page table containing an outer page directory and an inner page table. The OS allocates a page for the outer page directory upon process creation. The OS uses demand paging when allocating memory for the inner page table, i.e., a page of the inner page table is allocated only if it contains at least one valid page table entry. An active process in this system accesses 2000 unique pages during its execution, and none of the pages are swapped out to disk. After it completes the page accesses, let X denote the minimum and Y denote the maximum number of pages across the two levels of the page table of the process. The value of X+Y is ________",
       "subject": "CS",
@@ -4566,7 +4591,7 @@
       "source_file": "CS_2024_s2.json"
     },
     {
-      "id": "GATE-CS-0194",
+      "id": "GATE-CS-0195",
       "question_number": 65,
       "question_text": "Consider the following augmented grammar, which is to be parsed with a SLR parser. The set of terminals is {,,,,#,@} |||| # @ Let 0 = ({ � }). The number of items in the set (0, ) is ___________",
       "subject": "CS",
@@ -4586,7 +4611,7 @@
       "source_file": "CS_2024_s2.json"
     },
     {
-      "id": "GATE-CS-0195",
+      "id": "GATE-CS-0196",
       "question_number": 1,
       "question_text": "Let A be a 3×3 matrix with eigenvalues 1, 2, and 3. Then the trace of A² is:",
       "subject": "Engineering Mathematics",
@@ -4611,7 +4636,7 @@
       "source_file": "cse-2024-official.json"
     },
     {
-      "id": "GATE-CS-0196",
+      "id": "GATE-CS-0197",
       "question_number": 2,
       "question_text": "The number of Boolean functions of n variables is:",
       "subject": "Digital Logic",
@@ -4636,7 +4661,7 @@
       "source_file": "cse-2024-official.json"
     },
     {
-      "id": "GATE-CS-0197",
+      "id": "GATE-CS-0198",
       "question_number": 3,
       "question_text": "What is the time complexity of inserting at the beginning of a linked list?",
       "subject": "Programming and Data Structures",
@@ -4661,7 +4686,7 @@
       "source_file": "cse-2024-official.json"
     },
     {
-      "id": "GATE-CS-0198",
+      "id": "GATE-CS-0199",
       "question_number": 4,
       "question_text": "Which of the following is NOT a necessary condition for deadlock?",
       "subject": "Operating Systems",
@@ -4686,7 +4711,7 @@
       "source_file": "cse-2024-official.json"
     },
     {
-      "id": "GATE-CS-0199",
+      "id": "GATE-CS-0200",
       "question_number": 5,
       "question_text": "In SQL, which command permanently removes a table and its data from the database?",
       "subject": "Databases",
@@ -4711,7 +4736,7 @@
       "source_file": "cse-2024-official.json"
     },
     {
-      "id": "GATE-CS-0200",
+      "id": "GATE-CS-0201",
       "question_number": 6,
       "question_text": "Which protocol operates at the application layer of the TCP/IP model?",
       "subject": "Computer Networks",
@@ -4736,7 +4761,7 @@
       "source_file": "cse-2024-official.json"
     },
     {
-      "id": "GATE-CS-0201",
+      "id": "GATE-CS-0202",
       "question_number": 7,
       "question_text": "The time complexity of Dijkstra's algorithm using a binary heap is:",
       "subject": "Algorithms",
@@ -4761,7 +4786,7 @@
       "source_file": "cse-2024-official.json"
     },
     {
-      "id": "GATE-CS-0202",
+      "id": "GATE-CS-0203",
       "question_number": 8,
       "question_text": "Using 3 frames, which page replacement algorithm would not cause any page fault for reference string 0,1,2,3,0,1,4,0,1,2,3,4?",
       "subject": "Operating Systems",
@@ -4786,7 +4811,7 @@
       "source_file": "cse-2024-official.json"
     },
     {
-      "id": "GATE-CS-0203",
+      "id": "GATE-CS-0204",
       "question_number": 9,
       "question_text": "In a 32-bit machine with 64MB main memory, how many bits are needed to address a memory location?",
       "subject": "Computer Organization",
@@ -4811,7 +4836,7 @@
       "source_file": "cse-2024-official.json"
     },
     {
-      "id": "GATE-CS-0204",
+      "id": "GATE-CS-0205",
       "question_number": 10,
       "question_text": "In a class of 60 students, 30 play cricket, 25 play football, and 15 play both. How many play neither?",
       "subject": "General Aptitude",
@@ -4836,7 +4861,7 @@
       "source_file": "cse-2024-official.json"
     },
     {
-      "id": "GATE-CS-0205",
+      "id": "GATE-CS-0206",
       "question_number": 11,
       "question_text": "Probability of at least one head in 3 coin tosses:",
       "subject": "Engineering Mathematics",
@@ -4861,7 +4886,7 @@
       "source_file": "cse-2024-s1.json"
     },
     {
-      "id": "GATE-CS-0206",
+      "id": "GATE-CS-0207",
       "question_number": 12,
       "question_text": "Worst-case time complexity of merge sort:",
       "subject": "Algorithms",
@@ -4886,7 +4911,7 @@
       "source_file": "cse-2024-s1.json"
     },
     {
-      "id": "GATE-CS-0207",
+      "id": "GATE-CS-0208",
       "question_number": 13,
       "question_text": "Which language is regular?",
       "subject": "Theory of Computation",
@@ -4911,7 +4936,7 @@
       "source_file": "cse-2024-s1.json"
     },
     {
-      "id": "GATE-CS-0208",
+      "id": "GATE-CS-0209",
       "question_number": 14,
       "question_text": "TCP connection establishment uses:",
       "subject": "Computer Networks",
@@ -4936,7 +4961,7 @@
       "source_file": "cse-2024-s1.json"
     },
     {
-      "id": "GATE-CS-0209",
+      "id": "GATE-CS-0210",
       "question_number": 15,
       "question_text": "3NF relation is also in:",
       "subject": "Databases",
@@ -4961,7 +4986,7 @@
       "source_file": "cse-2024-s1.json"
     },
     {
-      "id": "GATE-CS-0210",
+      "id": "GATE-CS-0211",
       "question_number": 16,
       "question_text": "A user starts browsing a webpage hosted at a remote server. The browser opens a single TCP connection to fetch the entire webpage from the server. The webpage consists of a top-level index page with multiple embedded image objects. Assume that all caches (e.g., DNS cache, browser cache) are all initially empty. The following packets leave the user's computer in some order. (i) HTTP GET request for the index page (ii) DNS request to resolve the web server's name to its IP address (iii) HTTP GET request for an image object (iv) TCP SYN to open a connection to the web server Which one of the following is the CORRECT chronological order (earliest in time to latest) of the packets leaving the computer ?",
       "subject": "CS",
@@ -4986,7 +5011,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0211",
+      "id": "GATE-CS-0212",
       "question_number": 17,
       "question_text": "Given an integer array of size N, we want to check if the array is sorted (in either ascending or descending order). An algorithm solves this problem by making a single pass through the array and comparing each element of the array only with its adjacent elements. The worst-case time complexity of this algorithm is",
       "subject": "CS",
@@ -5010,7 +5035,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0212",
+      "id": "GATE-CS-0213",
       "question_number": 18,
       "question_text": "Consider the following C program: #include <stdio.h> int main(){ int a = 6; int b = 0; while(a < 10) { a = a / 12 + 1; a += b;} printf(\"%d\", a); return 0;} Which one of the following statements is CORRECT?",
       "subject": "CS",
@@ -5035,7 +5060,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0213",
+      "id": "GATE-CS-0214",
       "question_number": 19,
       "question_text": "Consider the following C program: #include <stdio.h> void fX(){ void fX(); char a; int main(){ if((a=getchar()) != '\\n') fX(); fX(); if(a != '\\n') return 0;} putchar(a);} Assume that the input to the program from the command line is 1234 followed by a newline character. Which one of the following statements is CORRECT?",
       "subject": "CS",
@@ -5060,7 +5085,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0214",
+      "id": "GATE-CS-0215",
       "question_number": 20,
       "question_text": "Let S be the specification: \"Instructors teach courses. Students register for courses. Courses are allocated classrooms. Instructors guide students.\" Which one of the following ER diagrams CORRECTLY represents S?",
       "subject": "CS",
@@ -5085,7 +5110,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0215",
+      "id": "GATE-CS-0216",
       "question_number": 21,
       "question_text": "In a B+ tree, the requirement of at least half-full (50%) node occupancy is relaxed for which one of the following cases?",
       "subject": "CS",
@@ -5110,7 +5135,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0216",
+      "id": "GATE-CS-0217",
       "question_number": 22,
       "question_text": "Which of the following statements about a relation R in first normal form (1NF) is/are TRUE ?",
       "subject": "CS",
@@ -5135,7 +5160,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0217",
+      "id": "GATE-CS-0218",
       "question_number": 23,
       "question_text": "Let 1, 2 be two regular languages and 3 a language which is not regular. Which of the following statements is/are always TRUE?",
       "subject": "CS",
@@ -5160,7 +5185,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0218",
+      "id": "GATE-CS-0219",
       "question_number": 24,
       "question_text": "Which of the following statements about threads is/are TRUE?",
       "subject": "CS",
@@ -5185,7 +5210,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0219",
+      "id": "GATE-CS-0220",
       "question_number": 25,
       "question_text": "Which of the following process state transitions is/are NOT possible?",
       "subject": "CS",
@@ -5210,7 +5235,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0220",
+      "id": "GATE-CS-0221",
       "question_number": 26,
       "question_text": "Which of the following is/are Bottom-Up Parser(s)?",
       "subject": "CS",
@@ -5235,7 +5260,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0221",
+      "id": "GATE-CS-0222",
       "question_number": 27,
       "question_text": "Let and be two events in a probability space with () = 0.3, () = 0.5, and ( ) = 0.1. Which of the following statements is/are TRUE?",
       "subject": "CS",
@@ -5260,7 +5285,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0222",
+      "id": "GATE-CS-0223",
       "question_number": 28,
       "question_text": "Consider the circuit shown below where the gates may have propagation delays. Assume that all signal transitions occur instantaneously and that wires have no delays. Which of the following statements about the circuit is/are CORRECT?",
       "subject": "CS",
@@ -5285,7 +5310,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0223",
+      "id": "GATE-CS-0224",
       "question_number": 29,
       "question_text": "TCP client P successfully establishes a connection to TCP server Q. Let denote the sequence number in the SYN sent from P to Q. Let denote the acknowledgement number in the SYN ACK from Q to P. Which of the following statements is/are CORRECT?",
       "subject": "CS",
@@ -5310,7 +5335,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0224",
+      "id": "GATE-CS-0225",
       "question_number": 30,
       "question_text": "Consider a 5-stage pipelined processor with Instruction Fetch (IF), Instruction Decode (ID), Execute (EX), Memory Access (MEM), and Register Writeback (WB) stages. Which of the following statements about forwarding is/are CORRECT?",
       "subject": "CS",
@@ -5335,7 +5360,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0225",
+      "id": "GATE-CS-0226",
       "question_number": 31,
       "question_text": "Which of the following fields is/are modified in the IP header of a packet going out of a network address translation (NAT) device from an internal network to an external network?",
       "subject": "CS",
@@ -5360,7 +5385,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0226",
+      "id": "GATE-CS-0227",
       "question_number": 32,
       "question_text": "Let and be non-empty finite sets such that there exist one-to-one and onto functions (i) from to and (ii) from � to . The number of possible values of || is __________",
       "subject": "CS",
@@ -5380,7 +5405,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0227",
+      "id": "GATE-CS-0228",
       "question_number": 33,
       "question_text": "Consider the operator precedence and associativity rules for the integer arithmetic operators given in the table below. Operator Precedence Associativity + Highest Left - High Right Medium Right / Low Right The value of the expression 3 + 1 + 5 2 / 7 + 2 - 4 - 7 - 6 / 2 as per the above rules is __________",
       "subject": "CS",
@@ -5400,7 +5425,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0228",
+      "id": "GATE-CS-0229",
       "question_number": 34,
       "question_text": "The number of spanning trees in a complete graph of 4 vertices labelled A, B, C, and D is _________",
       "subject": "CS",
@@ -5420,7 +5445,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0229",
+      "id": "GATE-CS-0230",
       "question_number": 35,
       "question_text": "Consider the following two relations, R(A,B) and S(A,C): 10 20 10 90 20 30 30 45 30 40 40 80 30 50 50 95 The total number of tuples obtained by evaluating the following expression <( .=. ) is _________ Q.36 � Q.65 Carry TWO marks Each",
       "subject": "CS",
@@ -5440,7 +5465,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0230",
+      "id": "GATE-CS-0231",
       "question_number": 36,
       "question_text": "Consider a network path P--Q--R between nodes P and R via router Q. Node P sends a file of size 106 bytes to R via this path by splitting the file into chunks of 103 bytes each. Node P sends these chunks one after the other without any wait time between the successive chunk transmissions. Assume that the size of extra headers added to these chunks is negligible, and that the chunk size is less than the MTU. Each of the links P--Q and Q--R has a bandwidth of 106 bits/sec, and negligible propagation latency. Router Q immediately transmits every packet it receives from P to R, with negligible processing and queueing delays. Router Q can simultaneously receive on link P--Q and transmit on link Q--R. Assume P starts transmitting the chunks at time = 0. Which one of the following options gives the time (in seconds, rounded off to 3 decimal places) at which R receives all the chunks of the file?",
       "subject": "CS",
@@ -5465,7 +5490,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0231",
+      "id": "GATE-CS-0232",
       "question_number": 37,
       "question_text": "Consider the following syntax-directed definition (SDD). { . = . + . + . + . ; } \"M\"1 { . = 5 + 1. ; } { . = -5; } \"L\"1 { . = 5 10 + 1. ; } { . = -10; } \"C\"1 { . = 5 100 + 1. ; } { . = -5; } \"K\" { . = 5; } Given \"MMLK\" as the input, which one of the following options is the CORRECT value computed by the SDD (in the attribute . )?",
       "subject": "CS",
@@ -5490,7 +5515,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0232",
+      "id": "GATE-CS-0233",
       "question_number": 38,
       "question_text": "Consider the following grammar , with as the start symbol. The grammar has three incomplete productions denoted by (1), (2), and (3). | (1) | | (2) (3) | The set of terminals is {, , , , }. The FIRST and FOLLOW sets of the different non-terminals are as follows. FIRST() = {, , }, FIRST() = {, , }, FIRST() = {, } FOLLOW() = FOLLOW() = {, , $}, FOLLOW() = {} Which one of the following options CORRECTLY fills in the incomplete productions?",
       "subject": "CS",
@@ -5515,7 +5540,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0233",
+      "id": "GATE-CS-0234",
       "question_number": 39,
       "question_text": "Consider the following pseudo-code. 1: 1 = -1 2: 2 = 0 3: 3 = 0 4: 4 = 4 3 5: 5 = 4 2 6: 6 = 5 7: 7 = 4 + 6 8: 8 = [7] 9: if 8 <= goto 11 10: 1 = 8 11: 3 = 3 + 1 12: if 3 < goto 4 13: 2 = 2 + 1 14: if 2 < goto 3 15: = 1 Which one of the following options CORRECTLY specifies the number of basic blocks and the number of instructions in the largest basic block, respectively ?",
       "subject": "CS",
@@ -5540,7 +5565,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0234",
+      "id": "GATE-CS-0235",
       "question_number": 40,
       "question_text": "Consider the following two threads T1 and T2 that update two shared variables a and b. Assume that initially a = b = 1. Though context switching between threads can happen at any time, each statement of T1 or T2 is executed atomically without interruption. T1 T2 a = a + 1; b = 2 * b; b = b + 1; a = 2 * a; Which one of the following options lists all the possible combinations of values of a and b after both T1 and T2 finish execution?",
       "subject": "CS",
@@ -5565,7 +5590,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0235",
+      "id": "GATE-CS-0236",
       "question_number": 41,
       "question_text": "An array [82, 101, 90, 11, 111, 75, 33, 131, 44, 93] is heapified. Which one of the following options represents the first three elements in the heapified array?",
       "subject": "CS",
@@ -5590,7 +5615,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0236",
+      "id": "GATE-CS-0237",
       "question_number": 42,
       "question_text": "Consider the following recurrence relation: () = {() + for 1, 1 for = 1. Which one of the following options is CORRECT?",
       "subject": "CS",
@@ -5615,7 +5640,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0237",
+      "id": "GATE-CS-0238",
       "question_number": 43,
       "question_text": "Consider a binary min-heap containing 105 distinct elements. Let be the index (in the underlying array) of the maximum element stored in the heap. The number of possible values of is",
       "subject": "CS",
@@ -5640,7 +5665,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0238",
+      "id": "GATE-CS-0239",
       "question_number": 44,
       "question_text": "The symbol indicates functional dependency in the context of a relational database. Which of the following options is/are TRUE?",
       "subject": "CS",
@@ -5665,7 +5690,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0239",
+      "id": "GATE-CS-0240",
       "question_number": 45,
       "question_text": "Let be a directed graph and a depth first search (DFS) spanning tree in that is rooted at a vertex . Suppose is also a breadth first search (BFS) tree in , rooted at . Which of the following statements is/are TRUE for every such graph and tree ?",
       "subject": "CS",
@@ -5690,7 +5715,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0240",
+      "id": "GATE-CS-0241",
       "question_number": 46,
       "question_text": "Consider the following read-write schedule over three transactions 1, 2, and 3, where the subscripts in the schedule indicate transaction IDs: : 1(); 1(); 2(); 3(); 3(); 2(); 2(); 2(); Which of the following transaction schedules is/are conflict equivalent to ?",
       "subject": "CS",
@@ -5715,7 +5740,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0241",
+      "id": "GATE-CS-0242",
       "question_number": 47,
       "question_text": "Consider a Boolean expression given by (, , ) = (3,5,6,7). Which of the following statements is/are CORRECT?",
       "subject": "CS",
@@ -5740,7 +5765,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0242",
+      "id": "GATE-CS-0243",
       "question_number": 48,
       "question_text": "Consider the following C function definition. int f(int x, int y) { for (int i=0; i<y; i++) { x=x+x+y; } return x; } Which of the following statements is/are TRUE about the above function?",
       "subject": "CS",
@@ -5765,7 +5790,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0243",
+      "id": "GATE-CS-0244",
       "question_number": 49,
       "question_text": "Let be any � matrix, where > . Which of the following statements is/are TRUE about the system of linear equations = 0 ?",
       "subject": "CS",
@@ -5790,7 +5815,7 @@
       "source_file": "CS_2024_s1.json"
     },
     {
-      "id": "GATE-CS-0244",
+      "id": "GATE-CS-0245",
       "question_number": 50,
       "question_text": "Consider the 5-state DFA accepting the language () (0 + 1) shown below. For any string (0 + 1) let 0() be the number of 0 in and 1() be the number of 1 in . Which of the following statements is/are FALSE?",
       "subject": "CS",
@@ -5800,31 +5825,6 @@
         "States 3 and 4 are distinguishable in",
         "States 2 and 5 are distinguishable in",
         "Any string with 0() = 1() is in ()"
-      ],
-      "answer": null,
-      "question_type": "MCQ",
-      "marks": 2,
-      "negative_marks": 0.33,
-      "branch": "CS",
-      "year": 2024,
-      "session": "1",
-      "difficulty": "medium",
-      "tags": [],
-      "explanation": "",
-      "source": "extracted-text",
-      "source_file": "CS_2024_s1.json"
-    },
-    {
-      "id": "GATE-CS-0245",
-      "question_number": 51,
-      "question_text": "The chromatic number of a graph is the minimum number of colours used in a proper colouring of the graph. Let be any graph with vertices and chromatic number . Which of the following statements is/are always TRUE?",
-      "subject": "CS",
-      "topic": "",
-      "options": [
-        "contains a complete subgraph with vertices",
-        "contains an independent set of size at least /",
-        "contains at least ( - 1)/2 edges",
-        "contains a vertex of degree at least"
       ],
       "answer": null,
       "question_type": "MCQ",
@@ -8171,31 +8171,6 @@
     },
     {
       "id": "GATE-CS-0345",
-      "question_number": 21,
-      "question_text": "What is printed by the following ANSI C program? #include<stdio.h> int main(int argc, char *argv[]) { int x = 1, z[2] = {10, 11}; int *p = NULL; p = &x; *p = 10; p = &z[1]; *(&z[0] + 1) += 3; printf(\"%d, %d, %d\\n\", x, z[0], z[1]); return 0; }",
-      "subject": "CS",
-      "topic": "",
-      "options": [
-        "1, 10, 11",
-        "1, 10, 14",
-        "10, 14, 11",
-        "10, 10, 14"
-      ],
-      "answer": null,
-      "question_type": "MCQ",
-      "marks": 2,
-      "negative_marks": 0.33,
-      "branch": "CS",
-      "year": 2022,
-      "session": "1",
-      "difficulty": "medium",
-      "tags": [],
-      "explanation": "",
-      "source": "extracted-text",
-      "source_file": "CS_2022_s1.json"
-    },
-    {
-      "id": "GATE-CS-0346",
       "question_number": 22,
       "question_text": "Consider an enterprise network with two Ethernet segments, a web server and a firewall, connected via three routers as shown below. What is the number of subnets inside the enterprise network?",
       "subject": "CS",
@@ -8220,7 +8195,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0347",
+      "id": "GATE-CS-0346",
       "question_number": 23,
       "question_text": "Which of the following statements is/are TRUE?",
       "subject": "CS",
@@ -8245,7 +8220,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0348",
+      "id": "GATE-CS-0347",
       "question_number": 24,
       "question_text": "Let WB and WT be two set associative cache organizations that use LRU algorithm for cache block replacement. WB is a write back cache and WT is a write through cache. Which of the following statements is/are FALSE?",
       "subject": "CS",
@@ -8270,7 +8245,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0349",
+      "id": "GATE-CS-0348",
       "question_number": 25,
       "question_text": "Consider the following three relations in a relational database. Employee(eId, Name), Brand (bId,bName), Own(eId,bId) Which of the following relational algebra expressions return the set of eIds who own all the brands?",
       "subject": "CS",
@@ -8295,7 +8270,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0350",
+      "id": "GATE-CS-0349",
       "question_number": 26,
       "question_text": "Which of the following statements is/are TRUE with respect to deadlocks?",
       "subject": "CS",
@@ -8320,7 +8295,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0351",
+      "id": "GATE-CS-0350",
       "question_number": 27,
       "question_text": "Which of the following statements is/are TRUE for a group G ?",
       "subject": "CS",
@@ -8345,7 +8320,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0352",
+      "id": "GATE-CS-0351",
       "question_number": 28,
       "question_text": "Suppose a binary search tree with 1000 distinct elements is also a complete binary tree. The tree is stored using the array representation of binary heap trees. Assuming that the array indices start with 0, the 3rd largest element of the tree is stored at index_____________.",
       "subject": "CS",
@@ -8365,7 +8340,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0353",
+      "id": "GATE-CS-0352",
       "question_number": 29,
       "question_text": "Consider the augmented grammar with {, *, (, ), id} as the set of terminals. S S S SR|R R R*P|P P (S) | id If I0 is the set of two LR(0) items {[S S� ], [S S� R]}, then goto(closure(I0 ), ) contains exactly __________ items.",
       "subject": "CS",
@@ -8385,7 +8360,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0354",
+      "id": "GATE-CS-0353",
       "question_number": 30,
       "question_text": "Consider a simple undirected graph of 10 vertices. If the graph is disconnected, then the maximum number of edges it can have is ____________.",
       "subject": "CS",
@@ -8405,7 +8380,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0355",
+      "id": "GATE-CS-0354",
       "question_number": 31,
       "question_text": "Consider a relation R( A, B, C, D, E) with the following three functional dependencies. ; ; ; The number of superkeys in the relation R is _____________.",
       "subject": "CS",
@@ -8425,7 +8400,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0356",
+      "id": "GATE-CS-0355",
       "question_number": 32,
       "question_text": "The number of arrangements of six identical balls in three identical bins is______. GATE 2022 Computer Science and Information Technology (CS)",
       "subject": "CS",
@@ -8445,7 +8420,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0357",
+      "id": "GATE-CS-0356",
       "question_number": 33,
       "question_text": "A cache memory that has a hit rate of 0.8 has an access latency 10 ns and miss penalty 100 ns. An optimization is done on the cache to reduce the miss rate. However, the optimization results in an increase of cache access latency to 15 ns, whereas the miss penalty is not affected. The minimum hit rate (rounded off to two decimal places) needed after the optimization such that it should not increase the average memory access time is _____________.",
       "subject": "CS",
@@ -8465,7 +8440,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0358",
+      "id": "GATE-CS-0357",
       "question_number": 34,
       "question_text": "The value of the following limit is _____________. x lim x0 1 e2 x",
       "subject": "CS",
@@ -8485,7 +8460,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0359",
+      "id": "GATE-CS-0358",
       "question_number": 35,
       "question_text": "Consider the resolution of the domain name www.gate.org.in by a DNS resolver. Assume that no resource records are cached anywhere across the DNS servers and that iterative query mechanism is used in the resolution. The number of DNS query-response pairs involved in completely resolving the domain name is_____________. GATE 2022 Computer Science and Information Technology (CS) Q.36 � Q.45 Multiple Choice Questions (MCQ), carry TWO marks each.",
       "subject": "CS",
@@ -8505,7 +8480,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0360",
+      "id": "GATE-CS-0359",
       "question_number": 36,
       "question_text": "Which one of the following is the closed form for the generating function of the sequence { an } n 0 defined below? n 1, n is odd an 1, otherwise",
       "subject": "CS",
@@ -8530,7 +8505,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0361",
+      "id": "GATE-CS-0360",
       "question_number": 37,
       "question_text": "Consider a simple undirected unweighted graph with at least three vertices. If A is the adjacency matrix of the graph, then the number of 3-cycles in the graph is given by the trace of",
       "subject": "CS",
@@ -8555,7 +8530,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0362",
+      "id": "GATE-CS-0361",
       "question_number": 38,
       "question_text": "Which one of the following statements is FALSE?",
       "subject": "CS",
@@ -8580,7 +8555,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0363",
+      "id": "GATE-CS-0362",
       "question_number": 39,
       "question_text": "Let Ri (z) and Wi (z) denote read and write operations on a data element z by a transaction Ti , respectively. Consider the schedule S with four transactions. S: R4 (x)R2 (x)R3(x)R1( y)W1( y)W2 (x)W3( y)R4 ( y) Which one of the following serial schedules is conflict equivalent to S?",
       "subject": "CS",
@@ -8603,7 +8578,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0364",
+      "id": "GATE-CS-0363",
       "question_number": 40,
       "question_text": "Consider a digital display system (DDS) shown in the figure that displays the contents of register X. A 16-bit code word is used to load a word in X, either from S or from R. S is a 1024-word memory segment and R is a 32-word register file. Based on the value of mode bit M, T selects an input word to load in X. P and Q interface with the corresponding bits in the code word to choose the addressed word. Which one of the following represents the functionality of P, Q, and T? Code Word M S-address R-address P Q S R T X DDS",
       "subject": "CS",
@@ -8628,7 +8603,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0365",
+      "id": "GATE-CS-0364",
       "question_number": 41,
       "question_text": "Consider three floating point numbers A , B and C stored in registers RA, RB and RC, respectively as per IEEE-754 single precision floating point format. The 32-bit content stored in these registers (in hexadecimal form) are as follows. RA= 0xC1400000 RB = 0x42100000 RC = 0x41400000 Which one of the following is FALSE?",
       "subject": "CS",
@@ -8653,7 +8628,7 @@
       "source_file": "CS_2022_s1.json"
     },
     {
-      "id": "GATE-CS-0366",
+      "id": "GATE-CS-0365",
       "question_number": 42,
       "question_text": "Consider four processes P, Q, R, and S scheduled on a CPU as per round robin algorithm with a time quantum of 4 units. The processes arrive in the order P, Q, R, S, all at time t = 0. There is exactly one context switch from S to Q, exactly one context switch from R to Q, and exactly two context switches from Q to R. There is no context switch from S to P. Switching to a ready process after the termination of another process is also considered a context switch. Which one of the following is NOT possible as CPU burst time (in time units) of these processes?",
       "subject": "CS",
@@ -8663,6 +8638,31 @@
         "P = 2, Q = 9, R = 5, S = 1",
         "P = 4, Q = 12, R = 5, S = 4",
         "P = 3, Q = 7, R = 7, S = 3"
+      ],
+      "answer": null,
+      "question_type": "MCQ",
+      "marks": 2,
+      "negative_marks": 0.33,
+      "branch": "CS",
+      "year": 2022,
+      "session": "1",
+      "difficulty": "medium",
+      "tags": [],
+      "explanation": "",
+      "source": "extracted-text",
+      "source_file": "CS_2022_s1.json"
+    },
+    {
+      "id": "GATE-CS-0366",
+      "question_number": 44,
+      "question_text": "What is printed by the following ANSI C program? #include<stdio.h> int main(int argc, char *argv[]){ char a = 'P'; char b = 'x'; char c = (a & b) + '*'; char d = (a | b) - '-'; char e = (a ^ b) + '+'; printf(\"%c %c %c\\n\", c, d, e); return 0; } ASCII encoding for relevant characters is given below",
+      "subject": "CS",
+      "topic": "",
+      "options": [
+        "zKS",
+        "122 75 83",
+        "*-+",
+        "Px+"
       ],
       "answer": null,
       "question_type": "MCQ",

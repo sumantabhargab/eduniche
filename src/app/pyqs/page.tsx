@@ -14,7 +14,7 @@
 
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -39,6 +39,7 @@ import { useRouter } from "next/navigation";
 import PYQHeatmap from "@/components/pyq/PYQHeatmap";
 import PYQTrends from "@/components/pyq/PYQTrends";
 import PYQMistakeBank from "@/components/pyq/PYQMistakeBank";
+import PadhaiShuruLoader from "@/components/loading/PadhaiShuruLoader";
 
 type View = "library" | "practice" | "heatmap" | "trends" | "mistakes";
 type BranchItem = { code: string; name: string; icon: string; questionCount: number; yearMin: number; yearMax: number };
@@ -50,30 +51,9 @@ export default function PYQLibraryPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [branches, setBranches] = useState<BranchItem[]>([]);
   const [stats, setStats] = useState({ total: 0, branchCount: 0, yearMin: 2024, yearMax: 2024 });
+  const [branchesError, setBranchesError] = useState(false);
+  const [branchesLoading, setBranchesLoading] = useState(true);
   const { isPremium } = useAuth();
-
-  useEffect(() => {
-    fetch("/api/pyq/branches")
-      .then((r) => r.json())
-      .then((data) => {
-        const mapped = (data.branches || []).map((b: any) => ({
-          code: b.branchCode,
-          name: b.displayName,
-          icon: iconFor(b.branchCode),
-          questionCount: b.questionCount,
-          yearMin: b.yearMin,
-          yearMax: b.yearMax,
-        }));
-        setBranches(mapped);
-        const total = mapped.reduce((sum: number, b: any) => sum + (b.questionCount || 0), 0);
-        const yearMins = mapped.map((b: any) => b.yearMin).filter((y: any) => typeof y === "number");
-        const yearMaxs = mapped.map((b: any) => b.yearMax).filter((y: any) => typeof y === "number");
-        const yMin = yearMins.length ? Math.min(...yearMins) : 2024;
-        const yMax = yearMaxs.length ? Math.max(...yearMaxs) : 2024;
-        setStats({ total, branchCount: mapped.length, yearMin: yMin, yearMax: yMax });
-      })
-      .catch(() => {});
-  }, []);
 
   const quickActions = [
     { id: "practice" as View, label: "Quick Practice", icon: Target, desc: "Jump into questions", color: "text-accent" },
@@ -106,23 +86,52 @@ export default function PYQLibraryPage() {
 
   const [mounted, setMounted] = useState(false);
 
-  // Client-only redirect to avoid SSR hydration mismatch
+  // Client-only mount to avoid SSR hydration mismatch
   useEffect(() => {
     setMounted(true);
-    if (selectedBranch && view === "library") {
+  }, []);
+
+  // Redirect when branch selected
+  useEffect(() => {
+    if (mounted && selectedBranch && view === "library") {
       router.push(`/pyqs/${selectedBranch}`);
     }
-  }, [selectedBranch, view, router]);
+  }, [selectedBranch, view, router, mounted]);
+
+  // Load branches
+  useEffect(() => {
+    setBranchesLoading(true);
+    setBranchesError(false);
+    fetch("/api/pyq/branches")
+      .then((r) => r.json())
+      .then((data) => {
+        const mapped = (data.branches || []).map((b: any) => ({
+          code: b.branchCode,
+          name: b.displayName,
+          icon: iconFor(b.branchCode),
+          questionCount: b.questionCount,
+          yearMin: b.yearMin,
+          yearMax: b.yearMax,
+        }));
+        setBranches(mapped);
+        const total = mapped.reduce((sum: number, b: any) => sum + (b.questionCount || 0), 0);
+        const yearMins = mapped.map((b: any) => b.yearMin).filter((y: any) => typeof y === "number");
+        const yearMaxs = mapped.map((b: any) => b.yearMax).filter((y: any) => typeof y === "number");
+        const yMin = yearMins.length ? Math.min(...yearMins) : 2024;
+        const yMax = yearMaxs.length ? Math.max(...yearMaxs) : 2024;
+        setStats({ total, branchCount: mapped.length, yearMin: yMin, yearMax: yMax });
+        setBranchesError(false);
+      })
+      .catch(() => setBranchesError(true))
+      .finally(() => setBranchesLoading(false));
+  }, []);
 
   if (!mounted) {
     return (
       <main className="min-h-screen bg-background">
         <Nav />
         <div className="pt-32 flex items-center justify-center min-h-[60vh]">
-          <div className="text-center">
-            <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-sm text-muted">Loading PYQ Library…</p>
-          </div>
+          <PadhaiShuruLoader size="md" variant="page" label="Loading PYQ Library" />
         </div>
         <Footer />
       </main>
@@ -291,6 +300,40 @@ export default function PYQLibraryPage() {
             Choose Your Branch
           </h2>
 
+          {branchesLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="bg-card border border-border rounded-2xl p-6 animate-pulse">
+                  <div className="h-8 w-8 bg-foreground/5 rounded-lg mb-3" />
+                  <div className="h-5 bg-foreground/5 rounded w-3/4 mb-3" />
+                  <div className="h-3 bg-foreground/5 rounded w-1/2" />
+                </div>
+              ))}
+            </div>
+          ) : branchesError ? (
+            <div className="text-center py-16">
+              <div className="text-4xl mb-4">⚠️</div>
+              <h3 className="font-serif text-xl mb-2">Unable to Load Branches</h3>
+              <p className="text-sm text-muted mb-6">
+                Something went wrong while fetching branch data. Please try again later.
+              </p>
+              <button
+                onClick={() => window.location.reload()}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
+              >
+                Retry
+              </button>
+            </div>
+          ) : branches.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="text-4xl mb-4">📚</div>
+              <h3 className="font-serif text-xl mb-2">No Branches Available</h3>
+              <p className="text-sm text-muted">
+                PYQ data is being prepared. Check back soon.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {branches.map((branch) => (
                 <button
                   key={branch.code}
@@ -314,6 +357,8 @@ export default function PYQLibraryPage() {
                   </div>
                 </button>
               ))}
+            </div>
+          )}
         </div>
       </section>
 

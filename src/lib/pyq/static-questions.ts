@@ -48,6 +48,7 @@ interface ProcessedBranchData {
 }
 
 const processedCache = new Map<string, ProcessedBranchData | null>();
+let branchStatsCache: { branchCode: string; questionCount: number; yearMin: number; yearMax: number }[] | null = null;
 
 function loadProcessedBranch(branchCode: string): ProcessedBranchData | null {
   const code = branchCode.toUpperCase();
@@ -241,8 +242,13 @@ export function getStaticBranchStats(): {
   yearMin: number;
   yearMax: number;
 }[] {
+  // Cached — branch data doesn't change at runtime in static mode
+  if (branchStatsCache) {
+    return branchStatsCache;
+  }
+
   const branches = ["CS", "EC", "EE", "ME", "CE", "IN", "PI", "CH", "BT", "MT", "XE", "XL", "TF", "PE", "EY", "MA", "AR", "AG", "GG", "PH"] as const;
-  return branches.map((code) => {
+  branchStatsCache = branches.map((code) => {
     const questions = getStaticQuestionsForBranch(code);
     const years = questions.map((q) => q.year);
     return {
@@ -252,4 +258,6 @@ export function getStaticBranchStats(): {
       yearMax: years.length ? Math.max(...years) : 2024,
     };
   });
+
+  return branchStatsCache;
 }

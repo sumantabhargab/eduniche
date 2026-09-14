@@ -1059,8 +1059,8 @@
             "( - ) if < 2/",
             "() if < 2/"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "D",
+          "explanation": "Multiplying the sampled signal by sin(πt/T) shifts the replicated spectra by ±π/T. An ideal low‑pass filter with cutoff ω_c = π/T will pass the original baseband component only if the cutoff exceeds the signal bandwidth Ω (i.e., ω_c > Ω, which is equivalent to the condition given in option D). In that case the output of the filter is exactly the original signal x(t).",
           "source": "Adapted from GATE 2025 EC Session 1 Q38"
         },
         {
@@ -2498,8 +2498,8 @@
             "There exists a bounded input such that the signals 1(), 2(), and 3() are",
             "The signals 1(), 2(), and 3() are unbounded for all bounded inputs"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "With the given state equations \\dot{x}_1 = -2x_2 + u, \\dot{x}_2 = 0, \\dot{x}_3 = u, a bounded input such as a step (u(t)=1) is bounded but its integral grows without bound, causing x_1(t) and x_3(t) to become unbounded. Hence not all bounded inputs keep the states bounded (A is false) and not all bounded inputs make the states unbounded (D is false). Since at least one bounded input can make a state unbounded, statement B is true. Statement C is ambiguous, but the only clearly true statement is B.",
           "source": "Adapted from GATE 2025 EC Session 1 Q53"
         },
         {
@@ -2987,8 +2987,8 @@
           "difficulty": "easy",
           "questionText": "A full adder and an XOR gate are used to design a digital circuit with inputs X, Y, and Z, and output F, as shown below. The input Z is connected to the carry-in input of the full adder. If the input Z is set to logic `1', then the circuit functions as ________ with X and Y as inputs.",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "XNOR gate",
+          "explanation": "With Z tied to the carry‑in, the full adder sum output becomes X⊕Y⊕1, which is the complement of X⊕Y. Hence the circuit implements the XNOR (equivalence) function of X and Y.",
           "source": "Adapted from GATE 2025 EC Session 1 Q24"
         },
         {
@@ -3871,8 +3871,8 @@
             "35 years",
             "32 years"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "30 years",
+          "explanation": "Let A and F be Aman’s and his father’s present ages. Five years ago (A-5)/(F-5)=1/4 ⇒ F=4A-15. Five years later (A+5)/(F+5)=2/5 ⇒ F=(5A+15)/2. Equating gives 4A-15=(5A+15)/2 ⇒ A=15, F=45. Father’s age when Aman was born = F‑A = 45‑15 = 30 years.",
           "source": "Adapted from GATE 2024 EC Session 7 Q3"
         },
         {
@@ -3891,8 +3891,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "f(x)= -a|x| (a≠0) is a V‑shaped graph with its vertex at the origin and opening downwards (if a>0) or upwards (if a<0). The only plot that matches the characteristic inverted V shape is option B.",
           "source": "Adapted from GATE 2025 EC Session 1 Q5"
         },
         {
@@ -4976,8 +4976,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "49.92 dB",
+          "explanation": "The signal range is [-2,2] so step size Δ = 4/256 = 0.015625. Quantization noise variance = Δ²/12. Signal variance from given autocorrelation is σ_X² = R_X(0) = 2. Hence SNR = σ_X² / (Δ²/12) = 24/Δ² = 24·4096 = 98304. In dB: 10·log10(98304) ≈ 49.92 dB.",
           "source": "Adapted from GATE 2024 EC Session 1 Q57"
         },
         {

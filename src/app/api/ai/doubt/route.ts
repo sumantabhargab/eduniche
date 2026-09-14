@@ -119,18 +119,26 @@ function extractContent(content: unknown): string {
 
 async function chatCompletion(groq: Groq, messages: ChatMessage[]): Promise<string> {
   try {
-    const response = await groq.chat.completions.create({
-      model: GROQ_MODEL,
-      messages: messages.map((m) => ({
-        role: m.role,
-        content: m.content,
-      })),
-      max_tokens: 2048,
-      temperature: 0.7,
-      top_p: 0.9,
-    });
+    const response = await Promise.race(
+      [
+        groq.chat.completions.create({
+          model: GROQ_MODEL,
+          messages: messages.map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
+          max_tokens: 2048,
+          temperature: 0.7,
+          top_p: 0.9,
+        }),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("AI request timed out. Please try again.")), 60_000)
+        ),
+      ]
+    );
 
-    return extractContent(response.choices[0]?.message?.content);
+    const result = response as { choices: { message: { content: string } }[] };
+    return result.choices[0]?.message?.content || "I couldn't generate a response. Please try again.";
   } catch (e: any) {
     devLog("Groq: API call failed", {
       message: e?.message,
@@ -138,6 +146,9 @@ async function chatCompletion(groq: Groq, messages: ChatMessage[]): Promise<stri
       code: e?.code,
     });
 
+    if (e?.message?.includes("timed out")) {
+      throw new Error("AI request timed out. Please try again.");
+    }
     if (e?.status === 429) {
       return "PadhaiShuru is temporarily busy. Please try again in a moment.";
     }
@@ -172,6 +183,12 @@ export async function POST(request: Request) {
         fail("RATE_LIMITED", "Too many AI requests. Please wait a moment."),
         { status: 429, headers: { "Retry-After": "60" } }
       );
+    }
+
+    // Validate request body size
+    const contentLength = request.headers.get("content-length");
+    if (contentLength && parseInt(contentLength) > 1_000_000) {
+      return badRequest("Request too large.");
     }
 
     // Parse request
@@ -266,8 +283,6 @@ export async function POST(request: Request) {
 
     return ok({
       answer,
-      confidence: "high" as const,
-      references: [],
       conversationId: conversationId,
       isPremium: true,
     });
@@ -284,7 +299,6 @@ export async function OPTIONS() {
   return new Response(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     },

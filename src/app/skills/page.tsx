@@ -1,34 +1,20 @@
 export const metadata = {
   title: "Skills — PadhaiShuru",
   description:
-    "PadhaiShuru's learning model can adapt across different skills — guitar, fitness, singing, public speaking, coding, and photography.",
+    "PadhaiShuru's learning model is designed around how humans actually improve — a framework that can apply to any skill domain.",
 };
 
 export default function Skills() {
   const skills = [
     {
-      title: "Guitar",
-      desc: "Learn a concept. Practice it. Get targeted guidance. Progress at your own pace.",
+      title: "GATE Preparation",
+      desc: "The first and current focus. Real questions, real analysis, real progress tracking — built for GATE aspirants.",
+      available: true,
     },
     {
-      title: "Fitness",
-      desc: "Follow structured challenges, track performance, and use AI-assisted feedback to improve your practice.",
-    },
-    {
-      title: "Singing",
-      desc: "Practice specific skills, identify weaknesses, and work through progressively more difficult exercises.",
-    },
-    {
-      title: "Public Speaking",
-      desc: "Practice, review performance, and receive targeted feedback to build confidence over time.",
-    },
-    {
-      title: "Coding",
-      desc: "Write real code, get feedback on logic and style, and build skills through deliberate practice.",
-    },
-    {
-      title: "Photography",
-      desc: "Practice composition, get feedback on your shots, and develop an eye for better images.",
+      title: "Future Domains",
+      desc: "The same practice → feedback → adaptation loop applies to many skills. We'll expand carefully, one domain at a time.",
+      available: false,
     },
   ];
 
@@ -38,24 +24,41 @@ export default function Skills() {
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <div className="font-mono text-xs tracking-widest text-muted uppercase mb-6">
-              Skills
+              Scope
             </div>
             <h2 className="font-serif text-3xl md:text-5xl leading-snug mb-6">
-              Built for practical skills.
+              One skill, done well.
             </h2>
             <p className="text-lg text-muted leading-relaxed max-w-2xl mx-auto">
-              PadhaiShuru&apos;s learning model can adapt across different skills —
-              each one needs its own practice system, feedback, and progression.
+              PadhaiShuru is built around a single skill right now: GATE preparation.
+              The learning model — practice, feedback, adaptation — is universal,
+              but we ship carefully.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {skills.map((skill) => (
               <div
                 key={skill.title}
-                className="p-8 bg-background border border-border hover:border-accent/30 transition-colors duration-300 group"
+                className={`p-8 bg-background border rounded-2xl transition-colors duration-300 group ${
+                  skill.available
+                    ? "border-accent/30 hover:border-accent/50"
+                    : "border-border opacity-70"
+                }`}
               >
-                <div className="w-8 h-px bg-accent mb-6 group-hover:w-12 transition-all duration-300" />
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="w-8 h-px bg-accent group-hover:w-12 transition-all duration-300" />
+                  {skill.available && (
+                    <span className="text-[10px] px-2 py-0.5 bg-green-500/10 text-green-600 rounded-full font-medium tracking-wider uppercase">
+                      Live
+                    </span>
+                  )}
+                  {!skill.available && (
+                    <span className="text-[10px] px-2 py-0.5 bg-muted/10 text-muted rounded-full font-medium tracking-wider uppercase">
+                      Coming
+                    </span>
+                  )}
+                </div>
                 <h3 className="font-serif text-xl mb-3">{skill.title}</h3>
                 <p className="text-sm text-muted leading-relaxed">
                   {skill.desc}
@@ -63,12 +66,6 @@ export default function Skills() {
               </div>
             ))}
           </div>
-
-          <p className="text-center text-sm text-muted mt-12 max-w-2xl mx-auto">
-            Each skill requires its own specialized practice system, feedback
-            mechanisms, and progression model. We build carefully — one skill
-            at a time.
-          </p>
         </div>
       </section>
     </main>

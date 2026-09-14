@@ -18,25 +18,24 @@ export default function GATEIntroSection() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setViewed(true);
-          if (typeof window !== "undefined") {
-            try {
-              window.dispatchEvent(
-                new CustomEvent("padhaishuru:track", {
-                  detail: { event: "gate_cta_viewed" },
-                })
-              );
-            } catch {}
-          }
+          try {
+            window.dispatchEvent(
+              new CustomEvent("padhaishuru:track", {
+                detail: { event: "gate_cta_viewed" },
+              })
+            );
+          } catch {}
         }
       },
       { threshold: 0.3 }
     );
 
-    observer.observe(el);
+    if (el) observer.observe(el);
+
     return () => observer.disconnect();
   }, [viewed]);
 
-  const handleCTAClick = () => {
+  const handleClick = () => {
     try {
       window.dispatchEvent(
         new CustomEvent("padhaishuru:track", {
@@ -47,10 +46,7 @@ export default function GATEIntroSection() {
   };
 
   return (
-    <section
-      ref={sectionRef}
-      className="border-t border-border"
-    >
+    <section ref={sectionRef} className="border-t border-border">
       <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
         <div className="max-w-2xl">
           <div className="font-mono text-xs tracking-widest text-accent uppercase mb-8 animate-fade-in-up">
@@ -58,20 +54,20 @@ export default function GATEIntroSection() {
           </div>
 
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight mb-8 animate-fade-in-up stagger-1">
-            STOP RANDOMLY SOLVING PYQs.
+            Understand GATE patterns, not just practice.
           </h2>
 
           <p className="text-lg md:text-xl text-muted leading-relaxed max-w-2xl mb-10 animate-fade-in-up stagger-2">
-            Explore historical patterns, topic trends, and intelligent
-            practice built from years of GATE questions. Understand
-            what topics recur, how marks distribute, and where to focus
-            — without guessing.
+            Explore historical patterns, topic trends, and structured practice built
+            from years of GATE questions. Understand what topics recur, how marks
+            distribute, and where to focus. Historical data can reveal patterns
+            worth understanding — use them to guide your preparation.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-start animate-fade-in-up stagger-3">
             <a
               href="/gate"
-              onClick={handleCTAClick}
+              onClick={handleClick}
               className="inline-flex items-center px-8 py-4 bg-accent hover:bg-accent-hover text-background font-medium text-base transition-all duration-200 group"
             >
               <span>Explore GATE Intelligence</span>
@@ -91,9 +87,8 @@ export default function GATEIntroSection() {
             </a>
 
             <span className="text-xs text-muted py-4 max-w-sm">
-              No exam can be predicted perfectly. Historical data cannot
-              reveal the future with certainty, but it can reveal patterns
-              worth understanding.
+              No exam can be predicted perfectly. Historical data cannot reveal the future
+              with certainty, but it can reveal patterns worth understanding.
             </span>
           </div>
         </div>

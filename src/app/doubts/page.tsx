@@ -191,18 +191,6 @@ export default function DoubtsPage() {
     return (
       <div className="max-w-3xl mx-auto px-6 py-16 text-center">
         <h1 className="text-3xl font-bold mb-4">AI Doubt Engine</h1>
-        <p className="text-muted mb-8">Sign in to ask academic questions.</p>
-        <a href="/login" className="px-6 py-3 bg-foreground text-background rounded-xl font-semibold">
-          Sign In
-        </a>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <h1 className="text-3xl font-bold mb-4">AI Doubt Engine</h1>
         <p className="text-muted mb-8">Sign in to ask questions. Free users get 5 questions per day.</p>
         <a href="/login" className="inline-flex px-6 py-3 bg-foreground text-background rounded-xl font-semibold">
           Sign In to Start

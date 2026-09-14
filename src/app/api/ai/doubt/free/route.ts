@@ -17,6 +17,8 @@ import { ok, unauthorized, badRequest, forbidden, serverError, fail } from "@/li
 const GROQ_MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 const MAX_QUESTION_LENGTH = 2000;
 const FREE_DAILY_LIMIT = 5;
+const GROQ_TIMEOUT_MS = 60_000;
+const MAX_REQUEST_BODY_BYTES = 1_000_000;
 
 interface ChatMessage {
   role: "system" | "user" | "assistant";
@@ -147,17 +149,26 @@ function extractContent(content: unknown): string {
 
 async function chatCompletion(groq: Groq, messages: ChatMessage[]): Promise<string> {
   try {
-    const response = await groq.chat.completions.create({
-      model: GROQ_MODEL,
-      messages: messages.map((m) => ({
-        role: m.role,
-        content: m.content,
-      })),
-      max_tokens: 1024,
-      temperature: 0.7,
-    });
+    const response = await Promise.race(
+      [
+        groq.chat.completions.create({
+          model: GROQ_MODEL,
+          messages: messages.map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
+          max_tokens: 2048,
+          temperature: 0.7,
+          top_p: 0.9,
+        }),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("AI request timed out. Please try again.")), GROQ_TIMEOUT_MS)
+        ),
+      ]
+    );
 
-    return extractContent(response.choices[0]?.message?.content);
+    const result = response as { choices: { message: { content: string } }[] };
+    return result.choices[0]?.message?.content || "I couldn't generate a response. Please try again.";
   } catch (e: any) {
     devLog("Groq: API call failed", {
       message: e?.message,
@@ -165,6 +176,9 @@ async function chatCompletion(groq: Groq, messages: ChatMessage[]): Promise<stri
       code: e?.code,
     });
 
+    if (e?.message?.includes("timed out")) {
+      throw new Error("AI request timed out. Please try again.");
+    }
     if (e?.status === 429) {
       return "PadhaiShuru is temporarily busy. Please try again in a moment.";
     }
@@ -181,7 +195,6 @@ export async function OPTIONS() {
   return new Response(null, {
     status: 204,
     headers: {
-      "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     },
@@ -218,6 +231,12 @@ export async function POST(request: Request) {
         fail("RATE_LIMITED", "Too many requests. Please wait a moment."),
         { status: 429, headers: { "Retry-After": "60" } }
       );
+    }
+
+    // Validate request body size
+    const contentLength = request.headers.get("content-length");
+    if (contentLength && parseInt(contentLength) > MAX_REQUEST_BODY_BYTES) {
+      return badRequest("Request too large.");
     }
 
     const body = await request.json().catch(() => ({}));

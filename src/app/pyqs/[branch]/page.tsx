@@ -12,12 +12,13 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { BookOpen, Lock, Star, ArrowLeft, ChevronRight } from "@/components/pyq/PYQIcons";
+import { BookOpen, Lock, Star, ArrowLeft, ChevronRight, RefreshCw } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import SubjectPracticeSession from "./_components/SubjectPracticeSession";
+import PadhaiShuruLoader from "@/components/loading/PadhaiShuruLoader";
 
 interface SubjectRef {
   id: string;
@@ -63,6 +64,7 @@ export default function BranchPage() {
   const [year, setYear] = useState("");
   const [subjects, setSubjects] = useState<SubjectRef[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   // Parse URL from window.location (avoids useSearchParams/usePathname hooks)
   useEffect(() => {
@@ -80,13 +82,20 @@ export default function BranchPage() {
   useEffect(() => {
     if (!mounted) return;
     setLoading(true);
+    setError(false);
     fetch(`/api/pyq/branches/${branch}/subjects`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then((data) => {
         if (data.subjects) setSubjects(data.subjects);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
   }, [branch, mounted]);
 
   const meta = BRANCH_META[branch] || { name: branch, icon: "📚" };
@@ -96,10 +105,7 @@ export default function BranchPage() {
       <main className="min-h-screen bg-background">
         <Nav />
         <div className="pt-24 flex items-center justify-center min-h-[60vh]">
-          <div className="text-center">
-            <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-sm text-muted">Loading…</p>
-          </div>
+          <PadhaiShuruLoader size="md" variant="page" label="Loading Branch" />
         </div>
       </main>
     );
@@ -184,6 +190,49 @@ export default function BranchPage() {
                   <div className="h-4 bg-foreground/5 rounded w-1/2" />
                 </div>
               ))}
+            </div>
+          ) : error ? (
+            <div className="text-center py-16">
+              <div className="text-4xl mb-4">⚠️</div>
+              <h3 className="font-serif text-xl mb-2">Unable to Load Subjects</h3>
+              <p className="text-sm text-muted mb-6">
+                Something went wrong while fetching subjects. Please try again.
+              </p>
+              <button
+                onClick={() => {
+                  setError(false);
+                  setLoading(true);
+                  fetch(`/api/pyq/branches/${branch}/subjects`)
+                    .then((r) => r.json())
+                    .then((data) => {
+                      if (data.subjects) setSubjects(data.subjects);
+                      setLoading(false);
+                    })
+                    .catch(() => {
+                      setError(true);
+                      setLoading(false);
+                    });
+                }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
+              >
+                <RefreshCw className="w-4 h-4" />
+                Retry
+              </button>
+            </div>
+          ) : subjects.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="text-4xl mb-4">📝</div>
+              <h3 className="font-serif text-xl mb-2">No Subjects Found</h3>
+              <p className="text-sm text-muted mb-6">
+                No subjects are available for {meta.name} yet. Try another branch or check back later.
+              </p>
+              <button
+                onClick={() => router.push("/pyqs")}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                All Branches
+              </button>
             </div>
           ) : (
             <motion.div

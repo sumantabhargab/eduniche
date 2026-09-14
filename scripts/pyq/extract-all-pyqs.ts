@@ -540,6 +540,28 @@ function deduplicate(questions: any[]): any[] {
   const byKey = new Map<string, any>();
   const byText = new Map<string, any>();
 
+  function hasAnswer(q: any): boolean {
+    return !!(q.answer && q.answer !== "null" && q.answer !== "");
+  }
+
+  function mergeQuestions(existing: any, incoming: any): any {
+    const merged = { ...incoming };
+    if (!hasAnswer(merged) && hasAnswer(existing)) {
+      merged.answer = existing.answer;
+    }
+    if ((existing.options?.length || 0) > (merged.options?.length || 0)) {
+      merged.options = existing.options;
+    }
+    if (existing.explanation && !merged.explanation) {
+      merged.explanation = existing.explanation;
+    }
+    if (existing.topic && !merged.topic) {
+      merged.topic = existing.topic;
+    }
+    merged.tags = Array.from(new Set([...(merged.tags || []), ...(existing.tags || [])]));
+    return merged;
+  }
+
   for (const q of questions) {
     const key = `${q.branch}-${q.year}-S${q.session}-Q${q.question_number}`;
     if (!byKey.has(key)) {
@@ -547,7 +569,7 @@ function deduplicate(questions: any[]): any[] {
     } else {
       const existing = byKey.get(key);
       if ((q.options?.length || 0) > (existing.options?.length || 0)) {
-        byKey.set(key, q);
+        byKey.set(key, hasAnswer(existing) ? existing : q);
       }
       continue;
     }
@@ -555,6 +577,8 @@ function deduplicate(questions: any[]): any[] {
     const textKey = `${q.branch}-${q.year}-${q.question_text.toLowerCase().replace(/\s+/g, " ").trim().substring(0, 80)}`;
     if (!byText.has(textKey)) {
       byText.set(textKey, q);
+    } else {
+      byText.set(textKey, mergeQuestions(byText.get(textKey), q));
     }
   }
 
@@ -626,6 +650,58 @@ function writeOutput(groups: Record<string, any[]>): void {
   console.log(`\nMaster index -> ${join(OUT_DIR, "index.json")}`);
 }
 
+// ─── Answer Enrichment ────────────────────────────────────────────────────────
+// Raw JSON has answers (50 CS questions) but extracted text doesn't.
+// Build a lookup from raw-json questions and enrich matching extracted-text questions.
+
+function normalizeForLookup(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .substring(0, 100);
+}
+
+function enrichAnswers(allQuestions: any[]): any[] {
+  console.log("\nEnriching answers from raw-json source...");
+
+  const withAnswer = allQuestions.filter(q =>
+    q.answer && q.answer !== "null" && q.source === "raw-json"
+  );
+  const withoutAnswer = allQuestions.filter(q =>
+    !q.answer || q.answer === "null"
+  );
+
+  console.log(`   ${withAnswer.length} questions with answers (raw-json)`);
+  console.log(`   ${withoutAnswer.length} questions without answers to enrich`);
+
+  if (withAnswer.length === 0 || withoutAnswer.length === 0) {
+    return allQuestions;
+  }
+
+  // Build lookup by normalized text + same branch
+  const lookup = new Map<string, any>();
+  for (const q of withAnswer) {
+    const key = `${q.branch}-${normalizeForLookup(q.question_text)}`;
+    if (!lookup.has(key)) lookup.set(key, q);
+  }
+
+  let enriched = 0;
+  for (const q of withoutAnswer) {
+    const key = `${q.branch}-${normalizeForLookup(q.question_text)}`;
+    const match = lookup.get(key);
+    if (match) {
+      q.answer = match.answer;
+      q._answer_source = "enriched-from-raw-json";
+      enriched++;
+    }
+  }
+
+  console.log(`   Enriched ${enriched} questions with answers`);
+  return allQuestions;
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -650,6 +726,9 @@ async function main() {
   allQuestions.push(...pdfQuestions);
 
   console.log(`\n\nTotal collected: ${allQuestions.length} questions`);
+
+  // Enrich answers from raw-json into extracted-text questions
+  enrichAnswers(allQuestions);
 
   if (allQuestions.length === 0) {
     console.log("\nNo questions found! Make sure you have:");

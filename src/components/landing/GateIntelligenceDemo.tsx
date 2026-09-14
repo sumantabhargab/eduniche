@@ -99,7 +99,7 @@ export default function GateIntelligenceDemo() {
                   <div className="border border-white/10 rounded-sm p-4 bg-white/[0.02]">
                     <div className="text-white/30 text-[10px] font-mono tracking-widest uppercase mb-2">Subjects</div>
                     <div className="text-white font-mono text-lg">10</div>
-                    <div className="text-white/20 text-[10px] mt-1">Full coverage</div>
+                    <div className="text-white/20 text-[10px] mt-1">Core subjects</div>
                   </div>
                   <div className="border border-white/10 rounded-sm p-4 bg-white/[0.02]">
                     <div className="text-white/30 text-[10px] font-mono tracking-widest uppercase mb-2">Data</div>
@@ -207,9 +207,9 @@ export default function GateIntelligenceDemo() {
           {/* Footer */}
           <div className="px-6 sm:px-8 py-3 border-t border-white/10">
             <span className="text-white/20 text-[10px] font-mono">
-              {view === "overview" && "Click a tab to explore GATE paper intelligence"}
+              {view === "overview" && "Interactive mockup — explore GATE paper intelligence"}
               {view === "subjects" && "Subject-wise weightage, difficulty, and trends from historical data"}
-              {view === "analysis" && "AI-generated insights from 18 years of GATE question patterns"}
+              {view === "analysis" && "Conceptual mockup — data-driven analysis based on historical question patterns"}
             </span>
           </div>
         </div>

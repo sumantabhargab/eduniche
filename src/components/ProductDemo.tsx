@@ -236,7 +236,7 @@ export default function ProductDemo() {
                     </div>
                     <div>
                       <div className="text-foreground-light text-sm font-medium">Learning AI</div>
-                      <div className="text-muted-light text-xs">Powered by neuroscience-informed learning</div>
+                      <div className="text-muted-light text-xs">Powered by learning design</div>
                     </div>
                   </div>
                   <div className="text-foreground-light text-base md:text-lg leading-relaxed">
