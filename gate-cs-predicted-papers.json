@@ -1,0 +1,1924 @@
+{
+  "papers": [
+    {
+      "id": "paper-1",
+      "title": "Predicted Paper 1: Core Focus",
+      "theme": "Classical Core Emphasis",
+      "description": "Focuses on the highest-frequency CS core topics: process scheduling, database normalization, SQL, digital logic (K-maps), and general aptitude. Designed to mirror the most consistently tested areas across 2021-2025. Best for mid-level preparation assessment.",
+      "totalQuestions": 65,
+      "totalMarks": 100,
+      "sections": [
+        {
+          "name": "General Aptitude",
+          "subjects": [
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Average & Percentage",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Ratio & Proportion",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Verbal - Analogy & Word Pair",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Time, Speed & Distance",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Logical Reasoning - Coding-Decoding",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Data Interpretation (Graphs)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Verbal - Reading Comprehension",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Probability",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Logical Reasoning - Critical Reasoning",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Profit/Loss & Mixtures",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            }
+          ]
+        },
+        {
+          "name": "Engineering Mathematics",
+          "subjects": [
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Linear Algebra - Matrix Rank & System of Equations",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Probability & Statistics - Bayes Theorem",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Discrete Mathematics - Set Theory & Functions",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Linear Algebra - Eigenvalues & Determinants",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Probability - Random Variables & Distributions",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Calculus - Maxima/Minima",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            }
+          ]
+        },
+        {
+          "name": "CS Core",
+          "subjects": [
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Trees - Binary Tree Properties & Traversal",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Stacks & Queues - PUSH/POP Operations",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Linked Lists - Operations & Reversing",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Trees - BST Operations",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Hashing - Hash Tables & Collision Resolution",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Trees - Heap Properties & Construction",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "C Programming - Pointer Output & Recursion",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Trees - Full Binary Tree & Height",
+              "marks": 2,
+              "type": "NAT",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Graph Algorithms - BFS & DFS Properties",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Sorting - Heap Sort & Comparison Counts",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Graph Algorithms - Minimum Spanning Tree (Kruskal/Prim)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Time Complexity - Recurrence Relations & Master Theorem",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Graph Algorithms - Shortest Path (Dijkstra/Floyd)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "NP-Completeness - Classification",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Dynamic Programming - Classic Problem",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Computer Arithmetic - 2's Complement Operations",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "IEEE 754 Floating Point Representation",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Instruction Set Architecture - Addressing Modes",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Pipelining - Hazards & Stall Cycles",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Cache Memory - Direct-Mapped & Associative",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Process Scheduling - FCFS & SJF (Avg TAT/WT)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Process Scheduling - Round Robin",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Deadlocks - Banker's Algorithm (Safety)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Synchronization - Producer-Consumer (Semaphores)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Memory Management - Paging & Page Table Size",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Memory Management - Page Replacement (LRU/FIFO/OPT)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Memory Management - TLB & Effective Access Time",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Normalization - Functional Dependencies & 2NF/3NF/BCNF",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "SQL Queries - SELECT, JOIN, Aggregate Functions",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Transactions & Concurrency Control - ACID Properties",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Indexing - B+ Tree Operations & Node Splitting",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "ER Model & Relational Model Conversion",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Normalization - Lossless Join & Dependency Preservation",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Layer - IP Addressing & CIDR",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Layer - Subnetting & Supernetting",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Transport Layer - TCP/UDP & Three-Way Handshake",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Transport Layer - Sliding Window & Stop-and-Wait",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Data Link Layer - Error Detection (CRC, Hamming)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Application Layer - HTTP, DNS, SMTP",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Security - RSA Encryption & Digital Signatures",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Regular Languages - DFA Construction & Minimization",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Regular Languages - Pumping Lemma",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Context-Free Languages - CFG Properties & Ambiguity",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Pushdown Automata - PDA for CFG",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Parser Design - SLR/LR Parser Construction",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Digital Logic Design",
+              "topic": "Boolean Algebra - Simplification & K-Maps",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Digital Logic Design",
+              "topic": "Combinational Circuits - Multiplexer & Decoder",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Digital Logic Design",
+              "topic": "Number Systems - 2's Complement Arithmetic",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Digital Logic Design",
+              "topic": "Boolean Algebra - SOP/POS & Prime Implicants",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paper-2",
+      "title": "Predicted Paper 2: Mathematics & Aptitude Heavy",
+      "theme": "Mathematics-Intensive with Aptitude Depth",
+      "description": "Heavy emphasis on Engineering Mathematics (extra probability and linear algebra questions) and General Aptitude quantitative reasoning. CS Core follows standard distribution but with Algorithm complexity analysis getting higher weightage. Ideal for students strong in math who want to maximize scoring in predictable areas.",
+      "totalQuestions": 65,
+      "totalMarks": 100,
+      "sections": [
+        {
+          "name": "General Aptitude",
+          "subjects": [
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Percentage & Profit/Loss",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Average & Mixtures",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Probability & Permutations",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Verbal - Sentence Completion & Inference",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Verbal - Critical Reasoning & Arguments",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Data Interpretation (Tables/Charts)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Time, Speed & Distance (Relative Speed)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Logical Reasoning - Seating Arrangement & Puzzles",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Compound Interest & Installments",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Verbal - Reading Comprehension (Technical Passage)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            }
+          ]
+        },
+        {
+          "name": "Engineering Mathematics",
+          "subjects": [
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Linear Algebra - Matrix Rank & Nullity",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Probability - Conditional Probability & Bayes",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Discrete Mathematics - Relations (Reflexive, Symmetric, Transitive)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Probability - Dice & Coin Problems",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Linear Algebra - Eigenvalues & Diagonalization",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Probability Distributions - Uniform, Poisson, Exponential",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Calculus - Definite Integrals & Area",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Group Theory - Algebraic Structures",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            }
+          ]
+        },
+        {
+          "name": "CS Core",
+          "subjects": [
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Linked Lists - Circular & Doubly Linked List",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Trees - Binary Tree Properties",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "C Programming - Pointers & Array Operations",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Hashing - Collision Resolution",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Stacks - Infix to Postfix & Applications",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Trees - AVL Tree Rotations & Balance",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "C Programming - Recursion & Bitwise Operations",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Graph Algorithms - BFS/DFS & Connected Components",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Time Complexity - Master Theorem Application",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Graph Algorithms - Topological Sort",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Graph Algorithms - Kruskal vs Prim",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Dynamic Programming - Matrix Chain Multiplication",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "NP-Completeness - Reductions & Proof Sketches",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Greedy Algorithms - Huffman Coding",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Computer Arithmetic - Booth's Multiplication",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Instruction Set Architecture - Addressing Modes",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Cache Memory - Set-Associative Mapping",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Pipelining - Data Hazards & Forwarding",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Memory Hierarchy - Cache Miss Rate",
+              "marks": 2,
+              "type": "NAT",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "I/O Organization - DMA & Interrupt Handling",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Process Scheduling - SJF (Preemptive & Non-Preemptive)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Memory Management - Demand Paging & Page Faults",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Deadlocks - Detection & Recovery",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Synchronization - Mutex & Semaphores",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Memory Management - Virtual Memory & TLB",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "File Systems - Inode Structure & Disk Allocation",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Process Management - Fork, Wait & System Calls",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Normalization - 3NF vs BCNF",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "SQL - Complex Joins & Subqueries",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Transactions - Serializability & Conflict Equivalence",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Indexing - B+ Tree Insertion & Deletion",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Relational Algebra - Division & Aggregation",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Concurrency - Two-Phase Locking & Timestamp Ordering",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Layer - IP Header & Fragmentation",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Routing Protocols - RIP, OSPF & Distance Vector",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Transport Layer - TCP Congestion Control",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Transport Layer - TCP Flow Control (Sliding Window)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Layer - NAT & ICMP Protocol Details",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Application Layer - SMTP, FTP & DNS",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Security - Encryption (Symmetric/Asymmetric)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "DFA & NFA - Construction & Equivalence",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Regular Expressions - Conversion to DFA/NFA",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Context-Free Languages - CNF & Greibach Normal Form",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Pushdown Automata - Language Acceptance",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Decidability - Rice Theorem & Undecidability",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Finite State Machines - Moore & Mealy Machines",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Digital Logic Design",
+              "topic": "Boolean Algebra - K-Map Minimization (4 Variables)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paper-3",
+      "title": "Predicted Paper 3: Systems & Networks Focus",
+      "theme": "Operating Systems, Networks & Computer Organization",
+      "description": "Weighted heavily toward OS (memory management, synchronization), Computer Networks (transport and network layer), and Computer Organization (pipelining, cache). Digital Logic and Compiler Design are lighter. Good for students whose strengths lie in systems-level topics and hardware-software interaction.",
+      "totalQuestions": 65,
+      "totalMarks": 100,
+      "sections": [
+        {
+          "name": "General Aptitude",
+          "subjects": [
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Profit/Loss & Discount",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Time & Work",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Verbal - Synonyms, Antonyms & Vocabulary",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Probability (Coins/Dice)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Logical Reasoning - Syllogism & Statements",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Data Sufficiency",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Verbal - Sentence Correction & Grammar",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Ratio, Mixtures & Alligations",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Logical Reasoning - Data Interpretation (Table/Chart)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Percentage & Population Growth",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            }
+          ]
+        },
+        {
+          "name": "Engineering Mathematics",
+          "subjects": [
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Linear Algebra - Matrix Determinants & Inverse",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Probability - Conditional Probability (Bayes)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Discrete Mathematics - Functions (One-One, Onto)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Linear Algebra - System of Linear Equations",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Probability - Binomial & Poisson Distributions",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Numerical Methods - LU Decomposition",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Calculus - Limits & Continuity",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Discrete Mathematics - Group Theory Basics",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            }
+          ]
+        },
+        {
+          "name": "CS Core",
+          "subjects": [
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "C Programming - String Operations & Pointers",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Arrays - Operations & Pointer Arithmetic",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Trees - Tree Traversals (Inorder, Preorder, Postorder)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Linked Lists - Circular Linked List Operations",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Stacks & Queues - Applications",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Trees - Binary Heap (Min/Max Heap)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Hashing - Hash Function Design & Load Factor",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Graph Algorithms - DFS Properties (Articulation Points)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Sorting - Quick Sort & Merge Sort Comparison",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Time Complexity - Recurrence Solving",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Graph Algorithms - Single Source Shortest Path (Bellman-Ford)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Greedy Algorithms - Activity Selection Problem",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Backtracking - N-Queens Problem",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Pipelining - Instruction Pipeline & Speedup",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Cache Memory - Hit Ratio Computation",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Instruction Formats - Opcode & Addressing Mode Fields",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Memory Hierarchy - Associative Cache & Mapping",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Computer Arithmetic - Booth's Algorithm",
+              "marks": 2,
+              "type": "NAT",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Pipeline Hazards - Structural & Control Hazards",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Process Scheduling - Turnaround & Waiting Time Comparison",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Deadlocks - Conditions & Prevention",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Synchronization - Dining Philosophers Problem",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Memory Management - Demand Paging & Page Fault Rate",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Memory Management - Page Replacement (LRU Approximation)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Paging - Multi-level Paging & Inverted Page Table",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Process Management - Context Switch Overhead",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Virtual Memory - Thrashing & Working Set",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "SQL - GROUP BY, HAVING & ORDER BY",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Normalization - 1NF, 2NF, 3NF Identification",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Transactions - ACID Properties & Durability",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Indexing - B+ Tree Internal Node Structure",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Concurrency - Lost Update & Dirty Read Problems",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Relational Algebra - Selection, Projection & Cartesian Product",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Normalization - Decomposition into BCNF",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Layer - CIDR & Address Aggregation",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Transport Layer - TCP Connection Management",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Transport Layer - TCP Congestion Control Algorithms",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Data Link Layer - Ethernet & MAC Sublayer",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Layer - ARP, RARP & Proxy ARP",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Security - Authentication & Digital Signatures",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Routing - Distance Vector vs Link State",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Data Link Layer - Bit Stuffing & Byte Stuffing",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Regular Languages - Regular Expression to NFA",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Context-Free Languages - PDA Construction",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Regular Languages - Pumping Lemma Application",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Turing Machine - Design & Language Acceptance",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "CFG - LL(1) Parsing & Grammar Properties",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paper-4",
+      "title": "Predicted Paper 4: Emerging Topics & Integration",
+      "theme": "Emerging Patterns & Cross-Topic Integration",
+      "description": "Emphasizes emerging topics identified in the 2023-2025 trend: sophisticated K-maps, probabilistic reasoning, complex B+ tree operations, demand paging with LRU, and multi-table SQL. Theory of Computation focuses on PDA and CFG ambiguity. Higher proportion of hard and NAT questions. Best final practice paper before the actual exam.",
+      "totalQuestions": 65,
+      "totalMarks": 100,
+      "sections": [
+        {
+          "name": "General Aptitude",
+          "subjects": [
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Data Interpretation (Multiple Graphs)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Number Series & Pattern Recognition",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Verbal - Inference & Conclusion Drawing",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Permutation & Combination",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Logical Reasoning - Blood Relations & Direction Sense",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Probability (Multiple Events)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Verbal - Reading Comprehension (Abstract Passage)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Allegations & Mixtures",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Logical Reasoning - Critical Reasoning (Assumptions)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "General Aptitude",
+              "topic": "Quantitative - Compound Interest & Depreciation",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            }
+          ]
+        },
+        {
+          "name": "Engineering Mathematics",
+          "subjects": [
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Probability - Joint & Conditional Distributions",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Linear Algebra - Eigenvalue Properties & Trace",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Discrete Mathematics - Function Composition & Inverse",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Probability - Random Variable Expected Value & Variance",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Calculus - Mean Value Theorem & Rolle's Theorem",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Linear Algebra - Cayley-Hamilton Theorem",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Probability - Moment Generating Functions",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Engineering Mathematics",
+              "topic": "Discrete Mathematics - Set Operations & Power Sets",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            }
+          ]
+        },
+        {
+          "name": "CS Core",
+          "subjects": [
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Trees - Binary Tree Construction from Traversals",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "C Programming - Recursion Tree & Complexity",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Stacks - Stack Permutations & Applications",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Trees - Number of Binary Trees (Catalan)",
+              "marks": 1,
+              "type": "NAT",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Hashing - Double Hashing & Universal Hashing",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Trees - Threaded Binary Tree",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "C Programming - Pointer to Function & Callbacks",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Programming and Data Structures",
+              "topic": "Priority Queue - Heap Operations",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Graph Algorithms - Dijkstra (Negative Edge Handling)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Time Complexity - Best/Worst/Average Case Analysis",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "NP-Completeness - Clique & Vertex Cover",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Dynamic Programming - Longest Common Subsequence",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Divide and Conquer - Closest Pair of Points",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Graph Algorithms - Topological Sort Applications",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Algorithms",
+              "topic": "Graph Matching - Bipartite Matching & Hall's Theorem",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Pipelining - Instruction Throughput & Speedup",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Cache Memory - n-Way Set Associative Mapping",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Computer Arithmetic - Floating Point Addition/Subtraction",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Pipeline - Structural Hazards & Resource Allocation",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "RISC vs CISC Comparison",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Computer Organization & Architecture",
+              "topic": "Memory Interleaving & Banked Memory",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Process Scheduling - Priority Scheduling (Preemptive)",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Memory Management - Page Replacement (LRU Stack Algorithm)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Synchronization - Monitor Implementation",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Demand Paging - Page Fault Service Time",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Synchronization - Semaphores in Ordering Constraints",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Memory Management - Inverted Page Table",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "Virtual Memory - Working Set & Page Fault Frequency",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Operating Systems",
+              "topic": "File Systems - Disk Scheduling Algorithms",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "SQL - Multi-table Joins with Aggregation",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Indexing - B+ Tree Deletion & Node Merging",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Normalization - Lossless Join Property Verification",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Concurrency - Serializability Graph Analysis",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "SQL - Nested Queries & EXISTS",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Transactions - Recoverable & Cascadeless Schedules",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Database Management Systems",
+              "topic": "Indexing - ISAM vs B+ Tree Comparison",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Layer - Subnetting with Variable Length",
+              "marks": 2,
+              "type": "NAT",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Transport Layer - TCP Retransmission Timer (RTO)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Layer - Routing Table Lookup & Longest Prefix Match",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Data Link Layer - Error Correction (Hamming Code)",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Layer - IPv6 vs IPv4 Addressing",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Application Layer - HTTP/2 & HTTPS",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Easy"
+            },
+            {
+              "subject": "Computer Networks",
+              "topic": "Network Security - Hashing (SHA, MD5) & Authentication",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Context-Free Languages - Ambiguity in CFG",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Hard"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "PDA - Equivalence of PDA & CFG",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Regular Languages - State Minimization of DFA",
+              "marks": 1,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            },
+            {
+              "subject": "Theory of Computation",
+              "topic": "Decidability - Recursive vs RE Languages",
+              "marks": 2,
+              "type": "MCQ",
+              "difficulty": "Medium"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

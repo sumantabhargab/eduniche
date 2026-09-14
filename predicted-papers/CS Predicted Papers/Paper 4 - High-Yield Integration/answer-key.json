@@ -1,0 +1,592 @@
+{
+  "paperId": "CS-PRED-2026-P4",
+  "title": "GATE CS 2026 - Predicted Paper 4: High-Yield Integration",
+  "totalMarks": 100,
+  "answers": [
+    {
+      "number": 1,
+      "answer": [
+        "B"
+      ],
+      "topic": "Vocabulary",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 2,
+      "answer": [
+        "B"
+      ],
+      "topic": "Time and Work",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 3,
+      "answer": [
+        "C"
+      ],
+      "topic": "Grammar",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 4,
+      "answer": [
+        "B"
+      ],
+      "topic": "Logarithms",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 5,
+      "answer": [
+        "B"
+      ],
+      "topic": "Profit and Loss",
+      "marks": 2,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 6,
+      "answer": [
+        "B"
+      ],
+      "topic": "Vocabulary",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 7,
+      "answer": [
+        "A"
+      ],
+      "topic": "Ratio",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 8,
+      "answer": [
+        "B"
+      ],
+      "topic": "Vocabulary",
+      "marks": 2,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 9,
+      "answer": [
+        "A"
+      ],
+      "topic": "Geometry",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 10,
+      "answer": [
+        "B"
+      ],
+      "topic": "Ratio",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 11,
+      "answer": [
+        "C"
+      ],
+      "topic": "Linear Algebra",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 12,
+      "answer": [
+        "A"
+      ],
+      "topic": "Probability",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 13,
+      "answer": [
+        "C"
+      ],
+      "topic": "Calculus",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 14,
+      "answer": [
+        "D"
+      ],
+      "topic": "Discrete Math",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 15,
+      "answer": [
+        "A"
+      ],
+      "topic": "Linear Algebra",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 16,
+      "answer": [
+        "B"
+      ],
+      "topic": "Trees",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 17,
+      "answer": [
+        "B"
+      ],
+      "topic": "Linked List",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 18,
+      "answer": [
+        "B"
+      ],
+      "topic": "Stack",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 19,
+      "answer": [
+        "B"
+      ],
+      "topic": "Queue",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 20,
+      "answer": [
+        "B"
+      ],
+      "topic": "BST",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 21,
+      "answer": [
+        "C"
+      ],
+      "topic": "Trees",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 22,
+      "answer": [
+        "B"
+      ],
+      "topic": "Heap",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 23,
+      "answer": [
+        "B"
+      ],
+      "topic": "Hashing",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 24,
+      "answer": [
+        "B"
+      ],
+      "topic": "Trees",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 25,
+      "answer": [
+        "B"
+      ],
+      "topic": "Graph",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 26,
+      "answer": [
+        "B"
+      ],
+      "topic": "Recursion",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 27,
+      "answer": [
+        "B"
+      ],
+      "topic": "Hashing",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 28,
+      "answer": [
+        "B"
+      ],
+      "topic": "Trees",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 29,
+      "answer": [
+        "C"
+      ],
+      "topic": "Stack",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 30,
+      "answer": [
+        "B"
+      ],
+      "topic": "Binary Trees",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 31,
+      "answer": [
+        "B"
+      ],
+      "topic": "Set Theory",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 32,
+      "answer": [
+        "A"
+      ],
+      "topic": "Relations",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 33,
+      "answer": [
+        "B"
+      ],
+      "topic": "Functions",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 34,
+      "answer": [
+        "A"
+      ],
+      "topic": "Propositional Logic",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 35,
+      "answer": [
+        "B"
+      ],
+      "topic": "Lattice",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 36,
+      "answer": [
+        "B"
+      ],
+      "topic": "Group Theory",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 37,
+      "answer": [
+        "A"
+      ],
+      "topic": "Combinatorics",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 38,
+      "answer": [
+        "B"
+      ],
+      "topic": "Graph Theory",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 39,
+      "answer": [
+        "A"
+      ],
+      "topic": "Lexical Analysis",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 40,
+      "answer": [
+        "B"
+      ],
+      "topic": "Parsing",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 41,
+      "answer": [
+        "B"
+      ],
+      "topic": "SDT",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 42,
+      "answer": [
+        "B"
+      ],
+      "topic": "Intermediate Code",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 43,
+      "answer": [
+        "B"
+      ],
+      "topic": "Parser",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 44,
+      "answer": [
+        "C"
+      ],
+      "topic": "Normalization",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 45,
+      "answer": [
+        "B"
+      ],
+      "topic": "Transactions",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 46,
+      "answer": [
+        "B"
+      ],
+      "topic": "SQL",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 47,
+      "answer": [
+        "B"
+      ],
+      "topic": "Indexing",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 48,
+      "answer": [
+        "B"
+      ],
+      "topic": "Concurrency",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 49,
+      "answer": [
+        "B"
+      ],
+      "topic": "Scheduling",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 50,
+      "answer": [
+        "B"
+      ],
+      "topic": "Memory",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 51,
+      "answer": [
+        "B"
+      ],
+      "topic": "Synchronization",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 52,
+      "answer": [
+        "B"
+      ],
+      "topic": "Deadlocks",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 53,
+      "answer": [
+        "B"
+      ],
+      "topic": "Processes",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 54,
+      "answer": [
+        "B"
+      ],
+      "topic": "Network Layer",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 55,
+      "answer": [
+        "B"
+      ],
+      "topic": "Subnetting",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 56,
+      "answer": [
+        "B"
+      ],
+      "topic": "Transport Layer",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 57,
+      "answer": [
+        "B"
+      ],
+      "topic": "Application Layer",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 58,
+      "answer": [
+        "C"
+      ],
+      "topic": "Data Link Layer",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 59,
+      "answer": [
+        "B"
+      ],
+      "topic": "Sorting",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 60,
+      "answer": [
+        "B"
+      ],
+      "topic": "Time Complexity",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 61,
+      "answer": [
+        "B"
+      ],
+      "topic": "Greedy",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 62,
+      "answer": [
+        "B"
+      ],
+      "topic": "Graph Algorithms",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 63,
+      "answer": [
+        "B"
+      ],
+      "topic": "Pipelining",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 64,
+      "answer": [
+        "A"
+      ],
+      "topic": "Computer Arithmetic",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 65,
+      "answer": [
+        "A"
+      ],
+      "topic": "Cache Memory",
+      "marks": 2,
+      "difficulty": "Medium"
+    }
+  ]
+}

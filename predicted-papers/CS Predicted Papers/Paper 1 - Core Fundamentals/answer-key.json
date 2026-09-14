@@ -1,0 +1,594 @@
+{
+  "paperId": "CS-PRED-2026-P1",
+  "title": "GATE CS 2026 - Predicted Paper 1: Core Fundamentals",
+  "totalMarks": 100,
+  "answers": [
+    {
+      "number": 1,
+      "answer": [
+        "C"
+      ],
+      "topic": "Vocabulary",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 2,
+      "answer": [
+        "B"
+      ],
+      "topic": "Averages",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 3,
+      "answer": [
+        "B"
+      ],
+      "topic": "Vocabulary",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 4,
+      "answer": [
+        "A"
+      ],
+      "topic": "Speed, Distance, Time",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 5,
+      "answer": [
+        "A"
+      ],
+      "topic": "Compound Interest",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 6,
+      "answer": [
+        "A"
+      ],
+      "topic": "Idioms",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 7,
+      "answer": [
+        "B"
+      ],
+      "topic": "Logarithms",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 8,
+      "answer": [
+        "B"
+      ],
+      "topic": "Reading Comprehension",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 9,
+      "answer": [
+        "A"
+      ],
+      "topic": "Probability",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 10,
+      "answer": [
+        "A"
+      ],
+      "topic": "Time and Work",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 11,
+      "answer": [
+        "B"
+      ],
+      "topic": "Linear Algebra",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 12,
+      "answer": [
+        "B"
+      ],
+      "topic": "Probability",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 13,
+      "answer": [
+        "A"
+      ],
+      "topic": "Calculus",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 14,
+      "answer": [
+        "A"
+      ],
+      "topic": "Linear Algebra",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 15,
+      "answer": [
+        "A"
+      ],
+      "topic": "Probability",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 16,
+      "answer": [
+        "B"
+      ],
+      "topic": "Sorting",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 17,
+      "answer": [
+        "B"
+      ],
+      "topic": "Graph Algorithms",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 18,
+      "answer": [
+        "B"
+      ],
+      "topic": "Complexity",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 19,
+      "answer": [
+        "B"
+      ],
+      "topic": "Divide and Conquer",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 20,
+      "answer": [
+        "B"
+      ],
+      "topic": "Dynamic Programming",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 21,
+      "answer": [
+        "B"
+      ],
+      "topic": "Graph Algorithms",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 22,
+      "answer": [
+        "A"
+      ],
+      "topic": "Greedy",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 23,
+      "answer": [
+        "A"
+      ],
+      "topic": "NP-Completeness",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 24,
+      "answer": [
+        "D"
+      ],
+      "topic": "Complexity",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 25,
+      "answer": [
+        "A",
+        "B",
+        "C"
+      ],
+      "topic": "Algorithm Design",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 26,
+      "answer": [
+        "B"
+      ],
+      "topic": "Graph Algorithms",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 27,
+      "answer": [
+        "A"
+      ],
+      "topic": "Minimum Spanning Tree",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 28,
+      "answer": [
+        "A"
+      ],
+      "topic": "Regular Languages",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 29,
+      "answer": [
+        "B"
+      ],
+      "topic": "DFA Minimization",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 30,
+      "answer": [
+        "A"
+      ],
+      "topic": "CFG",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 31,
+      "answer": [
+        "C"
+      ],
+      "topic": "Pumping Lemma",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 32,
+      "answer": [
+        "A"
+      ],
+      "topic": "Regular Expressions",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 33,
+      "answer": [
+        "C"
+      ],
+      "topic": "Turing Machines",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 34,
+      "answer": [
+        "B"
+      ],
+      "topic": "Pushdown Automata",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 35,
+      "answer": [
+        "B"
+      ],
+      "topic": "Regular Languages",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 36,
+      "answer": [
+        "A"
+      ],
+      "topic": "Context Free Languages",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 37,
+      "answer": [
+        "B"
+      ],
+      "topic": "Decidability",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 38,
+      "answer": [
+        "B"
+      ],
+      "topic": "Finite Automata",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 39,
+      "answer": [
+        "B"
+      ],
+      "topic": "Number Systems",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 40,
+      "answer": [
+        "C"
+      ],
+      "topic": "Boolean Algebra",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 41,
+      "answer": [
+        "B"
+      ],
+      "topic": "Logic Gates",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 42,
+      "answer": [
+        "A"
+      ],
+      "topic": "Number Systems",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 43,
+      "answer": [
+        "C"
+      ],
+      "topic": "Combinational Circuits",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 44,
+      "answer": [
+        "B"
+      ],
+      "topic": "Sequential Circuits",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 45,
+      "answer": [
+        "A"
+      ],
+      "topic": "Boolean Algebra",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 46,
+      "answer": [
+        "C"
+      ],
+      "topic": "Combinational Circuits",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 47,
+      "answer": [
+        "C"
+      ],
+      "topic": "Cache Memory",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 48,
+      "answer": [
+        "A"
+      ],
+      "topic": "Pipelining",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 49,
+      "answer": [
+        "C"
+      ],
+      "topic": "Addressing Modes",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 50,
+      "answer": [
+        "B"
+      ],
+      "topic": "ISA",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 51,
+      "answer": [
+        "C"
+      ],
+      "topic": "Cache Memory",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 52,
+      "answer": [
+        "B"
+      ],
+      "topic": "Computer Arithmetic",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 53,
+      "answer": [
+        "B"
+      ],
+      "topic": "Memory Hierarchy",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 54,
+      "answer": [
+        "A"
+      ],
+      "topic": "Lexical Analysis",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 55,
+      "answer": [
+        "A"
+      ],
+      "topic": "Parsing",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 56,
+      "answer": [
+        "B"
+      ],
+      "topic": "SDT",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 57,
+      "answer": [
+        "A"
+      ],
+      "topic": "Code Generation",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 58,
+      "answer": [
+        "B"
+      ],
+      "topic": "Parsing",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 59,
+      "answer": [
+        "A"
+      ],
+      "topic": "SDT",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 60,
+      "answer": [
+        "B"
+      ],
+      "topic": "Process Scheduling",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 61,
+      "answer": [
+        "B"
+      ],
+      "topic": "Deadlocks",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 62,
+      "answer": [
+        "B"
+      ],
+      "topic": "Memory Management",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 63,
+      "answer": [
+        "D"
+      ],
+      "topic": "Synchronization",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 64,
+      "answer": [
+        "A"
+      ],
+      "topic": "Virtual Memory",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 65,
+      "answer": [
+        "B"
+      ],
+      "topic": "Graph Algorithms",
+      "marks": 2,
+      "difficulty": "Medium"
+    }
+  ]
+}

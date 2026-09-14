@@ -162,7 +162,8 @@ interface MarkdownRendererProps {
 }
 
 export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
-  const normalized = normalizeLatexDelimiters(content);
+  const text = typeof content === "string" ? content : JSON.stringify(content ?? "");
+  const normalized = normalizeLatexDelimiters(text);
 
   return (
     <div className="markdown-body">

@@ -1,0 +1,39 @@
+{
+  "paperId": "CS-PRED-2026",
+  "year": 2026,
+  "branch": "CSE",
+  "totalPapers": 4,
+  "examFormat": {
+    "totalQuestions": 65,
+    "totalMarks": 100,
+    "generalAptitude": {
+      "questions": 10,
+      "marks": 15,
+      "oneMark": 5,
+      "twoMark": 5
+    },
+    "engineeringMathematics": {
+      "questions": 5,
+      "marks": 15,
+      "oneMark": 2,
+      "twoMark": 3
+    },
+    "technical": {
+      "questions": 50,
+      "marks": 70,
+      "oneMark": 25,
+      "twoMark": 25
+    },
+    "durationMinutes": 180,
+    "negativeMarking": {
+      "oneMark": 0.33,
+      "twoMark": 0.66
+    }
+  },
+  "predictionBasis": "Analysis of GATE CSE 2024-2025 papers, topic frequency weighting, and emerging trends",
+  "difficultyDistribution": {
+    "easy": "40% (26 questions, 40 marks)",
+    "medium": "45% (29 questions, 43 marks)",
+    "hard": "15% (10 questions, 17 marks)"
+  }
+}

@@ -1,0 +1,592 @@
+{
+  "paperId": "CS-PRED-2026-P3",
+  "title": "GATE CS 2026 - Predicted Paper 3: Advanced and Emerging",
+  "totalMarks": 100,
+  "answers": [
+    {
+      "number": 1,
+      "answer": [
+        "B"
+      ],
+      "topic": "Vocabulary",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 2,
+      "answer": [
+        "C"
+      ],
+      "topic": "Arithmetic Progression",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 3,
+      "answer": [
+        "A"
+      ],
+      "topic": "Reading Comprehension",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 4,
+      "answer": [
+        "C"
+      ],
+      "topic": "Probability",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 5,
+      "answer": [
+        "B"
+      ],
+      "topic": "Speed, Distance, Time",
+      "marks": 2,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 6,
+      "answer": [
+        "B"
+      ],
+      "topic": "Vocabulary",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 7,
+      "answer": [
+        "C"
+      ],
+      "topic": "Algebra",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 8,
+      "answer": [
+        "C"
+      ],
+      "topic": "Grammar",
+      "marks": 2,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 9,
+      "answer": [
+        "A"
+      ],
+      "topic": "Time and Work",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 10,
+      "answer": [
+        "C"
+      ],
+      "topic": "Analogy",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 11,
+      "answer": [
+        "C"
+      ],
+      "topic": "Linear Algebra",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 12,
+      "answer": [
+        "B"
+      ],
+      "topic": "Probability",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 13,
+      "answer": [
+        "B"
+      ],
+      "topic": "Calculus",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 14,
+      "answer": [
+        "C"
+      ],
+      "topic": "Discrete Math",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 15,
+      "answer": [
+        "A"
+      ],
+      "topic": "Numerical Methods",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 16,
+      "answer": [
+        "B"
+      ],
+      "topic": "Classification",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 17,
+      "answer": [
+        "B"
+      ],
+      "topic": "Regression",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 18,
+      "answer": [
+        "B"
+      ],
+      "topic": "Neural Networks",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 19,
+      "answer": [
+        "B"
+      ],
+      "topic": "Clustering",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 20,
+      "answer": [
+        "B"
+      ],
+      "topic": "Dimensionality Reduction",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 21,
+      "answer": [
+        "B"
+      ],
+      "topic": "Bayesian",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 22,
+      "answer": [
+        "B"
+      ],
+      "topic": "Evaluation",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 23,
+      "answer": [
+        "B"
+      ],
+      "topic": "SVM",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 24,
+      "answer": [
+        "B"
+      ],
+      "topic": "Ensemble",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 25,
+      "answer": [
+        "B"
+      ],
+      "topic": "Optimization",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 26,
+      "answer": [
+        "B"
+      ],
+      "topic": "Image Processing",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 27,
+      "answer": [
+        "B"
+      ],
+      "topic": "Edge Detection",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 28,
+      "answer": [
+        "B"
+      ],
+      "topic": "CNN",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 29,
+      "answer": [
+        "B"
+      ],
+      "topic": "Image Representation",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 30,
+      "answer": [
+        "B"
+      ],
+      "topic": "Object Detection",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 31,
+      "answer": [
+        "B"
+      ],
+      "topic": "Pooling",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 32,
+      "answer": [
+        "B"
+      ],
+      "topic": "Segmentation",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 33,
+      "answer": [
+        "B"
+      ],
+      "topic": "Transformers",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 34,
+      "answer": [
+        "B"
+      ],
+      "topic": "Tokenization",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 35,
+      "answer": [
+        "B"
+      ],
+      "topic": "Word Embeddings",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 36,
+      "answer": [
+        "B"
+      ],
+      "topic": "Transformers",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 37,
+      "answer": [
+        "B"
+      ],
+      "topic": "POS Tagging",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 38,
+      "answer": [
+        "B"
+      ],
+      "topic": "Named Entity Recognition",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 39,
+      "answer": [
+        "B"
+      ],
+      "topic": "Language Models",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 40,
+      "answer": [
+        "B"
+      ],
+      "topic": "Text Classification",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 41,
+      "answer": [
+        "B"
+      ],
+      "topic": "Attention Mechanism",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 42,
+      "answer": [
+        "B"
+      ],
+      "topic": "Cryptography",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 43,
+      "answer": [
+        "A"
+      ],
+      "topic": "RSA",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 44,
+      "answer": [
+        "B"
+      ],
+      "topic": "Authentication",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 45,
+      "answer": [
+        "B"
+      ],
+      "topic": "Network Security",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 46,
+      "answer": [
+        "B"
+      ],
+      "topic": "Attacks",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 47,
+      "answer": [
+        "B"
+      ],
+      "topic": "Firewall",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 48,
+      "answer": [
+        "B"
+      ],
+      "topic": "Hash Functions",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 49,
+      "answer": [
+        "B"
+      ],
+      "topic": "Intellectual Property",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 50,
+      "answer": [
+        "B"
+      ],
+      "topic": "Privacy",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 51,
+      "answer": [
+        "B"
+      ],
+      "topic": "AI Ethics",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 52,
+      "answer": [
+        "B"
+      ],
+      "topic": "Professional Conduct",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 53,
+      "answer": [
+        "B"
+      ],
+      "topic": "Censorship",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 54,
+      "answer": [
+        "B"
+      ],
+      "topic": "Autonomous Systems",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 55,
+      "answer": [
+        "B"
+      ],
+      "topic": "Open Source",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 56,
+      "answer": [
+        "B"
+      ],
+      "topic": "Trees",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 57,
+      "answer": [
+        "B"
+      ],
+      "topic": "BST",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 58,
+      "answer": [
+        "B"
+      ],
+      "topic": "Hashing",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 59,
+      "answer": [
+        "B"
+      ],
+      "topic": "Linked List",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 60,
+      "answer": [
+        "C"
+      ],
+      "topic": "Stack",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 61,
+      "answer": [
+        "C"
+      ],
+      "topic": "Trees",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 62,
+      "answer": [
+        "B"
+      ],
+      "topic": "Heap",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 63,
+      "answer": [
+        "B"
+      ],
+      "topic": "Queue",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 64,
+      "answer": [
+        "B"
+      ],
+      "topic": "Graph Algorithms",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 65,
+      "answer": [
+        "B"
+      ],
+      "topic": "Dynamic Programming",
+      "marks": 2,
+      "difficulty": "Medium"
+    }
+  ]
+}

@@ -136,6 +136,12 @@ async function retrieveRelevantContent(supabase: any, userId: string, question: 
   }
 }
 
+function extractContent(content: unknown): string {
+  if (typeof content === "string") return content;
+  if (Array.isArray(content)) return content.map((p: any) => p.text).join("");
+  return "I couldn't generate a response. Please try again.";
+}
+
 async function chatCompletion(groq: Groq, messages: ChatMessage[]): Promise<string> {
   try {
     const response = await groq.chat.completions.create({
@@ -148,7 +154,7 @@ async function chatCompletion(groq: Groq, messages: ChatMessage[]): Promise<stri
       temperature: 0.7,
     });
 
-    return response.choices[0]?.message?.content ?? "I couldn't generate a response. Please try again.";
+    return extractContent(response.choices[0]?.message?.content);
   } catch (e: any) {
     devLog("Groq: API call failed", {
       message: e?.message,

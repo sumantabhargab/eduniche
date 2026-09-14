@@ -1,0 +1,592 @@
+{
+  "paperId": "CS-PRED-2026-P2",
+  "title": "GATE CS 2026 - Predicted Paper 2: Systems and Applications",
+  "totalMarks": 100,
+  "answers": [
+    {
+      "number": 1,
+      "answer": [
+        "B"
+      ],
+      "topic": "Vocabulary",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 2,
+      "answer": [
+        "A"
+      ],
+      "topic": "Time and Work",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 3,
+      "answer": [
+        "B"
+      ],
+      "topic": "Grammar",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 4,
+      "answer": [
+        "C"
+      ],
+      "topic": "Logarithms",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 5,
+      "answer": [
+        "B"
+      ],
+      "topic": "Probability",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 6,
+      "answer": [
+        "A"
+      ],
+      "topic": "Idioms",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 7,
+      "answer": [
+        "B"
+      ],
+      "topic": "Ratio",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 8,
+      "answer": [
+        "B"
+      ],
+      "topic": "Vocabulary",
+      "marks": 2,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 9,
+      "answer": [
+        "A"
+      ],
+      "topic": "Compound Interest",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 10,
+      "answer": [
+        "C"
+      ],
+      "topic": "Grammar",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 11,
+      "answer": [
+        "B"
+      ],
+      "topic": "Linear Algebra",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 12,
+      "answer": [
+        "B"
+      ],
+      "topic": "Probability",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 13,
+      "answer": [
+        "B"
+      ],
+      "topic": "Calculus",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 14,
+      "answer": [
+        "D"
+      ],
+      "topic": "Discrete Math",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 15,
+      "answer": [
+        "B"
+      ],
+      "topic": "Linear Algebra",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 16,
+      "answer": [
+        "B"
+      ],
+      "topic": "Process Scheduling",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 17,
+      "answer": [
+        "C"
+      ],
+      "topic": "Process Scheduling",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 18,
+      "answer": [
+        "D"
+      ],
+      "topic": "Synchronization",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 19,
+      "answer": [
+        "B"
+      ],
+      "topic": "Deadlocks",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 20,
+      "answer": [
+        "B"
+      ],
+      "topic": "Memory Management",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 21,
+      "answer": [
+        "A"
+      ],
+      "topic": "Virtual Memory",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 22,
+      "answer": [
+        "B"
+      ],
+      "topic": "File Systems",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 23,
+      "answer": [
+        "B"
+      ],
+      "topic": "Process Management",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 24,
+      "answer": [
+        "C"
+      ],
+      "topic": "Memory Management",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 25,
+      "answer": [
+        "C"
+      ],
+      "topic": "Deadlocks",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 26,
+      "answer": [
+        "A"
+      ],
+      "topic": "CPU Scheduling",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 27,
+      "answer": [
+        "C"
+      ],
+      "topic": "Cache Memory",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 28,
+      "answer": [
+        "C"
+      ],
+      "topic": "Normalization",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 29,
+      "answer": [
+        "C"
+      ],
+      "topic": "SQL",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 30,
+      "answer": [
+        "A"
+      ],
+      "topic": "Normalization",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 31,
+      "answer": [
+        "D"
+      ],
+      "topic": "Transactions",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 32,
+      "answer": [
+        "B"
+      ],
+      "topic": "Relational Algebra",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 33,
+      "answer": [
+        "C"
+      ],
+      "topic": "Indexing",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 34,
+      "answer": [
+        "B"
+      ],
+      "topic": "ER Model",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 35,
+      "answer": [
+        "A"
+      ],
+      "topic": "Normalization",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 36,
+      "answer": [
+        "B"
+      ],
+      "topic": "Concurrency",
+      "marks": 2,
+      "difficulty": "Hard"
+    },
+    {
+      "number": 37,
+      "answer": [
+        "A"
+      ],
+      "topic": "SQL",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 38,
+      "answer": [
+        "A"
+      ],
+      "topic": "Network Layer",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 39,
+      "answer": [
+        "A"
+      ],
+      "topic": "Subnetting",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 40,
+      "answer": [
+        "A"
+      ],
+      "topic": "Transport Layer",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 41,
+      "answer": [
+        "A"
+      ],
+      "topic": "TCP",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 42,
+      "answer": [
+        "C"
+      ],
+      "topic": "Network Layer",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 43,
+      "answer": [
+        "B"
+      ],
+      "topic": "Data Link Layer",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 44,
+      "answer": [
+        "C"
+      ],
+      "topic": "Application Layer",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 45,
+      "answer": [
+        "B"
+      ],
+      "topic": "Routing",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 46,
+      "answer": [
+        "B"
+      ],
+      "topic": "Testing",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 47,
+      "answer": [
+        "B"
+      ],
+      "topic": "Testing",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 48,
+      "answer": [
+        "B"
+      ],
+      "topic": "Software Process",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 49,
+      "answer": [
+        "C"
+      ],
+      "topic": "COCOMO",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 50,
+      "answer": [
+        "A"
+      ],
+      "topic": "Requirements",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 51,
+      "answer": [
+        "A"
+      ],
+      "topic": "Testing",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 52,
+      "answer": [
+        "A"
+      ],
+      "topic": "Metrics",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 53,
+      "answer": [
+        "B"
+      ],
+      "topic": "Agile",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 54,
+      "answer": [
+        "B"
+      ],
+      "topic": "HTML",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 55,
+      "answer": [
+        "B"
+      ],
+      "topic": "CSS",
+      "marks": 1,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 56,
+      "answer": [
+        "B"
+      ],
+      "topic": "HTTP",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 57,
+      "answer": [
+        "B"
+      ],
+      "topic": "JavaScript",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 58,
+      "answer": [
+        "C"
+      ],
+      "topic": "REST API",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 59,
+      "answer": [
+        "B"
+      ],
+      "topic": "Network Layer",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 60,
+      "answer": [
+        "B"
+      ],
+      "topic": "Subnetting",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 61,
+      "answer": [
+        "B"
+      ],
+      "topic": "Transport Layer",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 62,
+      "answer": [
+        "B"
+      ],
+      "topic": "Application Layer",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 63,
+      "answer": [
+        "C"
+      ],
+      "topic": "Data Link Layer",
+      "marks": 2,
+      "difficulty": "Medium"
+    },
+    {
+      "number": 64,
+      "answer": [
+        "B"
+      ],
+      "topic": "Process Scheduling",
+      "marks": 1,
+      "difficulty": "Easy"
+    },
+    {
+      "number": 65,
+      "answer": [
+        "B"
+      ],
+      "topic": "Memory Management",
+      "marks": 2,
+      "difficulty": "Medium"
+    }
+  ]
+}
