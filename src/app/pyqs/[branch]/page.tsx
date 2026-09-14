@@ -4,17 +4,17 @@
  * Shows subjects for a selected branch.
  * If ?subject= is present, shows the practice session.
  *
- * FIX: Wraps the inner component (which uses useSearchParams) in Suspense
- * to avoid React error #31 (Invalid hook call) in React 19 / Next.js 15+.
+ * Uses window.location to read search params, avoiding useSearchParams()
+ * which causes React error #31 (Invalid hook call) in this context.
  */
 
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, Lock, Star, ArrowLeft, ChevronRight } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import SubjectPracticeSession from "./_components/SubjectPracticeSession";
@@ -52,24 +52,28 @@ const BRANCH_META: Record<string, { name: string; icon: string }> = {
   PH: { name: "Engineering Physics", icon: "⚛️" },
 };
 
-// ─── Inner component: uses useSearchParams (must be in Suspense) ───────────────
-
-function BranchContent({ branch }: { branch: string }) {
+export default function BranchPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const pathname = usePathname();
   const { isPremium } = useAuth();
 
-  const subjectParam = searchParams.get("subject") || "";
-  const topicParam = searchParams.get("topic") || "";
-  const yearParam = searchParams.get("year") || "";
+  const branch = pathname.replace("/pyqs/", "").split("?")[0].toUpperCase() || "CS";
 
   const [mounted, setMounted] = useState(false);
+  const [subject, setSubject] = useState("");
+  const [topic, setTopic] = useState("");
+  const [year, setYear] = useState("");
   const [subjects, setSubjects] = useState<SubjectRef[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Avoid hydration mismatch
-  useEffect(() => { setMounted(true); }, []);
+  // Parse search params from window.location (avoids useSearchParams hook)
+  useEffect(() => {
+    setMounted(true);
+    const params = new URLSearchParams(window.location.search);
+    setSubject(params.get("subject") || "");
+    setTopic(params.get("topic") || "");
+    setYear(params.get("year") || "");
+  }, []);
 
   // Load subjects
   useEffect(() => {
@@ -101,22 +105,9 @@ function BranchContent({ branch }: { branch: string }) {
   }
 
   // If subject is selected, show practice session
-  if (subjectParam) {
+  if (subject) {
     return (
-      <Suspense fallback={
-        <main className="min-h-screen bg-background">
-          <Nav />
-          <div className="pt-24 flex items-center justify-center min-h-[60vh]">
-            <div className="text-center">
-              <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-sm text-muted">Loading practice session…</p>
-            </div>
-          </div>
-          <Footer />
-        </main>
-      }>
-        <SubjectPracticeSession branch={branch} subject={subjectParam} topic={topicParam} year={yearParam} />
-      </Suspense>
+      <SubjectPracticeSession branch={branch} subject={subject} topic={topic} year={year} />
     );
   }
 
@@ -200,13 +191,13 @@ function BranchContent({ branch }: { branch: string }) {
               transition={{ delay: 0.2 }}
               className="grid grid-cols-1 md:grid-cols-2 gap-4"
             >
-              {subjects.map((subject, index) => (
+              {subjects.map((subjectItem, index) => (
                 <motion.button
-                  key={subject.id}
+                  key={subjectItem.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.03 }}
-                  onClick={() => router.push(`/pyqs/${branch}?subject=${encodeURIComponent(subject.displayName)}`)}
+                  onClick={() => router.push(`/pyqs/${branch}?subject=${encodeURIComponent(subjectItem.displayName)}`)}
                   className="group relative bg-card border border-border rounded-2xl p-6 text-left
                     hover:border-foreground/20 hover:shadow-lg hover:shadow-black/5
                     transition-all duration-300"
@@ -216,29 +207,29 @@ function BranchContent({ branch }: { branch: string }) {
                       <div className="flex items-center gap-2 mb-2">
                         <BookOpen className="w-4 h-4 text-accent" />
                         <h3 className="font-semibold text-sm group-hover:text-accent transition-colors">
-                          {subject.displayName}
+                          {subjectItem.displayName}
                         </h3>
                       </div>
                       <div className="flex items-center gap-3 text-xs text-muted">
-                        <span>{subject.questionCount?.toLocaleString() || "?"} questions</span>
+                        <span>{subjectItem.questionCount?.toLocaleString() || "?"} questions</span>
                         <span>·</span>
-                        <span>{subject.topicCount || subject.topics?.length || 0} topics</span>
+                        <span>{subjectItem.topicCount || subjectItem.topics?.length || 0} topics</span>
                       </div>
                     </div>
                     <ChevronRight className="w-5 h-5 text-muted group-hover:text-foreground group-hover:translate-x-0.5 transition-all mt-1" />
                   </div>
 
                   {/* Topic preview for premium */}
-                  {isPremium && subject.topics && subject.topics.length > 0 && (
+                  {isPremium && subjectItem.topics && subjectItem.topics.length > 0 && (
                     <div className="mt-4 pt-4 border-t border-border">
                       <div className="flex flex-wrap gap-1.5">
-                        {subject.topics.slice(0, 4).map((t) => (
+                        {subjectItem.topics.slice(0, 4).map((t) => (
                           <span key={t.topicName} className="text-[10px] px-2 py-1 bg-foreground/5 rounded-md text-muted">
                             {t.displayName || t.topicName}
                           </span>
                         ))}
-                        {subject.topics.length > 4 && (
-                          <span className="text-[10px] px-2 py-1 text-muted">+{subject.topics.length - 4} more</span>
+                        {subjectItem.topics.length > 4 && (
+                          <span className="text-[10px] px-2 py-1 text-muted">+{subjectItem.topics.length - 4} more</span>
                         )}
                       </div>
                     </div>
@@ -252,28 +243,5 @@ function BranchContent({ branch }: { branch: string }) {
 
       <Footer />
     </main>
-  );
-}
-
-// ─── Outer component: reads branch from pathname (no Suspense needed) ──────────
-
-export default function BranchPage() {
-  const pathname = usePathname();
-  const branch = pathname.replace("/pyqs/", "").split("?")[0].toUpperCase() || "CS";
-
-  return (
-    <Suspense fallback={
-      <main className="min-h-screen bg-background">
-        <Nav />
-        <div className="pt-24 flex items-center justify-center min-h-[60vh]">
-          <div className="text-center">
-            <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-sm text-muted">Loading…</p>
-          </div>
-        </div>
-      </main>
-    }>
-      <BranchContent branch={branch} />
-    </Suspense>
   );
 }
