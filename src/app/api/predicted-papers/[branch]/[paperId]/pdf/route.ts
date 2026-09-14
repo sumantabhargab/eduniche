@@ -13,8 +13,8 @@ interface RouteParams {
 }
 
 function getPdfFilename(branch: string, paperId: string): string | null {
-  // Extract paper number from paperId (e.g., "CS-M1" -> "01", "CS-M4" -> "04")
-  const match = paperId.match(/M(\d)/);
+  // Extract paper number from paperId (e.g., "cs-m1" -> "01", "cs-m4" -> "04")
+  const match = paperId.match(/m(\d)/i);
   if (!match) return null;
 
   const paperNum = String(parseInt(match[1])).padStart(2, "0");

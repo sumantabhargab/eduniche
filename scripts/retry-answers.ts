@@ -1,12 +1,4 @@
-/**
- * Answer Synthesis Retry Pipeline
- *
- * Retries failed questions with proper rate limiting.
- * Handles 429 with exponential backoff.
- * Strips reasoning tokens from Groq responses.
- */
-
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
 const ROOT = join(process.cwd());
@@ -32,14 +24,6 @@ interface Question {
 interface Paper {
   id: string;
   branch: string;
-  title: string;
-  description: string;
-  createdAt: string;
-  totalQuestions: number;
-  totalMarks: number;
-  difficultyDistribution: Record<string, number>;
-  subjectBreakdown: Record<string, number>;
-  predictionRationale: string;
   questions: Question[];
 }
 
@@ -48,16 +32,12 @@ interface BranchData {
   papers: Paper[];
 }
 
-function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 function extractJSON(content: string): any | null {
-  // Try direct parse first
   try {
     return JSON.parse(content);
   } catch {
-    // Try to find JSON object in the content
     const match = content.match(/\{[\s\S]*\}/);
     if (match) {
       try {
@@ -70,10 +50,7 @@ function extractJSON(content: string): any | null {
   }
 }
 
-async function groqRequest(
-  question: Question,
-  retryCount: number = 0
-): Promise<{ answer: string; explanation: string } | null> {
+async function groqRequest(question: Question, retryCount = 0): Promise<{ answer: string; explanation: string } | null> {
   const delay = 5000 * Math.pow(2, retryCount);
   if (retryCount > 0) {
     await sleep;
@@ -97,7 +74,7 @@ Marks: ${question.marks}
 Question:
 ${question.questionText}${optionsText}${natNote}${msqNote}
 
-Respond with ONLY this JSON format (no other text):
+Respond with ONLY valid JSON (no other text):
 {"answer": "correct answer", "explanation": "brief reasoning"}`;
 
   try {
@@ -108,16 +85,10 @@ Respond with ONLY this JSON format (no other text):
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "groq/compound-mini",
+        model: "openai/gpt-oss-120b",
         messages: [
-          {
-            role: "system",
-            content: "You are a GATE exam expert. Output ONLY valid JSON, no other text."
-          },
-          {
-            role: "user",
-            content: prompt
-          }
+          { role: "system", content: "You are a GATE exam expert. Output ONLY valid JSON, no other text." },
+          { role: "user", content: prompt }
         ],
         temperature: 0.1,
         max_tokens: 200
@@ -128,6 +99,7 @@ Respond with ONLY this JSON format (no other text):
       const errorText = await response.text();
       if (response.status === 429 && retryCount < 3) {
         console.log(`\n   Rate limited, retrying in ${delay / 1000}s...`);
+        await sleep;
         return groqRequest(question, retryCount + 1);
       }
       console.error(`\n   API error ${response.status}:`, errorText.substring(0, 100));
@@ -140,10 +112,7 @@ Respond with ONLY this JSON format (no other text):
 
     const parsed = extractJSON(content);
     if (parsed && parsed.answer) {
-      return {
-        answer: parsed.answer,
-        explanation: parsed.explanation || ""
-      };
+      return { answer: parsed.answer, explanation: parsed.explanation || "" };
     }
     return null;
   } catch (error) {
@@ -160,7 +129,6 @@ async function retryAnswers() {
     process.exit(1);
   }
 
-  // Load all branches
   console.log("Step 1: Loading papers...");
   const branches: BranchData[] = [];
 
@@ -169,15 +137,10 @@ async function retryAnswers() {
                         "TF.json", "PE.json", "EY.json", "MA.json", "AR.json",
                         "AG.json", "GG.json", "PH.json", "XE.json", "XL.json"]) {
     const filePath = join(PAPERS_DIR, file);
-    if (!existsSync(filePath)) {
-      console.warn(`   Warning: ${file} not found`);
-      continue;
-    }
-    const data = JSON.parse(readFileSync(filePath, "utf-8"));
-    branches.push(data);
+    if (!existsSync(filePath)) continue;
+    branches.push(JSON.parse(readFileSync(filePath, "utf-8")));
   }
 
-  // Find questions without answers
   const questionsNeedingAnswers: { branch: string; paper: Paper; question: Question }[] = [];
 
   for (const branch of branches) {
@@ -193,12 +156,11 @@ async function retryAnswers() {
   console.log(`   Found ${questionsNeedingAnswers.length} questions needing answers`);
 
   if (questionsNeedingAnswers.length === 0) {
-    console.log("\n   All questions have answers! ✓");
+    console.log("\n   All questions have answers!");
     return;
   }
 
-  // Process one at a time with 10-second delays
-  console.log("\nStep 2: Synthesizing answers (10s delay between requests)...");
+  console.log("\nStep 2: Synthesizing answers...");
   let succeeded = 0;
   let failed = 0;
 
@@ -218,7 +180,7 @@ async function retryAnswers() {
       failed++;
     }
 
-    // Wait 1 second between requests
+    // Wait 3 seconds between requests
     await sleep;
   }
 
@@ -247,18 +209,19 @@ async function retryAnswers() {
 
   if (invalidQuestions.length > 0) {
     console.log("\n   Still missing answers:");
-    invalidQuestions.forEach(q => console.log(`      - ${q}`));
+    invalidQuestions.slice(0, 20).forEach(q => console.log(`      - ${q}`));
   }
 
-  // Save updated papers
+  // Save
   console.log("\nStep 4: Saving updated papers...");
   for (const branch of branches) {
     const filePath = join(PAPERS_DIR, `${branch.branch.toLowerCase()}.json`);
     writeFileSync(filePath, JSON.stringify(branch, null, 2));
+  }
+  for (const branch of branches) {
     console.log(`   Saved ${branch.branch}.json`);
   }
 
-  // Summary
   console.log("\n=== Summary ===");
   console.log(`   Branches: ${branches.length}`);
   console.log(`   Papers: ${branches.reduce((sum, b) => sum + b.papers.length, 0)}`);
@@ -267,6 +230,8 @@ async function retryAnswers() {
   console.log(`   Questions without answers: ${invalidCount}`);
   console.log(`   Success rate: ${Math.round(validCount / (validCount + invalidCount) * 100)}%`);
 }
+
+import { existsSync } from "fs";
 
 retryAnswers().catch(error => {
   console.error("\nRetry failed:", error);

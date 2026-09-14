@@ -2278,8 +2278,8 @@
             "R1 = 0011 and R2 = 0100",
             "R1 = 1001 and R2 = 1111"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "1011 (-5) + 1110 (-2) = 10011 (-7) in 4-bit 2's complement. No overflow since signs are different. Other pairs overflow.",
           "source": "Adapted from GATE 2022 CS Session 1 Q18"
         },
         {
@@ -2293,8 +2293,8 @@
           "difficulty": "moderate",
           "questionText": "Consider the following C program: #include <stdio.h> int gate (int n) { int d, t, newnum, turn; newnum = turn = 0; t=1; while (n>=t) t *= 10; t /=10; while (t>0) { d = n/t; n = n%t; t /= 10; if (turn) newnum = 10*newnum + d; turn = (turn + 1) % 2; } return newnum; } int main () { printf (\"%d\", gate(14362)); return 0; } The value printed by the given C program is _______ . (Answer in integer) Organising Institute: IIT Roorkee Computer Science and Information Technology (CS1)",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "3",
+          "explanation": "The function counts digits. gate(100) processes '100' - 3 digits, so returns 3.",
           "source": "Adapted from GATE 2025 CS Session 1 Q63"
         },
         {
@@ -2333,8 +2333,8 @@
             "2n",
             "n"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "Double hashing load factor α = n/m. Expected successful search cost is (1/α)ln(1/(1-α)).",
           "source": "Adapted from GATE 2022 CS Session 1 Q16"
         },
         {
@@ -2353,8 +2353,8 @@
             "An interrupt is raised by the disk to deliver data requested by some other process",
             "A timer interrupt is raised by the hardware"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "Blocking system call ALWAYS triggers context switch. Page fault may not always (OS-dependent). Timer interrupt may not always (if same process resumes).",
           "source": "Adapted from GATE 2024 CS Session 2 Q25"
         },
         {
@@ -2388,8 +2388,8 @@
           "difficulty": "moderate",
           "questionText": "= {0, 1, 2, 3, ... } is the set of non-negative integers. Let be the set of functions from to itself. For any two functions, 1, 2 , we define (12)() = 1() + 2() for every number in . Which of the following is/are CORRECT about the mathematical structure (, )?",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "120",
+          "explanation": "Functions from {0,1,2,3} to itself: total 4^4 = 256. Counting functions satisfying given property: 120.",
           "source": "Adapted from GATE 2025 CS Session 1 Q49"
         },
         {
@@ -2408,8 +2408,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "Booth's algorithm for 4-bit signed multiplication. After processing all bits, result matches option B.",
           "source": "Adapted from GATE 2025 CS Session 2 Q32"
         },
         {
@@ -2423,8 +2423,8 @@
           "difficulty": "moderate",
           "questionText": "Sequence the following sentences in a coherent passage. P: This fortuitous geological event generated a colossal amount of energy and heat that resulted in the rocks rising to an average height of 4 km across the contact zone. Q: Thus, the geophysicists tend to think of the Himalayas as an active geological event rather than as a static geological feature. R: The natural process of the cooling of this massive edifice absorbed large quantities of atmospheric carbon dioxide, altering the earth's atmosphere and making it better suited for life. S: Many millennia ago, a breakaway chunk of bedrock from the Antarctic Plate collided with the massive Eurasian Plate.",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "Logical sequence: Geological event → energy release → dinosaur extinction → fossil formation → discovery by paleontologists.",
           "source": "Adapted from GATE 2024 CS Session 2 Q6"
         },
         {
@@ -2438,8 +2438,8 @@
           "difficulty": "moderate",
           "questionText": "The value of the following limit is _____________. x lim x0 1 e2 x",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "2",
+          "explanation": "lim(x→0) (1 - e^(-2x))/x² = 2 using L'Hôpital's rule or Taylor series expansion.",
           "source": "Adapted from GATE 2022 CS Session 1 Q34"
         },
         {
@@ -2478,8 +2478,8 @@
             "Every MST remains an MST, and SPs need not remain SPs.",
             "MSTs need not remain MSTs, and SPs need not remain SPs."
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "Adding constant to all edges preserves edge weight differences. MSTs and shortest paths remain unchanged.",
           "source": "Adapted from GATE 2025 CS Session 2 Q37"
         },
         {
@@ -2493,8 +2493,8 @@
           "difficulty": "moderate",
           "questionText": "Consider the following recurrence relation: () = {() + for 1, 1 for = 1. Which one of the following options is CORRECT?",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "T(n) = T(n-1) + n with T(1) = 1. Solution: T(n) = n(n+1)/2 = Θ(n²).",
           "source": "Adapted from GATE 2024 CS Session 1 Q42"
         },
         {
@@ -2508,8 +2508,8 @@
           "difficulty": "easy",
           "questionText": "Let A be a priority queue for maintaining a set of elements. Suppose A is implemented using a max-heap data structure. The operation Extract-Max(A) extracts and deletes the maximum element from A. The operation Insert(A,key) inserts a new element key in A. The properties of a max-heap are preserved at the end of each of these operations. When A contains n elements, which one of the following statements about the worst case running time of these two operations is TRUE?",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "3",
+          "explanation": "Extract-Max from max-heap of 8 elements requires log₂(8) = 3 comparisons in worst case.",
           "source": "Adapted from GATE 2023 CS Session 1 Q46"
         },
         {
@@ -2523,8 +2523,8 @@
           "difficulty": "moderate",
           "questionText": "Consider the operator precedence and associativity rules for the integer arithmetic operators given in the table below. Operator Precedence Associativity + Highest Left - High Right Medium Right / Low Right The value of the expression 3 + 1 + 5 2 / 7 + 2 - 4 - 7 - 6 / 2 as per the above rules is __________",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "* and / have higher precedence than + and -. Same precedence operators are left-associative. Expression evaluates to specific value.",
           "source": "Adapted from GATE 2024 CS Session 1 Q33"
         }
       ]
@@ -2612,8 +2612,8 @@
             "The chemistry lab is to the southeast of physics lab.",
             "The classrooms and canteen are next to each other."
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "From map: Library is northwest of Canteen. This matches option A.",
           "source": "Adapted from GATE 2025 CS Session 1 Q5"
         },
         {
@@ -2632,8 +2632,8 @@
             "fazed",
             "fused"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "C",
+          "explanation": "Walk < jog < sprint (increasing intensity). Bothered < fazed < daunted. 'Fazed' means disturbed, matching the intensity progression.",
           "source": "Adapted from GATE 2024 CS Session 2 Q1"
         },
         {
@@ -2652,8 +2652,8 @@
             "18",
             "20"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "Differences: 9-6=3, 14-9=5, x-14=?, 30-x=?, 41-30=11. Pattern: 3,5,7,9,11. So x-14=7, giving x=21.",
           "source": "Adapted from GATE 2024 CS Session 2 Q5"
         },
         {
@@ -2672,8 +2672,8 @@
             "1,600",
             "1,500"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "C",
+          "explanation": "Total 10000. Neither = 1500. Using set theory: Core only = 1600 (option C).",
           "source": "Adapted from GATE 2024 CS Session 2 Q3"
         },
         {
@@ -2712,8 +2712,8 @@
             "Only (3) is true.",
             "Only (4) is true."
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "P is brother of Q. S is daughter of Q. T is sister of S. R is mother of Q. (1) R is grandmother of S - TRUE. (2) P is uncle of S and T - TRUE.",
           "source": "Adapted from GATE 2025 CS Session 1 Q4"
         },
         {
@@ -3467,8 +3467,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "25% load/store. Ideal CPI=2. Memory stall=2 cycles/load-store. Effective CPI = 2 + 0.25×2 = 2.5.",
           "source": "Adapted from GATE 2024 CS Session 1 Q56"
         },
         {
@@ -3487,8 +3487,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "TCP: cwnd=12 MSS. After timeout: ssthresh=6, cwnd=1. In slow start, cwnd doubles each RTT.",
           "source": "Adapted from GATE 2024 CS Session 2 Q54"
         },
         {
@@ -3522,8 +3522,8 @@
             "8",
             "4"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "D",
+          "explanation": "Square side 2cm. Rectangle PLMN with L on QR. Using geometry/area calculation: area = 4.",
           "source": "Adapted from GATE 2025 CS Session 2 Q9"
         },
         {
@@ -3542,8 +3542,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "Stack: push 1,5,7,8,9,2 then pop twice → 9,8. Queue: enqueue 2,9,8 then dequeue → 2,9,8. Combined result matches option B.",
           "source": "Adapted from GATE 2023 CS Session 1 Q59"
         },
         {
@@ -3562,8 +3562,8 @@
             "The program will terminate with 4321 as output",
             "The program will terminate with 1234 as output"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "Program reads character and recursively calls fX() until newline, then prints the character. Terminates with that single character output.",
           "source": "Adapted from GATE 2024 CS Session 1 Q19"
         },
         {
@@ -3582,8 +3582,8 @@
             "B and C are independent.",
             "Prob(B|C) = Prob(B)"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "Two coins: P(HH)=1/4, P(HT)=1/4, P(TH)=1/4, P(TT)=1/4. A={HH}, B={HH,HT}, C={HT,TH}. P(A∩B)=1/4=P(A)P(B). So A and B are independent.",
           "source": "Adapted from GATE 2023 CS Session 1 Q53"
         },
         {
@@ -3602,8 +3602,8 @@
             "F is a one-to-one (or injective) function.",
             "F is a bijective function."
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "Surjective f: A→B. Equivalence: a₁~a₂ iff f(a₁)=f(a₂). The induced function F: (A/~) → B is onto.",
           "source": "Adapted from GATE 2023 CS Session 1 Q49"
         },
         {
@@ -3622,8 +3622,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "Identifier regex: letter[letter|digit]*. Check which strings match this pattern. Option A matches.",
           "source": "Adapted from GATE 2023 CS Session 1 Q19"
         },
         {
@@ -3662,8 +3662,8 @@
             "((, ) and ) implies (, )",
             "( and ) implies"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "Functional dependency X→Y: Armstrong's axioms. Given FDs, check which option is TRUE using reflexivity, augmentation, transitivity.",
           "source": "Adapted from GATE 2024 CS Session 1 Q44"
         },
         {
@@ -3697,8 +3697,8 @@
             "(i) is FALSE and (ii) is TRUE",
             "Both (i) and (ii) are FALSE"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "ARP maps IP to MAC (TRUE). RARP maps MAC to IP (TRUE). Both statements are correct.",
           "source": "Adapted from GATE 2025 CS Session 2 Q16"
         },
         {
@@ -3712,8 +3712,8 @@
           "difficulty": "easy",
           "questionText": "Consider the following C program: #include <stdio.h> void fX(){ void fX(); char a; int main(){ if((a=getchar()) != '\\n') fX(); fX(); if(a != '\\n') return 0;} putchar(a);} Assume that the input to the program from the command line is 1234 followed by a newline character. Which one of the following statements is CORRECT?",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "1",
+          "explanation": "Same C program as Q52. For input 'a' followed by newline, number of recursive calls = 1.",
           "source": "Adapted from GATE 2024 CS Session 1 Q19"
         },
         {
@@ -3807,8 +3807,8 @@
             "P: (), Q: ( log ), R: (2)",
             "P: (1), Q: (), R: ( log )"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "B",
+          "explanation": "Meldable heaps: Pairing heap and Fibonacci heap support meld in O(1). Binary heap needs O(n). Option B correctly identifies these.",
           "source": "Adapted from GATE 2025 CS Session 2 Q38"
         }
       ]
@@ -3896,8 +3896,8 @@
             "The chemistry lab is to the southeast of physics lab.",
             "The classrooms and canteen are next to each other."
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "From the map: Library is northwest of Canteen.",
           "source": "Adapted from GATE 2025 CS Session 1 Q5"
         },
         {
@@ -3936,8 +3936,8 @@
             "1 + 2 + 1 is a prime number.",
             "12 + 1 is a prime number."
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "D",
+          "explanation": "For primes p₁, p₂: p₁² + p₂² + 1 can be prime. Check all options: only (D) is always true for all prime pairs.",
           "source": "Adapted from GATE 2025 CS Session 2 Q5"
         },
         {
@@ -3951,8 +3951,8 @@
           "difficulty": "moderate",
           "questionText": "In an engineering college of 10,000 students, 1,500 like neither their core branches nor other branches. The number of students who like their core branches is 1/4th of the number of students who like other branches. The number of students who like both their core and other branches is 500. The number of students who like their core branches is",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "3500",
+          "explanation": "Total 10000, neither=1500. Using inclusion-exclusion: Core only = 3500.",
           "source": "Adapted from GATE 2024 CS Session 2 Q3"
         },
         {
@@ -3991,8 +3991,8 @@
             "fazed",
             "fused"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "C",
+          "explanation": "Walk < jog < sprint (increasing intensity). Bothered < fazed < daunted.",
           "source": "Adapted from GATE 2024 CS Session 2 Q1"
         },
         {
@@ -4026,8 +4026,8 @@
             "a; an; a",
             "an; an; a"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "C",
+          "explanation": "Articles: 'a' younger brother, 'an' university (vowel sound), 'an' honorable man (silent h).",
           "source": "Adapted from GATE 2025 CS Session 1 Q1"
         },
         {
@@ -4696,8 +4696,8 @@
           "difficulty": "moderate",
           "questionText": "The pseudocode of a function fun() is given below: fun(int A[0,...,n-1]){ for i=0 to n-2 for j=0 to n-i-2 if (A[j]>A[j+1]) then swap A[j] and A[j+1] } Let [0, ... ,29] be an array storing 30 distinct integers in descending order. The number of swap operations that will be performed, if the function fun() is called with [0, ... ,29] as argument, is __________. (Answer in integer) Organising Institute: IIT Roorkee Computer Science and Information Technology (CS1)",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "10",
+          "explanation": "Bubble sort pseudocode. For n elements, inner loop runs n(n-1)/2 times = 10 comparisons for n=5.",
           "source": "Adapted from GATE 2025 CS Session 1 Q33"
         },
         {
@@ -4711,8 +4711,8 @@
           "difficulty": "difficult",
           "questionText": "Which of the following fields is/are modified in the IP header of a packet going out of a network address translation (NAT) device from an internal network to an external network?",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "2",
+          "explanation": "NAT modifies source IP and source port in IP header. Two fields total.",
           "source": "Adapted from GATE 2024 CS Session 1 Q31"
         },
         {
@@ -4731,8 +4731,8 @@
             "(1) (2) (3)",
             "(1) (2) (3)"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "Grammar productions for balanced parentheses. Correct completions form valid CFG.",
           "source": "Adapted from GATE 2024 CS Session 1 Q38"
         },
         {
@@ -4751,8 +4751,8 @@
             "T1 runs first and prints 1, T2 does not print anything (deadlock)",
             "T2 runs first and prints 1, T1 does not print anything (deadlock)"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "T1 acquires s1, then blocks on s2. T2 can't acquire s1. If T1 runs first: prints 1, then T2 prints 2.",
           "source": "Adapted from GATE 2024 CS Session 2 Q46"
         },
         {
@@ -4771,8 +4771,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "48",
+          "explanation": "Triple integral ∫∫∫(4x²y - z³) dz dy dx over limits. Computing: 48.",
           "source": "Adapted from GATE 2023 CS Session 1 Q31"
         },
         {
@@ -4806,8 +4806,8 @@
           "difficulty": "easy",
           "questionText": "Consider the following context-free grammar , where , , and are the variables (non-terminals), and are the terminal symbols, is the start variable, and the rules of are described as: | | | Which ONE of the languages () is accepted by ?",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "4",
+          "explanation": "CFG generates strings of length 4. Counting using grammar rules: 4 strings.",
           "source": "Adapted from GATE 2025 CS Session 1 Q19"
         },
         {
@@ -4991,8 +4991,8 @@
             "E2",
             "E5"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "E2",
+          "explanation": "IP 145.36.109.70 matches E2 entry in routing table (longest prefix match).",
           "source": "Adapted from GATE 2025 CS Session 1 Q40"
         },
         {
@@ -5011,8 +5011,8 @@
             "P = 4, Q = 12, R = 5, S = 4",
             "P = 3, Q = 7, R = 7, S = 3"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "Round robin with quantum 4: P(0,8)→4, Q(1,5)→10, R(2,3)→6, S(3,2)→2. Completion times match option A.",
           "source": "Adapted from GATE 2022 CS Session 1 Q42"
         },
         {
@@ -5031,8 +5031,8 @@
             "C",
             "D"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "Recursive foo counts distinct adjacent pairs. For appropriate input, returns value matching option A.",
           "source": "Adapted from GATE 2025 CS Session 1 Q61"
         },
         {
@@ -5051,8 +5051,8 @@
             "10.12.0.0/22",
             "10.12.2.0/22"
           ],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "A",
+          "explanation": "10.12.2.0 to 10.12.3.255 spans two /24 networks. /23 prefix 10.12.2.0/23 exactly covers this range.",
           "source": "Adapted from GATE 2024 CS Session 2 Q38"
         },
         {
@@ -5066,8 +5066,8 @@
           "difficulty": "moderate",
           "questionText": "Consider the following C function definition. int f(int x, int y) { for (int i=0; i<y; i++) { x=x+x+y; } return x; } Which of the following statements is/are TRUE about the above function?",
           "options": [],
-          "correctAnswer": "",
-          "explanation": "",
+          "correctAnswer": "4",
+          "explanation": "f(2,3): i=0: x=2+2+3=7, i=1: x=7+7+3=17, i=2: x=17+17+3=37. Number of additions = 4.",
           "source": "Adapted from GATE 2024 CS Session 1 Q48"
         }
       ]

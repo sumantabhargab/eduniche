@@ -18,7 +18,7 @@
  */
 
 import PDFDocument from "pdfkit";
-import { readFileSync, existsSync, mkdirSync, writeFileSync, copyFileSync } from "fs";
+import { readFileSync, existsSync, mkdirSync, writeFileSync, copyFileSync, createWriteStream, readdirSync } from "fs";
 import { join, dirname, basename } from "path";
 import { fileURLToPath } from "url";
 
@@ -725,7 +725,7 @@ function generatePaperPdf(
       },
     });
 
-    const stream = doc.pipe(require("fs").createWriteStream(outputPath));
+    const stream = doc.pipe(createWriteStream(outputPath));
     stream.on("finish", resolve);
     stream.on("error", reject);
     doc.on("error", reject);
@@ -759,7 +759,7 @@ function generateSolutionsPdf(
       },
     });
 
-    const stream = doc.pipe(require("fs").createWriteStream(outputPath));
+    const stream = doc.pipe(createWriteStream(outputPath));
     stream.on("finish", resolve);
     stream.on("error", reject);
     doc.on("error", reject);
@@ -786,7 +786,7 @@ function generateCollectionIndex(branches: { code: string; name: string; paperCo
   });
 
   const outputPath = join(PUBLIC_PDF_DIR, "Collection_Index.pdf");
-  const stream = doc.pipe(require("fs").createWriteStream(outputPath));
+  const stream = doc.pipe(createWriteStream(outputPath));
 
   const pageWidth = doc.page.width;
   const pageHeight = doc.page.height;
@@ -893,8 +893,7 @@ async function main() {
   ensureDir(PUBLIC_PDF_DIR);
   ensureDir(GATE_MOCKS_DIR);
 
-  const fs = require("fs");
-  const files = fs.readdirSync(PAPERS_DIR).filter((f: string) => f.endsWith(".json") && f !== "all.json");
+  const files = readdirSync(PAPERS_DIR).filter((f: string) => f.endsWith(".json") && f !== "all.json");
 
   console.log(`Generating PDFs for ${files.length} branches...\n`);
 
@@ -902,7 +901,7 @@ async function main() {
 
   for (const file of files) {
     const branch = file.replace(".json", "");
-    const raw = fs.readFileSync(join(PAPERS_DIR, file), "utf-8");
+    const raw = readFileSync(join(PAPERS_DIR, file), "utf-8");
     const data = JSON.parse(raw) as { branch: string; papers: PredictedPaper[] };
 
     console.log(`Processing ${branch} (${data.papers.length} papers)...`);
