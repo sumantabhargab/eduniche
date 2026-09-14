@@ -1,8 +1,7 @@
 /**
  * Predicted Papers — Branch Page
  *
- * Lists all 4 predicted papers for a specific branch.
- * Shows paper metadata (title, description, difficulty breakdown, subject breakdown).
+ * Lists all 5 predicted papers for a specific branch — free for all logged-in users.
  */
 
 "use client";
@@ -14,8 +13,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
 import {
-  Zap, ArrowRight, Lock, FileText, Target,
-  BarChart3, Eye, X as XIcon
+  FileText, Target, BarChart3, TrendingUp, ArrowRight, Eye, X as XIcon
 } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
 
@@ -32,6 +30,7 @@ interface PaperMeta {
 }
 
 const BRANCH_NAMES: Record<string, string> = {
+  CS: "Computer Science & Engineering",
   EE: "Electrical Engineering",
   CE: "Civil Engineering",
   ME: "Mechanical Engineering",
@@ -68,8 +67,6 @@ export default function BranchPapersPage() {
     }
   };
 
-  const isPremium = user !== null;
-
   return (
     <main className="min-h-screen bg-background">
       <Nav />
@@ -81,9 +78,9 @@ export default function BranchPapersPage() {
             animate={{ opacity: 1, y: 0 }}
             className="mb-6"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 text-purple-600 text-xs font-medium tracking-wider uppercase">
-              <Zap className="w-4 h-4" />
-              Premium Content
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 text-green-600 text-xs font-medium tracking-wider uppercase">
+              <TrendingUp className="w-4 h-4" />
+              Free to Practice
             </span>
           </motion.div>
 
@@ -102,7 +99,7 @@ export default function BranchPapersPage() {
             transition={{ delay: 0.2 }}
             className="text-muted max-w-xl mx-auto text-sm md:text-base"
           >
-            {branchName} — 4 carefully crafted papers based on 2021–2024 PYQ analysis.
+            {branchName} — 5 carefully crafted papers based on 2021–2025 PYQ analysis.
             Each paper: 65 questions, 100 marks, 3-hour timed exam.
           </motion.p>
         </div>
@@ -121,7 +118,7 @@ export default function BranchPapersPage() {
             >
               <div className="mb-3">
                 <span className="text-xs font-mono text-accent mb-1 block">
-                  Paper {idx + 1} of 4
+                  Paper {idx + 1} of 5
                 </span>
                 <h3 className="font-serif text-lg">{paper.title}</h3>
                 <p className="text-sm text-muted mt-1">{paper.description}</p>
@@ -164,33 +161,21 @@ export default function BranchPapersPage() {
 
               {/* Actions */}
               <div className="flex flex-wrap gap-3">
-                {isPremium ? (
-                  <Link
-                    href={`/predicted-papers/${branch.toLowerCase()}/${paper.id}`}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
-                  >
-                    Start Exam
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                ) : (
-                  <button
-                    onClick={() => handlePreview(paper.id)}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted rounded-xl text-sm font-medium hover:border-accent hover:text-accent transition-all"
-                  >
-                    <Eye className="w-4 h-4" />
-                    Preview (10 Qs)
-                  </button>
-                )}
+                <Link
+                  href={`/predicted-papers/${branch.toLowerCase()}/${paper.id}`}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
+                >
+                  Start Exam
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
 
-                {!isPremium && (
-                  <Link
-                    href="/pricing"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-purple-500 text-white rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
-                  >
-                    <Zap className="w-4 h-4" />
-                    Upgrade to Access
-                  </Link>
-                )}
+                <button
+                  onClick={() => handlePreview(paper.id)}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-muted rounded-xl text-sm font-medium hover:border-accent hover:text-accent transition-all"
+                >
+                  <Eye className="w-4 h-4" />
+                  Preview (10 Qs)
+                </button>
               </div>
             </motion.div>
           ))}
@@ -213,30 +198,30 @@ export default function BranchPapersPage() {
             <div className="p-6">
               <p className="text-sm text-muted mb-4">{previewPaper.predictionRationale}</p>
               {previewPaper.questions && previewPaper.questions.length > 0 && (
-              <div className="space-y-4">
-                {previewPaper.questions.map((q) => (
-                  <div key={q.id} className="border border-border rounded-xl p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs font-mono text-accent">Q{q.questionNumber}</span>
-                      <span className="text-xs text-muted">{q.subject}</span>
-                      <span className="text-xs text-muted">{q.marks} marks</span>
-                    </div>
-                    <p className="text-sm mb-3">{q.questionText}</p>
-                    {q.options.length > 0 && (
-                      <div className="space-y-1.5">
-                        {q.options.map((opt, i) => (
-                          <div key={i} className="text-xs text-muted bg-foreground/5 rounded-lg px-3 py-2">
-                            {String.fromCharCode(65 + i)}. {opt}
-                          </div>
-                        ))}
+                <div className="space-y-4">
+                  {previewPaper.questions.map((q) => (
+                    <div key={q.id} className="border border-border rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-xs font-mono text-accent">Q{q.questionNumber}</span>
+                        <span className="text-xs text-muted">{q.subject}</span>
+                        <span className="text-xs text-muted">{q.marks} marks</span>
                       </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                      <p className="text-sm mb-3">{q.questionText}</p>
+                      {q.options.length > 0 && (
+                        <div className="space-y-1.5">
+                          {q.options.map((opt, i) => (
+                            <div key={i} className="text-xs text-muted bg-foreground/5 rounded-lg px-3 py-2">
+                              {String.fromCharCode(65 + i)}. {opt}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               )}
               <p className="text-xs text-muted mt-6 text-center">
-                Showing 10 of {previewPaper.totalQuestions} questions. Upgrade to Premium for full access.
+                Showing 10 of {previewPaper.totalQuestions} questions. Sign in to access the full paper.
               </p>
             </div>
           </div>

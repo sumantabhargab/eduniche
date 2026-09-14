@@ -1,17 +1,16 @@
 /**
  * GET /api/predicted-papers/[branch]/[paperId]
- * Returns full paper with questions — requires premium subscription.
+ * Returns full paper with questions — requires login, free for all users.
  */
 
 import { NextResponse } from "next/server";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 import { getUser } from "@/lib/auth/user";
-import { requirePremium } from "@/lib/entitlements";
 import { ok, forbidden, notFound } from "@/lib/api/response";
 import { PredictedPaper } from "@/lib/predicted-papers/types";
 
-const PAPERS_DIR = join(process.cwd(), "..", "data", "predicted-papers");
+const PAPERS_DIR = join(process.cwd(), "data", "predicted-papers");
 
 export const dynamic = "force-dynamic";
 
@@ -25,12 +24,6 @@ export async function GET(
       return forbidden("Login required. Please sign in to access predicted papers.");
     }
 
-    try {
-      await requirePremium(user.id);
-    } catch {
-      return forbidden("Premium subscription required. Upgrade at /pricing");
-    }
-
     const { branch, paperId } = await params;
     const path = join(PAPERS_DIR, `${branch.toUpperCase()}.json`);
 
@@ -40,7 +33,7 @@ export async function GET(
 
     const raw = readFileSync(path, "utf-8");
     const data = JSON.parse(raw);
-    const paper = data.papers.find((p: PredictedPaper) => p.id === paperId);
+    const paper = data.papers.find((p: PredictedPaper) => p.id.toLowerCase() === paperId.toLowerCase());
 
     if (!paper) {
       return notFound("Paper not found");

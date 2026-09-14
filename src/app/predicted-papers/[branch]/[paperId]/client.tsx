@@ -83,9 +83,6 @@ export default function ExamPlayerPage() {
 
     fetch(`/api/predicted-papers/${branch.toLowerCase()}/${paperId}`)
       .then((r) => {
-        if (r.status === 402 || r.status === 403) {
-          throw new Error("Premium subscription required. Upgrade at /pricing");
-        }
         if (r.status === 401) {
           throw new Error("Please sign in first.");
         }
@@ -214,8 +211,8 @@ export default function ExamPlayerPage() {
             <h1 className="font-serif text-2xl mb-3">Access Denied</h1>
             <p className="text-sm text-muted mb-6">{error}</p>
             <div className="flex flex-col gap-3">
-              <Link href="/pricing" className="px-6 py-3 bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity">
-                View Pricing Plans
+              <Link href="/login" className="px-6 py-3 bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity">
+                Sign In
               </Link>
               <Link href="/predicted-papers" className="px-6 py-3 border border-border text-muted rounded-xl text-sm font-medium hover:text-foreground transition-colors">
                 Back to Papers

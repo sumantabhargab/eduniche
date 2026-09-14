@@ -2,7 +2,7 @@
  * Predicted Papers Generator
  *
  * Reads PYQ data from data/pyq/processed/<BRANCH>.json and markdown
- * analysis from ../gate-pyq-analysis/ to generate 4 GATE-style predicted
+ * analysis from ../gate-pyq-analysis/ to generate 5 GATE-style predicted
  * papers per branch.
  *
  * Each paper: 65 questions, 100 marks, matching real GATE exam pattern.
@@ -103,6 +103,20 @@ interface SubjectWeightage {
 
 function getSubjectWeightage(branch: string): SubjectWeightage[] {
   const configs: Record<string, SubjectWeightage[]> = {
+    CS: [
+      { name: "General Aptitude", marks: 15 },
+      { name: "Engineering Mathematics", marks: 13 },
+      { name: "Programming and Data Structures", marks: 12 },
+      { name: "Algorithms", marks: 10 },
+      { name: "Operating Systems", marks: 10 },
+      { name: "Computer Networks", marks: 9 },
+      { name: "DBMS", marks: 8 },
+      { name: "Digital Logic", marks: 7 },
+      { name: "Computer Organization and Architecture", marks: 7 },
+      { name: "Theory of Computation", marks: 6 },
+      { name: "Compiler Design", marks: 2 },
+      { name: "Software Engineering", marks: 1 },
+    ],
     EE: [
       { name: "General Aptitude", marks: 15 },
       { name: "Engineering Mathematics", marks: 12 },
@@ -174,6 +188,7 @@ function getSubjectWeightage(branch: string): SubjectWeightage[] {
 // ─── Paper metadata ──────────────────────────────────────────────────────────
 
 const BRANCH_META: Record<string, { name: string; icon: string; shortName: string }> = {
+  CS: { name: "Computer Science & Engineering", icon: "💻", shortName: "CS" },
   EE: { name: "Electrical Engineering", icon: "⚡", shortName: "EE" },
   CE: { name: "Civil Engineering", icon: "🏗️", shortName: "CE" },
   ME: { name: "Mechanical Engineering", icon: "⚙️", shortName: "ME" },
@@ -182,68 +197,92 @@ const BRANCH_META: Record<string, { name: string; icon: string; shortName: strin
 };
 
 const PAPER_DESCRIPTIONS: Record<string, string[]> = {
+  CS: [
+    "Programming & Data Structures focus with strong Algorithms and OS coverage. Mix of easy MCQs and challenging MSQs matching recent GATE CSE trends.",
+    "Computer Networks + DBMS emphasis. Theory of Computation and Compiler Design form the analytical core. Tricky NAT questions from previous years.",
+    "Algorithms + Digital Logic + COA combination. Engineering Mathematics calculus and probability questions provide numerical variety. Moderate difficulty with conceptual MCQs.",
+    "Full stack CS paper: OS memory management, DBMS transactions, CN routing, and TOC automata. Challenging 2-mark MSQs for top-rank aspirants.",
+    "Complete GATE CSE syllabus coverage. Easy recall questions from Digital Logic and SE, moderate application from DSA and DBMS, difficult analysis from Algorithms and TOC. This paper simulates the real exam's difficulty curve — starting easy, ramping up complexity, and ending with tough NAT questions. Perfect for final timed practice.",
+  ],
   EE: [
     "Balanced mix of core EE topics with emphasis on Machines, Power Systems, and Control Systems. High-frequency PYQs from 2021–2024.",
     "Focus on Circuit Theory, Power Electronics, and Network Analysis. Includes tricky NAT questions from recent sessions.",
     "Emphasis on Analog & Digital Electronics with solid Signals & Systems coverage. Moderate difficulty with conceptual MCQs.",
     "Heavy on Machines and Power Systems with integrated Control Systems questions. Challenging complex problems included.",
+    "Comprehensive revision paper combining all major EE subjects. Mix of easy recall questions and challenging multi-concept problems. Ideal for final practice before the exam.",
   ],
   CE: [
     "Heavy Structural Engineering focus with Geotechnical and Water Resources combo. Realistic mix of design and analysis problems.",
     "Environmental + Transportation emphasis with core Structural coverage. Scoring topics prioritized for quick marks.",
     "Balanced across all major CE subjects. Includes recent trend questions from Hydrology and Surveying.",
     "Structural + Geotechnical intensive. Challenging RCC and Foundation problems. Realistic complex problems.",
+    "Full-syllabus mock paper. Covers all 9 major CE subjects in GATE proportions. Mix of formula-based and conceptual questions for complete exam simulation.",
   ],
   ME: [
     "Manufacturing + SOM + Fluid Mechanics focus. Formula-heavy numerical problems matching recent GATE patterns.",
     "Thermodynamics + Heat Transfer + TOM combination. Balanced difficulty with moderate NAT questions.",
     "Engineering Mechanics + Industrial Engineering emphasis. Scoring topics with high accuracy potential.",
     "SOM + Vibrations + Machine Design integration. Challenging multi-concept problems for top-rank aspirants.",
+    "Complete syllabus coverage paper. Mix of easy recall, moderate application, and difficult analysis questions. Perfect for timed self-assessment before the actual exam.",
   ],
   XE: [
     "Section A (Engg Math) + Section B (Fluid Mechanics) + Section C (Materials Science). Comprehensive coverage.",
     "Section A + Section D (Solid Mechanics) + Section E (Thermodynamics). Mechanics-focused paper.",
     "Section A + Section B + Section D. Fluid + Solid mechanics combo with strong math foundation.",
     "Section A + Section C + Section E. Materials + Thermodynamics with compulsory engineering mathematics.",
+    "All sections represented. Mix of easy and moderate questions across all 9 XE subjects. Best for final readiness check with realistic exam conditions.",
   ],
   XL: [
     "Section P (Chemistry) + Section Q (Biochemistry) + Section R (Botany). Life sciences comprehensive.",
     "Section P + Section S (Microbiology) + Section T (Zoology). Deep biology focus with chemistry foundation.",
     "Section P + Section Q + Section T. Biochemistry + Zoology combo with organic chemistry emphasis.",
     "Section P + Section R + Section S. Botany + Microbiology with physical chemistry core.",
+    "Full XL syllabus paper covering all 5 sections. Balanced mix of recall, application, and analysis questions. Designed for complete exam simulation with realistic timing.",
   ],
 };
 
 const RATIONALE_TEMPLATES: Record<string, string[]> = {
+  CS: [
+    "This paper puts Programming & Data Structures front and center (~12 marks), reflecting their dominant presence in recent GATE papers. Algorithms and OS share ~20 marks combined. DBMS and CN provide moderate scoring opportunities. MSQ questions test multi-correct understanding — a pattern increasingly seen in GATE CSE. Easy questions from Digital Logic and Engg Math ensure quick starts.",
+    "Computer Networks and DBMS are emphasized based on 2024's rising weightage for these subjects. Theory of Computation PDA and grammar questions test formal reasoning. Compiler Design lexical analysis and parsing provide moderate difficulty. Engineering Mathematics probability and graph theory appear in NAT format. This paper rewards students who've practiced previous year questions thoroughly.",
+    "Algorithms and Data Structures form the analytical backbone. Digital Logic combinational circuits and COA pipelining questions test hardware-software interface understanding. OS process scheduling and memory management questions follow GATE's standard patterns. Theory of Computation regular languages and TMs provide conceptual challenge. Engineering Mathematics linear algebra and calculus offer numerical variety.",
+    "Comprehensive CS paper covering all major subjects. OS memory management page replacement algorithms, DBMS transaction concurrency, CN sliding window and routing, and TOC decidability form the core. Compiler Design LR parsing and SE COCOMO provide moderate questions. This paper targets 60+ marks for strong students with difficult MSQs filtering top ranks.",
+    "This full-syllabus revision paper covers all 12 CS subjects in GATE proportions. The difficulty curve follows actual GATE: Section 1 starts with easy recall from Digital Logic and Engg Math, builds through moderate DSA and DBMS questions, and ends with challenging TOC and Compiler Design questions. Section 2 ramps up further with complex Algorithm analysis and OS virtual memory problems. Designed to build 3-hour exam stamina. NAT questions test numerical precision in probability and calculus.",
+  ],
   EE: [
     "This paper emphasizes Electrical Machines (highest weightage at ~14 marks) combined with Power Systems and Power Electronics (~22 marks combined). Control Systems stability questions are placed strategically. Network Theory forms the foundation for several circuit-based questions. NAT questions test numerical precision in Power Electronics and Control Systems.",
     "Built around Circuit Theory and Network Analysis as the backbone, with Power Electronics chopper/inverter questions forming the core. Digital Electronics sequential circuits feature prominently. Signals & Systems Laplace transform questions test analytical ability. Complex problems combine multiple concepts — typical of recent GATE trends.",
     "Analog Electronics and Digital Electronics are given extra weight based on 2024 trends. Signals & Systems sampling theorem and Fourier questions are placed early. EMFT electrostatics questions test conceptual clarity. Control Systems state-space representation appears in the complex section.",
     "Heavy Machines paper: Transformer equivalent circuits, induction motor torque, and synchronous machine alternator problems form the core. Power Systems fault analysis (symmetrical components) and load flow are tested. Control Systems root locus and Bode plot questions assess frequency-domain skills.",
+    "This full-syllabus revision paper covers all major EE topics in realistic proportions. Easy questions test fundamental recall, moderate ones test application skills, and difficult ones combine multiple concepts. The paper mirrors the actual GATE difficulty curve — starting moderate, building complexity through Section 1 and Section 2, and ending with challenging NAT questions.",
   ],
   CE: [
     "Structural Engineering dominates (~22 marks) with SFD/BMD, deflection, and RCC design questions. Geotechnical Engineering permeability and shear strength problems follow. Water Resources Engineering unit hydrograph and canal design questions test application skills. Complex problems combine structural analysis with design — matching 2024's trend.",
     "Environmental Engineering water treatment and wastewater questions are emphasized based on rising weightage. Transportation highway geometric design and pavement problems follow. Core Structural questions ensure baseline coverage. Surveying and Construction Management provide easy scoring opportunities.",
     "Balanced paper covering all major CE subjects proportionally. Structural analysis indeterminate structures (moment distribution) challenge analytical skills. Geotechnical consolidation and earth pressure problems test depth. Hydrology flood routing appears in the NAT section.",
     "Structural + Geotechnical intensive. RCC beam design, steel design, and soil bearing capacity form the complex challenge questions. Fluid mechanics open channel flow and boundary layer provide scoring opportunities. Transportation traffic engineering problems test applied knowledge.",
+    "This comprehensive mock covers all 9 CE subjects in GATE proportions. Easy questions from Surveying and Construction Management provide quick marks. Moderate questions from Structural Analysis and Geotechnical test core competence. Difficult NAT questions from Environmental Engineering and Transportation simulate the real exam's difficulty curve.",
   ],
   ME: [
     "Manufacturing Processes lead with casting defects, machining tool life, and metal forming calculations. SOM torsion and bending moment problems test fundamentals. Fluid Mechanics Bernoulli applications and turbomachinery provide numerical challenge. Complex questions combine thermodynamics with heat transfer — a proven GATE pattern.",
     "Thermodynamics entropy and availability questions form the conceptual core. Heat Transfer conduction (1D/2D) and heat exchanger problems follow. TOM kinematics and gear train questions test mechanical understanding. Industrial Engineering LP and PERT/CPM provide scoring opportunities.",
     "Engineering Mechanics equilibrium and friction problems establish the foundation. Vibrations single DOF free/forced vibration analysis appears in the section. Machine Design shaft and spring design problems provide applied mechanics testing. Manufacturing welding and sheet metal operations test practical knowledge.",
     "SOM combined with Vibrations creates a mechanical duo paper. Torsion, bending, and beam deflection problems flow into multi-DOF vibration analysis. Fluid Mechanics dimensional analysis and boundary layer theory provide variety. IC Engine Otto/Diesel cycle questions reflect consistent weightage.",
+    "Complete ME syllabus in one paper. Easy recall questions from Engineering Mechanics and SOM, moderate application questions from Manufacturing and Fluid Mechanics, and difficult analysis questions from TOM and Vibrations. This paper is designed to build stamina for the real exam. Mix of theoretical and numerical questions across all major ME subjects.",
   ],
   XE: [
     "Section A (Engg Math) covers Linear Algebra, Calculus ODEs, and Vector Calculus — the core mathematical foundation. Section B (Fluid Mechanics) tests fluid statics, Bernoulli applications, and boundary layer theory. Section C (Materials Science) covers crystal structures, phase diagrams, and mechanical properties. Ideal for students choosing B+C combination.",
     "Section A Engineering Mathematics paired with Section D (Solid Mechanics) stress-strain, bending, torsion, and buckling problems. Section E (Thermodynamics) laws, entropy, and thermodynamic cycles complete this mechanics-focused paper. Best for students choosing D+E combination.",
     "Fluid Mechanics (Section B) and Solid Mechanics (Section D) combined with compulsory Engineering Mathematics. Boundary layer theory and dimensional analysis pair with beam deflection and column buckling. Strong engineering mechanics foundation paper.",
     "Materials Science (Section C) crystal structures and phase diagrams combined with Thermodynamics (Section E) laws and cycles. Engineering Mathematics probability and linear algebra provide the mathematical backbone. Ideal for material science and thermal engineering aspirants.",
+    "All XE sections represented in realistic exam proportions. Easy math questions test calculus and linear algebra basics. Moderate questions from Fluid and Solid Mechanics test core competence. Difficult questions from Materials and Thermodynamics simulate the real exam's analytical challenges. Ideal for timed practice.",
   ],
   XL: [
     "Section P (Chemistry) Organic reaction mechanisms, Physical Chemistry thermodynamics/kinetics, and Inorganic coordination compounds. Section Q (Biochemistry) proteins, enzymes, metabolism. Section R (Botany) plant physiology, genetics. Comprehensive for P+Q+R combination students.",
     "Chemistry section emphasizes organic stereochemistry and named reactions. Microbiology microbial physiology and genetics form Section S. Zoology animal physiology and developmental biology (Section T) complete this biology-heavy paper. Ideal for P+S+T combination.",
     "Organic Chemistry named reactions and aromatic substitution dominate Section P. Biochemistry metabolism and molecular biology (Section Q) pair with Zoology genetics and ecology (Section T). Strong biochemistry focus for P+Q+T aspirants.",
     "Physical Chemistry quantum basics and electrochemistry balanced with Organic polymer chemistry. Botany plant systematics and ecology (Section R) combined with Microbiology applied aspects (Section S). Well-rounded for P+R+S combination.",
+    "Full XL syllabus paper covering all 5 sections. Balanced mix of recall, application, and analysis questions. Designed for complete exam simulation with realistic timing. Easy chemistry questions provide quick marks, moderate biology questions test depth, and difficult multi-concept questions challenge even prepared students.",
   ],
 };
 
@@ -251,6 +290,30 @@ const RATIONALE_TEMPLATES: Record<string, string[]> = {
 
 function normalizeSubject(name: string, branch: string): string {
   const map: Record<string, Record<string, string>> = {
+    CS: {
+      "General Aptitude": "General Aptitude",
+      "Engineering Mathematics": "Engineering Mathematics",
+      "Programming and Data Structures": "Programming and Data Structures",
+      "PDS": "Programming and Data Structures",
+      "DSA": "Programming and Data Structures",
+      "Algorithms": "Algorithms",
+      "Operating Systems": "Operating Systems",
+      "OS": "Operating Systems",
+      "Computer Networks": "Computer Networks",
+      "CN": "Computer Networks",
+      "DBMS": "DBMS",
+      "Database Management Systems": "DBMS",
+      "Digital Logic": "Digital Logic",
+      "DLD": "Digital Logic",
+      "Computer Organization and Architecture": "Computer Organization and Architecture",
+      "COA": "Computer Organization and Architecture",
+      "Theory of Computation": "Theory of Computation",
+      "TOC": "Theory of Computation",
+      "Compiler Design": "Compiler Design",
+      "CD": "Compiler Design",
+      "Software Engineering": "Software Engineering",
+      "SE": "Software Engineering",
+    },
     EE: {
       "General Aptitude": "General Aptitude",
       "Engineering Mathematics": "Engineering Mathematics",
@@ -455,7 +518,8 @@ function generatePaper(
     const qType = questionTypes[idx] || "1MCQ";
     const difficulty = difficulties[idx] || "moderate";
     const isNat = qType.endsWith("NAT");
-    const options = isNat ? [] : sq.q.options.length >= 4 ? sq.q.options.slice(0, 4) : ["A", "B", "C", "D"];
+    const opts = sq.q.options && Array.isArray(sq.q.options) ? sq.q.options : [];
+    const options = isNat ? [] : opts.length >= 4 ? opts.slice(0, 4) : ["A", "B", "C", "D"];
     const explanationText = sq.q.explanation || (sq.q.answer ? `Correct Answer: ${sq.q.answer}` : "");
 
     return {
@@ -512,7 +576,7 @@ function generatePaper(
 
 // ─── Public API ──────────────────────────────────────────────────────────────
 
-const BRANCHES = ["EE", "CE", "ME", "XE", "XL"];
+const BRANCHES = ["CS", "EE", "CE", "ME", "XE", "XL"];
 
 export function generateAllPapers(): AllPapers {
   const branches: BranchPapers[] = [];
@@ -534,7 +598,7 @@ export function generateAllPapers(): AllPapers {
     }
 
     const papers: PredictedPaper[] = [];
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       const seed = (branch.charCodeAt(0) * 1000) + (i * 137) + 42;
       const rand = seededRandom(seed);
       const paper = generatePaper(branch, i, questions, rand);

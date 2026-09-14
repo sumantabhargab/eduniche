@@ -9,6 +9,7 @@ import { join } from "path";
 
 const PAPERS_DIR = join(process.cwd(), "data", "predicted-papers");
 const BRANCH_META: Record<string, { name: string; icon: string }> = {
+  CS: { name: "Computer Science & Engineering", icon: "💻" },
   EE: { name: "Electrical Engineering", icon: "⚡" },
   CE: { name: "Civil Engineering", icon: "🏗️" },
   ME: { name: "Mechanical Engineering", icon: "⚙️" },

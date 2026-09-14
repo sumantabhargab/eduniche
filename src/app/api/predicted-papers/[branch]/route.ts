@@ -8,7 +8,7 @@ import { readFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { PredictedPaper } from "@/lib/predicted-papers/types";
 
-const PAPERS_DIR = join(process.cwd(), "..", "data", "predicted-papers");
+const PAPERS_DIR = join(process.cwd(), "data", "predicted-papers");
 
 export const dynamic = "force-dynamic";
 

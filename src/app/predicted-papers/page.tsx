@@ -1,8 +1,7 @@
 /**
  * Predicted Papers Hub — /predicted-papers
  *
- * Lists all 5 branches (EE, CE, ME, XE, XL) with 4 predicted papers each.
- * Premium users see "Start Exam" buttons; free users see previews + paywall.
+ * Lists all branches with predicted papers — free for all authenticated users.
  */
 
 "use client";
@@ -12,7 +11,7 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { motion } from "framer-motion";
-import { Zap, ArrowRight, Lock, Eye, FileText, TrendingUp } from "@/components/pyq/PYQIcons";
+import { ArrowRight, FileText, TrendingUp } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
 
 interface BranchInfo {
@@ -48,9 +47,9 @@ export default function PredictedPapersPage() {
             animate={{ opacity: 1, y: 0 }}
             className="mb-6"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 text-purple-600 text-xs font-medium tracking-wider uppercase">
-              <Zap className="w-4 h-4" />
-              Premium Content
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 text-green-600 text-xs font-medium tracking-wider uppercase">
+              <TrendingUp className="w-4 h-4" />
+              Free for Everyone
             </span>
           </motion.div>
 
@@ -69,7 +68,7 @@ export default function PredictedPapersPage() {
             transition={{ delay: 0.2 }}
             className="text-muted max-w-xl mx-auto mb-12 text-sm md:text-base"
           >
-            Four carefully crafted papers per branch, designed by analyzing 2021–2024 PYQ trends.
+            Five carefully crafted papers per branch, designed by analyzing 2021–2025 PYQ trends.
             Each paper mirrors the actual GATE exam pattern — 65 questions, 100 marks, 3 hours.
           </motion.p>
         </div>
@@ -103,7 +102,7 @@ export default function PredictedPapersPage() {
 
                 <div className="flex items-center gap-2 text-xs text-muted">
                   <FileText className="w-3.5 h-3.5" />
-                  <span>4 predicted papers · 65 questions each</span>
+                  <span>5 predicted papers · 65 questions each</span>
                 </div>
 
                 <div className="flex items-center gap-2 text-xs text-accent mt-3 font-medium">
@@ -117,35 +116,18 @@ export default function PredictedPapersPage() {
         </div>
       </section>
 
-      {/* Premium Banner */}
-      {!user && (
-        <section className="px-6 pb-20">
-          <div className="max-w-2xl mx-auto bg-gradient-to-br from-purple-500/10 to-accent/10 border border-purple-500/20 rounded-3xl p-8 text-center">
-            <Lock className="w-8 h-8 text-purple-500 mx-auto mb-4" />
-            <h3 className="font-serif text-xl mb-2">Full access requires Premium</h3>
-            <p className="text-sm text-muted mb-6">
-              Predicted papers are a premium feature. Get unlimited access with a Weekly or Monthly plan.
-            </p>
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
-            >
-              View Plans <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </section>
-      )}
-
+      {/* Free banner for logged-in users */}
       {user && (
         <section className="px-6 pb-20">
-          <div className="max-w-2xl mx-auto bg-gradient-to-br from-purple-500/10 to-accent/10 border border-purple-500/20 rounded-3xl p-8 text-center">
-            <Zap className="w-8 h-8 text-purple-500 mx-auto mb-4" />
-            <h3 className="font-serif text-xl mb-2">Premium Feature</h3>
+          <div className="max-w-2xl mx-auto bg-gradient-to-br from-green-500/10 to-accent/10 border border-green-500/20 rounded-3xl p-8 text-center">
+            <TrendingUp className="w-8 h-8 text-green-500 mx-auto mb-4" />
+            <h3 className="font-serif text-xl mb-2">Free to Practice</h3>
             <p className="text-sm text-muted mb-6">
-              Predicted papers are available for Premium subscribers. You have full access!
+              All predicted papers are free for logged-in users. Practice exams, download PDFs,
+              and test your preparation — no subscription required.
             </p>
             <Link
-              href="/predicted-papers/ee"
+              href="/predicted-papers/cs"
               className="inline-flex items-center gap-2 px-6 py-3 bg-foreground text-background rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
             >
               Start Practising <ArrowRight className="w-4 h-4" />

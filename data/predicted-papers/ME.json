@@ -6,7 +6,7 @@
       "branch": "ME",
       "title": "GATE ME 2026 Predicted Paper 1",
       "description": "Manufacturing + SOM + Fluid Mechanics focus. Formula-heavy numerical problems matching recent GATE patterns.",
-      "createdAt": "2026-09-14T07:27:08.436Z",
+      "createdAt": "2026-09-14T11:43:29.197Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -1260,7 +1260,7 @@
       "branch": "ME",
       "title": "GATE ME 2026 Predicted Paper 2",
       "description": "Thermodynamics + Heat Transfer + TOM combination. Balanced difficulty with moderate NAT questions.",
-      "createdAt": "2026-09-14T07:27:08.437Z",
+      "createdAt": "2026-09-14T11:43:29.197Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -2529,7 +2529,7 @@
       "branch": "ME",
       "title": "GATE ME 2026 Predicted Paper 3",
       "description": "Engineering Mechanics + Industrial Engineering emphasis. Scoring topics with high accuracy potential.",
-      "createdAt": "2026-09-14T07:27:08.437Z",
+      "createdAt": "2026-09-14T11:43:29.197Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -3783,7 +3783,7 @@
       "branch": "ME",
       "title": "GATE ME 2026 Predicted Paper 4",
       "description": "SOM + Vibrations + Machine Design integration. Challenging multi-concept problems for top-rank aspirants.",
-      "createdAt": "2026-09-14T07:27:08.437Z",
+      "createdAt": "2026-09-14T11:43:29.197Z",
       "totalQuestions": 65,
       "totalMarks": 100,
       "difficultyDistribution": {
@@ -5054,6 +5054,1290 @@
           "correctAnswer": "A",
           "explanation": "Correct Answer: A",
           "source": "Adapted from GATE 2023 ME Session 1 Q4"
+        }
+      ]
+    },
+    {
+      "id": "ME-P5",
+      "branch": "ME",
+      "title": "GATE ME 2026 Predicted Paper 5",
+      "description": "Complete syllabus coverage paper. Mix of easy recall, moderate application, and difficult analysis questions. Perfect for timed self-assessment before the actual exam.",
+      "createdAt": "2026-09-14T11:43:29.197Z",
+      "totalQuestions": 65,
+      "totalMarks": 100,
+      "difficultyDistribution": {
+        "easy": 22,
+        "moderate": 32,
+        "difficult": 11
+      },
+      "subjectBreakdown": [
+        {
+          "subject": "Strength of Materials",
+          "marks": 18,
+          "questions": 11
+        },
+        {
+          "subject": "Fluid Mechanics",
+          "marks": 13,
+          "questions": 9
+        },
+        {
+          "subject": "Machine Design",
+          "marks": 12,
+          "questions": 8
+        },
+        {
+          "subject": "Heat Transfer",
+          "marks": 11,
+          "questions": 7
+        },
+        {
+          "subject": "Thermodynamics",
+          "marks": 9,
+          "questions": 6
+        },
+        {
+          "subject": "Manufacturing Processes",
+          "marks": 8,
+          "questions": 5
+        },
+        {
+          "subject": "Theory of Machines",
+          "marks": 8,
+          "questions": 5
+        },
+        {
+          "subject": "Engineering Mechanics",
+          "marks": 7,
+          "questions": 5
+        },
+        {
+          "subject": "Engineering Mathematics",
+          "marks": 5,
+          "questions": 3
+        },
+        {
+          "subject": "IC Engine",
+          "marks": 5,
+          "questions": 3
+        },
+        {
+          "subject": "General Aptitude",
+          "marks": 4,
+          "questions": 3
+        }
+      ],
+      "predictionRationale": "Complete ME syllabus in one paper. Easy recall questions from Engineering Mechanics and SOM, moderate application questions from Manufacturing and Fluid Mechanics, and difficult analysis questions from TOM and Vibrations. This paper is designed to build stamina for the real exam. Mix of theoretical and numerical questions across all major ME subjects.",
+      "questions": [
+        {
+          "id": "ME-P5-Q001",
+          "questionNumber": 1,
+          "subject": "General Aptitude",
+          "topic": "Quantitative",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "difficult",
+          "questionText": "Area of circle radius r:",
+          "options": [],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q10"
+        },
+        {
+          "id": "ME-P5-Q002",
+          "questionNumber": 2,
+          "subject": "General Aptitude",
+          "topic": "Verbal",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "Antonym of 'prolific':",
+          "options": [
+            "Scarce",
+            "Abundant",
+            "Creative",
+            "Unusual"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q10"
+        },
+        {
+          "id": "ME-P5-Q003",
+          "questionNumber": 3,
+          "subject": "Engineering Mathematics",
+          "topic": "Calculus",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "Derivative of sin(x):",
+          "options": [
+            "cos(x)",
+            "-sin(x)",
+            "-cos(x)",
+            "tan(x)"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 ME Session 1 Q1"
+        },
+        {
+          "id": "ME-P5-Q004",
+          "questionNumber": 4,
+          "subject": "Strength of Materials",
+          "topic": "Bending",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Section modulus Z =:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q4"
+        },
+        {
+          "id": "ME-P5-Q005",
+          "questionNumber": 5,
+          "subject": "Strength of Materials",
+          "topic": "Stress",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "Stress = Force /:",
+          "options": [
+            "Length",
+            "Area",
+            "Volume",
+            "Mass"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q4"
+        },
+        {
+          "id": "ME-P5-Q006",
+          "questionNumber": 6,
+          "subject": "Fluid Mechanics",
+          "topic": "Viscosity",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Laminar flow has:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q007",
+          "questionNumber": 7,
+          "subject": "Fluid Mechanics",
+          "topic": "Bernoulli",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "Bernoulli applies to:",
+          "options": [
+            "Viscous",
+            "Inviscid",
+            "Compressible",
+            "All"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q3"
+        },
+        {
+          "id": "ME-P5-Q008",
+          "questionNumber": 8,
+          "subject": "Manufacturing Processes",
+          "topic": "Welding",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "MIG welding uses:",
+          "options": [
+            "Flux",
+            "Gas shield",
+            "Both",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2023 ME Session 1 Q3"
+        },
+        {
+          "id": "ME-P5-Q009",
+          "questionNumber": 9,
+          "subject": "Manufacturing Processes",
+          "topic": "Casting",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "Sand casting uses:",
+          "options": [
+            "Permanent mold",
+            "Sand mold",
+            "Die",
+            "Investment"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q5"
+        },
+        {
+          "id": "ME-P5-Q010",
+          "questionNumber": 10,
+          "subject": "Thermodynamics",
+          "topic": "Entropy",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "Entropy change for reversible process:",
+          "options": [
+            "Positive",
+            "Negative",
+            "Zero",
+            "Infinity"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q1"
+        },
+        {
+          "id": "ME-P5-Q011",
+          "questionNumber": 11,
+          "subject": "Thermodynamics",
+          "topic": "First Law",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "First law based on:",
+          "options": [
+            "Energy conservation",
+            "Entropy",
+            "Temperature",
+            "Pressure"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q012",
+          "questionNumber": 12,
+          "subject": "Heat Transfer",
+          "topic": "Radiation",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Stefan-Boltzmann: q = ?",
+          "options": [],
+          "correctAnswer": "D",
+          "explanation": "Correct Answer: D",
+          "source": "Adapted from GATE 2023 ME Session 1 Q6"
+        },
+        {
+          "id": "ME-P5-Q013",
+          "questionNumber": 13,
+          "subject": "Heat Transfer",
+          "topic": "Conduction",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "Fourier's law q =:",
+          "options": [
+            "-k dT/dx",
+            "k dT/dx",
+            "k T",
+            "-k T"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 ME Session 1 Q7"
+        },
+        {
+          "id": "ME-P5-Q014",
+          "questionNumber": 14,
+          "subject": "Theory of Machines",
+          "topic": "Cam",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "Cam converts:",
+          "options": [
+            "Rotary to rotary",
+            "Rotary to reciprocating",
+            "Recip to recip",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2023 ME Session 1 Q5"
+        },
+        {
+          "id": "ME-P5-Q015",
+          "questionNumber": 15,
+          "subject": "Theory of Machines",
+          "topic": "Gears",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "Gear ratio is:",
+          "options": [
+            "Teeth ratio",
+            "Speed ratio",
+            "Torque ratio",
+            "Power ratio"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q6"
+        },
+        {
+          "id": "ME-P5-Q016",
+          "questionNumber": 16,
+          "subject": "Engineering Mechanics",
+          "topic": "Dynamics",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "F = ma is:",
+          "options": [
+            "Newton 1st",
+            "2nd",
+            "3rd",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2023 ME Session 1 Q7"
+        },
+        {
+          "id": "ME-P5-Q017",
+          "questionNumber": 17,
+          "subject": "Engineering Mechanics",
+          "topic": "Statics",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "Equilibrium requires:",
+          "options": [
+            "ΣF=0",
+            "ΣM=0",
+            "Both",
+            "None"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 ME Session 1 Q9"
+        },
+        {
+          "id": "ME-P5-Q018",
+          "questionNumber": 18,
+          "subject": "Machine Design",
+          "topic": "Shaft",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "Shaft designed for:",
+          "options": [
+            "Torsion",
+            "Bending",
+            "Combined",
+            "Axial"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 ME Session 1 Q8"
+        },
+        {
+          "id": "ME-P5-Q019",
+          "questionNumber": 19,
+          "subject": "Machine Design",
+          "topic": "Keys",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "Key prevents:",
+          "options": [
+            "Sliding",
+            "Rotation",
+            "Both",
+            "None"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2023 ME Session 1 Q8"
+        },
+        {
+          "id": "ME-P5-Q020",
+          "questionNumber": 20,
+          "subject": "Strength of Materials",
+          "topic": "Bending",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "difficult",
+          "questionText": "Section modulus Z =:",
+          "options": [
+            "I/y",
+            "I/G",
+            "M/Z",
+            "σy/I"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q4"
+        },
+        {
+          "id": "ME-P5-Q021",
+          "questionNumber": 21,
+          "subject": "Strength of Materials",
+          "topic": "Bending",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Section modulus Z =:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q4"
+        },
+        {
+          "id": "ME-P5-Q022",
+          "questionNumber": 22,
+          "subject": "Fluid Mechanics",
+          "topic": "Viscosity",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Laminar flow has:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q023",
+          "questionNumber": 23,
+          "subject": "Thermodynamics",
+          "topic": "First Law",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "First law based on:",
+          "options": [
+            "Energy conservation",
+            "Entropy",
+            "Temperature",
+            "Pressure"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q024",
+          "questionNumber": 24,
+          "subject": "Engineering Mechanics",
+          "topic": "Statics",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "Equilibrium requires:",
+          "options": [
+            "ΣF=0",
+            "ΣM=0",
+            "Both",
+            "None"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 ME Session 1 Q9"
+        },
+        {
+          "id": "ME-P5-Q025",
+          "questionNumber": 25,
+          "subject": "Fluid Mechanics",
+          "topic": "Viscosity",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "difficult",
+          "questionText": "Laminar flow has:",
+          "options": [
+            "Low Re",
+            "High Re",
+            "Re=1",
+            "Re=0"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q026",
+          "questionNumber": 26,
+          "subject": "Fluid Mechanics",
+          "topic": "Viscosity",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "moderate",
+          "questionText": "Laminar flow has:",
+          "options": [
+            "Low Re",
+            "High Re",
+            "Re=1",
+            "Re=0"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q027",
+          "questionNumber": 27,
+          "subject": "Machine Design",
+          "topic": "Shaft",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Shaft designed for:",
+          "options": [],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 ME Session 1 Q8"
+        },
+        {
+          "id": "ME-P5-Q028",
+          "questionNumber": 28,
+          "subject": "Machine Design",
+          "topic": "Shaft",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "difficult",
+          "questionText": "Shaft designed for:",
+          "options": [
+            "Torsion",
+            "Bending",
+            "Combined",
+            "Axial"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 ME Session 1 Q8"
+        },
+        {
+          "id": "ME-P5-Q029",
+          "questionNumber": 29,
+          "subject": "Heat Transfer",
+          "topic": "Radiation",
+          "questionType": "1NAT",
+          "marks": 1,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Stefan-Boltzmann: q = ?",
+          "options": [],
+          "correctAnswer": "D",
+          "explanation": "Correct Answer: D",
+          "source": "Adapted from GATE 2023 ME Session 1 Q6"
+        },
+        {
+          "id": "ME-P5-Q030",
+          "questionNumber": 30,
+          "subject": "IC Engine",
+          "topic": "Cycles",
+          "questionType": "1MCQ",
+          "marks": 1,
+          "negativeMarks": 0.33,
+          "difficulty": "easy",
+          "questionText": "Otto cycle is:",
+          "options": [
+            "Constant volume",
+            "Constant pressure",
+            "Constant temp",
+            "Adiabatic"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q9"
+        },
+        {
+          "id": "ME-P5-Q031",
+          "questionNumber": 31,
+          "subject": "Theory of Machines",
+          "topic": "Cam",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "difficult",
+          "questionText": "Cam converts:",
+          "options": [],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2023 ME Session 1 Q5"
+        },
+        {
+          "id": "ME-P5-Q032",
+          "questionNumber": 32,
+          "subject": "Heat Transfer",
+          "topic": "Radiation",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Stefan-Boltzmann: q = ?",
+          "options": [
+            "σT",
+            "σT^2",
+            "σT^3",
+            "σT^4"
+          ],
+          "correctAnswer": "D",
+          "explanation": "Correct Answer: D",
+          "source": "Adapted from GATE 2023 ME Session 1 Q6"
+        },
+        {
+          "id": "ME-P5-Q033",
+          "questionNumber": 33,
+          "subject": "Fluid Mechanics",
+          "topic": "Viscosity",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Laminar flow has:",
+          "options": [
+            "Low Re",
+            "High Re",
+            "Re=1",
+            "Re=0"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q034",
+          "questionNumber": 34,
+          "subject": "Strength of Materials",
+          "topic": "Bending",
+          "questionType": "2MSQ",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Section modulus Z =:",
+          "options": [
+            "I/y",
+            "I/G",
+            "M/Z",
+            "σy/I"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q4"
+        },
+        {
+          "id": "ME-P5-Q035",
+          "questionNumber": 35,
+          "subject": "Engineering Mechanics",
+          "topic": "Statics",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "easy",
+          "questionText": "Equilibrium requires:",
+          "options": [
+            "ΣF=0",
+            "ΣM=0",
+            "Both",
+            "None"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 ME Session 1 Q9"
+        },
+        {
+          "id": "ME-P5-Q036",
+          "questionNumber": 36,
+          "subject": "Machine Design",
+          "topic": "Keys",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Key prevents:",
+          "options": [
+            "Sliding",
+            "Rotation",
+            "Both",
+            "None"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2023 ME Session 1 Q8"
+        },
+        {
+          "id": "ME-P5-Q037",
+          "questionNumber": 37,
+          "subject": "Fluid Mechanics",
+          "topic": "Viscosity",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Laminar flow has:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q038",
+          "questionNumber": 38,
+          "subject": "Manufacturing Processes",
+          "topic": "Welding",
+          "questionType": "2MSQ",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "difficult",
+          "questionText": "MIG welding uses:",
+          "options": [
+            "Flux",
+            "Gas shield",
+            "Both",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2023 ME Session 1 Q3"
+        },
+        {
+          "id": "ME-P5-Q039",
+          "questionNumber": 39,
+          "subject": "Theory of Machines",
+          "topic": "Cam",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Cam converts:",
+          "options": [
+            "Rotary to rotary",
+            "Rotary to reciprocating",
+            "Recip to recip",
+            "None"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2023 ME Session 1 Q5"
+        },
+        {
+          "id": "ME-P5-Q040",
+          "questionNumber": 40,
+          "subject": "Thermodynamics",
+          "topic": "First Law",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "First law based on:",
+          "options": [
+            "Energy conservation",
+            "Entropy",
+            "Temperature",
+            "Pressure"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q041",
+          "questionNumber": 41,
+          "subject": "Manufacturing Processes",
+          "topic": "Casting",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "easy",
+          "questionText": "Sand casting uses:",
+          "options": [
+            "Permanent mold",
+            "Sand mold",
+            "Die",
+            "Investment"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q5"
+        },
+        {
+          "id": "ME-P5-Q042",
+          "questionNumber": 42,
+          "subject": "Machine Design",
+          "topic": "Keys",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "easy",
+          "questionText": "Key prevents:",
+          "options": [
+            "Sliding",
+            "Rotation",
+            "Both",
+            "None"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2023 ME Session 1 Q8"
+        },
+        {
+          "id": "ME-P5-Q043",
+          "questionNumber": 43,
+          "subject": "Heat Transfer",
+          "topic": "Conduction",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Fourier's law q =:",
+          "options": [
+            "-k dT/dx",
+            "k dT/dx",
+            "k T",
+            "-k T"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 ME Session 1 Q7"
+        },
+        {
+          "id": "ME-P5-Q044",
+          "questionNumber": 44,
+          "subject": "Strength of Materials",
+          "topic": "Bending",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Section modulus Z =:",
+          "options": [
+            "I/y",
+            "I/G",
+            "M/Z",
+            "σy/I"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q4"
+        },
+        {
+          "id": "ME-P5-Q045",
+          "questionNumber": 45,
+          "subject": "Thermodynamics",
+          "topic": "Entropy",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Entropy change for reversible process:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q1"
+        },
+        {
+          "id": "ME-P5-Q046",
+          "questionNumber": 46,
+          "subject": "Engineering Mechanics",
+          "topic": "Statics",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Equilibrium requires:",
+          "options": [
+            "ΣF=0",
+            "ΣM=0",
+            "Both",
+            "None"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 ME Session 1 Q9"
+        },
+        {
+          "id": "ME-P5-Q047",
+          "questionNumber": 47,
+          "subject": "Fluid Mechanics",
+          "topic": "Viscosity",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Laminar flow has:",
+          "options": [
+            "Low Re",
+            "High Re",
+            "Re=1",
+            "Re=0"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q048",
+          "questionNumber": 48,
+          "subject": "Strength of Materials",
+          "topic": "Stress",
+          "questionType": "2MSQ",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "difficult",
+          "questionText": "Stress = Force /:",
+          "options": [
+            "Length",
+            "Area",
+            "Volume",
+            "Mass"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q4"
+        },
+        {
+          "id": "ME-P5-Q049",
+          "questionNumber": 49,
+          "subject": "Heat Transfer",
+          "topic": "Conduction",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "easy",
+          "questionText": "Fourier's law q =:",
+          "options": [
+            "-k dT/dx",
+            "k dT/dx",
+            "k T",
+            "-k T"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 ME Session 1 Q7"
+        },
+        {
+          "id": "ME-P5-Q050",
+          "questionNumber": 50,
+          "subject": "Manufacturing Processes",
+          "topic": "Casting",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Sand casting uses:",
+          "options": [],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q5"
+        },
+        {
+          "id": "ME-P5-Q051",
+          "questionNumber": 51,
+          "subject": "IC Engine",
+          "topic": "Cycles",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Otto cycle is:",
+          "options": [
+            "Constant volume",
+            "Constant pressure",
+            "Constant temp",
+            "Adiabatic"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q9"
+        },
+        {
+          "id": "ME-P5-Q052",
+          "questionNumber": 52,
+          "subject": "Engineering Mathematics",
+          "topic": "Calculus",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Derivative of sin(x):",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 ME Session 1 Q1"
+        },
+        {
+          "id": "ME-P5-Q053",
+          "questionNumber": 53,
+          "subject": "Machine Design",
+          "topic": "Shaft",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Shaft designed for:",
+          "options": [],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2024 ME Session 1 Q8"
+        },
+        {
+          "id": "ME-P5-Q054",
+          "questionNumber": 54,
+          "subject": "Theory of Machines",
+          "topic": "Gears",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "difficult",
+          "questionText": "Gear ratio is:",
+          "options": [],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q6"
+        },
+        {
+          "id": "ME-P5-Q055",
+          "questionNumber": 55,
+          "subject": "Machine Design",
+          "topic": "Keys",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "easy",
+          "questionText": "Key prevents:",
+          "options": [
+            "Sliding",
+            "Rotation",
+            "Both",
+            "None"
+          ],
+          "correctAnswer": "C",
+          "explanation": "Correct Answer: C",
+          "source": "Adapted from GATE 2023 ME Session 1 Q8"
+        },
+        {
+          "id": "ME-P5-Q056",
+          "questionNumber": 56,
+          "subject": "Strength of Materials",
+          "topic": "Stress",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "difficult",
+          "questionText": "Stress = Force /:",
+          "options": [
+            "Length",
+            "Area",
+            "Volume",
+            "Mass"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q4"
+        },
+        {
+          "id": "ME-P5-Q057",
+          "questionNumber": 57,
+          "subject": "General Aptitude",
+          "topic": "Quantitative",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Area of circle radius r:",
+          "options": [],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q10"
+        },
+        {
+          "id": "ME-P5-Q058",
+          "questionNumber": 58,
+          "subject": "Strength of Materials",
+          "topic": "Stress",
+          "questionType": "2MSQ",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "moderate",
+          "questionText": "Stress = Force /:",
+          "options": [
+            "Length",
+            "Area",
+            "Volume",
+            "Mass"
+          ],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q4"
+        },
+        {
+          "id": "ME-P5-Q059",
+          "questionNumber": 59,
+          "subject": "Engineering Mathematics",
+          "topic": "Calculus",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "difficult",
+          "questionText": "Derivative of sin(x):",
+          "options": [
+            "cos(x)",
+            "-sin(x)",
+            "-cos(x)",
+            "tan(x)"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 ME Session 1 Q1"
+        },
+        {
+          "id": "ME-P5-Q060",
+          "questionNumber": 60,
+          "subject": "IC Engine",
+          "topic": "Cycles",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Otto cycle is:",
+          "options": [],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q9"
+        },
+        {
+          "id": "ME-P5-Q061",
+          "questionNumber": 61,
+          "subject": "Thermodynamics",
+          "topic": "First Law",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "difficult",
+          "questionText": "First law based on:",
+          "options": [
+            "Energy conservation",
+            "Entropy",
+            "Temperature",
+            "Pressure"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2024 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q062",
+          "questionNumber": 62,
+          "subject": "Heat Transfer",
+          "topic": "Radiation",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Stefan-Boltzmann: q = ?",
+          "options": [
+            "σT",
+            "σT^2",
+            "σT^3",
+            "σT^4"
+          ],
+          "correctAnswer": "D",
+          "explanation": "Correct Answer: D",
+          "source": "Adapted from GATE 2023 ME Session 1 Q6"
+        },
+        {
+          "id": "ME-P5-Q063",
+          "questionNumber": 63,
+          "subject": "Fluid Mechanics",
+          "topic": "Viscosity",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "easy",
+          "questionText": "Laminar flow has:",
+          "options": [
+            "Low Re",
+            "High Re",
+            "Re=1",
+            "Re=0"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q2"
+        },
+        {
+          "id": "ME-P5-Q064",
+          "questionNumber": 64,
+          "subject": "Strength of Materials",
+          "topic": "Bending",
+          "questionType": "2MCQ",
+          "marks": 2,
+          "negativeMarks": 0.66,
+          "difficulty": "moderate",
+          "questionText": "Section modulus Z =:",
+          "options": [
+            "I/y",
+            "I/G",
+            "M/Z",
+            "σy/I"
+          ],
+          "correctAnswer": "A",
+          "explanation": "Correct Answer: A",
+          "source": "Adapted from GATE 2023 ME Session 1 Q4"
+        },
+        {
+          "id": "ME-P5-Q065",
+          "questionNumber": 65,
+          "subject": "Strength of Materials",
+          "topic": "Stress",
+          "questionType": "2NAT",
+          "marks": 2,
+          "negativeMarks": 0,
+          "difficulty": "easy",
+          "questionText": "Stress = Force /:",
+          "options": [],
+          "correctAnswer": "B",
+          "explanation": "Correct Answer: B",
+          "source": "Adapted from GATE 2024 ME Session 1 Q4"
         }
       ]
     }

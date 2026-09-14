@@ -100,6 +100,45 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ============ PREDICTED PAPERS ============ */}
+      <section className="border-t border-border">
+        <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="font-mono text-xs tracking-[0.2em] text-accent uppercase mb-4 reveal">
+              GATE CSE 2026
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl leading-[1.1] tracking-tight mb-4 reveal">
+              Predicted Papers
+            </h2>
+            <p className="text-base md:text-lg text-muted leading-relaxed mb-8 reveal">
+              Four carefully predicted GATE CSE 2026 papers based on trend analysis, topic-wise
+              weightage, and previous year patterns. Practice with the predicted papers, download
+              PDFs, and test your preparation — free for everyone.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center reveal">
+              <Link
+                href="/predicted-papers/cs"
+                className="inline-flex items-center px-7 py-3.5 bg-accent text-white font-medium text-sm rounded-xl transition-all duration-200 hover:opacity-90"
+              >
+                View Predicted Papers
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+              <Link
+                href="/predicted-papers/cs/CS-PRED-2026-P1"
+                className="inline-flex items-center px-7 py-3.5 border border-border hover:border-foreground/40 text-foreground font-medium text-sm rounded-xl transition-all duration-200"
+              >
+                Start Practice Now
+              </Link>
+            </div>
+            <p className="text-xs text-muted mt-4 reveal">
+              5 papers · 65 questions each · 3 hours each · Free to practice
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ============ HOW IT WORKS ============ */}
       <section className="border-t border-border">
         <div className="max-w-6xl mx-auto px-6 py-24 md:py-32">

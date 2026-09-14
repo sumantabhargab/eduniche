@@ -36,7 +36,7 @@ export async function GET(
     const preview: PredictedPaper = {
       ...firstPaper,
       questions: firstPaper.questions.slice(0, 10),
-      predictionRationale: "This is a preview. Upgrade to Premium to access all 65 questions and 4 papers per branch.",
+      predictionRationale: "This is a preview. Sign in to access all 65 questions and 5 papers per branch.",
     };
 
     return NextResponse.json({ paper: preview, isPreview: true });

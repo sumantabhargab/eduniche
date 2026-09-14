@@ -45,6 +45,10 @@ export async function GET() {
     const hasUsername = !!profile?.username;
     const userPlan = (profile?.plan as "free" | "monthly_premium" | "weekly_premium") || "free";
 
+    // Premium if: active subscription OR admin-granted plan
+    const profileIsPremium = userPlan !== "free";
+    const isPremium = !!subscription || profileIsPremium;
+
     return NextResponse.json({
       user: {
         id: userId,
@@ -59,7 +63,7 @@ export async function GET() {
         plan: userPlan,
         created_at: profile?.created_at || session.user.created_at,
         badge_count: badgeCount || 0,
-        isPremium: !!subscription,
+        isPremium,
       },
       subscription: subscription ? {
         plan: subscription.plan,
@@ -67,7 +71,7 @@ export async function GET() {
         expires_at: subscription.expires_at,
         started_at: subscription.started_at,
       } : null,
-      isPremium: !!subscription,
+      isPremium,
     });
   } catch (e) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
