@@ -4,8 +4,8 @@
  * Shows subjects for a selected branch.
  * If ?subject= is present, shows the practice session.
  *
- * Uses window.location to read search params, avoiding useSearchParams()
- * which causes React error #31 (Invalid hook call) in this context.
+ * Uses window.location for all URL reading to avoid useSearchParams/usePathname
+ * hook issues with React 19 / Next.js 15+ during client-side navigation.
  */
 
 "use client";
@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, Lock, Star, ArrowLeft, ChevronRight } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import SubjectPracticeSession from "./_components/SubjectPracticeSession";
@@ -54,25 +54,26 @@ const BRANCH_META: Record<string, { name: string; icon: string }> = {
 
 export default function BranchPage() {
   const router = useRouter();
-  const pathname = usePathname();
   const { isPremium } = useAuth();
 
-  const branch = pathname.replace("/pyqs/", "").split("?")[0].toUpperCase() || "CS";
-
   const [mounted, setMounted] = useState(false);
+  const [branch, setBranch] = useState("CS");
   const [subject, setSubject] = useState("");
   const [topic, setTopic] = useState("");
   const [year, setYear] = useState("");
   const [subjects, setSubjects] = useState<SubjectRef[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Parse search params from window.location (avoids useSearchParams hook)
+  // Parse URL from window.location (avoids useSearchParams/usePathname hooks)
   useEffect(() => {
     setMounted(true);
-    const params = new URLSearchParams(window.location.search);
-    setSubject(params.get("subject") || "");
-    setTopic(params.get("topic") || "");
-    setYear(params.get("year") || "");
+    const url = new URL(window.location.href);
+    const pathParts = url.pathname.replace(/\/$/, "").split("/");
+    const branchCode = (pathParts[pathParts.length - 1] || "CS").toUpperCase();
+    setBranch(branchCode);
+    setSubject(url.searchParams.get("subject") || "");
+    setTopic(url.searchParams.get("topic") || "");
+    setYear(url.searchParams.get("year") || "");
   }, []);
 
   // Load subjects
