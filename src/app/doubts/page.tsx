@@ -137,14 +137,56 @@ export default function DoubtsPage() {
 
       const data = await res.json();
 
-      if (res.status === 403 && data?.upgradeUrl) {
-        // Free tier daily limit hit
-        setMessages(prev => [...prev, {
-          role: "assistant",
-          content: data.error || "Daily limit reached. Upgrade to Premium for unlimited access!",
-          timestamp: new Date(),
-        }]);
-        return;
+      // Premium user accidentally hit free endpoint — retry on premium endpoint transparently
+      if (res.status === 403 && data?.error?.code === "FORBIDDEN" && !isPremium) {
+        try {
+          const profileRes = await fetch("/api/auth/profile");
+          if (profileRes.ok) {
+            const profileData = await profileRes.json();
+            if (profileData.isPremium) {
+              setIsPremium(true);
+              // Remove the error message that was just added
+              setMessages(prev => prev.slice(0, -1));
+              // Retry on premium endpoint
+              const retryRes = await fetch("/api/ai/doubt", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  question,
+                  conversationId: conversationId,
+                }),
+                credentials: "include",
+              });
+              const retryData = await retryRes.json();
+              if (retryRes.ok) {
+                const assistantMsg: Message = {
+                  role: "assistant",
+                  content: retryData.answer || "I couldn't generate a response. Please try again.",
+                  timestamp: new Date(),
+                  conversationId: retryData.conversationId || conversationId || undefined,
+                };
+                setMessages(prev => [...prev, assistantMsg]);
+                if (retryData.conversationId && !conversationId) {
+                  setConversationId(retryData.conversationId);
+                }
+                setSending(false);
+                return;
+              } else {
+                // Show error from premium endpoint
+                const errorMessage = retryData?.error?.message || "Something went wrong. Please try again.";
+                setMessages(prev => [...prev, {
+                  role: "assistant",
+                  content: errorMessage,
+                  timestamp: new Date(),
+                }]);
+                setSending(false);
+                return;
+              }
+            }
+          }
+        } catch {
+          // fall through to error display
+        }
       }
 
       if (res.ok) {
@@ -161,9 +203,10 @@ export default function DoubtsPage() {
         };
         setMessages(prev => [...prev, assistantMsg]);
       } else {
+        const errorMessage = data?.error?.message || data?.error || "Something went wrong. Please try again.";
         setMessages(prev => [...prev, {
           role: "assistant",
-          content: data.error || "Something went wrong. Please try again.",
+          content: errorMessage,
           timestamp: new Date(),
         }]);
       }
