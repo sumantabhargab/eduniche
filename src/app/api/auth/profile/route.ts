@@ -27,13 +27,16 @@ export async function GET() {
       .eq("id", userId)
       .maybeSingle();
 
-    // Get subscription status
+    // Get subscription status — match requirePremium() logic:
+    // active if status='active' AND (expires_at IS NULL OR expires_at > now)
     const { data: subscription } = await supabase
       .from("user_subscriptions")
       .select("plan, status, expires_at, started_at")
       .eq("user_id", userId)
       .eq("status", "active")
-      .gte("expires_at", new Date().toISOString())
+      .or(`expires_at.is.null,expires_at.gte.${new Date().toISOString()}`)
+      .order("started_at", { ascending: false })
+      .limit(1)
       .maybeSingle();
 
     // Get badge count
