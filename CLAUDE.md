@@ -168,15 +168,18 @@ return ok({ data: ... })
 return badRequest("Missing field")
 ```
 
-### 3. `forbidden()` and `badRequest()` take ONE data argument
+### 3. `forbidden()` and `badRequest()`
 
 ```ts
-// WRONG — these don't accept a second metadata arg
-return forbidden("Message", { extra: "data" })
+// forbidden() — single string argument
+return forbidden("Premium subscription required. Upgrade at /pricing")
 
-// CORRECT — the data IS the error message
-return forbidden("Message")
+// badRequest() — string message, optional details as second arg
+return badRequest("Please ask a question.")
+return badRequest("Validation failed", { field: "email", reason: "already taken" })
 ```
+
+`ok()`, `unauthorized()`, `forbidden()`, `badRequest()`, and `serverError()` all return `Response` — safe to return from route handlers.
 
 ### 4. Static data path
 

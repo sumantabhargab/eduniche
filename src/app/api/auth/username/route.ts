@@ -12,6 +12,7 @@ import { createServerClient } from "@/lib/supabase/server";
 import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
 
 const RESERVED_USERNAMES = new Set([
+  // Blocked usernames: system roles + old brand names (prevent squatting)
   'admin', 'owner', 'system', 'eduniche', 'eduneuro', 'support', 'help',
   'root', 'mod', 'moderator', 'official', 'staff', 'team', 'bot',
   'study', 'studyroom', 'leaderboard', 'chat', 'library', 'premium',
