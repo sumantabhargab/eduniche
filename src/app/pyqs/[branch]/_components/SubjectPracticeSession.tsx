@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Bookmark, ArrowLeft, CheckCircle, XCircle, Lock, Search } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
@@ -38,6 +38,8 @@ type Mode = "browse" | "quiz";
 interface SubjectPracticeSessionProps {
   branch: string;
   subject: string;
+  topic?: string;
+  year?: string;
 }
 
 const BRANCH_META: Record<string, { name: string; icon: string }> = {
@@ -63,11 +65,10 @@ const BRANCH_META: Record<string, { name: string; icon: string }> = {
   PH: { name: "Engineering Physics", icon: "⚛️" },
 };
 
-export default function SubjectPracticeSession({ branch, subject }: SubjectPracticeSessionProps) {
+export default function SubjectPracticeSession({ branch, subject, topic, year }: SubjectPracticeSessionProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const topicParam = searchParams.get("topic") || "";
-  const yearParam = searchParams.get("year") || "";
+  const topicParam = topic || "";
+  const yearParam = year || "";
   const { isPremium, user } = useAuth();
 
   const [questions, setQuestions] = useState<Question[]>([]);

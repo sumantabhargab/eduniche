@@ -4,7 +4,8 @@
  * Shows subjects for a selected branch.
  * If ?subject= is present, shows the practice session.
  *
- * FIX: Uses usePathname() instead of use(params) to avoid hydration mismatch.
+ * FIX: Wraps the inner component (which uses useSearchParams) in Suspense
+ * to avoid React error #31 (Invalid hook call) in React 19 / Next.js 15+.
  */
 
 "use client";
@@ -28,64 +29,63 @@ interface SubjectRef {
   topics?: { topicName: string; displayName: string }[];
 }
 
-export default function BranchPage() {
+const BRANCH_META: Record<string, { name: string; icon: string }> = {
+  CS: { name: "Computer Science & IT", icon: "💻" },
+  EC: { name: "Electronics & Communication", icon: "📡" },
+  EE: { name: "Electrical Engineering", icon: "⚡" },
+  ME: { name: "Mechanical Engineering", icon: "⚙️" },
+  CE: { name: "Civil Engineering", icon: "🏗️" },
+  IN: { name: "Instrumentation", icon: "🔬" },
+  PI: { name: "Production & Industrial", icon: "🏭" },
+  CH: { name: "Chemical Engineering", icon: "🧪" },
+  BT: { name: "Biotechnology", icon: "🧬" },
+  MT: { name: "Metallurgy", icon: "🔥" },
+  XE: { name: "Engineering Sciences", icon: "🔭" },
+  XL: { name: "Life Sciences", icon: "🧫" },
+  TF: { name: "Textile Engineering", icon: "🧵" },
+  PE: { name: "Petroleum Engineering", icon: "🛢️" },
+  EY: { name: "Ecology & Evolution", icon: "🌿" },
+  MA: { name: "Mathematics (MA)", icon: "📐" },
+  AR: { name: "Architecture & Planning", icon: "🏛️" },
+  AG: { name: "Agricultural Engineering", icon: "🌾" },
+  GG: { name: "Geology & Geophysics", icon: "🌍" },
+  PH: { name: "Engineering Physics", icon: "⚛️" },
+};
+
+// ─── Inner component: uses useSearchParams (must be in Suspense) ───────────────
+
+function BranchContent({ branch }: { branch: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { isPremium } = useAuth();
 
-  // Extract branch from URL pathname: /pyqs/CS -> CS
-  const branchFromUrl = pathname.replace("/pyqs/", "").split("?")[0].toUpperCase() || "CS";
   const subjectParam = searchParams.get("subject") || "";
+  const topicParam = searchParams.get("topic") || "";
+  const yearParam = searchParams.get("year") || "";
 
   const [mounted, setMounted] = useState(false);
   const [subjects, setSubjects] = useState<SubjectRef[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Avoid hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
 
   // Load subjects
   useEffect(() => {
     if (!mounted) return;
     setLoading(true);
-    fetch(`/api/pyq/branches/${branchFromUrl}/subjects`)
+    fetch(`/api/pyq/branches/${branch}/subjects`)
       .then((r) => r.json())
       .then((data) => {
         if (data.subjects) setSubjects(data.subjects);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [branchFromUrl, mounted]);
+  }, [branch, mounted]);
 
-  const branchMeta: Record<string, { name: string; icon: string }> = {
-    CS: { name: "Computer Science & IT", icon: "💻" },
-    EC: { name: "Electronics & Communication", icon: "📡" },
-    EE: { name: "Electrical Engineering", icon: "⚡" },
-    ME: { name: "Mechanical Engineering", icon: "⚙️" },
-    CE: { name: "Civil Engineering", icon: "🏗️" },
-    IN: { name: "Instrumentation", icon: "🔬" },
-    PI: { name: "Production & Industrial", icon: "🏭" },
-    CH: { name: "Chemical Engineering", icon: "🧪" },
-    BT: { name: "Biotechnology", icon: "🧬" },
-    MT: { name: "Metallurgy", icon: "🔥" },
-    XE: { name: "Engineering Sciences", icon: "🔭" },
-    XL: { name: "Life Sciences", icon: "🧫" },
-    TF: { name: "Textile Engineering", icon: "🧵" },
-    PE: { name: "Petroleum Engineering", icon: "🛢️" },
-    EY: { name: "Ecology & Evolution", icon: "🌿" },
-    MA: { name: "Mathematics (MA)", icon: "📐" },
-    AR: { name: "Architecture & Planning", icon: "🏛️" },
-    AG: { name: "Agricultural Engineering", icon: "🌾" },
-    GG: { name: "Geology & Geophysics", icon: "🌍" },
-    PH: { name: "Engineering Physics", icon: "⚛️" },
-  };
+  const meta = BRANCH_META[branch] || { name: branch, icon: "📚" };
 
-  const meta = branchMeta[branchFromUrl] || { name: branchFromUrl, icon: "📚" };
-
-  // Don't render until mounted to avoid hydration mismatch
   if (!mounted) {
     return (
       <main className="min-h-screen bg-background">
@@ -100,7 +100,7 @@ export default function BranchPage() {
     );
   }
 
-  // If subject is selected, show practice session (needs Suspense for useSearchParams)
+  // If subject is selected, show practice session
   if (subjectParam) {
     return (
       <Suspense fallback={
@@ -115,7 +115,7 @@ export default function BranchPage() {
           <Footer />
         </main>
       }>
-        <SubjectPracticeSession branch={branchFromUrl} subject={subjectParam} />
+        <SubjectPracticeSession branch={branch} subject={subjectParam} topic={topicParam} year={yearParam} />
       </Suspense>
     );
   }
@@ -134,7 +134,7 @@ export default function BranchPage() {
           <span className="text-muted/30 mx-3">/</span>
           <span className="text-sm font-medium flex items-center gap-2">
             <span>{meta.icon}</span>
-            <span className="font-mono">{branchFromUrl}</span>
+            <span className="font-mono">{branch}</span>
           </span>
         </div>
       </div>
@@ -206,7 +206,7 @@ export default function BranchPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.03 }}
-                  onClick={() => router.push(`/pyqs/${branchFromUrl}?subject=${encodeURIComponent(subject.displayName)}`)}
+                  onClick={() => router.push(`/pyqs/${branch}?subject=${encodeURIComponent(subject.displayName)}`)}
                   className="group relative bg-card border border-border rounded-2xl p-6 text-left
                     hover:border-foreground/20 hover:shadow-lg hover:shadow-black/5
                     transition-all duration-300"
@@ -252,5 +252,28 @@ export default function BranchPage() {
 
       <Footer />
     </main>
+  );
+}
+
+// ─── Outer component: reads branch from pathname (no Suspense needed) ──────────
+
+export default function BranchPage() {
+  const pathname = usePathname();
+  const branch = pathname.replace("/pyqs/", "").split("?")[0].toUpperCase() || "CS";
+
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-background">
+        <Nav />
+        <div className="pt-24 flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-sm text-muted">Loading…</p>
+          </div>
+        </div>
+      </main>
+    }>
+      <BranchContent branch={branch} />
+    </Suspense>
   );
 }
