@@ -68,7 +68,7 @@ export default function TrendBasedMockPapersPage() {
             transition={{ delay: 0.2 }}
             className="text-muted max-w-xl mx-auto mb-12 text-sm md:text-base"
           >
-            Five mock exam papers per branch, built by analyzing GATE PYQ trends.
+            Four mock exam papers per branch, built by analyzing GATE PYQ trends.
             Each paper mirrors the actual GATE exam pattern. These are practice simulations based on historical patterns, not predictions of future exam questions.
           </motion.p>
         </div>

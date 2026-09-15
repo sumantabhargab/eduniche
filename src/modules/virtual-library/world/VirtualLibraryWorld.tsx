@@ -22,12 +22,13 @@ import { COLORS } from "./colors";
 import { multiplayerManager } from "./multiplayer";
 import { WorldRenderer } from "./WorldRenderer";
 import { CollisionSystem } from "./collision";
-import { ROOM_ZONES } from "./map";
+import { ROOM_ZONES, createWorldMap, TILE } from "./map";
 import { WORLD_CONFIG } from "./types";
 import type { WorldPlayer, WorldChatMessage, ConnectionState, RoomId, EmojiReaction, SystemNotice } from "./types";
 import { useStudySession } from "../hooks/use-study-session";
 import { getChatSupabase } from "@/modules/chat/services/supabase";
 import { PadhaiShuruLoader } from "@/components/loading";
+import { filterChatByProximity } from "./proximity-chat";
 import { useAmbientMusic } from "./ambient-music";
 import { useProximityVoice } from "./proximity-voice";
 import { MobileControls } from "./MobileControls";
@@ -497,10 +498,17 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       try {
         const supabase = getChatSupabase();
         if (!supabase || !(await supabase.auth.getUser()).data.user) {
-          // Demo / unauthenticated mode
+          // Demo / unauthenticated mode — use per-tab unique identity
           if (!cancelled) {
-            setUserId("demo-" + Math.random().toString(36).slice(2, 10));
-            setUserLabel("You");
+            // sessionStorage is per-tab, so each tab/window gets a unique player ID
+            let tabId = sessionStorage.getItem("padhaishuru_world_tab_id");
+            if (!tabId) {
+              tabId = "tab-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+              sessionStorage.setItem("padhaishuru_world_tab_id", tabId);
+            }
+            setUserId(tabId);
+            const num = parseInt(tabId.slice(-4), 36) % 999;
+            setUserLabel(`Student ${num + 1}`);
           }
           return;
         }
@@ -527,8 +535,15 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
       } catch {
         // If anything fails, fall back to demo mode so the user isn't stuck
         if (!cancelled) {
-          setUserId("demo-" + Math.random().toString(36).slice(2, 10));
-          setUserLabel("You");
+          // sessionStorage is per-tab for unique player identity
+          let tabId = sessionStorage.getItem("padhaishuru_world_tab_id");
+          if (!tabId) {
+            tabId = "tab-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
+            sessionStorage.setItem("padhaishuru_world_tab_id", tabId);
+          }
+          setUserId(tabId);
+          const num = parseInt(tabId.slice(-4), 36) % 999;
+          setUserLabel(`Student ${num + 1}`);
         }
       }
     })();
@@ -964,12 +979,20 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
     return <LibraryLoading />;
   }
 
+  const visibleMessages = filterChatByProximity(
+    messages,
+    localPlayer,
+    createWorldMap(),
+    WORLD_CONFIG.tileSize,
+    400,
+  );
+
   return (
     <div ref={worldRef} className="relative w-full h-screen overflow-hidden bg-background-dark">
       <WorldRenderer
         localPlayer={localPlayer}
         remotePlayers={remotePlayers}
-        messages={messages}
+        messages={visibleMessages}
         connectionState={connectionState}
         onRoomChange={handleRoomChange}
         onMessageSend={handleChatMessage}

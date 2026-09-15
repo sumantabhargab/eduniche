@@ -18,6 +18,8 @@ import {
 } from "./map";
 import type { WorldPlayer, WorldChatMessage, ConnectionState, RoomId, EmojiReaction } from "./types";
 import { WORLD_CONFIG } from "./types";
+import type { VisibleChatMessage } from "./proximity-chat";
+import { drawCrewmate, drawCrewmateNameTag, computeFacing } from "./crewmate-renderer";
 
 // ─── Color Palette ─────────────────────────────────────────────────────────────
 
@@ -49,11 +51,6 @@ const COLORS = {
   connectionDotPulse: "rgba(74, 222, 128, 0.4)",
 } as const;
 
-const AVATAR_COLORS = [
-  "#B8710E", "#4A7A5A", "#6A5A8A", "#8A4A4A",
-  "#4A6A8A", "#8A7A3A", "#7A5A6A", "#5A8A7A",
-];
-
 const BOOK_SPINES = [
   "#8B0000","#006400","#00008B","#8B4513","#4B0082",
   "#2F4F4F","#800000","#556B2F","#191970","#8B6914",
@@ -74,22 +71,6 @@ const ZONE_AMBIENT: Record<string, string> = {
   "booth-4": "rgba(240, 244, 255, 0.02)",
 };
 
-// Pure color helpers — stable references, no re-creation
-function lighten(hex: string, amt: number): string {
-  const n = parseInt(hex.replace("#",""), 16);
-  const r = Math.min(255, (n>>16)+amt);
-  const g = Math.min(255, ((n>>8)&0xFF)+amt);
-  const b = Math.min(255, (n&0xFF)+amt);
-  return `rgb(${r},${g},${b})`;
-}
-function darken(hex: string, amt: number): string {
-  const n = parseInt(hex.replace("#",""), 16);
-  const r = Math.max(0, (n>>16)-amt);
-  const g = Math.max(0, ((n>>8)&0xFF)-amt);
-  const b = Math.max(0, (n&0xFF)-amt);
-  return `rgb(${r},${g},${b})`;
-}
-
 // Seeded pseudo-random — stable, no re-creation
 function srand(seed: number): number {
   const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
@@ -99,7 +80,7 @@ function srand(seed: number): number {
 interface WorldRendererProps {
   localPlayer: WorldPlayer;
   remotePlayers: WorldPlayer[];
-  messages: WorldChatMessage[];
+  messages: VisibleChatMessage[];
   connectionState: ConnectionState;
   tileSize?: number;
   className?: string;
@@ -227,9 +208,6 @@ export function WorldRenderer({
   // ─── Seeded Random ──────────────────────────────────────────────────────────
 
   // (srand is now a stable module-level function)
-
-  // ─── Color Helpers (module-level, stable refs) ───────────────────────────────
-  // (lightenColor / darkenColor / srand defined above)
 
   // ─── Tile Drawing ───────────────────────────────────────────────────────────
 
@@ -577,82 +555,31 @@ export function WorldRenderer({
     (ctx: CanvasRenderingContext2D, player: WorldPlayer, scale: number, isLocal: boolean, animTime: number) => {
       const px = (player.displayX ?? player.x) * scale;
       const py = (player.displayY ?? player.y) * scale;
-      const r = 10 * scale;
+      const crewSize = Math.max(12, 22 * scale);
 
-      // Shadow
-      ctx.fillStyle = "rgba(0,0,0,0.3)";
-      ctx.beginPath(); ctx.ellipse(px, py+r*0.85, r*0.75, r*0.22, 0, 0, Math.PI*2); ctx.fill();
+      // Shadow is drawn inside drawCrewmate, but we also draw an extra soft shadow
+      // under dead players for emphasis (handled inside crewmate already).
 
-      // Body with gradient
-      const color = AVATAR_COLORS[player.colorIndex % AVATAR_COLORS.length];
-      const bg = ctx.createRadialGradient(px-r*0.2, py-r*0.3, r*0.1, px, py, r);
-      bg.addColorStop(0, lighten(color, 30));
-      bg.addColorStop(0.7, color);
-      bg.addColorStop(1, darken(color, 25));
-      ctx.fillStyle = bg;
-      ctx.beginPath(); ctx.arc(px, py, r, 0, Math.PI*2); ctx.fill();
+      drawCrewmate({
+        ctx,
+        x: px,
+        y: py,
+        size: crewSize,
+        colorIndex: player.colorIndex,
+        facing: computeFacing(player),
+        isMoving: player.isMoving,
+        walkFrame: (Math.floor(animTime / 200) % 2),
+        isLocal,
+        isMuted: player.isMuted,
+        isVideoOn: player.isVideoOn,
+        label: player.label,
+        animTime,
+        scale,
+        isDead: false,
+      });
 
-      // Direction arc
-      if (player.dx !== 0 || player.dy !== 0) {
-        const angle = Math.atan2(player.dy, player.dx);
-        ctx.strokeStyle = "rgba(255,255,255,0.1)";
-        ctx.lineWidth = 1.5*scale;
-        ctx.beginPath(); ctx.arc(px, py, r+1.5*scale, angle-0.5, angle+0.5); ctx.stroke();
-      }
-
-      // Border
-      if (isLocal) {
-        ctx.strokeStyle = "#F5E6C8";
-        ctx.lineWidth = 2.5*scale;
-        ctx.beginPath(); ctx.arc(px, py, r+2*scale, 0, Math.PI*2); ctx.stroke();
-        const pulseR = r+5*scale+Math.sin(animTime*0.004)*2*scale;
-        ctx.strokeStyle = "rgba(245,230,200,0.1)";
-        ctx.lineWidth = 1.5*scale;
-        ctx.beginPath(); ctx.arc(px, py, pulseR, 0, Math.PI*2); ctx.stroke();
-      } else {
-        ctx.strokeStyle = "rgba(0,0,0,0.2)";
-        ctx.lineWidth = scale;
-        ctx.beginPath(); ctx.arc(px, py, r+scale, 0, Math.PI*2); ctx.stroke();
-      }
-
-      // Initial letter
-      ctx.fillStyle = "#FFF";
-      ctx.font = `bold ${Math.round(8*scale)}px Inter, sans-serif`;
-      ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.fillText((player.label||"?").charAt(0).toUpperCase(), px, py);
-
-      // Mute indicator
-      if (player.isMuted) {
-        ctx.fillStyle = "#C43E3E";
-        ctx.beginPath(); ctx.arc(px+r*0.7, py-r*0.7, 4*scale, 0, Math.PI*2); ctx.fill();
-        ctx.fillStyle = "#FFF";
-        ctx.font = `${Math.round(5*scale)}px Inter, sans-serif`;
-        ctx.fillText("✕", px+r*0.7, py-r*0.7);
-      }
-
-      // Video indicator
-      if (player.isVideoOn) {
-        ctx.fillStyle = "#3B82F6";
-        ctx.beginPath(); ctx.arc(px-r*0.7, py-r*0.7, 3.5*scale, 0, Math.PI*2); ctx.fill();
-        ctx.fillStyle = "#FFF";
-        ctx.font = `${Math.round(4.5*scale)}px Inter, sans-serif`;
-        ctx.fillText("▶", px-r*0.7, py-r*0.7+0.5*scale);
-      }
-
-      // Name tag
-      const label = player.label || "Student";
-      ctx.font = `500 ${Math.round(10*scale)}px Inter, sans-serif`;
-      const tw = ctx.measureText(label).width;
-      const tpx = 5*scale, tpy = 2.5*scale;
-      const tw2 = tw+tpx*2, th = 14*scale+tpy*2;
-      const ty = py+r+7*scale;
-
-      ctx.fillStyle = isLocal ? "rgba(245,230,200,0.14)" : "rgba(0,0,0,0.5)";
-      ctx.beginPath(); ctx.roundRect(px-tw2/2, ty, tw2, th, 3*scale); ctx.fill();
-
-      ctx.fillStyle = isLocal ? "#F5E6C8" : "rgba(255,255,255,0.88)";
-      ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.fillText(label, px, ty+th/2);
+      // Name tag above the crewmate
+      drawCrewmateNameTag(ctx, px, py, py + crewSize * 0.48, player.label || "Student", isLocal, scale);
     },
     []
   );
@@ -739,6 +666,109 @@ export function WorldRenderer({
     ctx.fillText("Map", mmX+mmW/2, mmY-6);
   }, [tileSize]);
 
+  // ─── Speech Bubble Drawing ────────────────────────────────────────────────────
+
+  const drawSpeechBubble = useCallback((
+    ctx: CanvasRenderingContext2D,
+    msg: VisibleChatMessage,
+    px: number,
+    py: number,
+    scale: number,
+    animTime: number
+  ) => {
+    const opacity = msg.opacity ?? 1.0;
+    if (opacity < 0.05) return; // Fully faded — skip rendering
+
+    const text = msg.content;
+    const maxBubbleWidth = 200 * scale;
+    const padding = 6 * scale;
+    const bubblePadX = 10 * scale;
+    const bubblePadY = 5 * scale;
+    const tailHeight = 8 * scale;
+
+    ctx.save();
+    ctx.globalAlpha = opacity;
+    ctx.font = `${Math.round(11 * scale)}px Inter, sans-serif`;
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+
+    // Word-wrap the text
+    const words = text.split(" ");
+    const lines: string[] = [];
+    let currentLine = "";
+    for (const word of words) {
+      const test = currentLine ? currentLine + " " + word : word;
+      if (ctx.measureText(test).width > maxBubbleWidth - padding * 2) {
+        if (currentLine) lines.push(currentLine);
+        currentLine = word;
+      } else {
+        currentLine = test;
+      }
+    }
+    if (currentLine) lines.push(currentLine);
+    if (lines.length === 0) lines.push(text);
+
+    const lineHeight = 14 * scale;
+    const textWidth = Math.min(
+      maxBubbleWidth,
+      Math.max(...lines.map(l => ctx.measureText(l).width)) + padding * 2
+    );
+    const textHeight = lines.length * lineHeight + bubblePadY * 2;
+
+    const bx = px - textWidth / 2;
+    const by = py - 28 * scale - textHeight - tailHeight;
+
+    // Bubble background with rounded rect
+    const radius = 6 * scale;
+    ctx.fillStyle = msg.authorId === localPlayer.id
+      ? "rgba(100, 130, 180, 0.92)"
+      : "rgba(40, 38, 34, 0.88)";
+    ctx.strokeStyle = msg.authorId === localPlayer.id
+      ? "rgba(150, 180, 220, 0.6)"
+      : "rgba(80, 78, 74, 0.6)";
+    ctx.lineWidth = 1 * scale;
+
+    ctx.beginPath();
+    ctx.moveTo(bx + radius, by);
+    ctx.lineTo(bx + textWidth - radius, by);
+    ctx.quadraticCurveTo(bx + textWidth, by, bx + textWidth, by + radius);
+    ctx.lineTo(bx + textWidth, by + textHeight - radius);
+    ctx.quadraticCurveTo(bx + textWidth, by + textHeight, bx + textWidth - radius, by + textHeight);
+    // Tail pointing down toward the player
+    const tailX = px;
+    ctx.lineTo(tailX + 4 * scale, by + textHeight);
+    ctx.lineTo(tailX, by + textHeight + tailHeight);
+    ctx.lineTo(tailX - 4 * scale, by + textHeight);
+    ctx.lineTo(bx + radius, by + textHeight);
+    ctx.quadraticCurveTo(bx, by + textHeight, bx, by + textHeight - radius);
+    ctx.lineTo(bx, by + radius);
+    ctx.quadraticCurveTo(bx, by, bx + radius, by);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Author name
+    ctx.fillStyle = msg.authorId === localPlayer.id
+      ? "rgba(255, 255, 255, 0.9)"
+      : "rgba(220, 210, 190, 0.8)";
+    ctx.font = `600 ${Math.round(9 * scale)}px Inter, sans-serif`;
+    ctx.textAlign = "left";
+    const nameY = by + bubblePadY - 1 * scale;
+    ctx.fillText(msg.authorLabel, bx + padding, nameY);
+
+    // Message text (below name)
+    ctx.fillStyle = msg.authorId === localPlayer.id
+      ? "rgba(255, 255, 255, 0.95)"
+      : "rgba(230, 225, 215, 0.9)";
+    ctx.font = `${Math.round(11 * scale)}px Inter, sans-serif`;
+    const textStartY = nameY + 11 * scale;
+    for (let i = 0; i < lines.length; i++) {
+      ctx.fillText(lines[i], bx + padding, textStartY + i * lineHeight);
+    }
+
+    ctx.restore();
+  }, [localPlayer.id]);
+
   // ─── Main Render Loop ────────────────────────────────────────────────────────
   // Use refs for all draw functions so the effect only runs once and never
   // restarts (avoids tearing down/restarting rAF on every prop change).
@@ -748,12 +778,14 @@ export function WorldRenderer({
   const drawRoomLabelRef = useRef(drawRoomLabel);
   const drawMinimapRef = useRef(drawMinimap);
   const drawLightingRef = useRef(drawLighting);
+  const drawSpeechBubbleRef = useRef(drawSpeechBubble);
 
   useEffect(() => { drawTileRef.current = drawTile; }, [drawTile]);
   useEffect(() => { drawPlayerRef.current = drawPlayer; }, [drawPlayer]);
   useEffect(() => { drawRoomLabelRef.current = drawRoomLabel; }, [drawRoomLabel]);
   useEffect(() => { drawMinimapRef.current = drawMinimap; }, [drawMinimap]);
   useEffect(() => { drawLightingRef.current = drawLighting; }, [drawLighting]);
+  useEffect(() => { drawSpeechBubbleRef.current = drawSpeechBubble; }, [drawSpeechBubble]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -831,6 +863,23 @@ export function WorldRenderer({
         ctx.textAlign = "center"; ctx.textBaseline = "middle";
         ctx.fillText(emoji.emoji, ex, ey + floatY);
         ctx.restore();
+      }
+
+      // Proximity chat bubbles — render speech bubbles above nearby players
+      const visibleMsgs = messages as VisibleChatMessage[];
+      for (const msg of visibleMsgs) {
+        // Skip system messages and own messages for in-world bubbles
+        // (own messages appear in the chat panel only)
+        if (msg.type === "system" || msg.authorId === cl.id) continue;
+        if ((msg.opacity ?? 1) < 0.08) continue;
+
+        // Find the sender's current position among players
+        const sender = [...cr, cl].find(p => p.id === msg.authorId);
+        if (!sender) continue;
+
+        const sx = (sender.displayX ?? sender.x) * scale;
+        const sy = (sender.displayY ?? sender.y) * scale;
+        drawSpeechBubbleRef.current(ctx, msg, sx, sy, scale, time);
       }
       ctx.restore();
 
@@ -927,18 +976,34 @@ export function WorldRenderer({
           </div>
           <div className="h-64 overflow-y-auto px-3 py-2 space-y-1.5">
             {messages.length === 0 && <p className="text-xs text-muted-light text-center py-4">No messages yet. Say hello!</p>}
-            {messages.map((msg) => (
-              <div key={msg.id} className={`text-xs ${msg.type==="system"?"text-center":""}`}>
-                {msg.type === "system" ? (
-                  <span className="text-muted-light bg-foreground/5 px-2 py-1 rounded-full">{msg.content}</span>
-                ) : (
-                  <div className={msg.authorId===localPlayer.id?"text-right":"text-left"}>
-                    <span className="text-muted-light text-[10px]">{msg.authorLabel}</span>
-                    <p className={`inline-block px-2.5 py-1 rounded-xl max-w-[90%] ${msg.authorId===localPlayer.id?"bg-accent text-foreground":"bg-foreground/10 text-foreground-light"}`}>{msg.content}</p>
-                  </div>
-                )}
-              </div>
-            ))}
+            {messages.map((msg) => {
+              // Proximity-aware opacity: use the computed opacity from filterChatByProximity
+              const opacity = (msg as VisibleChatMessage).opacity ?? 1.0;
+              const distance = (msg as VisibleChatMessage).distance;
+              const hasLOS = (msg as VisibleChatMessage).hasLOS;
+
+              return (
+                <div
+                  key={msg.id}
+                  className={`text-xs ${msg.type==="system"?"text-center":""}`}
+                  style={{ opacity }}
+                >
+                  {msg.type === "system" ? (
+                    <span className="text-muted-light bg-foreground/5 px-2 py-1 rounded-full">{msg.content}</span>
+                  ) : (
+                    <div className={msg.authorId===localPlayer.id?"text-right":"text-left"}>
+                      {distance !== undefined && distance > 0 && (
+                        <span className="text-[9px] text-muted-light/60 block mb-0.5">
+                          {hasLOS ? `${Math.round(distance)}px` : `${Math.round(distance)}px (behind wall)`}
+                        </span>
+                      )}
+                      <span className="text-muted-light text-[10px]">{msg.authorLabel}</span>
+                      <p className={`inline-block px-2.5 py-1 rounded-xl max-w-[90%] ${msg.authorId===localPlayer.id?"bg-accent text-foreground":"bg-foreground/10 text-foreground-light"}`}>{msg.content}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
             <div ref={chatEndRef} />
           </div>
           <div className="px-3 py-2 border-t border-border-light">

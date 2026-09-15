@@ -15,7 +15,7 @@ import Footer from "@/components/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Clock, ChevronLeft, ChevronRight, Bookmark, CheckCircle,
-  XCircle, Flag, Send, AlertTriangle, Share2
+  XCircle, Flag, Send, AlertTriangle, Share2, Download
 } from "@/components/pyq/PYQIcons";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { shareOnWhatsApp } from "@/lib/share/whatsapp";
@@ -189,6 +189,10 @@ export default function ExamPlayerPage() {
     shareOnWhatsApp(text);
   };
 
+  const getPdfUrl = () => {
+    return `/api/predicted-papers/${branch.toLowerCase()}/${paperId}/pdf`;
+  };
+
   if (loading || authLoading) {
     return (
       <main className="min-h-screen bg-background">
@@ -294,6 +298,15 @@ export default function ExamPlayerPage() {
                   Start Exam
                   <ChevronRight className="w-4 h-4" />
                 </button>
+                <a
+                  href={getPdfUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3 border border-border text-muted rounded-xl text-sm font-medium hover:text-foreground transition-colors flex items-center justify-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  Download PDF
+                </a>
                 <Link
                   href={`/predicted-papers/${branch.toLowerCase()}`}
                   className="w-full py-3 border border-border text-muted rounded-xl text-sm font-medium hover:text-foreground transition-colors text-center"
@@ -361,6 +374,15 @@ export default function ExamPlayerPage() {
               </button>
 
               <div className="flex gap-3">
+                <a
+                  href={getPdfUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-3 border border-border text-muted rounded-xl text-sm font-medium hover:text-foreground transition-colors flex items-center justify-center gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  PDF
+                </a>
                 <Link
                   href={`/predicted-papers/${branch.toLowerCase()}`}
                   className="flex-1 py-3 border border-border text-muted rounded-xl text-sm font-medium hover:text-foreground transition-colors text-center"

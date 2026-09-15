@@ -51,6 +51,14 @@ function NavInner() {
             AI Tutor
           </Link>
           <Link
+            href="/library"
+            className={`text-sm transition-colors ${
+              isActive("/library", true) ? "text-accent" : "text-muted hover:text-foreground"
+            }`}
+          >
+            Library
+          </Link>
+          <Link
             href="/dashboard"
             className={`text-sm transition-colors ${
               isActive("/dashboard") ? "text-accent" : "text-muted hover:text-foreground"
@@ -186,6 +194,7 @@ function NavInner() {
             <Link href="/pyqs" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">PYQ Library</Link>
             <Link href="/predicted-papers" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Mock Papers</Link>
             <Link href="/doubts" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">AI Tutor</Link>
+            <Link href="/library" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Library</Link>
             <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="block text-sm text-muted hover:text-foreground">Dashboard</Link>
             {isAuthenticated && (
               <>

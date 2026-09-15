@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
-const PUBLIC_PDF_DIR = process.cwd() + "/public/predicted-papers/pdf";
+const PUBLIC_PDF_DIR = process.cwd() + "/public/gate-mock-papers";
 
 interface RouteParams {
   branch: string;
@@ -36,13 +36,14 @@ export async function GET(
       );
     }
 
-    const filepath = `${PUBLIC_PDF_DIR}/${filename}`;
+    // PDFs are stored in branch subdirectories: public/gate-mock-papers/[BRANCH]/
+    const filepath = `${PUBLIC_PDF_DIR}/${branch.toUpperCase()}/${filename}`;
 
     // Check if file exists
     const fs = await import("fs");
     if (!fs.existsSync(filepath)) {
       return NextResponse.json(
-        { error: "PDF not found", filename },
+        { error: "PDF not found", filename, path: filepath },
         { status: 404 }
       );
     }

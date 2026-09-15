@@ -388,6 +388,7 @@ export class MultiplayerManager {
 
   /** Handle a remote player position update. */
   private handleRemoteUpdate(player: WorldPlayer): void {
+    if (!player?.id) return;
     if (player.id === this.localPlayer?.id) return;
 
     const existing = this.players.get(player.id);

@@ -111,9 +111,9 @@ async function getConversationHistory(supabase: any, conversationId: string): Pr
   }
 }
 
-function extractContent(content: unknown): string {
-  if (typeof content === "string") return content;
-  if (Array.isArray(content)) return content.map((p: any) => p.text).join("");
+function extractContent(message: { content?: string; reasoning?: string }): string {
+  if (typeof message.content === "string" && message.content.trim()) return message.content;
+  if (typeof message.reasoning === "string" && message.reasoning.trim()) return message.reasoning;
   return "I couldn't generate a response. Please try again.";
 }
 
@@ -137,8 +137,10 @@ async function chatCompletion(groq: Groq, messages: ChatMessage[]): Promise<stri
       ]
     );
 
-    const result = response as { choices: { message: { content: string } }[] };
-    return result.choices[0]?.message?.content || "I couldn't generate a response. Please try again.";
+    const result = response as { choices: { message: { content?: string; reasoning?: string } }[] };
+    const message = result.choices[0]?.message;
+    if (!message) return "I couldn't generate a response. Please try again.";
+    return extractContent(message);
   } catch (e: any) {
     devLog("Groq: API call failed", {
       message: e?.message,
