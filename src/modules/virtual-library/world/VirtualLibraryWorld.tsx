@@ -988,7 +988,7 @@ export default function VirtualLibraryWorld({ devMode }: { devMode?: boolean } =
   );
 
   return (
-    <div ref={worldRef} className="relative w-full h-screen overflow-hidden bg-background-dark">
+    <div ref={worldRef} data-world-container className="relative w-full h-screen overflow-hidden bg-background-dark">
       <WorldRenderer
         localPlayer={localPlayer}
         remotePlayers={remotePlayers}

@@ -79,6 +79,51 @@
   --font-sans: var(--font-inter);
 }
 
+/* ─── YouTube-style Fullscreen ───────────────────────────────────────── */
+/* requestFullscreen is called on <html>, so styles target :fullscreen  */
+
+:fullscreen,
+:-webkit-full-screen,
+:-moz-full-screen {
+  display: block !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: #1a1a1a;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+:fullscreen body,
+:-webkit-full-screen body,
+:-moz-full-screen body {
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+:fullscreen #__next,
+:-webkit-full-screen #__next,
+:-moz-full-screen #__next {
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden;
+}
+
+:fullscreen [data-world-container],
+:-webkit-full-screen [data-world-container],
+:-moz-full-screen [data-world-container] {
+  position: absolute;
+  inset: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  border-radius: 0 !important;
+}
+
 * {
   box-sizing: border-box;
 }
