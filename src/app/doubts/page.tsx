@@ -161,7 +161,7 @@ export default function DoubtsPage() {
               if (retryRes.ok) {
                 const assistantMsg: Message = {
                   role: "assistant",
-                  content: retryData.answer || "I couldn't generate a response. Please try again.",
+                  content: retryData.data?.answer || "I couldn't generate a response. Please try again.",
                   timestamp: new Date(),
                   conversationId: retryData.conversationId || conversationId || undefined,
                 };
@@ -197,7 +197,7 @@ export default function DoubtsPage() {
 
         const assistantMsg: Message = {
           role: "assistant",
-          content: data.answer || "I couldn't generate a response. Please try again.",
+          content: data.data?.answer || "I couldn't generate a response. Please try again.",
           timestamp: new Date(),
           conversationId: data.conversationId || conversationId || undefined,
         };
